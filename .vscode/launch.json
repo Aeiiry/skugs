@@ -1,0 +1,25 @@
+{
+   // Use IntelliSense to learn about possible attributes.
+   // Hover to view descriptions of existing attributes.
+   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+   "version": "0.2.0",
+   "configurations": [
+      {
+         "name": "damageCalc.py",
+         "type": "python",
+         "request": "launch",
+         "justMyCode": true,
+         "program": "${workspaceFolder}/python/damageCalc.py",
+         // one directory up from the current file
+         "cwd": "${fileDirname}/..",
+      },
+      {
+         "name": "Python: Current File",
+         "type": "python",
+         "request": "launch",
+         "justMyCode": true,
+         "cwd": "${fileDirname}",
+         "program": "${file}",
+      }
+   ]
+}
