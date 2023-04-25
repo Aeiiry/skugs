@@ -24,7 +24,7 @@ def init_logger() -> logging.Logger:
     # Add the file handler to the root logger
     result.addHandler(logfilehandler)
 
-    logfileformat = "%(relativeCreated)d - %(filename)s - %(funcName)s - %(levelname)s - %(message)s"
+    logfileformat = "%(relativeCreated)d - %(levelname)s - %(message)s"
     logfilehandler.setFormatter(logging.Formatter(logfileformat))
     return result
 

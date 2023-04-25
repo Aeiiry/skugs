@@ -1,20 +1,20 @@
+# %%
 import re
 from dataclasses import dataclass, field
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Tuple, Any, Optional, Literal, Union
 import pandas as pd
 from skug_logger import sklogger
 
 # Import constants in global scope
-from constants import *  # NOSONAR
+import constants as const
 import file_management as fm
 
 
+# %%
 @dataclass
 class Hit:
     damage: int | str | None
     chip: int | str | None
-    alt_damage: int | str | None = None
-    alt_chip: int | str | None = None
 
 
 @dataclass
@@ -22,32 +22,33 @@ class Move:
     move_properties_dict: dict[str, Any]
     character: str = ""
     name: str = ""
-    alt_names: str | List[str] = ""
+    alt_names: Union[str, List[str]] = ""
 
     guard: str = ""
-    properties: str | List[str] = ""
+    properties: Union[str, List[str]] = ""
 
-    meter_gain_loss: int | str = ""
+    meter_gain_loss: Union[int, str] = ""
 
-    on_hit: int | str = ""
-    on_block: int | str = ""
+    on_hit: Union[int, str] = ""
+    on_block: Union[int, str] = ""
 
-    startup: int | str = ""
-    active: int | str = ""
-    recovery: int | str = ""
+    startup: Union[int, str] = ""
+    active: Union[int, str] = ""
+    recovery: Union[int, str] = ""
 
-    hitstun: int | str = ""
-    blockstun: int | str = ""
-    hitstop: int | str = ""
+    hitstun: Union[int, str] = ""
+    blockstun: Union[int, str] = ""
+    hitstop: Union[int, str] = ""
+    meter_gain_loss: Union[int, str] = ""
 
     notes: str = ""
 
     hits_str: str = ""
 
     hits: List[Hit] = field(default_factory=list)
-    hits_special: dict[str, List[Hit]] = field(default_factory=dict)
+    hits_alt: dict[str, List[Hit]] = field(default_factory=dict)
 
-    category: str = field(default="other")
+    category: str = ""
 
     def __post_init__(self) -> None:
         # Assign all the properties from the dictionary
@@ -65,20 +66,15 @@ class Move:
                     sklogger.warning(
                         f"Type mismatch for {key}! With value {value} and type {type(value)}"
                     )
-        self.repeats = 0
-        self.hits, self.hits_special, self.hits_alt = get_hits(self)
+        self.alt_names = self.alt_names.split("\n") if isinstance(self.alt_names, str) else self.alt_names
+        self.hits, self.hits_alt = get_hits(self)
         self.category = get_category(self)
-        self.chip_damage: int = self.get_chip_damage()
         self.simple_summed_dmg: int = simple_damage_calc(self.hits) if self.hits else 0
+        self.damage_per_hit: list[float] = get_damage_per_hit(self.hits)
 
     def __str__(self) -> str:
         return self.name
 
-    def get_chip_damage(self) -> int:
-        chip_damage: int = sum(
-            hit.damage for hit in self.hits if isinstance(hit.damage, int)
-        )
-        return chip_damage
 
 
 @dataclass
@@ -91,6 +87,18 @@ class Character:
     cancel_chain: List[str] = field(default_factory=list)
 
 
+def get_damage_per_hit(hits: List[Hit]) -> list[float]:
+    # For each hit, get the damage and divide by the number of hits up to that point
+    damage_per_hit: list[float] = []
+    total_damage: int = 0
+    for hit in hits:
+        if isinstance(hit.damage, int):
+            total_damage += hit.damage
+            damage_per_hit.append(round(total_damage / (len(damage_per_hit) + 1),2))
+    return damage_per_hit
+
+
+# %%
 def get_category(move: Move) -> str:
     category = "other"
 
@@ -100,7 +108,7 @@ def get_category(move: Move) -> str:
     if normal_move_regex.search(move.name):
         category = "normal"
 
-    for key, value in MOVE_CATEGORIES.items():
+    for key, value in const.MOVE_CATEGORIES.items():
         if re.search(f"\\^\\|\\\\s{value}\\\\s\\|\\$", move.name, flags=re.IGNORECASE):
             category: str = key
             break
@@ -109,87 +117,73 @@ def get_category(move: Move) -> str:
         isinstance(move.meter_gain_loss, str) and move.meter_gain_loss[0] == "-"
     ):
         category = "super"
-    sklogger.debug(f"Category: {category}")
+    # sklogger.debug(f"Category: {category}")
 
     return category
 
 
 def get_hits(move: Move):
     # Remove any newlines from the damage or move name
-    sklogger.debug(f"\n\n===== Getting hits for {move.character} {move.name} =====\n")
+    sklogger.debug(f"===== Getting hits for {move.character} {move.name} =====")
 
     move = sanitise_move(move)
-    damage: str = move.hits_str
 
-    # Create a list of Hit objects that contains the damage and possible chip damage for each hit
-    hits_damage_chip: List[Hit] = []
-    special_hits_damage_chip: dict[str, List[Hit]] = {}
-    stars_hits_damage_chip: List[Hit] = []
-
-    if damage not in ["-", "nan"]:
+    if move.hits_str not in ["-", "nan"]:
         (
-            damage,
-            special_hits_damage_chip,
-            hits_damage_chip,
-            alt_hits_damage_chip,
-        ) = extract_damage(
-            move, damage, stars_hits_damage_chip, special_hits_damage_chip
-        )
-    sklogger.debug(f"Hits: {hits_damage_chip}")
-    return hits_damage_chip, special_hits_damage_chip, alt_hits_damage_chip
+            _,
+            hits,
+            alt_hits,
+        ) = extract_damage(move)
+    else:
+        hits = []
+        alt_hits = {}
+
+    return hits, alt_hits
 
 
 def extract_damage(
     move: Move,
-    damage: str,
-    stars_hits_damage_chip: List[Hit],
-    special_hits_damage_chip: dict[str, List[Hit]],
 ):
-    damage = damage.lower()
-    sklogger.debug(f"Starting damage string: '{damage}'")
+    damage_str = move.hits_str.lower()
     alt_damage: str = ""
-    expanded = expand_all_x_n(damage)
-    damage = expanded or damage
-    if expanded:
-        sklogger.debug(f"Expanded damage string: '{damage}'")
-
+    expanded = expand_all_x_n(damage_str)
+    damage_str = expanded or damage_str
+    alt_hits_dict: dict[str, List[Hit]] = {}
     if move.character == "ANNIE":
-        damage, stars_hits_damage_chip = parse_annie_stars(damage)
-        if stars_hits_damage_chip:
-            sklogger.debug(f"Damage string after parsing Annie stars: '{damage}'")
-            sklogger.debug(f"Stars hits: {stars_hits_damage_chip}")
+        damage_str, stars = parse_annie_stars(damage_str)
+        if stars:
+            alt_hits_dict["stars"] = stars
 
-    split_damage = damage.split("or")
+    split_damage = damage_str.split("or")
     if len(split_damage) > 1:
         alt_damage = split_damage[1].replace("(during hi)", "").strip()
-        damage = split_damage[0].strip()
+        damage_str = split_damage[0].strip()
 
-    damage_list, chip_list, damage = extract_damage_chip(damage)
+    damage_list, chip_list, damage_str = extract_damage_chip(damage_str)
+
     if alt_damage:
-        alt_damage_list, alt_chip_list, damage = extract_damage_chip(alt_damage)
-        sklogger.debug(f"Alt damage list: {alt_damage_list}")
-        sklogger.debug(f"Alt chip list: {alt_chip_list}")
+        alt_damage_list, alt_chip_list, damage_str = extract_damage_chip(alt_damage)
     else:
         alt_damage_list = []
         alt_chip_list = []
+    hits_damage_chip = []
+    for i, damage in enumerate(damage_list):
+        chip_damage = chip_list[i] if i < len(chip_list) else 0
+        hit = Hit(damage, chip_damage)
+        hits_damage_chip.append(hit)
 
-    sklogger.debug(f"Damage list: {damage_list}")
-    sklogger.debug(f"Chip damage list: {chip_list}")
-
-    if stars_hits_damage_chip:
-        special_hits_damage_chip["stars"] = stars_hits_damage_chip
-
-    hits_damage_chip = [
-        Hit(damage, chip_damage) for damage, chip_damage in zip(damage_list, chip_list)
-    ]
     if alt_damage_list:
-        alt_hits_damage_chip = [
+        alt_hits_dict["alt"] = [
             Hit(damage, chip_damage)
             for damage, chip_damage in zip(alt_damage_list, alt_chip_list)
         ]
-    else:
-        alt_hits_damage_chip = []
-    return damage, special_hits_damage_chip, hits_damage_chip, alt_hits_damage_chip
+    sklogger.debug(f"Original damage string: '{move.hits_str}'")
+    sklogger.debug(f"Dmg list: {damage_list}")
+    sklogger.debug(f"Chip list: {chip_list}") if chip_list else None
+    sklogger.debug(f"Alt dmg list: {alt_damage_list}") if alt_damage_list else None
+    sklogger.debug(f"Alt chip list: {alt_chip_list}") if alt_chip_list else None
+
+    return damage_str, hits_damage_chip, alt_hits_dict
 
 
 def extract_damage_chip(
@@ -197,7 +191,7 @@ def extract_damage_chip(
 ) -> tuple[list[str | int], list[str | int], str]:
     chip_list: List[str | int] = []
     damage_list: List[str | int] = []
-    if find_chip := RE_IN_PAREN.finditer(damage_str):
+    if find_chip := const.RE_IN_PAREN.finditer(damage_str):
         for chip in find_chip:
             if separated_damage := separate_damage(chip.group(1)):
                 chip_list.extend(map(attempt_to_int, separated_damage))
@@ -216,9 +210,9 @@ def extract_damage_chip(
 
 def expand_all_x_n(damage: str) -> str | None:
     while True:
-        if x_n_match := RE_X_N.search(damage):
+        if x_n_match := const.RE_X_N.search(damage):
             damage = expand_x_n(x_n_match)
-        elif x_n_brackets_matches := RE_BRACKETS_X_N.search(damage):
+        elif x_n_brackets_matches := const.RE_BRACKETS_X_N.search(damage):
             damage = expand_x_n(x_n_brackets_matches)
         else:
             break
@@ -243,8 +237,10 @@ def separate_damage(string: str) -> List[str]:
 
 
 def parse_annie_stars(damage: str) -> Tuple[str, List[Hit]]:
-    initial_search = RE_ANNIE_STARS_INITIAL.search(damage)
-    refined_match = RE_ANNIE_STARS_REFINED.findall(damage) if initial_search else None
+    initial_search = const.RE_ANNIE_STARS_INITIAL.search(damage)
+    refined_match = (
+        const.RE_ANNIE_STARS_REFINED.findall(damage) if initial_search else None
+    )
     surrounding_commas = None
     if initial_search:
         surrounding_commas = re.compile(
@@ -276,7 +272,7 @@ def parse_annie_stars(damage: str) -> Tuple[str, List[Hit]]:
         and (surrounding_commas_match := surrounding_commas.search(damage))
     ):
         new_damage_str = damage.replace(surrounding_commas_match.group(), "")
-        new_damage_str = new_damage_str.rstrip(",")
+        new_damage_str = re.sub(r",\s?%", "", new_damage_str)
 
         stars_hits_damage_chip.extend(
             Hit(damage=hit, chip=chip) for hit, chip in zip(stars_hits, stars_chip)
@@ -319,12 +315,10 @@ def extract_moves(
 ) -> List[Move]:
     move_str: pd.Series[Any]
 
-
-
     for _, move_str in frame_data.iterrows():
         # Replace  '-' with None
         move_str = move_str.replace("-", None)
-        move_pd_to_obj_dict: dict[str, str] = FD_COLUMNS_TO_MOVE_ATTR_DICT
+        move_pd_to_obj_dict: dict[str, str] = const.FD_COLUMNS_TO_MOVE_ATTR_DICT
         move_obj: Move
         move_properties: dict[str, Any] = {
             move_obj_attribute: move_str[frame_data_column]
@@ -342,6 +336,7 @@ def extract_moves(
     return moves
 
 
+# %%
 def sort_moves(moves: List[Move], key: str, reverse: bool = False) -> List[Move]:
     return sorted(moves, key=lambda move: getattr(move, key), reverse=reverse)
 
@@ -372,63 +367,51 @@ def simple_damage_calc(hits: List[Hit], starting_hit: int = 0) -> int:
     return int(summed_damage)
 
 
-def main() -> None:
-    # Rename old log files
+# %%
+# Rename old log files
 
-    # ==================== #
-    sklogger.info("\n\n========== Starting skug_stats ==========\n\n")
-    # Open csvs and load into dataframes
-    characters_df = pd.read_csv(fm.CHARACTER_DATA_PATH)
-    frame_data = pd.read_csv(fm.FRAME_DATA_PATH)
-    move_aliases = pd.read_csv(fm.MOVE_NAME_ALIASES_PATH)
+# ==================== #
+sklogger.info("========== Starting skug_stats ==========")
+# Open csvs and load into dataframes
+characters_df = pd.read_csv(fm.CHARACTER_DATA_PATH)
+frame_data = pd.read_csv(fm.FRAME_DATA_PATH)
+move_aliases = pd.read_csv(fm.MOVE_NAME_ALIASES_PATH)
 
-    # Change NaN to None
-    frame_data = frame_data.where(pd.notnull(frame_data), None)
+# Change NaN to None
+frame_data = frame_data.where(pd.notnull(frame_data), None)
 
-    # Remove spaces from column names
-    characters_df.columns = characters_df.columns.str.replace(" ", "")
-    frame_data.columns = frame_data.columns.str.replace(" ", "")
-    move_aliases.columns = move_aliases.columns.str.replace(" ", "")
-    sklogger.info("Loaded csvs")
-    sklogger.info(f"characters_df: {characters_df.columns}")
-    sklogger.info(f"frame_data: {frame_data.columns}")
-    sklogger.info(f"move_aliases: {move_aliases.columns}")
-    characters: dict[str, Character] = {}
-    moves: list[Move] = []
-    # Create character objects
-    row: pd.Series[Any]
-    for _, row in characters_df.iterrows():
-        name = row["Character"]
-        shortened_names = row["CharacterStart"].split(" ")
-        color = row["Color"]
-        # Create character object
-        new_character = Character(
-            name=name, shortened_names=shortened_names, color=color
-        )
-        characters[name] = new_character
+# Remove spaces from column names
+characters_df.columns = characters_df.columns.str.replace(" ", "")
+frame_data.columns = frame_data.columns.str.replace(" ", "")
+move_aliases.columns = move_aliases.columns.str.replace(" ", "")
+sklogger.info("Loaded csvs")
+sklogger.info(f"characters_df: {characters_df.columns}")
+sklogger.info(f"frame_data: {frame_data.columns}")
+sklogger.info(f"move_aliases: {move_aliases.columns}")
+characters: dict[str, Character] = {}
+moves: list[Move] = []
+# Create character objects
+row: pd.Series
+for _, row in characters_df.iterrows():
+    name = row["Character"]
+    shortened_names = row["CharacterStart"].split(" ")
+    color = row["Color"]
+    # Create character object
+    new_character = Character(name=name, shortened_names=shortened_names, color=color)
+    characters[name] = new_character
 
-    # Get moves for each character
-    moves = extract_moves(frame_data, characters, moves)
-    sklogger.info("Created character and move objects")
+# Get moves for each character
+moves = extract_moves(frame_data, characters, moves)
+sklogger.info("Created character and move objects")
 
-    moves_temp: list[Move] = moves.copy()
-
-    moves_temp = sort_moves(moves_temp, "simple_summed_dmg", reverse=True)
-
-    # Log top 10 moves by damage for each character
-    # Characters is dict of str and Character objects
-    character: Character
-    for character in characters.values():
-        move_num = 0
-        sklogger.info(f"Top 10 moves for {character.name}")
-        for move in moves_temp:
-            if move.character == character.name:
-                sklogger.info(f"{move.name}: {move.simple_summed_dmg}")
-                move_num += 1
-            if move_num == 10:
-                break
-        sklogger.info("\n")
+moves_temp: list[Move] = moves.copy()
 
 
-if __name__ == "__main__":
-    main()
+sort_key: str = "damage_per_hit"
+num_moves: int = 30
+moves_temp = sort_moves(moves_temp, sort_key, reverse=True)
+
+# Log top 30 moves by damage, including character name
+sklogger.info(f"Top {num_moves} moves by {sort_key}:")
+for move in moves_temp[:num_moves]:
+    sklogger.info(f"{move.character} {move.name}: {move.__getattribute__(sort_key)}")

@@ -106,6 +106,10 @@ FD_COLUMNS_TO_MOVE_ATTR_DICT: dict[str, str] = {
     "OnHit": "on_hit",
     "Footer": "notes",
     "Damage": "hits_str",
+    "Meter": "meter_gain_loss",
+    "Hitstun": "hitstun",
+    "Blockstun": "blockstun",
+    "Hitstop": "hitstop",
 }
 
 MOVE_CATEGORIES = {
