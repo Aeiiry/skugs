@@ -6,17 +6,17 @@ import logging
 
 # flake8: noqa: E501
 
-DATA_FOLDER: str = "data"
-PY_FOLDER: str = "py"
+DATA_FOLDER: Literal["data"] = "data"
+PY_FOLDER: Literal["py"] = "py"
 
-TOP_LEVEL_FOLDER: str = "skugs"
+TOP_LEVEL_FOLDER: Literal["skugs"] = "skugs"
 
 # Generate paths
 DATA_PATH: str = os.path.join(os.getcwd(), "..", DATA_FOLDER)
 PY_PATH: str = os.path.join(os.getcwd(), "..", PY_FOLDER)
 
 
-ALT_PREFIX: str = "alt_"
+ALT_PREFIX: Literal["alt_"] = "alt_"
 """Prefix for alternate move data"""
 
 # Column names
@@ -78,6 +78,8 @@ SEARCH_STATES: dict[str, bool] = {
 }
 
 ANNIE_DIVEKICK: str = "RE ENTRY"
+
+HATRED_INSTALL: str = "(during hi)"
 
 LOG_LEVEL_CONSOLE: int = logging.INFO
 LOG_LEVEL_FILE: int = logging.DEBUG

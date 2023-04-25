@@ -66,7 +66,11 @@ class Move:
                     sklogger.warning(
                         f"Type mismatch for {key}! With value {value} and type {type(value)}"
                     )
-        self.alt_names = self.alt_names.split("\n") if isinstance(self.alt_names, str) else self.alt_names
+        self.alt_names = (
+            self.alt_names.split("\n")
+            if isinstance(self.alt_names, str)
+            else self.alt_names
+        )
         self.hits, self.hits_alt = get_hits(self)
         self.category = get_category(self)
         self.simple_summed_dmg: int = simple_damage_calc(self.hits) if self.hits else 0
@@ -74,7 +78,6 @@ class Move:
 
     def __str__(self) -> str:
         return self.name
-
 
 
 @dataclass
@@ -94,7 +97,7 @@ def get_damage_per_hit(hits: List[Hit]) -> list[float]:
     for hit in hits:
         if isinstance(hit.damage, int):
             total_damage += hit.damage
-            damage_per_hit.append(round(total_damage / (len(damage_per_hit) + 1),2))
+            damage_per_hit.append(round(total_damage / (len(damage_per_hit) + 1), 2))
     return damage_per_hit
 
 
@@ -148,6 +151,8 @@ def extract_damage(
     alt_damage: str = ""
     expanded = expand_all_x_n(damage_str)
     damage_str = expanded or damage_str
+    alt_hits_list = []
+    hits_list = []
     alt_hits_dict: dict[str, List[Hit]] = {}
     if move.character == "ANNIE":
         damage_str, stars = parse_annie_stars(damage_str)
@@ -156,41 +161,27 @@ def extract_damage(
 
     split_damage = damage_str.split("or")
     if len(split_damage) > 1:
-        alt_damage = split_damage[1].replace("(during hi)", "").strip()
+        alt_damage = split_damage[1].replace(const.HATRED_INSTALL, "").strip()
         damage_str = split_damage[0].strip()
 
-    damage_list, chip_list, damage_str = extract_damage_chip(damage_str)
+    damage_str, hits_list = extract_damage_chip(damage_str)
 
     if alt_damage:
-        alt_damage_list, alt_chip_list, damage_str = extract_damage_chip(alt_damage)
-    else:
-        alt_damage_list = []
-        alt_chip_list = []
-    hits_damage_chip = []
-    for i, damage in enumerate(damage_list):
-        chip_damage = chip_list[i] if i < len(chip_list) else 0
-        hit = Hit(damage, chip_damage)
-        hits_damage_chip.append(hit)
+        damage_str, alt_hits_list = extract_damage_chip(alt_damage)
 
-    if alt_damage_list:
-        alt_hits_dict["alt"] = [
-            Hit(damage, chip_damage)
-            for damage, chip_damage in zip(alt_damage_list, alt_chip_list)
-        ]
+    if alt_hits_list:
+        alt_hits_dict["alt"] = alt_hits_list
     sklogger.debug(f"Original damage string: '{move.hits_str}'")
-    sklogger.debug(f"Dmg list: {damage_list}")
-    sklogger.debug(f"Chip list: {chip_list}") if chip_list else None
-    sklogger.debug(f"Alt dmg list: {alt_damage_list}") if alt_damage_list else None
-    sklogger.debug(f"Alt chip list: {alt_chip_list}") if alt_chip_list else None
 
-    return damage_str, hits_damage_chip, alt_hits_dict
+    return damage_str, hits_list, alt_hits_dict
 
 
 def extract_damage_chip(
     damage_str: str,
-) -> tuple[list[str | int], list[str | int], str]:
+) -> tuple[str, list[Hit]]:
     chip_list: List[str | int] = []
     damage_list: List[str | int] = []
+    hit_list: List[Hit] = []
     if find_chip := const.RE_IN_PAREN.finditer(damage_str):
         for chip in find_chip:
             if separated_damage := separate_damage(chip.group(1)):
@@ -203,9 +194,13 @@ def extract_damage_chip(
                 if chip.end()
                 else damage_str[: chip.start()]
             )
-
     damage_list = list(map(attempt_to_int, separate_damage(damage_str)))
-    return damage_list, chip_list, damage_str
+    # list comprehension to make list of Hit objects from damage and chip lists
+    hit_list = [
+        Hit(damage, chip_damage) for damage, chip_damage in zip(damage_list, chip_list)
+    ]
+
+    return damage_str, hit_list
 
 
 def expand_all_x_n(damage: str) -> str | None:
@@ -405,13 +400,3 @@ moves = extract_moves(frame_data, characters, moves)
 sklogger.info("Created character and move objects")
 
 moves_temp: list[Move] = moves.copy()
-
-
-sort_key: str = "damage_per_hit"
-num_moves: int = 30
-moves_temp = sort_moves(moves_temp, sort_key, reverse=True)
-
-# Log top 30 moves by damage, including character name
-sklogger.info(f"Top {num_moves} moves by {sort_key}:")
-for move in moves_temp[:num_moves]:
-    sklogger.info(f"{move.character} {move.name}: {move.__getattribute__(sort_key)}")

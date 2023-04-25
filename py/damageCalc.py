@@ -1,7 +1,3 @@
-# %%
-"""
-Calculate the damage of a combo.
-"""
 from __future__ import annotations
 
 import os
@@ -14,12 +10,13 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import cProfile
 import pstats
+import file_management as fm
 from pandas import DataFrame, Series
 from pandas.io.formats import style, style_render
 
-import py.parseCombo as parseCombo
-import py.constants as const
-from py.constants import sklogger
+import parseCombo as parseCombo
+import constants as const
+from skug_logger import sklogger
 
 # TODO Change combo df output structure to use one row per move, possibly with lists for things like damage, scaling, total damage, etc.
 # TODO Undizzy calc
@@ -35,8 +32,8 @@ try:
 except NameError:
     data_dir: str = os.path.join(os.getcwd(), "..", "data")
 
-move_name_alias_df: DataFrame = pd.read_csv(f"{data_dir}\\moveNameAliases.csv")
-full_framedata_df: DataFrame = pd.read_csv(f"{data_dir}\\fullFrameData.csv")
+move_name_alias_df: DataFrame = pd.read_csv(fm.MOVE_NAME_ALIASES_PATH)
+full_framedata_df: DataFrame = pd.read_csv(fm.FRAME_DATA_PATH)
 
 
 # %%
@@ -46,34 +43,25 @@ def remove_whitespace_from_column_names(df: DataFrame) -> DataFrame:
     return df
 
 
-def get_damage_scaling_for_hit(hit_num: int, damage: int) -> float:  # type: ignore
+def get_damage_scaling_for_hit(hit_num: int, damage: int | str) -> float:  # type: ignore
     """Get the damage scaling for a hit."""
-
-    damage: int = int(damage)
-
+    if isinstance(damage, str):
+        damage = int(damage) if damage.isnumeric() else 0
     # check if the damage is 0 -0 or none
-    if damage in [0, -1]:
+    if damage in {0, -1}:
         # return the damage scaling for the hit before
-        return max(
-            const.DAMAGE_SCALING_MIN, const.DAMAGE_SCALING_FACTOR ** (hit_num - 4)
-        )
+        return max(const.SCALING_MIN, const.SCALING_FACTOR ** (hit_num - 4))
 
     if hit_num <= 3:
         return 1
-    # check if the damage is greater than 1000
-    if damage >= 1000:
-        scaling: float = max(
-            const.DAMAGE_SCALING_MIN_ABOVE_1K,
-            const.DAMAGE_SCALING_FACTOR ** (hit_num - 3),
+    return (
+        max(
+            const.SCALING_MIN_1K,
+            const.SCALING_FACTOR ** (hit_num - 3),
         )
-    else:
-        scaling = max(
-            const.DAMAGE_SCALING_MIN, const.DAMAGE_SCALING_FACTOR ** (hit_num - 3)
-        )
-
-    # round the damage scaling to 3 decimal places
-    # scaling: float = round(scaling, 3)
-    return scaling
+        if damage >= 1000
+        else max(const.SCALING_MIN, const.SCALING_FACTOR ** (hit_num - 3))
+    )
 
 
 def get_combo_damage(combo_frame_data_df: DataFrame) -> DataFrame:
@@ -112,15 +100,12 @@ def get_combo_damage(combo_frame_data_df: DataFrame) -> DataFrame:
         if int(move.Damage) == 0:
             # If it is 0, set the hit number to 0
             table_undizzy_damage.at[move[0], const.HIT_NUMBER] = 0
+        elif move[0] == 0:
+            table_undizzy_damage.at[move[0], const.HIT_NUMBER] = 1
         else:
-            # If it is not 0, increment the hit number by 1
-            # Account for the fact that the index starts at 0 and avoid index out of range errors
-            if move[0] == 0:
-                table_undizzy_damage.at[move[0], const.HIT_NUMBER] = 1
-            else:
-                table_undizzy_damage.at[move[0], const.HIT_NUMBER] = (
-                    table_undizzy_damage.at[move[0] - 1, const.HIT_NUMBER] + 1
-                )
+            table_undizzy_damage.at[move[0], const.HIT_NUMBER] = (
+                table_undizzy_damage.at[move[0] - 1, const.HIT_NUMBER] + 1
+            )
 
     # add the damage scaling for each hit, based on the hit number column and the damage column
     table_undizzy_damage[const.DAMAGE_SCALING] = table_undizzy_damage.apply(
@@ -191,7 +176,7 @@ set_up_pandas_options()
 
 for df in [move_name_alias_df, full_framedata_df]:
     remove_whitespace_from_column_names(df)
-csv_list: list[str] = parseCombo.get_csv_list(f"{data_dir}/combo_csvs")
+csv_list: list[str] = parseCombo.get_csv_list(fm.CSV_PATH)
 
 combo_process_summary: list[Any] = []
 
@@ -203,7 +188,11 @@ for csv in csv_list:
     combo_input_df: DataFrame = pd.read_csv(csv)
     """DataFrame Containing the combo input"""
 
+    # Remove whitespace from column names
+    combo_input_df = remove_whitespace_from_column_names(combo_input_df)
+
     # Get the expected damage from the csv
+
     expected_damage: int = combo_input_df.at[0, const.EXPECTED_DAMAGE]
     character_name: str = combo_input_df.at[0, const.CHARACTER_NAME]
     combo_framedata_df: DataFrame = DataFrame(columns=full_framedata_df.columns)
@@ -222,7 +211,7 @@ for csv in csv_list:
     combo_framedata_df: DataFrame = get_combo_damage(combo_framedata_df)
 
     # remove the columns that contain only missing data
-    combo_framedata_df.dropna(axis=1, how="all", inplace=True)
+    combo_framedata_df = combo_framedata_df.dropna(axis=1, how="all")
 
     damage: int = combo_framedata_df[const.SCALED_DAMAGE].sum()
     # plot as a log scale
@@ -231,7 +220,7 @@ for csv in csv_list:
 
     sklogger.debug(f"Calculated damage: {damage}")
     sklogger.debug(f"Expected damage: {expected_damage}")
-    sklogger.debug("Difference: " + str(damage - expected_damage))
+    sklogger.debug(f"Difference: {str(damage - expected_damage)}")
     sklogger.debug(
         f"Percentage difference: {round((damage - expected_damage) / expected_damage * 100, 2)}%"
     )
@@ -316,4 +305,4 @@ for combo in combo_list:
     displaycombo: DataFrame = combo.copy()
     column_name: str = const.MOVE_NAME
     str_to_colour: dict[str, str] = unique_strings_to_colours(displaycombo, column_name)
-    #display(combo_prettify(combo.style, str_to_colour, column_name))
+    # display(combo_prettify(combo.style, str_to_colour, column_name))
