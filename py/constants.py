@@ -116,7 +116,7 @@ FD_COLUMNS_TO_MOVE_ATTR_DICT: dict[str, str] = {
 
 MOVE_CATEGORIES = {
     "tag": "TAG IN",
-    "snap": "SNAP BACK",
+    "snap": "SNAPBACK",
     "throw": "THROW",
     "air_throw": "AIR THROW",
     "taunt": "TAUNT",

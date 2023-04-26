@@ -15,7 +15,9 @@ def init_logger() -> logging.Logger:
     logfilehandler = logging.FileHandler(f"{logfilename}.log", mode="w")
     console = logging.StreamHandler(sys.stdout)
     console.setLevel(logging.INFO)
-    console.setFormatter(logging.Formatter("%(levelname)s - %(message)s"))
+    console.setFormatter(
+        logging.Formatter("%(levelname)s - %(filename)s - %(lineno)d - %(message)s")
+    )
     # Create root logger
     result: logging.Logger = logging.getLogger()
     result.setLevel(logging.DEBUG)
@@ -24,7 +26,9 @@ def init_logger() -> logging.Logger:
     # Add the file handler to the root logger
     result.addHandler(logfilehandler)
 
-    logfileformat = "%(relativeCreated)d - %(levelname)s - %(message)s"
+    logfileformat = (
+        "%(relativeCreated)d - %(levelname)s - %(filename)s - %(lineno)d - %(message)s"
+    )
     logfilehandler.setFormatter(logging.Formatter(logfileformat))
     return result
 
