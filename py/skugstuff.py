@@ -1,10 +1,16 @@
 """Main, for now, file for all the skug stuff. Contains the Move and Character classes, as well as functions for extracting data from the move dataframes.
 """
+
 import re
+import cProfile
+import pstats
 from dataclasses import dataclass, field
-from typing import List, Dict, Tuple, Any, Optional, Literal, Union
+from typing import List, Dict, Self, Tuple, Any, Optional, Literal, Union
 import pandas as pd
-from skug_logger import sklogger
+from pandas.core.base import PandasObject
+from pandas.core.frame import DataFrame
+from pandas.core.series import Series
+from skug_logger import log
 
 # Import constants in global scope
 import constants as const
@@ -13,79 +19,45 @@ import file_management as fm
 
 @dataclass
 class Hit:
-    damage: int | str | None
-    chip: int | str | None
+    damage: Optional[int | str] = None
+    chip: Optional[int | str] = None
 
 
 @dataclass
 class Move:
-    move_properties_dict: dict[str, Any]
-    character: str = ""
-    name: str = ""
-    alt_names: Union[str, List[str]] = ""
+    character: str
+    name: str
+    alt_names: Optional[List[str]] = None
 
-    guard: str = ""
-    properties: Union[str, List[str]] = ""
+    guard: Optional[str] = None
+    properties: Optional[List[str]] = None
 
-    meter_gain_loss: Union[int, str] = ""
+    on_hit: Optional[Union[int, str]] = None
+    on_block: Optional[Union[int, str]] = None
 
-    on_hit: Union[int, str] = ""
-    on_block: Union[int, str] = ""
+    startup: Optional[Union[int, str]] = None
+    active: Optional[Union[int, str]] = None
+    recovery: Optional[Union[int, str]] = None
 
-    startup: Union[int, str] = ""
-    active: Union[int, str] = ""
-    recovery: Union[int, str] = ""
+    hitstun: Optional[Union[int, str]] = None
+    blockstun: Optional[Union[int, str]] = None
+    hitstop: Optional[Union[int, str]] = None
+    meter_gain_loss: Optional[Union[int, str]] = None
 
-    hitstun: Union[int, str] = ""
-    blockstun: Union[int, str] = ""
-    hitstop: Union[int, str] = ""
-    meter_gain_loss: Union[int, str] = ""
+    notes: Optional[str] = None
 
-    notes: str = ""
-
-    hits_str: str = ""
+    hits_str: Optional[str] = None
 
     hits: List[Hit] = field(default_factory=list)
-    hits_alt: dict[str, List[Hit]] = field(default_factory=dict)
+    hits_alt: Dict[str, List[Hit]] = field(default_factory=dict)
 
-    category: str = ""
-
-    def __post_init__(self) -> None:
-        """
-        Initialise the Move object after it has been created, performing any necessary sanitisation and calculations
-        """
-        # Assign all the properties from the dictionary
-        for key, value in self.move_properties_dict.items():
-            # Check if attribute exists on the class
-            if hasattr(self, key):
-                # check type of attribute and assign value if it matches
-                if value is None:
-                    value = ""
-
-                if isinstance(getattr(self, key), type(value)):
-                    setattr(self, key, value)
-                else:
-                    # If the type doesn't match, log it
-                    sklogger.warning(
-                        f"Type mismatch for {key}! With value {value} and type {type(value)}"
-                    )
-        self.alt_names = (
-            self.alt_names.split("\n")
-            if isinstance(self.alt_names, str)
-            else self.alt_names
-        )
-        self.hits, self.hits_alt = get_hits(self)
-        self.category = get_category(self)
-        self.super_level = get_super_level(self)
+    category: Optional[str] = None
 
     def damage_per_hit(self) -> list[float]:
         return get_damage_per_hit(self.hits) if self.hits.__len__() > 1 else []
 
     def simple_summed_dmg(self) -> int:
         return simple_damage_calc(self.hits) if self.hits else 0
-
-    def __str__(self) -> str:
-        return self.name
 
     def hits_as_list(
         self,
@@ -95,6 +67,39 @@ class Move:
         if alt_hits_key:
             return [getattr(hit, type) for hit in self.hits_alt[alt_hits_key]]
         return [getattr(hit, type) for hit in self.hits]
+
+    def get_non_standard_fields(self) -> Self:
+        """Mostly for debugging, so that it is easier to figure out what data still needs to be interpreted in specific ways"""
+        fields = self.__dict__
+        ideal_types = const.MOVE_PROPERTY_IDEAL_TYPES
+        """ Dict of string attrs and their ideal types"""
+        intersection = fields.keys() & ideal_types.keys()
+        # difference = fields.keys() ^ ideal_types.keys()
+        # Assign the values of the intersection of the two sets to a new dict
+        intersection = {key: fields[key] for key in intersection}
+
+        self.non_standard_fields = [
+            {key: value}
+            for key, value in intersection.items()
+            if value and not isinstance(value, ideal_types[key])
+        ]
+        return self
+
+    def __post_init__(self) -> None:
+        """
+        Initialise the Move object after it has been created, performing any necessary sanitisation and calculations
+        """
+        # Assign move properties to the object
+
+        self.alt_names = (
+            self.alt_names.split("\n")
+            if isinstance(self.alt_names, str)
+            else self.alt_names
+        )
+        self.hits, self.hits_alt = get_hits(self)
+        self.category = get_category(self)
+        self.super_level = get_super_level(self)
+        # Format the move object as a printable table
 
 
 @dataclass
@@ -159,16 +164,16 @@ def get_category(move: Move) -> str:
 def get_hits(move: Move) -> tuple[list[Hit], dict[str, List[Hit]]]:
     """Get the hits for a move, returning a list of hits and a dictionary of alternative hits labelled by name."""
     # Remove any newlines from the damage or move name
-    sklogger.debug(f"===== Getting hits for {move.character} {move.name} =====")
+    log.debug(f"===== Getting hits for {move.character} {move.name} =====")
 
     move = sanitise_move(move)
 
-    if move.hits_str not in ["-", "nan"]:
+    if isinstance(move.hits_str, str) and move.hits_str not in ["-", "nan"]:
         (
             _,
             hits,
             alt_hits,
-        ) = extract_damage(move)
+        ) = extract_damage(move.hits_str, move.character)
     else:
         hits = []
         alt_hits = {}
@@ -177,17 +182,17 @@ def get_hits(move: Move) -> tuple[list[Hit], dict[str, List[Hit]]]:
 
 
 def extract_damage(
-    move: Move,
+    hits_str: str, character: str
 ) -> tuple[str, list[Hit], dict[str, List[Hit]]]:
     """Extract the damage from a move, returning the damage string, a list of hits and a dictionary of alternative hits labelled by name."""
-    damage_str = move.hits_str.lower()
+    damage_str = hits_str.lower()
     alt_damage: str = ""
     expanded = expand_all_x_n(damage_str)
     damage_str = expanded or damage_str
     alt_hits_list = []
     hits_list = []
     alt_hits_dict: dict[str, List[Hit]] = {}
-    if move.character == "ANNIE":
+    if character == "ANNIE":
         damage_str, stars = parse_annie_stars(damage_str)
         if stars:
             alt_hits_dict["stars"] = stars
@@ -204,7 +209,7 @@ def extract_damage(
 
     if alt_hits_list:
         alt_hits_dict["alt"] = alt_hits_list
-    sklogger.debug(f"Original damage string: '{move.hits_str}'")
+    log.debug(f"Original damage string: '{hits_str}'")
 
     return damage_str, hits_list, alt_hits_dict
 
@@ -348,29 +353,38 @@ def expand_x_n(match: re.Match[str]) -> str:
 
 
 def extract_moves(
-    frame_data: pd.DataFrame, characters: dict[str, Character], moves: List[Move]
+    frame_data: DataFrame,
+    characters: Union[str, List[str], None] = None,
 ) -> List[Move]:
-    """Extract the moves from the frame data, returning the list of moves."""
-    move_series: pd.Series
-    for _, move_series in frame_data.iterrows():
-        # Replace  '-' with None
-        move_series = move_series.replace("-", None)
-        move_pd_to_obj_dict: dict[str, str] = const.FD_COLUMNS_TO_MOVE_ATTR_DICT
-        move_obj: Move
-        move_properties: dict[str, Any] = {
-            move_obj_attribute: move_series[frame_data_column]
-            for frame_data_column, move_obj_attribute in move_pd_to_obj_dict.items()
-            if move_series[frame_data_column] is not None
-        }
-        move_obj = Move(move_properties)
-        # Remove spaces from move names
-        move_obj.name = move_obj.name.replace(" ", "_")
-        altered_name: str = move_series["Character"] + "_" + move_series["MoveName"]
-        # Remove spaces from move names
-        altered_name = altered_name.replace(" ", "_")
-        characters[move_series["Character"]].moves[move_obj.name] = move_obj
-        moves.append(move_obj)
+    moves = []
+    if characters:
+        if isinstance(characters, str):
+            characters = [characters]
+        for character in characters:
+            character_moves = frame_data[frame_data["character"] == character]
+            for _, move_series in character_moves.iterrows():
+                # Replace  '-' with None
+                move_series = move_series.replace("-", None)
+
+                move_properties = get_move_properties(move_series)
+
+                move_obj = Move(**move_properties)
+                # Remove spaces from move names
+                move_obj.name = move_obj.name.replace(" ", "_")
+                altered_name: str = (
+                    move_series["character"] + "_" + move_series["move_name"]
+                )
+                # Remove spaces from move names
+                altered_name = altered_name.replace(" ", "_")
+                moves.append(move_obj)
     return moves
+
+
+def get_move_properties(move_series: pd.Series) -> Dict[str, Any]:
+    return {
+        attribute_name: move_series[column_name]
+        for column_name, attribute_name in const.FD_COLUMNS_TO_MOVE_ATTR_DICT.items()
+    }
 
 
 def sort_moves(moves: List[Move], key: str, reverse: bool = False) -> List[Move]:
@@ -405,57 +419,57 @@ def simple_damage_calc(hits: List[Hit], starting_hit: int = 0) -> int:
     return int(summed_damage)
 
 
-# Rename old log files
+def clean_frame_data(df: DataFrame):
+    plus_minus_keys = ["on_block", "on_hit"]
+    # Replace nan with None
+    df = df.where(pd.notnull(df), None)
+
+    for key in plus_minus_keys:
+        df[key] = df[key].apply(
+            lambda x: x.replace("+", "").replace("-", "") if pd.notnull(x) else x
+        )
+    df["meter"] = df["meter"].apply(
+        lambda x: x.replace("%", "") if pd.notnull(x) else x
+    )
+    return df
+
+
+def format_column_headings(df: DataFrame) -> DataFrame:
+    """Format the column headings of the dataframe, converting to lower case and replacing spaces with "_", returning the dataframe."""
+    df.columns = df.columns.str.lower()
+    df.columns = df.columns.str.replace(" ", "_")
+    return df
 
 
 # ==================== #
 def main() -> None:
     """Main function."""
-    sklogger.info("========== Starting skug_stats ==========")
+    log.info("========== Starting skug_stats ==========")
     # Open csvs and load into dataframes
-    characters_df = pd.read_csv(fm.CHARACTER_DATA_PATH)
-    frame_data = pd.read_csv(fm.FRAME_DATA_PATH)
-    move_aliases = pd.read_csv(fm.MOVE_NAME_ALIASES_PATH)
+    characters_df = format_column_headings(pd.read_csv(fm.CHARACTER_DATA_PATH))
+    frame_data = format_column_headings(pd.read_csv(fm.FRAME_DATA_PATH))  # type: ignore
+    frame_data = clean_frame_data(frame_data)
+    move_aliases = format_column_headings(pd.read_csv(fm.MOVE_NAME_ALIASES_PATH))
+    # Change character names to be Upper case first letter lower case rest
+    characters_df["character"] = characters_df["character"].apply(capitalise_names)
+    frame_data["character"] = frame_data["character"].apply(capitalise_names)
 
-    # Change NaN to None
-    frame_data = frame_data.where(pd.notnull(frame_data), None)
+    moves = extract_moves(frame_data, characters_df["character"].to_list())
+    log.info("Created character and move objects")
 
-    # Remove spaces from column names
-    characters_df.columns = characters_df.columns.str.replace(" ", "")
-    frame_data.columns = frame_data.columns.str.replace(" ", "")
-    move_aliases.columns = move_aliases.columns.str.replace(" ", "")
-    sklogger.info("Loaded csvs")
-    sklogger.info(f"characters_df: {characters_df.columns}")
-    sklogger.info(f"frame_data: {frame_data.columns}")
-    sklogger.info(f"move_aliases: {move_aliases.columns}")
-    characters: dict[str, Character] = {}
-    moves: list[Move] = []
-    # Create character objects
-    row: pd.Series
-    for _, row in characters_df.iterrows():
-        name = row["Character"]
-        shortened_names = row["CharacterStart"].split(" ")
-        color = row["Color"]
-        # Create character object
-        new_character = Character(
-            name=name, shortened_names=shortened_names, color=color
-        )
-        characters[name] = new_character
 
-    # Get moves for each character
-    moves = extract_moves(frame_data, characters, moves)
-    sklogger.info("Created character and move objects")
-
-    moves_temp: list[Move] = moves.copy()
-
-    # For each character, list their supers
-    for character_name, character in characters.items():
-        for move_name, move in character.moves.items():
-            if move.category == "super":
-                sklogger.info(
-                    f"{character_name} has level {move.super_level} super {move_name} Which deals {move.simple_summed_dmg()} damage"
-                )
+def capitalise_names(name: str) -> str:
+    return (
+        " ".join([word.capitalize() for word in name.split(" ")])
+        if pd.notnull(name)
+        else name
+    )
 
 
 if __name__ == "__main__":
-    main()
+    with cProfile.Profile() as profiler:
+        main()
+
+    profiler.dump_stats("skug_stats.prof")
+    stats = pstats.Stats(profiler)
+    stats.sort_stats("cumtime")

@@ -1,3 +1,8 @@
+# Performance profiler
+.prof
+# Jupyter Notebook
+.ipynb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

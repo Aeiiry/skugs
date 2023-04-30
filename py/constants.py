@@ -1,6 +1,6 @@
 """Skug combo constants."""
 import re
-from typing import Literal
+from typing import Any, Literal
 import os
 import logging
 
@@ -96,23 +96,24 @@ RE_ANNIE_STARS_REFINED = re.compile(r"\[([\d,\s]*?)\(([\d,\s]*?)\s?\)\s?\]")
 RE_STR_BETWEEN_WHITESPACE = re.compile(r"^\s*(.*?)\s*$")
 
 FD_COLUMNS_TO_MOVE_ATTR_DICT: dict[str, str] = {
-    "MoveName": "name",
-    "Character": "character",
-    "AltNames": "alt_names",
-    "Guard": "guard",
-    "Properties": "properties",
-    "Startup": "startup",
-    "Active": "active",
-    "Recovery": "recovery",
-    "OnBlock": "on_block",
-    "OnHit": "on_hit",
-    "Footer": "notes",
-    "Damage": "hits_str",
-    "Meter": "meter_gain_loss",
-    "Hitstun": "hitstun",
-    "Blockstun": "blockstun",
-    "Hitstop": "hitstop",
+    "character": "character",
+    "move_name": "name",
+    "alt_names": "alt_names",
+    "guard": "guard",
+    "properties": "properties",
+    "startup": "startup",
+    "active": "active",
+    "recovery": "recovery",
+    "on_block": "on_block",
+    "on_hit": "on_hit",
+    "footer": "notes",
+    "damage": "hits_str",
+    "meter": "meter_gain_loss",
+    "hitstun": "hitstun",
+    "blockstun": "blockstun",
+    "hitstop": "hitstop",
 }
+
 
 MOVE_CATEGORIES = {
     "tag": "TAG IN",
@@ -122,6 +123,42 @@ MOVE_CATEGORIES = {
     "taunt": "TAUNT",
     "assist_recovery": "ASSIST RECOVERY",
 }
+
+MOVE_PROPERTY_IDEAL_TYPES: dict[str, Any] = {
+    "character": str,
+    "name": str,
+    "alt_names": list,
+    "guard": str,
+    "properties": str,
+    "on_hit": int,
+    "on_block": int,
+    "startup": int,
+    "active": int,
+    "recovery": int,
+    "hitstun": int,
+    "blockstun": int,
+    "hitstop": int,
+    "meter_gain_loss": int,
+    "notes": str,
+    "hits_str": str,
+    "hits": list,
+    "hits_alt": dict,
+    "category": str,
+}
+
+FRAME_VALUE_FIELDS = [
+    "startup",
+    "active",
+    "recovery",
+    "on_block",
+    "on_hit",
+    "hitstop",
+    "meter_gain_loss",
+]
+
+FRAME_VALUE_REPLACEMENTS: list[str] = ["+", "±"]
+FRAME_VALUE_REPLACEMENTS_RE = f"[{''.join(FRAME_VALUE_REPLACEMENTS)}]"
+FRAME_VALUE_REPLACEMENTS_RE = re.compile(FRAME_VALUE_REPLACEMENTS_RE)
 
 UNDIZZY_VALUES: dict[str, int] = {
     "light": 15,

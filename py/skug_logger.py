@@ -16,7 +16,7 @@ def init_logger() -> logging.Logger:
     console = logging.StreamHandler(sys.stdout)
     console.setLevel(logging.INFO)
     console.setFormatter(
-        logging.Formatter("%(levelname)s - %(filename)s - %(lineno)d - %(message)s")
+        logging.Formatter("%(message)s")
     )
     # Create root logger
     result: logging.Logger = logging.getLogger()
@@ -33,4 +33,4 @@ def init_logger() -> logging.Logger:
     return result
 
 
-sklogger = init_logger()
+log = init_logger()

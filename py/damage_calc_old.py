@@ -11,7 +11,7 @@ import pandas as pd
 from pandas import DataFrame, Series
 from pandas.io.formats import style
 from parse_combo_old import get_frame_data_for_combo, parse_hits
-from skug_logger import sklogger
+from skug_logger import log
 from utils import get_csv_list, split_columns
 
 # TODO Change combo df output structure to use one row per move, possibly with lists for things like damage, scaling, total damage, etc.
@@ -211,13 +211,13 @@ for csv in csv_list:
 
     damage: int = combo_framedata_df[const.SCALED_DAMAGE].sum()
     # plot as a log scale
-    sklogger.debug(combo_framedata_df.columns)
-    sklogger.debug(f"Combo dataframe:\n{combo_framedata_df.to_string()}\n")
+    log.debug(combo_framedata_df.columns)
+    log.debug(f"Combo dataframe:\n{combo_framedata_df.to_string()}\n")
 
-    sklogger.debug(f"Calculated damage: {damage}")
-    sklogger.debug(f"Expected damage: {expected_damage}")
-    sklogger.debug(f"Difference: {str(damage - expected_damage)}")
-    sklogger.debug(
+    log.debug(f"Calculated damage: {damage}")
+    log.debug(f"Expected damage: {expected_damage}")
+    log.debug(f"Difference: {str(damage - expected_damage)}")
+    log.debug(
         f"Percentage difference: {round((damage - expected_damage) / expected_damage * 100, 2)}%"
     )
 
@@ -242,9 +242,9 @@ for combo, pct_diff in zip(  # type: ignore
     output_df["Combo"], output_df["PercentageDifference"]  # type: ignore
 ):
     if pct_diff != "0%":
-        sklogger.info(f"{combo} has a {pct_diff} difference")
+        log.info(f"{combo} has a {pct_diff} difference")
 
-sklogger.info("Done")
+log.info("Done")
 
 
 # %%
