@@ -192,10 +192,6 @@ def extract_damage(
     alt_hits_list = []
     hits_list = []
     alt_hits_dict: dict[str, List[Hit]] = {}
-    if character == "ANNIE":
-        damage_str, stars = parse_annie_stars(damage_str)
-        if stars:
-            alt_hits_dict["stars"] = stars
 
     split_damage = damage_str.split("or")
     if len(split_damage) > 1:
@@ -274,52 +270,6 @@ def separate_damage(string: str) -> List[str]:
     return string.split(",")
 
 
-def parse_annie_stars(damage: str) -> Tuple[str, List[Hit]]:
-    """Specific function to parse Annie's star damage, returning the damage string with the stars removed and a list of stars hits."""
-    initial_search = const.RE_ANNIE_STARS_INITIAL.search(damage)
-    refined_match = (
-        const.RE_ANNIE_STARS_REFINED.findall(damage) if initial_search else None
-    )
-    surrounding_commas = None
-    if initial_search:
-        surrounding_commas = re.compile(
-            f"\\s?,?\\s?{re.escape(initial_search.group(0))}"
-        )
-    new_damage_str = damage
-    stars_hits_damage_chip: List[Hit] = []
-    stars_hits = []
-    stars_chip = []
-    if (
-        initial_search
-        and refined_match
-        and (stars_refined_dmg := refined_match[0][0])
-        and isinstance(stars_refined_dmg, str)
-    ):
-        stars_hits = list(map(attempt_to_int, separate_damage(stars_refined_dmg)))
-
-    if (
-        initial_search
-        and refined_match
-        and (stars_refined_chip := refined_match[0][1])
-        and isinstance(stars_refined_chip, str)
-    ):
-        stars_chip = list(map(attempt_to_int, separate_damage(stars_refined_chip)))
-
-    if (
-        initial_search
-        and surrounding_commas
-        and (surrounding_commas_match := surrounding_commas.search(damage))
-    ):
-        new_damage_str = damage.replace(surrounding_commas_match.group(), "")
-        new_damage_str = re.sub(r",\s?%", "", new_damage_str)
-
-        stars_hits_damage_chip.extend(
-            Hit(damage=hit, chip=chip) for hit, chip in zip(stars_hits, stars_chip)
-        )
-
-    return new_damage_str, stars_hits_damage_chip
-
-
 def sanitise_move(move: Move) -> Move:
     """Sanitise a move's name and raw hits, returning the sanitised move."""
     move.name = move.name.replace(" ", "_")
@@ -355,18 +305,22 @@ def expand_x_n(match: re.Match[str]) -> str:
 def extract_moves(
     frame_data: DataFrame,
     characters: Union[str, List[str], None] = None,
-) -> List[Move]:
-    moves = []
+):
+    moves: list[Move] = []
     if characters:
         if isinstance(characters, str):
             characters = [characters]
+
         for character in characters:
-            character_moves = frame_data[frame_data["character"] == character]
+            character_moves: DataFrame = frame_data[
+                frame_data["character"] == character
+            ]
+
             for _, move_series in character_moves.iterrows():
                 # Replace  '-' with None
-                move_series = move_series.replace("-", None)
+                move_series: Series[Any] = move_series.replace("-", None)
 
-                move_properties = get_move_properties(move_series)
+                move_properties: Dict[str, Any] = get_move_properties(move_series)
 
                 move_obj = Move(**move_properties)
                 # Remove spaces from move names
@@ -419,19 +373,62 @@ def simple_damage_calc(hits: List[Hit], starting_hit: int = 0) -> int:
     return int(summed_damage)
 
 
-def clean_frame_data(df: DataFrame):
-    plus_minus_keys = ["on_block", "on_hit"]
-    # Replace nan with None
-    df = df.where(pd.notnull(df), None)
+def clean_frame_data(frame_data: DataFrame) -> DataFrame:
+    plus_minus_column_labels: list[str] = ["on_block", "on_hit"]
 
-    for key in plus_minus_keys:
-        df[key] = df[key].apply(
-            lambda x: x.replace("+", "").replace("-", "") if pd.notnull(x) else x
+    frame_data = separate_annie_stars(frame_data)
+
+    for move_data in plus_minus_column_labels:
+        # Remove '+' and '±' from on_block and on_hit columns
+        frame_data[move_data] = frame_data[move_data].apply(
+            lambda x: x.replace("+", "") if pd.notnull(x) else x
         )
-    df["meter"] = df["meter"].apply(
+        frame_data[move_data] = frame_data[move_data].apply(
+            lambda x: x.replace("±", "") if pd.notnull(x) else x
+        )
+
+        # Find values with - and turn into ints
+        frame_data[move_data] = frame_data[move_data].apply(
+            lambda x: int(x) if pd.notnull(x) and "-" in x and x.isnumeric() else x
+        )
+
+    frame_data["meter"] = frame_data["meter"].apply(
         lambda x: x.replace("%", "") if pd.notnull(x) else x
     )
-    return df
+    return frame_data
+
+
+def separate_annie_stars(frame_data) -> DataFrame:
+    annie_star_power_rows: DataFrame = frame_data[
+        frame_data["damage"].str.contains(r"\[.*\]", regex=True)
+        & (frame_data["character"] == "Annie")
+    ]
+    original_annie_rows: DataFrame = annie_star_power_rows.copy()
+    for _, row in original_annie_rows.iterrows():
+        for column in row.index:
+            if pd.notnull(row[column]) and (
+                star_search := const.RE_ANNIE_STARS.search(row[column])
+            ):
+                if star_search.group(4):
+                    row[column] = star_search.group(1) + star_search.group(4)
+                else:
+                    row[column] = star_search.group(1)
+                # Set the corrseponding star power value to all groups in the regex search
+                annie_star_power_rows.loc[
+                    annie_star_power_rows["move_name"] == row["move_name"],
+                    column,
+                    # groups is a list of strings
+                ] = "".join(star_search.groups())
+        # Change the move name to include the star power variant
+        # TODO Only the damage has both stars and normal values, other things such as on block and on hit have star power values but no normal values
+        annie_star_power_rows.loc[
+            annie_star_power_rows["move_name"] == row["move_name"], "move_name"
+        ] = (row["move_name"] + "_STAR_POWER")
+    # Add the star power rows to the frame data, and update the original rows to remove the star power values
+    frame_data = frame_data.drop(original_annie_rows.index)
+    frame_data = pd.concat([frame_data, original_annie_rows])
+    frame_data = pd.concat([frame_data, annie_star_power_rows])
+    return frame_data
 
 
 def format_column_headings(df: DataFrame) -> DataFrame:
@@ -447,14 +444,17 @@ def main() -> None:
     log.info("========== Starting skug_stats ==========")
     # Open csvs and load into dataframes
     characters_df = format_column_headings(pd.read_csv(fm.CHARACTER_DATA_PATH))
-    frame_data = format_column_headings(pd.read_csv(fm.FRAME_DATA_PATH))  # type: ignore
-    frame_data = clean_frame_data(frame_data)
+    frame_data = format_column_headings(pd.read_csv(fm.FRAME_DATA_PATH))
+    frame_data.to_numpy()
     move_aliases = format_column_headings(pd.read_csv(fm.MOVE_NAME_ALIASES_PATH))
     # Change character names to be Upper case first letter lower case rest
+
     characters_df["character"] = characters_df["character"].apply(capitalise_names)
     frame_data["character"] = frame_data["character"].apply(capitalise_names)
 
-    moves = extract_moves(frame_data, characters_df["character"].to_list())
+    frame_data = clean_frame_data(frame_data)
+
+    #moves = extract_moves(frame_data, characters_df["character"].to_list())
     log.info("Created character and move objects")
 
 
