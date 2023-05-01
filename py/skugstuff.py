@@ -173,7 +173,7 @@ def get_hits(move: Move) -> tuple[list[Hit], dict[str, List[Hit]]]:
             _,
             hits,
             alt_hits,
-        ) = extract_damage(move.hits_str, move.character)
+        ) = extract_damage(move.hits_str)
     else:
         hits = []
         alt_hits = {}
@@ -181,9 +181,7 @@ def get_hits(move: Move) -> tuple[list[Hit], dict[str, List[Hit]]]:
     return hits, alt_hits
 
 
-def extract_damage(
-    hits_str: str, character: str
-) -> tuple[str, list[Hit], dict[str, List[Hit]]]:
+def extract_damage(hits_str: str) -> tuple[str, list[Hit], dict[str, List[Hit]]]:
     """Extract the damage from a move, returning the damage string, a list of hits and a dictionary of alternative hits labelled by name."""
     damage_str = hits_str.lower()
     alt_damage: str = ""
@@ -399,35 +397,78 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
 
 
 def separate_annie_stars(frame_data) -> DataFrame:
-    annie_star_power_rows: DataFrame = frame_data[
-        frame_data["damage"].str.contains(r"\[.*\]", regex=True)
-        & (frame_data["character"] == "Annie")
+    star_power_annie_rows: DataFrame = frame_data[
+        # Find rows with star power
+        # damage or on_block contains a value in brackets
+        # Annie only
+        (frame_data["character"] == "Annie")
+        & (
+            frame_data["damage"].str.contains(r"\[.*\]")
+            | frame_data["on_block"].str.contains(r"\[.*\]")
+        )
     ]
-    original_annie_rows: DataFrame = annie_star_power_rows.copy()
+    original_annie_rows: DataFrame = star_power_annie_rows.copy()
+    row: Series[Any]
+    star_damage: list[re.Match[str]] = []
+    star_on_block: list[re.Match[str]] = []
     for _, row in original_annie_rows.iterrows():
-        for column in row.index:
-            if pd.notnull(row[column]) and (
-                star_search := const.RE_ANNIE_STARS.search(row[column])
-            ):
-                if star_search.group(4):
-                    row[column] = star_search.group(1) + star_search.group(4)
-                else:
-                    row[column] = star_search.group(1)
-                # Set the corrseponding star power value to all groups in the regex search
-                annie_star_power_rows.loc[
-                    annie_star_power_rows["move_name"] == row["move_name"],
-                    column,
-                    # groups is a list of strings
-                ] = "".join(star_search.groups())
-        # Change the move name to include the star power variant
-        # TODO Only the damage has both stars and normal values, other things such as on block and on hit have star power values but no normal values
-        annie_star_power_rows.loc[
-            annie_star_power_rows["move_name"] == row["move_name"], "move_name"
-        ] = (row["move_name"] + "_STAR_POWER")
+        star_damage_search = const.RE_ANNIE_STARS.search(
+            row["damage"]
+        ) or const.RE_ANY.search(row["damage"])
+
+        star_damage.append(star_damage_search)  # type: ignore
+
+        star_on_block_search = const.RE_ANNIE_STARS.search(
+            row["on_block"]
+        ) or const.RE_ANY.search(row["on_block"])
+        star_on_block.append(star_on_block_search)  # type: ignore
+
+    original_annie_rows.loc[:,"damage"] = original_annie_rows.loc[:,"damage"].where(
+        # List of bools from list of re.match | none
+        Series(not bool(match) for match in star_damage),
+        # Group 1 and 4 from the regex search
+        Series(
+            match.group(1) + match.group(4) if match and match.groups().__len__() > 3
+            # check null again
+            else match.group(1)
+            if match and match.groups().__len__() > 0
+            else match.string
+            for match in star_damage
+        ),
+    )
+    original_annie_rows.loc[:,"on_block"] = original_annie_rows.loc[:,"on_block"].where(
+        # Just group 1 this time
+        Series((not bool(match)) for match in star_on_block),
+        Series(
+            match.group(1) if match.groups().__len__() > 0 else match.string
+            for match in star_on_block
+        ),
+    )
+    star_power_annie_rows.loc[:,"on_block"] = star_power_annie_rows.loc[:,"on_block"].where(
+        Series((not bool(match)) for match in star_on_block),
+        Series(
+            match.group(3) if match.groups().__len__() > 2 else match.string
+            for match in star_on_block
+        ),
+    )
+
+    star_power_annie_rows.loc[:,"damage"] = star_power_annie_rows.loc[:,"damage"].where(
+        # List of bools from list of re.match | none
+        Series(not bool(match) for match in star_damage),
+        # Group 1 and 4 from the regex search
+        Series(
+            "".join(match.groups()) if match.groups() else match.string
+            for match in star_damage
+        ),
+    )
+    star_power_annie_rows.loc[:,"move_name"] = star_power_annie_rows.loc[:,"move_name"].apply(
+        lambda name: name + "_STAR_POWER"
+    )
+
     # Add the star power rows to the frame data, and update the original rows to remove the star power values
     frame_data = frame_data.drop(original_annie_rows.index)
     frame_data = pd.concat([frame_data, original_annie_rows])
-    frame_data = pd.concat([frame_data, annie_star_power_rows])
+    frame_data = pd.concat([frame_data, star_power_annie_rows])
     return frame_data
 
 
@@ -446,7 +487,7 @@ def main() -> None:
     characters_df = format_column_headings(pd.read_csv(fm.CHARACTER_DATA_PATH))
     frame_data = format_column_headings(pd.read_csv(fm.FRAME_DATA_PATH))
     frame_data.to_numpy()
-    move_aliases = format_column_headings(pd.read_csv(fm.MOVE_NAME_ALIASES_PATH))
+    # move_aliases = format_column_headings(pd.read_csv(fm.MOVE_NAME_ALIASES_PATH))
     # Change character names to be Upper case first letter lower case rest
 
     characters_df["character"] = characters_df["character"].apply(capitalise_names)
@@ -454,8 +495,11 @@ def main() -> None:
 
     frame_data = clean_frame_data(frame_data)
 
-    #moves = extract_moves(frame_data, characters_df["character"].to_list())
+    # moves = extract_moves(frame_data, characters_df["character"].to_list())
     log.info("Created character and move objects")
+
+    # export to csv
+    frame_data.to_csv("output.csv", index=False)
 
 
 def capitalise_names(name: str) -> str:

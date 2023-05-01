@@ -89,10 +89,11 @@ RE_IN_BRACKETS: re.Pattern[str] = re.compile(r"\[[^\[]*\]")
 RE_IN_PAREN: re.Pattern[str] = re.compile(r"\((.*?)\)")
 RE_X_N = re.compile(r"(\d+\s?)([x\*]\s?)(\d+)")
 RE_BRACKETS_X_N = re.compile(r"(\[[\d,\s]*?\]\s?)([x\*])(\d+)")
+RE_ANY = re.compile(r".*")
 
-RE_ANNIE_STARS = re.compile(r"^(.*?)(,?)\s?\[(.*)\](.*)$")
-# Group 1 and 3 are non-star values
-# Group 2 is star values
+RE_ANNIE_STARS = re.compile(r"(.*?)(,?)\s?\[(.*)\](.*)")
+""" Group 1 and 4 are non-star values, Group 3 is star values"""
+
 RE_STR_BETWEEN_WHITESPACE = re.compile(r"^\s*(.*?)\s*$")
 
 FD_COLUMNS_TO_MOVE_ATTR_DICT: dict[str, str] = {
