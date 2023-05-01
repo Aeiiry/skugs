@@ -6,3 +6,5 @@ py/output.csv
 /.venv
 /logs
 /old_files
+/mypy.ini
+/.pylintrc
