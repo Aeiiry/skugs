@@ -423,7 +423,7 @@ def separate_annie_stars(frame_data) -> DataFrame:
         ) or const.RE_ANY.search(row["on_block"])
         star_on_block.append(star_on_block_search)  # type: ignore
 
-    original_annie_rows.loc[:,"damage"] = original_annie_rows.loc[:,"damage"].where(
+    original_annie_rows.loc[:, "damage"] = original_annie_rows.loc[:, "damage"].where(
         # List of bools from list of re.match | none
         Series(not bool(match) for match in star_damage),
         # Group 1 and 4 from the regex search
@@ -436,7 +436,9 @@ def separate_annie_stars(frame_data) -> DataFrame:
             for match in star_damage
         ),
     )
-    original_annie_rows.loc[:,"on_block"] = original_annie_rows.loc[:,"on_block"].where(
+    original_annie_rows.loc[:, "on_block"] = original_annie_rows.loc[
+        :, "on_block"
+    ].where(
         # Just group 1 this time
         Series((not bool(match)) for match in star_on_block),
         Series(
@@ -444,7 +446,9 @@ def separate_annie_stars(frame_data) -> DataFrame:
             for match in star_on_block
         ),
     )
-    star_power_annie_rows.loc[:,"on_block"] = star_power_annie_rows.loc[:,"on_block"].where(
+    star_power_annie_rows.loc[:, "on_block"] = star_power_annie_rows.loc[
+        :, "on_block"
+    ].where(
         Series((not bool(match)) for match in star_on_block),
         Series(
             match.group(3) if match.groups().__len__() > 2 else match.string
@@ -452,7 +456,9 @@ def separate_annie_stars(frame_data) -> DataFrame:
         ),
     )
 
-    star_power_annie_rows.loc[:,"damage"] = star_power_annie_rows.loc[:,"damage"].where(
+    star_power_annie_rows.loc[:, "damage"] = star_power_annie_rows.loc[
+        :, "damage"
+    ].where(
         # List of bools from list of re.match | none
         Series(not bool(match) for match in star_damage),
         # Group 1 and 4 from the regex search
@@ -461,9 +467,9 @@ def separate_annie_stars(frame_data) -> DataFrame:
             for match in star_damage
         ),
     )
-    star_power_annie_rows.loc[:,"move_name"] = star_power_annie_rows.loc[:,"move_name"].apply(
-        lambda name: name + "_STAR_POWER"
-    )
+    star_power_annie_rows.loc[:, "move_name"] = star_power_annie_rows.loc[
+        :, "move_name"
+    ].apply(lambda name: name + "_STAR_POWER")
 
     # Add the star power rows to the frame data, and update the original rows to remove the star power values
     frame_data = frame_data.drop(original_annie_rows.index)
@@ -514,6 +520,6 @@ if __name__ == "__main__":
     with cProfile.Profile() as profiler:
         main()
 
-    profiler.dump_stats("skug_stats.prof")
+    profiler.dump_stats("stats.prof")
     stats = pstats.Stats(profiler)
     stats.sort_stats("cumtime")

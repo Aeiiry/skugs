@@ -6,14 +6,7 @@ import logging
 
 # flake8: noqa: E501
 
-DATA_FOLDER: Literal["data"] = "data"
-PY_FOLDER: Literal["py"] = "py"
 
-TOP_LEVEL_FOLDER: Literal["skugs"] = "skugs"
-
-# Generate paths
-DATA_PATH: str = os.path.join(os.getcwd(), "..", DATA_FOLDER)
-PY_PATH: str = os.path.join(os.getcwd(), "..", PY_FOLDER)
 
 
 ALT_PREFIX: Literal["alt_"] = "alt_"
