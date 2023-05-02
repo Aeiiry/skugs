@@ -1,8 +1,7 @@
 """Skug combo constants."""
+import logging
 import re
 from typing import Any, Literal
-import os
-import logging
 
 # flake8: noqa: E501
 
@@ -26,7 +25,6 @@ UNDIZZY: Literal["Undizzy"] = "Undizzy"
 TOTAL_DAMAGE_FOR_MOVE: Literal["TotalDamageForMove"] = "TotalDamageForMove"
 TOTAL_DAMAGE_FOR_COMBO: Literal["TotalDamageForCombo"] = "TotalDamageForCombo"
 
-
 UNDIZZY_DICT: dict[str, int] = {
     "Light": 15,
     "Medium": 30,
@@ -36,7 +34,6 @@ UNDIZZY_DICT: dict[str, int] = {
 }
 """Undizzy values for each hit type.
 """
-
 
 # Move names to automatically ignore
 IGNORED_MOVES: list[str] = [
@@ -75,12 +72,11 @@ HATRED_INSTALL: str = "(during hi)"
 LOG_LEVEL_CONSOLE: int = logging.INFO
 LOG_LEVEL_FILE: int = logging.DEBUG
 
-
-RE_IN_BRACKETS: re.Pattern[str] = re.compile(r"\[[^\[]*\]")
+RE_IN_BRACKETS: re.Pattern[str] = re.compile(r"\[[^\[]*]")
 RE_IN_PAREN: re.Pattern[str] = re.compile(r"\((.*?)\)")
-RE_X_N = re.compile(r"(\d+\s?)([x\*]\s?)(\d+)")
-RE_BRACKETS_X_N = re.compile(r"(\[[\d,\s]*?\]\s?)([x\*])(\d+)")
-RE_ANY = re.compile(r".*")
+RE_X_N: re.Pattern[str] = re.compile(r"(\d+\s?)([x*]\s?)(\d+)")
+RE_BRACKETS_X_N: re.Pattern[str] = re.compile(r"(\[[\d,\s]*?]\s?)([x*])(\d+)")
+RE_ANY: re.Pattern[str] = re.compile(r".*")
 
 CHARACTERS_TO_REMOVE: list[str] = ["+", "\n", "±", "%"]
 # Put the list of characters to remove in the regex below in a character class ([]), escaping any special characters
@@ -88,10 +84,10 @@ RE_CHARACTERS_TO_REMOVE: re.Pattern[str] = re.compile(
     r"[" + re.escape("".join(CHARACTERS_TO_REMOVE)) + r"]"
 )
 
-RE_ANNIE_STARS = re.compile(r"(.*?)(,?)\s?\[(.*)\](.*)")
+RE_ANNIE_STARS: re.Pattern[str] = re.compile(r"(.*?)(,?)\s?\[(.*)](.*)")
 """ Group 1 and 4 are non-star values, Group 3 is star values"""
 
-RE_STR_BETWEEN_WHITESPACE = re.compile(r"^\s*(.*?)\s*$")
+RE_STR_BETWEEN_WHITESPACE: re.Pattern[str] = re.compile(r"^\s*(.*?)\s*$")
 
 FD_COLUMNS_TO_MOVE_ATTR_DICT: dict[str, str] = {
     "character": "character",
@@ -111,7 +107,6 @@ FD_COLUMNS_TO_MOVE_ATTR_DICT: dict[str, str] = {
     "blockstun": "blockstun",
     "hitstop": "hitstop",
 }
-
 
 MOVE_CATEGORIES = {
     "tag": "TAG IN",

@@ -4,6 +4,6 @@ py/*.prof
 /old_files
 /.venv
 /logs
-/old_files
 /mypy.ini
 /.pylintrc
+.idea/
