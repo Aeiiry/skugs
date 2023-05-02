@@ -7,8 +7,6 @@ import logging
 # flake8: noqa: E501
 
 
-
-
 ALT_PREFIX: Literal["alt_"] = "alt_"
 """Prefix for alternate move data"""
 
@@ -83,6 +81,12 @@ RE_IN_PAREN: re.Pattern[str] = re.compile(r"\((.*?)\)")
 RE_X_N = re.compile(r"(\d+\s?)([x\*]\s?)(\d+)")
 RE_BRACKETS_X_N = re.compile(r"(\[[\d,\s]*?\]\s?)([x\*])(\d+)")
 RE_ANY = re.compile(r".*")
+
+CHARACTERS_TO_REMOVE: list[str] = ["+", "\n", "±", "%"]
+# Put the list of characters to remove in the regex below in a character class ([]), escaping any special characters
+RE_CHARACTERS_TO_REMOVE: re.Pattern[str] = re.compile(
+    r"[" + re.escape("".join(CHARACTERS_TO_REMOVE)) + r"]"
+)
 
 RE_ANNIE_STARS = re.compile(r"(.*?)(,?)\s?\[(.*)\](.*)")
 """ Group 1 and 4 are non-star values, Group 3 is star values"""

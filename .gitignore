@@ -1,6 +1,5 @@
 __pycache__/
 py/*.prof
-py/output.csv
 
 /old_files
 /.venv
