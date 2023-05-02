@@ -1,8 +1,9 @@
-from dataclasses import dataclass, field
 import re
+from dataclasses import dataclass, field
 from typing import Any, Dict, List, Literal, Optional, Self, Union
 
 from pandas import DataFrame, Series
+
 import constants as const
 from skug_logger import log
 
@@ -43,6 +44,9 @@ class Move:
 
     category: Optional[str] = None
 
+    def __init__(self):
+        self.non_standard_fields = None
+
     def damage_per_hit(self) -> list[float]:
         return get_damage_per_hit(self.hits) if self.hits.__len__() > 1 else []
 
@@ -50,9 +54,9 @@ class Move:
         return simple_damage_calc(self.hits) if self.hits else 0
 
     def hits_as_list(
-        self,
-        type: Literal["damage", "chip"] = "damage",
-        alt_hits_key: str | None = None,
+            self,
+            type: Literal["damage", "chip"] = "damage",
+            alt_hits_key: str | None = None,
     ) -> list[str]:
         if alt_hits_key:
             return [getattr(hit, type) for hit in self.hits_alt[alt_hits_key]]
@@ -61,7 +65,7 @@ class Move:
     def get_non_standard_fields(self) -> Self:
         fields: dict[str, Any] = self.__dict__
         ideal_types: dict[str, Any] = const.MOVE_PROPERTY_IDEAL_TYPES
-        intersection= fields.keys() & ideal_types.keys()
+        intersection = fields.keys() & ideal_types.keys()
         # difference = fields.keys() ^ ideal_types.keys()
         # Assign the values of the intersection of the two sets to a new dict
         intersection = {key: fields[key] for key in intersection}
@@ -98,11 +102,12 @@ class Character:
 
 
 def get_super_level(move: Move) -> int:
+    level = 0
     if (
-        move.category == "super"
-        and isinstance(move.meter_gain_loss, str)
-        and (level := (move.meter_gain_loss.replace("-", "").replace("%", "")))
-        and level.isnumeric()
+            move.category == "super"
+            and isinstance(move.meter_gain_loss, str)
+            and (level := (move.meter_gain_loss.replace("-", "").replace("%", "")))
+            and level.isnumeric()
     ):
         return int(level) // 100
     return 0
@@ -130,14 +135,14 @@ def get_category(move: Move) -> str:
             key
             for key, value in const.MOVE_CATEGORIES.items()
             if re.search(
-                rf"(^{value}([\s_]|$)|([\s_]|^){value}([\s_]|$))|([\s_]{value}[\s_])",
-                move.name,
-                flags=re.IGNORECASE,
-            )
+            rf"(^{value}([\s_]|$)|([\s_]|^){value}([\s_]|$))|([\s_]{value}[\s_])",
+            move.name,
+            flags=re.IGNORECASE,
+        )
         ),
         "super"
         if move.meter_gain_loss
-        and (isinstance(move.meter_gain_loss, str) and move.meter_gain_loss[0] == "-")
+           and (isinstance(move.meter_gain_loss, str) and move.meter_gain_loss[0] == "-")
         else "other",
     )
 
@@ -160,13 +165,13 @@ def get_hits(move: Move) -> tuple[list[Hit], dict[str, List[Hit]]]:
     return hits, alt_hits
 
 
-def extract_damage(hits_str: str) -> tuple[str, list[Hit], dict[str, List[Hit]]]:
+def extract_damage(hits_str: str, expand_all_x_n=None) -> tuple[str, list[Hit], dict[str, List[Hit]]]:
     damage_str = hits_str.lower()
     alt_damage: str = ""
     expanded = expand_all_x_n(damage_str)
     damage_str = expanded or damage_str
     alt_hits_list = []
-    hits_list = []
+
     alt_hits_dict: dict[str, List[Hit]] = {}
 
     split_damage = damage_str.split("or")
@@ -187,11 +192,9 @@ def extract_damage(hits_str: str) -> tuple[str, list[Hit], dict[str, List[Hit]]]
 
 
 def extract_damage_chip(
-    damage_str: str,
-) -> tuple[str, list[Hit]]:
+        damage_str: str,
+        separate_damage=None, attempt_to_int=None) -> tuple[str, list[Hit]]:
     chip_list: List[str | int] = []
-    damage_list: List[str | int] = []
-    hit_list: List[Hit] = []
     if find_chip := const.RE_IN_PAREN.finditer(damage_str):
         for chip in find_chip:
             if separated_damage := separate_damage(chip.group(1)):
@@ -200,7 +203,7 @@ def extract_damage_chip(
                 chip_list.append(chip.group(1))
             # Remove the chip damage from the damage string, using positional information from the regex
             damage_str = (
-                damage_str[: chip.start()] + damage_str[chip.end() :]
+                damage_str[: chip.start()] + damage_str[chip.end():]
                 if chip.end()
                 else damage_str[: chip.start()]
             )
@@ -229,9 +232,9 @@ def sanitise_move(move: Move) -> Move:
 
 
 def extract_moves(
-    frame_data: DataFrame,
-    characters: Union[str, List[str], None] = None,
-) -> list[Move]:
+        frame_data: DataFrame,
+        characters: Union[str, List[str], None] = None,
+        get_move_properties=None) -> list[Move]:
     moves: list[Move] = []
     if characters:
         if isinstance(characters, str):
@@ -240,7 +243,7 @@ def extract_moves(
         for character in characters:
             character_moves: DataFrame = frame_data[
                 frame_data["character"] == character
-            ]
+                ]
 
             for _, move_series in character_moves.iterrows():
                 # Replace  '-' with None
@@ -248,14 +251,14 @@ def extract_moves(
 
                 move_properties: Dict[str, Any] = get_move_properties(move_series)
 
-                move_obj = Move(**move_properties)
+                move_obj = Move()
                 # Remove spaces from move names
                 move_obj.name = move_obj.name.replace(" ", "_")
                 altered_name: str = (
-                    move_series["character"] + "_" + move_series["move_name"]
+                        move_series["character"] + "_" + move_series["move_name"]
                 )
                 # Remove spaces from move names
-                altered_name = altered_name.replace(" ", "_")
+                altered_name.replace(" ", "_")
                 moves.append(move_obj)
     return moves
 

@@ -1,21 +1,17 @@
 from __future__ import annotations
 
-import os
 import math
-from typing import Any
+import os
 import random
-import pandas as pd
-import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import cProfile
-import pstats
-import file_management as fm
-from pandas import DataFrame, Series
-from pandas.io.formats import style, style_render
+from typing import Any
 
-import parseCombo as parseCombo
+import pandas as pd
+from pandas import DataFrame, Series
+from pandas.io.formats import style
+
 import constants as const
+import file_management as fm
+import parseCombo as parseCombo
 from skug_logger import log
 
 # TODO Change combo df output structure to use one row per move, possibly with lists for things like damage, scaling, total damage, etc.
@@ -88,7 +84,7 @@ def get_combo_damage(combo_frame_data_df: DataFrame) -> DataFrame:
         [table_undizzy_damage, df_newhits], ignore_index=True
     )
     # Add a column for the hit number
-    # Hit number goes up for each non-zero damage hit
+    #  goes up for each non-zero damage hit
 
     # Create a new column that will contain the number of hits
     table_undizzy_damage[const.HIT_NUMBER] = 0
@@ -104,7 +100,7 @@ def get_combo_damage(combo_frame_data_df: DataFrame) -> DataFrame:
             table_undizzy_damage.at[move[0], const.HIT_NUMBER] = 1
         else:
             table_undizzy_damage.at[move[0], const.HIT_NUMBER] = (
-                table_undizzy_damage.at[move[0] - 1, const.HIT_NUMBER] + 1
+                    table_undizzy_damage.at[move[0] - 1, const.HIT_NUMBER] + 1
             )
 
     # add the damage scaling for each hit, based on the hit number column and the damage column
@@ -150,8 +146,8 @@ def total_damage_for_moves(damage_undizzy_table: DataFrame) -> DataFrame:
 
             # if the next hit is a different move
             if (
-                damage_undizzy_table.at[hit, const.MOVE_NAME]
-                != damage_undizzy_table.at[hit + 1, const.MOVE_NAME]
+                    damage_undizzy_table.at[hit, const.MOVE_NAME]
+                    != damage_undizzy_table.at[hit + 1, const.MOVE_NAME]
             ):
                 move_damage = 0
         else:
@@ -168,7 +164,6 @@ def set_up_pandas_options() -> None:
     pd.options.display.max_colwidth = 999
     pd.options.display.precision = 3
 
-    pd.options.styler
 
 
 # %%
@@ -243,7 +238,7 @@ output_df: DataFrame = DataFrame(combo_process_summary)
 # display(output_df)
 
 for combo, pct_diff in zip(  # type: ignore
-    output_df["Combo"], output_df["PercentageDifference"]  # type: ignore
+        output_df["Combo"], output_df["PercentageDifference"]  # type: ignore
 ):
     if pct_diff != "0%":
         log.info(f"{combo} has a {pct_diff} difference")
@@ -277,9 +272,9 @@ def unique_strings_to_colours(df: DataFrame, column_name: str) -> dict[str, str]
 
 
 def combo_prettify(
-    styler: style.Styler,
-    name_to_bg_colour: dict[str, str],
-    column_name: str,
+        styler: style.Styler,
+        name_to_bg_colour: dict[str, str],
+        column_name: str,
 ) -> style.Styler:
     """Prettify the combo dataframe."""
 
