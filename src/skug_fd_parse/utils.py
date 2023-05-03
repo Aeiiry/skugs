@@ -36,7 +36,7 @@ def set_column_value(df: pandas.DataFrame, column: str, value: str) -> None:
 
 
 def split_columns(
-        df: pandas.DataFrame, column_name: str, seperator: str
+    df: pandas.DataFrame, column_name: str, seperator: str
 ) -> pandas.DataFrame:
     """Split a column into multiple rows based on a given seperator
 
@@ -48,10 +48,10 @@ def split_columns(
     Returns:
         pandas.DataFrame: dataframe with the column split
     """
-    splitdf = df.copy()
+    split_df = df.copy()
     # split the values in a column on a given seperator
 
-    splitdf[column_name] = splitdf[column_name].str.split(seperator)
+    split_df[column_name] = split_df[column_name].str.split(seperator)
     # explode the column so that each value is on a row
-    splitdf = splitdf.explode(column_name)
-    return splitdf
+    split_df = split_df.explode(column_name)
+    return split_df

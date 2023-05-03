@@ -1,7 +1,8 @@
 import cProfile
+import os
 import pstats
 import re
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, List
 
 import pandas as pd
 from pandas import Index
@@ -9,12 +10,13 @@ from pandas.core.frame import DataFrame
 from pandas.core.series import Series
 
 # Import constants in global scope
-import constants as const
-import file_management as fm
-from skug_logger import log
+import skug_fd_parse.constants as const
+import skug_fd_parse.file_management as fm
+from skug_fd_parse.skug_logger import log
 
 
 def attempt_to_int(value: str | int) -> str | int:
+    """Attempts to convert a value to an int, if it is not a string or is not numeric it will return the value as is"""
     return int(value) if isinstance(value, str) and value.isnumeric() else value
 
 
@@ -49,22 +51,23 @@ def expand_x_n(match: re.Match[str]) -> str:
         expanded_damage = ",".join(expanded_list)
     else:
         expanded_damage = ",".join([damage] * num)
-    return (match.string[: match.start()] + expanded_damage + match.string[
-                                                              match.end():] if match.end() else match.string[
-                                                                                                : match.start()] + expanded_damage)
+    return (
+        match.string[: match.start()] + expanded_damage + match.string[match.end():]
+        if match.end()
+        else match.string[: match.start()] + expanded_damage
+    )
 
 
-def get_move_properties(move_series: pd.Series) -> Dict[str, Any]:
-    return {attribute_name: move_series[column_name] for column_name, attribute_name in
-            const.FD_COLUMNS_TO_MOVE_ATTR_DICT.items()}
-
-
-def apply_to_columns(df: DataFrame, func: Callable, columns: list[str] | None = None) -> DataFrame:
+def apply_to_columns(
+        df: DataFrame, func: Callable, columns: list[str] | None = None
+) -> DataFrame:
     sliced_df: DataFrame = df if columns is None else df.loc[:, columns]
     func_columns: Index | list[str] = df.columns if columns is None else columns
     # Apply function to each cell in the sliced dataframe
     # If the cell is not null and the function is callable, apply the function to the cell
-    sliced_df = sliced_df.applymap(lambda x: func(x) if pd.notnull(x) and callable(func) else x)
+    sliced_df = sliced_df.applymap(
+        lambda x: func(x) if pd.notnull(x) and callable(func) else x
+    )
     df.loc[:, func_columns] = sliced_df
     return df
 
@@ -81,7 +84,8 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
 
     # Find values with - and turn into ints
     frame_data = frame_data.applymap(
-        lambda x: int(x) if isinstance(x, str) and "-" in x and x.isnumeric() else x)
+        lambda x: int(x) if isinstance(x, str) and "-" in x and x.isnumeric() else x
+    )
 
     return frame_data
 
@@ -94,10 +98,11 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
         lambda x: const.RE_CHARACTERS_TO_REMOVE.sub("", x): columns_to_remove_chars,
         lambda x: x.split("\n"): ["alt_names"],
         # split alt names into a list
-        lambda x: x.split(","): ["properties"],
+        separate_damage: ["properties"],
         # split properties into a list
         # expand all x_n values (e.g. 100x3 -> 100,100,100)
-        expand_all_x_n: ["damage", "meter"], }
+        expand_all_x_n: ["damage", "meter"],
+    }
     for func, columns in function_column_dict.items():
         frame_data = apply_to_columns(frame_data, func, columns)
 
@@ -108,18 +113,24 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     # Separate damage into damage and chip damage, chip is in parentheses in the string,
     # e.g. 100(50) or 100,50 (50,25)
     frame_data["chip_damage"] = frame_data["damage"].apply(
-        lambda d: d[d.find("(") + 1: d.find(")")] if isinstance(d, str) else d)
+        lambda d: d[d.find("(") + 1: d.find(")")] if isinstance(d, str) else d
+    )
     function_column_dict: dict[Callable, List[str]] = {
         lambda d: d[: d.find("(")] if isinstance(d, str) else d: ["damage"],
-        lambda x: [int(d.strip()) if d.strip().isnumeric() else d for d in
-                   (x.split(",") if isinstance(x, str) and x != "" else [])]: ["damage", "chip_damage"], }
+        lambda x: [
+            int(d.strip()) if d.strip().isnumeric() else d
+            for d in (x.split(",") if isinstance(x, str) and x != "" else [])
+        ]: ["damage", "chip_damage"],
+    }
     for func, columns in function_column_dict.items():
         frame_data = apply_to_columns(frame_data, func, columns)
 
     return frame_data
 
 
-def add_new_columns(frame_data: DataFrame, new_columns: dict[str, str], offset=1) -> DataFrame:
+def add_new_columns(
+        frame_data: DataFrame, new_columns: dict[str, str], offset=1
+) -> DataFrame:
     # insert chip damage column next to damage
     for reference_column, new_column in new_columns.items():
         frame_data_columns: list[str] = frame_data.columns.tolist()
@@ -138,54 +149,87 @@ def add_new_columns(frame_data: DataFrame, new_columns: dict[str, str], offset=1
 
 def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     star_power_annie_rows: DataFrame = frame_data[  # Find rows with star power
-        (frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x) | frame_data[
-            "on_block"].apply(lambda x: isinstance(x, str) and "[" in x)) & (
-                frame_data["character"] == "Annie")]
+        (
+                frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x)
+                | frame_data["on_block"].apply(lambda x: isinstance(x, str) and "[" in x)
+        )
+        & (frame_data["character"] == "Annie")
+        ]
 
     original_annie_rows: DataFrame = star_power_annie_rows.copy()
     row: Series[Any]
     re_stars = const.RE_ANNIE_STARS
     re_any = const.RE_ANY
     star_damage = original_annie_rows["damage"].apply(
-        lambda x: re_stars.search(x) or re_any.search(x))
+        lambda x: re_stars.search(x) or re_any.search(x)
+    )
     star_on_block = original_annie_rows["on_block"].apply(
-        lambda x: re_stars.search(x) or re_any.search(x))
+        lambda x: re_stars.search(x) or re_any.search(x)
+    )
     # type: ignore
 
     original_annie_rows.loc[:, "damage"] = original_annie_rows.loc[:, "damage"].where(
         # List of bools from list of re.match | none
-        Series(not bool(match) for match in star_damage),  # Group 1 and 4 from the regex search
-        Series(match.group(1) + match.group(
-            4) if match and match.groups().__len__() > 3  # check null again
-               else match.group(1) if match and match.groups().__len__() > 0 else match.string for match in
-               star_damage), )
-    original_annie_rows.loc[:, "on_block"] = original_annie_rows.loc[:, "on_block"].where(
-        # Just group 1 this time
-        Series((not bool(match)) for match in star_on_block), Series(
-            match.group(1) if match.groups().__len__() > 0 else match.string for match in
-            star_on_block), )
-    star_power_annie_rows.loc[:, "on_block"] = star_power_annie_rows.loc[:, "on_block"].where(
-        Series((not bool(match)) for match in star_on_block), Series(
-            match.group(3) if match.groups().__len__() > 2 else match.string for match in
-            star_on_block), )
-
-    star_power_annie_rows.loc[:, "damage"] = star_power_annie_rows.loc[:, "damage"].where(
-        # List of bools from list of re.match | none
-        Series(not bool(match) for match in star_damage),  # Group 1 and 4 from the regex search
         Series(
-            "".join(match.groups()) if match.groups() else match.string for match in star_damage), )
-    star_power_annie_rows.loc[:, "move_name"] = star_power_annie_rows.loc[:, "move_name"].apply(
-        lambda name: name + "_STAR_POWER")
+            not bool(match) for match in star_damage
+        ),  # Group 1 and 4 from the regex search
+        Series(
+            match.group(1) + match.group(4)
+            if match and match.groups().__len__() > 3  # check null again
+            else match.group(1)
+            if match and match.groups().__len__() > 0
+            else match.string
+            for match in star_damage
+        ),
+    )
+    original_annie_rows.loc[:, "on_block"] = original_annie_rows.loc[
+                                             :, "on_block"
+                                             ].where(
+        # Just group 1 this time
+        Series((not bool(match)) for match in star_on_block),
+        Series(
+            match.group(1) if match.groups().__len__() > 0 else match.string
+            for match in star_on_block
+        ),
+    )
+    star_power_annie_rows.loc[:, "on_block"] = star_power_annie_rows.loc[
+                                               :, "on_block"
+                                               ].where(
+        Series((not bool(match)) for match in star_on_block),
+        Series(
+            match.group(3) if match.groups().__len__() > 2 else match.string
+            for match in star_on_block
+        ),
+    )
+
+    star_power_annie_rows.loc[:, "damage"] = star_power_annie_rows.loc[
+                                             :, "damage"
+                                             ].where(
+        # List of bools from list of re.match | none
+        Series(
+            not bool(match) for match in star_damage
+        ),  # Group 1 and 4 from the regex search
+        Series(
+            "".join(match.groups()) if match.groups() else match.string
+            for match in star_damage
+        ),
+    )
+    star_power_annie_rows.loc[:, "move_name"] = star_power_annie_rows.loc[
+                                                :, "move_name"
+                                                ].apply(lambda name: name + "_STAR_POWER")
 
     # Re-index the original_annie_rows and star_power_annie_rows
     original_annie_rows = original_annie_rows.reset_index(drop=True)
     star_power_annie_rows = star_power_annie_rows.reset_index(drop=True)
 
     # Interleave the two dataframes
-    combined_annie: DataFrame = pd.concat([original_annie_rows, star_power_annie_rows]).sort_index()
+    combined_annie: DataFrame = pd.concat(
+        [original_annie_rows, star_power_annie_rows]
+    ).sort_index()
     # Remove the original rows from frame_data
     log.debug(
-        f"star_power_annie_rows:\n {combined_annie.loc[:, ['move_name', 'damage', 'on_block']]}")
+        f"star_power_annie_rows:\n {combined_annie.loc[:, ['move_name', 'damage', 'on_block']]}"
+    )
 
     frame_data = frame_data.drop(original_annie_rows.index)
     # Add the combined_annie to the frame_data
@@ -202,15 +246,25 @@ def format_column_headings(df: DataFrame) -> DataFrame:
 
 
 def capitalise_names(name: str) -> str:
-    return (" ".join([word.capitalize() for word in name.split(" ")]) if pd.notnull(name) else name)
+    return (
+        " ".join([word.capitalize() for word in name.split(" ")])
+        if pd.notnull(name)
+        else name
+    )
 
 
 # ==================== #
-def main() -> None:
+def main():
     log.info("========== Starting skug_stats ==========")
+    log.info("Loading csvs into dataframes")
+    log.info(f"Currect working directory: {os.getcwd()}")
     # Open csvs and load into dataframes
-    characters_df: DataFrame = format_column_headings(pd.read_csv(fm.CHARACTER_DATA_PATH))
-    frame_data: DataFrame = format_column_headings(pd.read_csv(fm.FRAME_DATA_PATH).convert_dtypes())
+    characters_df: DataFrame = format_column_headings(
+        pd.read_csv(fm.CHARACTER_DATA_PATH)
+    )
+    frame_data: DataFrame = format_column_headings(
+        pd.read_csv(fm.FRAME_DATA_PATH).convert_dtypes()
+    )
     log.info("Loaded csvs into dataframes")
 
     characters_df["character"] = characters_df["character"].apply(capitalise_names)
@@ -224,8 +278,15 @@ def main() -> None:
     log.info("Created character and move objects")
 
     # export to csv
-    frame_data.to_csv("output.csv", index=False)
-    log.info("Exported to csv")
+    try:
+        frame_data.to_csv("output.csv", index=False)
+    except PermissionError:
+        log.error("Could not export to csv, ensure output.csv is not open")
+    else:
+        log.info("Exported to csv")
+
+    log.info("========== Finished skug_stats ==========")
+    return 0
 
 
 if __name__ == "__main__":

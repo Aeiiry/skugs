@@ -10,7 +10,7 @@
          "request": "launch",
          "justMyCode": true,
          "cwd": "${fileDirname}",
-         "program": "${file}",
+         "program": "${file}"
       },
       {
          "name": "Python: Current File, justMyCode disabled",
@@ -18,7 +18,7 @@
          "request": "launch",
          "justMyCode": false,
          "cwd": "${fileDirname}",
-         "program": "${file}",
+         "program": "${file}"
       }
    ]
 }
