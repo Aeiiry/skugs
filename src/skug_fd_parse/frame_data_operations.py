@@ -9,7 +9,6 @@ from pandas import Index
 from pandas.core.frame import DataFrame
 from pandas.core.series import Series
 
-
 import skug_fd_parse.constants as const
 import skug_fd_parse.file_management as fm
 from skug_fd_parse.skug_logger import log
@@ -51,14 +50,14 @@ def expand_x_n(match: re.Match[str]) -> str:
     else:
         expanded_damage = ",".join([damage] * num)
     return (
-        match.string[: match.start()] + expanded_damage + match.string[match.end() :]
+        match.string[: match.start()] + expanded_damage + match.string[match.end():]
         if match.end()
         else match.string[: match.start()] + expanded_damage
     )
 
 
 def apply_to_columns(
-    df: DataFrame, func: Callable, columns: list[str] | None = None
+        df: DataFrame, func: Callable, columns: list[str] | None = None
 ) -> DataFrame:
     sliced_df: DataFrame = df if columns is None else df.loc[:, columns]
     func_columns: Index | list[str] = df.columns if columns is None else columns
@@ -102,7 +101,7 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
 
 def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     frame_data["chip_damage"] = frame_data["damage"].apply(
-        lambda d: d[d.find("(") + 1 : d.find(")")] if isinstance(d, str) else d
+        lambda d: d[d.find("(") + 1: d.find(")")] if isinstance(d, str) else d
     )
     function_column_dict: dict[Callable, List[str]] = {
         lambda d: d[: d.find("(")] if isinstance(d, str) else d: ["damage"],
@@ -118,7 +117,7 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
 
 
 def add_new_columns(
-    frame_data: DataFrame, new_columns: dict[str, str], offset=1
+        frame_data: DataFrame, new_columns: dict[str, str], offset=1
 ) -> DataFrame:
     for reference_column, new_column in new_columns.items():
         frame_data_columns: list[str] = frame_data.columns.tolist()
@@ -137,11 +136,11 @@ def add_new_columns(
 def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     star_power_annie_rows: DataFrame = frame_data[
         (
-            frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x)
-            | frame_data["on_block"].apply(lambda x: isinstance(x, str) and "[" in x)
+                frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x)
+                | frame_data["on_block"].apply(lambda x: isinstance(x, str) and "[" in x)
         )
         & (frame_data["character"] == "Annie")
-    ]  # type: ignore
+        ]  # type: ignore
 
     original_annie_rows: DataFrame = star_power_annie_rows.copy()
     row: Series[Any]
@@ -166,8 +165,8 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
         ),
     )
     original_annie_rows.loc[:, "on_block"] = original_annie_rows.loc[
-        :, "on_block"
-    ].where(
+                                             :, "on_block"
+                                             ].where(
         Series((not bool(match)) for match in star_on_block),
         Series(
             match.group(1) if match.groups().__len__() > 0 else match.string
@@ -175,8 +174,8 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
         ),
     )
     star_power_annie_rows.loc[:, "on_block"] = star_power_annie_rows.loc[
-        :, "on_block"
-    ].where(
+                                               :, "on_block"
+                                               ].where(
         Series((not bool(match)) for match in star_on_block),
         Series(
             match.group(3) if match.groups().__len__() > 2 else match.string
@@ -185,8 +184,8 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     )
 
     star_power_annie_rows.loc[:, "damage"] = star_power_annie_rows.loc[
-        :, "damage"
-    ].where(
+                                             :, "damage"
+                                             ].where(
         Series(not bool(match) for match in star_damage),
         Series(
             "".join(match.groups()) if match.groups() else match.string
@@ -194,8 +193,8 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
         ),
     )
     star_power_annie_rows.loc[:, "move_name"] = star_power_annie_rows.loc[
-        :, "move_name"
-    ].apply(lambda name: name + "_STAR_POWER")
+                                                :, "move_name"
+                                                ].apply(lambda name: name + "_STAR_POWER")
 
     original_annie_rows = original_annie_rows.reset_index(drop=True)
     star_power_annie_rows = star_power_annie_rows.reset_index(drop=True)
