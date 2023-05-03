@@ -1,18 +1,10 @@
 import os
 from typing import Literal
 
-DATA_FOLDER: Literal["data"] = "data"
-MODULE_FOLDER = "skug_fd_parse"  # === WE ARE HERE ===
-
-TOP_LEVEL_FOLDER: Literal["skugs"] = "skugs"
-
-# Search for the top module folder
-# Only search 10 levels up or down
-
-FILE_PATH: str = os.path.abspath(__file__)
-MODULE_FOLDER_PATH: str = os.path.dirname(FILE_PATH)
-DATA_PATH: str = os.path.join(MODULE_FOLDER_PATH, r"..\..", DATA_FOLDER)
-
+SRC_NAME = "src"
+DATA_NAME = "data"
+MODULE_NAME: Literal["skug_fd_parse"] = __name__.split(".")[0]
+DATA_PATH: str = os.path.join(os.getcwd(), SRC_NAME,MODULE_NAME, DATA_NAME)
 
 CSV_PATH: str = os.path.join(DATA_PATH, "csvs")
 

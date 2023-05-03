@@ -7,9 +7,5 @@ py/*.prof
 /mypy.ini
 /.pylintrc
 .idea/
-/src/skug_fd_parse/stats.prof
-/skullgirls_frame_data_parse.egg-info/dependency_links.txt
-/skullgirls_frame_data_parse.egg-info/PKG-INFO
-/skullgirls_frame_data_parse.egg-info/requires.txt
-/skullgirls_frame_data_parse.egg-info/SOURCES.txt
-/skullgirls_frame_data_parse.egg-info/top_level.txt
+*.egg-info
+*.egg-info*

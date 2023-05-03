@@ -1,11 +1,8 @@
-pandas
+pandas>=2.0.0
 
-[for_testing]
-pytest>=5.0
-pytest-cov>=2.7
-mypy>=0.730
-black>=19.3b0
-flake8>=3.7
-isort>=4.3
-pre-commit>=1.17
-tox>=3.13
+[tests]
+pytest
+pytest-cov
+mypy
+flake8
+tox

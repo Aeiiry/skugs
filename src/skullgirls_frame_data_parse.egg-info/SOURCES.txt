@@ -16,3 +16,4 @@ src/skullgirls_frame_data_parse.egg-info/dependency_links.txt
 src/skullgirls_frame_data_parse.egg-info/not-zip-safe
 src/skullgirls_frame_data_parse.egg-info/requires.txt
 src/skullgirls_frame_data_parse.egg-info/top_level.txt
+tests/test_frame_data_operations.py
