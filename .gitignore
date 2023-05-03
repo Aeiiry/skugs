@@ -9,3 +9,7 @@ py/*.prof
 .idea/
 *.egg-info
 *.egg-info*
+build/*
+.coverage
+coverage.xml
+.tox/*
