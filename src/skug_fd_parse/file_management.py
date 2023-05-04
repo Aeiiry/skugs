@@ -3,7 +3,7 @@ from typing import Literal
 
 SRC_NAME = "src"
 DATA_NAME = "data"
-MODULE_NAME: Literal["skug_fd_parse"] = __name__.split(".")[0]
+MODULE_NAME: str = __name__.split(".")[0]
 DATA_PATH: str = os.path.join(os.getcwd(), SRC_NAME, MODULE_NAME, DATA_NAME)
 
 CSV_PATH: str = os.path.join(DATA_PATH, "csvs")
