@@ -1,8 +1,0 @@
-pandas>=2.0.0
-
-[tests]
-pytest
-pytest-cov
-mypy
-flake8
-tox

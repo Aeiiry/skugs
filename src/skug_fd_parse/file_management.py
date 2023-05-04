@@ -1,5 +1,4 @@
 import os
-from typing import Literal
 
 SRC_NAME = "src"
 DATA_NAME = "data"

@@ -55,9 +55,10 @@ def expand_x_n(match: re.Match[str]) -> str:
         else match.string[: match.start()] + expanded_damage
     )
 
+
 # bleh
 def apply_to_columns(
-    df: DataFrame, func: Callable, columns: list[str] | None = None
+    df: DataFrame, func: Callable, columns: list[str] | None = None  # type: ignore
 ) -> DataFrame:
     # check if column is in df
     if columns is not None:
@@ -95,8 +96,7 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     if "alt_names" in columns_to_remove_chars:
         columns_to_remove_chars.remove("alt_names")
 
-
-    function_column_dict: dict[Callable, list[str]] = {
+    function_column_dict: dict[Callable, list[str]] = {  # type: ignore
         lambda x: const.RE_CHARACTERS_TO_REMOVE.sub("", x): columns_to_remove_chars,
         lambda x: x.split("\n"): ["alt_names"],
         separate_damage: ["properties"],
@@ -112,7 +112,7 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     frame_data["chip_damage"] = frame_data["damage"].apply(
         lambda d: d[d.find("(") + 1 : d.find(")")] if isinstance(d, str) else d
     )
-    function_column_dict: dict[Callable, List[str]] = {
+    function_column_dict: dict[Callable, List[str]] = {  # type: ignore
         lambda d: d[: d.find("(")] if isinstance(d, str) else d: ["damage"],
         lambda x: [
             int(d.strip()) if d.strip().isnumeric() else d
@@ -125,9 +125,7 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     return frame_data
 
 
-def add_new_columns(
-    frame_data: DataFrame, new_columns: dict[str, str], offset=1
-) -> DataFrame:
+def add_new_columns(frame_data: DataFrame, new_columns, offset=1) -> DataFrame:
     for reference_column, new_column in new_columns.items():
         frame_data_columns: list[str] = frame_data.columns.tolist()
 
@@ -142,7 +140,7 @@ def add_new_columns(
     return frame_data
 
 
-def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
+def separate_annie_stars(frame_data: DataFrame):
     star_power_annie_rows: DataFrame = frame_data[
         (
             frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x)

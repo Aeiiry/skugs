@@ -19,3 +19,7 @@ warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
+follow_imports_for_stubs = true
+show_error_context = true
+hide_error_codes = false
+pretty = true
