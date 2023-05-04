@@ -3,7 +3,8 @@ import os
 SRC_NAME = "src"
 DATA_NAME = "data"
 MODULE_NAME: str = __name__.split(".")[0]
-DATA_PATH: str = os.path.join(os.getcwd(), SRC_NAME, MODULE_NAME, DATA_NAME)
+MODULE_PATH: str = os.path.join(os.getcwd(), SRC_NAME, MODULE_NAME)
+DATA_PATH: str = os.path.join(MODULE_PATH, DATA_NAME)
 
 CSV_PATH: str = os.path.join(DATA_PATH, "csvs")
 

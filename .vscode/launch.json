@@ -5,19 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "frame_data_operations",
+      "type": "python",
+      "request": "launch",
+      "program": "src\\skug_fd_parse\\frame_data_operations.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
       "name": "Python: Current File",
       "type": "python",
       "request": "launch",
       "justMyCode": true,
-      "cwd": "${fileDirname}",
-      "program": "${file}"
-    },
-    {
-      "name": "Python: Current File, justMyCode disabled",
-      "type": "python",
-      "request": "launch",
-      "justMyCode": false,
-      "cwd": "${fileDirname}",
       "program": "${file}"
     }
   ]

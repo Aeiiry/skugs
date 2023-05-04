@@ -69,6 +69,9 @@ ANNIE_DIVEKICK: str = "RE ENTRY"
 
 HATRED_INSTALL: str = "(during hi)"
 
+LOG_FILE_SUFFIX = "skugLog"
+LOG_FOLEDER_NAME = "logs"
+LOG_FILE_EXT = ".log"
 LOG_LEVEL_CONSOLE: int = logging.INFO
 LOG_LEVEL_FILE: int = logging.DEBUG
 

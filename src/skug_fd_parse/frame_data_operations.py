@@ -15,19 +15,23 @@ from skug_fd_parse.skug_logger import log
 
 
 def attempt_to_int(value: str | int) -> str | int:
+    log.debug(f"Attempting to convert {value} to int")
     return int(value) if isinstance(value, str) and value.isnumeric() else value
 
 
 def remove_spaces(string: str) -> str:
+    log.debug(f"Removing spaces from {string}")
     return string.replace(" ", "") if isinstance(string, str) else string
 
 
-def separate_damage(string: str) -> List[str]:
+def split_on_comma_remove_spaces(string: str) -> List[str]:
+    log.debug(f"Splitting {string} on comma and removing spaces")
     string = remove_spaces(string)
     return string.split(",")
 
 
 def expand_all_x_n(damage: str) -> str:
+    log.debug(f"Expanding all x_n in {damage}")
     if isinstance(damage, str):
         while True:
             if x_n_match := const.RE_X_N.search(damage):
@@ -99,7 +103,7 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     function_column_dict: dict[Callable, list[str]] = {  # type: ignore
         lambda x: const.RE_CHARACTERS_TO_REMOVE.sub("", x): columns_to_remove_chars,
         lambda x: x.split("\n"): ["alt_names"],
-        separate_damage: ["properties"],
+        split_on_comma_remove_spaces: ["properties"],
         expand_all_x_n: ["damage", "meter"],
     }
     for func, columns in function_column_dict.items():
@@ -242,10 +246,12 @@ def main():
     log.info(f"Currect working directory: {os.getcwd()}")
 
     with open(fm.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
-        characters_df = format_column_headings(pd.read_csv(characters_file))
+        characters_df = format_column_headings(
+            pd.read_csv(characters_file, encoding="utf8")
+        )
 
     with open(fm.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
-        frame_data = format_column_headings(pd.read_csv(frame_file).convert_dtypes())
+        frame_data = format_column_headings(pd.read_csv(frame_file, encoding="utf8"))
 
     log.info("Loaded csvs into dataframes")
 
