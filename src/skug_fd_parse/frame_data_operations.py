@@ -55,7 +55,7 @@ def expand_x_n(match: re.Match[str]) -> str:
         else match.string[: match.start()] + expanded_damage
     )
 
-
+# bleh
 def apply_to_columns(
     df: DataFrame, func: Callable, columns: list[str] | None = None
 ) -> DataFrame:
