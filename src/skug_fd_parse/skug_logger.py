@@ -1,8 +1,8 @@
-import os, re, logging, sys
+import logging
+import os
+import sys
+
 from skug_fd_parse import constants as const
-
-
-
 
 
 def init_logger() -> logging.Logger:
@@ -13,7 +13,7 @@ def init_logger() -> logging.Logger:
     :return: logging.Logger object
     """
     # Get the path to the parent directory of the module
-    log_folder_path: str = os.path.join(os.path.dirname(__file__), "logs")
+    os.path.join(os.path.dirname(__file__), "logs")
     log_file_name: str = "skug_fd_parse"
 
 
@@ -26,7 +26,7 @@ def init_logger() -> logging.Logger:
     )
     file_handler.setLevel(logging.DEBUG)
 
-    log_format: str = "%(asctime)s [%(relativeCreated)dms] %(module)s[%(lineno)s]| %(levelname)s: %(message)s"
+    log_format: str = "%(asctime)s [%(relativeCreated)dms] %(module)s[%(lineno)s] - %(levelname)s - %(message)s"
     date_format: str = "%H:%M:%S"
     formatter: logging.Formatter = logging.Formatter(log_format, date_format)
 

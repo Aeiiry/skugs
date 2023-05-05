@@ -1,7 +1,7 @@
 """Skug combo constants."""
 import logging
 import re
-from typing import Any, Literal
+from typing import Literal, Type
 
 # flake8: noqa: E501
 
@@ -81,7 +81,7 @@ RE_X_N: re.Pattern[str] = re.compile(r"(\d+\s?)([x*]\s?)(\d+)")
 RE_BRACKETS_X_N: re.Pattern[str] = re.compile(r"(\[[\d,\s]*?]\s?)([x*])(\d+)")
 RE_ANY: re.Pattern[str] = re.compile(r".*")
 
-CHARACTERS_TO_REMOVE: list[str] = ["+", "\n", "±", "%"]
+CHARACTERS_TO_REMOVE: list[str] = ["+", "\n", "±"]
 # Put the list of characters to remove in the regex below in a character class ([]), escaping any special characters
 RE_CHARACTERS_TO_REMOVE: re.Pattern[str] = re.compile(
     r"[" + re.escape("".join(CHARACTERS_TO_REMOVE)) + r"]"
@@ -119,27 +119,28 @@ MOVE_CATEGORIES = {
     "taunt": "TAUNT",
     "assist_recovery": "ASSIST RECOVERY",
 }
-
-MOVE_PROPERTY_IDEAL_TYPES: dict[str, Any] = {
-    "character": str,
-    "name": str,
-    "alt_names": list,
-    "guard": str,
-    "properties": str,
-    "on_hit": int,
-    "on_block": int,
-    "startup": int,
-    "active": int,
-    "recovery": int,
-    "hitstun": int,
-    "blockstun": int,
-    "hitstop": int,
-    "meter_gain_loss": int,
-    "notes": str,
-    "hits_str": str,
-    "hits": list,
-    "hits_alt": dict,
-    "category": str,
+MOVE_PROPERTY_IDEAL_TYPES: dict[str, list[Type]] = {  # type: ignore
+    "character": [str],
+    "name": [str],
+    "alt_names": [list[str]],
+    "guard": [str, list[str]],
+    "properties": [str, list[str]],
+    "damage": [list[int]],
+    "chip_damage": [list[int]],
+    "on_hit": [int],
+    "on_block": [int],
+    "startup": [int],
+    "active": [int],
+    "recovery": [int],
+    "hitstun": [int],
+    "blockstun": [int],
+    "hitstop": [int],
+    "meter_gain_loss": [int],
+    "notes": [str],
+    "hits_str": [str],
+    "hits": [list],
+    "hits_alt": [dict],
+    "category": [str],
 }
 
 FRAME_VALUE_FIELDS = [

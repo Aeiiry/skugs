@@ -15,6 +15,5 @@ coverage.xml
 .tox/*
 stats.prof
 .vs
-stats.prof
 src/skullgirls_frame_data_parse.egg-info
-stats.prof
+skug_fd_parse.log
