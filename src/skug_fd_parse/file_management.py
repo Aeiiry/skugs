@@ -3,7 +3,13 @@ import os
 SRC_NAME = "src"
 DATA_NAME = "data"
 MODULE_NAME: str = __name__.split(".")[0]
-MODULE_PATH: str = os.path.join(os.getcwd(), SRC_NAME, MODULE_NAME)
+
+
+# change dir to current file's directory
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+
+MODULE_PATH: str = os.getcwd()
 DATA_PATH: str = os.path.join(MODULE_PATH, DATA_NAME)
 
 CSV_PATH: str = os.path.join(DATA_PATH, "csvs")

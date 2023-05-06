@@ -10,6 +10,7 @@ from typing import Any, Literal
 import pandas as pd
 import strictly_typed_pandas
 from strictly_typed_pandas.dataset import DataSet
+from tabulate import tabulate
 
 import skug_fd_parse.constants as const
 import skug_fd_parse.file_management as fm
@@ -63,16 +64,17 @@ def split_on_char(string: str, char: str, strip: bool = True) -> list[str]:
 
 
 def expand_all_x_n(damage: Any) -> Any:
+    original_damage = damage
     if isinstance(damage, str):
         while True:
             if x_n_match := const.RE_X_N.search(damage):
-                log.debug(f"Expanding all x_n in '{damage}'")
                 damage = expand_x_n(x_n_match)
             elif x_n_brackets_matches := const.RE_BRACKETS_X_N.search(damage):
-                log.debug(f"Expanding all x_n in '{damage}'")
                 damage = expand_x_n(x_n_brackets_matches)
             else:
                 break
+    if damage != original_damage and pd.notna(damage):
+        log.debug(f"Expanded [{original_damage}] to [{damage}]")
     return damage
 
 
@@ -104,7 +106,7 @@ def expand_x_n(match: re.Match[str]) -> str:
 def separate_meter(frame_data: pd.DataFrame) -> pd.DataFrame:
     """Separate meter into on_hit and on_whiff"""
     fd_meter = frame_data.loc[:, "meter"]
-    fd_meter_old = fd_meter.copy()
+    # fd_meter_old = fd_meter.copy()
 
     on_hit, on_whiff = zip(*fd_meter.apply(split_meter))
     # on_hit and on_whiff are tuples, convert to lists
@@ -333,6 +335,8 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
     Returns:
         A pd.DataFrame with a column for each row in the data
     """
+    # Locate all rows that have a star power, star power is annie exclusive and is in []
+    # These rows will have a damage and on_block value that is a list
     star_power_annie_rows: pd.DataFrame = frame_data[
         (
             frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x)
@@ -341,17 +345,25 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
         & (frame_data["character"] == "Annie")
     ]  # type: ignore
 
+    # log the rows that have star power, just move_name, damage and on_block
+    log.debug("////////// Rows that have star power //////////")
+    log.debug(f"\n{star_power_annie_rows[['move_name', 'damage', 'on_block']]}")
+
+    # Create a copy of the rows that have star power
     original_annie_rows: pd.DataFrame = star_power_annie_rows.copy()
-    row: pd.Series[Any]
+
     re_stars: re.Pattern[str] = const.RE_ANNIE_STARS
     re_any: re.Pattern[str] = const.RE_ANY
+
+    # Search for the star power in the damage and on_block columns, this will return a list of matches.
+    # re_any is there to avoid a type error when the value is not a string or not a match
     star_damage = original_annie_rows["damage"].apply(
         lambda x: re_stars.search(x) or re_any.search(x)  # type: ignore
     )
     star_on_block = original_annie_rows["on_block"].apply(
         lambda x: re_stars.search(x) or re_any.search(x)  # type: ignore
     )
-
+    # Replace the damage and on_block columns with the values before the star power
     original_annie_rows.loc[:, "damage"] = original_annie_rows.loc[:, "damage"].where(
         pd.Series(not bool(match) for match in star_damage),
         pd.Series(
@@ -372,6 +384,7 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
             for match in star_on_block
         ),
     )
+    # Same as above, but replace the values with the star power values
     star_power_annie_rows.loc[:, "on_block"] = star_power_annie_rows.loc[
         :, "on_block"
     ].where(
@@ -391,17 +404,28 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
             for match in star_damage
         ),
     )
+
+    # Modify the move name to include the star power for the star power rows
     star_power_annie_rows.loc[:, "move_name"] = star_power_annie_rows.loc[
         :, "move_name"
     ].apply(lambda name: name + "_STAR_POWER" if isinstance(name, str) else name)
 
+    # Reset the index of the original and star power rows
     original_annie_rows = original_annie_rows.reset_index(drop=True)
     star_power_annie_rows = star_power_annie_rows.reset_index(drop=True)
 
+    # logging
+    log.debug("////////// Separated star power rows //////////")
+    log.debug(f"\n{star_power_annie_rows[['move_name', 'damage', 'on_block']]}")
+    log.debug("////////// Separated original rows //////////")
+    log.debug(f"\n{original_annie_rows[['move_name', 'damage', 'on_block']]}")
+
+    # Combine the original and star power rows
     combined_annie: pd.DataFrame = pd.concat(
         [original_annie_rows, star_power_annie_rows]
     ).sort_index()
 
+    # Drop the original rows from the frame_data and replace them with the combined rows
     frame_data = frame_data.drop(original_annie_rows.index)
 
     frame_data = pd.concat([combined_annie, frame_data]).sort_index()
@@ -431,7 +455,6 @@ def capitalise_words(name: str) -> str:
     """
     Capitalise the first letter of each word in a string
     """
-    log.debug(f"Capitalising name {name}")
     return (
         " ".join([word.capitalize() for word in name.split(" ")])
         if pd.notnull(name)
@@ -470,11 +493,10 @@ def main() -> Literal[1, 0]:
     log.debug(f"Number of rows in frame_data: {frame_data.shape[0]}")
     log.debug(f"Number of columns in frame_data: {frame_data.shape[1]}")
 
-    # Value counts
-    log.debug("Value counts")
+    # Value counts for eachc column
     for column in frame_data.columns:
-        log.debug(f"Column: {column}")
-        log.debug(frame_data[column].value_counts())
+        log.debug(f"Value counts for column {column}:")
+        log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n")
 
     # Export as csv
     try:
@@ -487,7 +509,7 @@ def main() -> Literal[1, 0]:
     log.info("========== Finished skug_stats ==========")
     stats = pstats.Stats(pr)
     stats.dump_stats("skug_stats.prof")
-    stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats(25)
+    # stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats(25)
     return 0
 
 

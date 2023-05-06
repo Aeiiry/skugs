@@ -25,8 +25,9 @@ def init_logger() -> logging.Logger:
     )
     file_handler.setLevel(logging.DEBUG)
 
-    log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    formatter: logging.Formatter = logging.Formatter(log_format)
+    log_file_format = (
+        "[%(relativeCreated)d] - %(levelname)s - %(funcName)s - %(message)s")
+    formatter: logging.Formatter = logging.Formatter(log_file_format)
 
     console_handler.setFormatter(formatter)
     file_handler.setFormatter(formatter)
