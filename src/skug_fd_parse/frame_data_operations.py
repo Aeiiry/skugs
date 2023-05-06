@@ -6,6 +6,7 @@ import pstats
 import re
 from collections import abc
 from typing import Any, Literal
+import numpy as np
 
 import pandas as pd
 import strictly_typed_pandas
@@ -116,12 +117,12 @@ def separate_meter(frame_data: pd.DataFrame) -> pd.DataFrame:
     on_hit = [split_on_char(x, ",") if isinstance(x, str) else x for x in on_hit]
     on_whiff = [split_on_char(x, ",") if isinstance(x, str) else x for x in on_whiff]
     # Insert new columns into frame_data to the right of meter
-    frame_data.insert(frame_data.columns.get_loc("meter") + 1, "meter_on_hit", on_hit)
-    frame_data.insert(
-        frame_data.columns.get_loc("meter_on_hit") + 1, "meter_on_whiff", on_whiff
+    frame_data = add_new_columns_at_column(
+        frame_data, "meter", ["meter_on_hit", "meter_on_whiff"], copy_values=True
     )
-    # Drop old meter column
-    frame_data.drop(columns="meter", inplace=True)
+    # Assign on_hit and on_whiff to the new columns
+    frame_data["meter_on_hit"] = on_hit
+    frame_data["meter_on_whiff"] = on_whiff
 
     return frame_data
 
@@ -210,9 +211,6 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
             "meter_on_hit",
         ]
     ]
-    damage_meter_on_hit["difference"] = damage_meter_on_hit.apply(
-        lambda x: len(x["damage"]) - len(x["meter_on_hit"]), axis=1
-    )
 
     log.debug("Checking frame data types")
 
@@ -299,29 +297,66 @@ def separate_damage_chip_damage(frame_data: pd.DataFrame) -> pd.DataFrame:
     return frame_data
 
 
-def add_new_columns(
-    frame_data: pd.DataFrame, new_columns: dict[str, str], offset: int = 1
+def add_new_columns_at_column(
+    frame_data: pd.DataFrame,
+    old_columns: str | list[str],
+    new_columns: str | list[str],
+    offset: int = 1,
+    copy_values: bool = False,
 ) -> pd.DataFrame:
     """
-    Add new columns to a pd.DataFrame. This is a helper function to make it easier to use in conjunction with pd.DataFrame. reindex
+    Add new columns to a pd.DataFrame in place of old columns, leaving values in the old columns if any of the names match the new columns names
 
     Args:
         frame_data: pd.DataFrame to add new columns to
         new_columns: Dictionary of reference columns to add to
         offset: Offset to insert the new columns
+        copy_values: Copy values from old columns to new columns, if there are more new columns than old columns, the values will be copied to next empty column (1 old, 2 new -> 2 new with values from old in first column)
 
     Returns:
         pd.DataFrame with new columns added to its reference columns ( index
     """
-    log.debug(f"Adding new columns {new_columns} to pd.DataFrame")
-    for reference_column, new_column in new_columns.items():
-        frame_data_columns: list[str] = frame_data.columns.tolist()
+    if isinstance(old_columns, str):
+        old_columns_list: list[str] = [old_columns]
+    else:
+        old_columns_list = old_columns  # type: ignore
+    if isinstance(new_columns, str):
+        new_columns_list: list[str] = [new_columns]
+    else:
+        new_columns_list = new_columns  # type: ignore
 
-        old_index = frame_data_columns.index(reference_column)
-        frame_data_columns.insert(old_index + offset, new_column)
+    log.info(
+        f"Adding new {new_columns_list} to dataframe in place of {old_columns_list}"
+    )
+    log.info(f"Columns before adding new columns: {frame_data.columns.tolist()}")
 
-        frame_data = frame_data.reindex(columns=frame_data_columns, fill_value=None)
+    # Don't update old_columns if any of the new columns are in the old columns
+    # Otherwise, the old columns will be overwritten
 
+    new_columns_index: int = (
+        frame_data.columns.tolist().index(old_columns_list[-1]) + offset
+    )
+
+    # Insert the new columns at the last index of the old columns
+    # This is to ensure that the new columns are added after the old columns
+
+    for i, new_column in enumerate(new_columns_list):
+        log.debug(f"Adding new column {new_column} to dataframe")
+        if new_column not in old_columns_list:
+            # Copy values from old columns to new columns if copy_values is True and values exist in the old columns for the current index
+            new_column_values: pd.Series[Any] | float = (
+                frame_data[old_columns_list[i]]
+                if copy_values and i < len(old_columns_list)
+                else np.nan
+            )
+            frame_data.insert(new_columns_index, new_column, new_column_values)
+            new_columns_index += 1
+
+    for old_column in old_columns_list:
+        frame_data.drop(
+            columns=old_column, inplace=True
+        ) if old_column not in new_columns_list else None
+    log.debug(f"Columns after adding new columns: {frame_data.columns.tolist()}")
     return frame_data
 
 
@@ -483,9 +518,9 @@ def main() -> Literal[1, 0]:
     characters_df["character"] = characters_df["character"].apply(capitalise_words)
     frame_data["character"] = frame_data["character"].apply(capitalise_words)
 
-    new_columns_dict: dict[str, str] = {"damage": "chip_damage"}
-
-    frame_data = add_new_columns(frame_data, new_columns_dict)
+    frame_data = add_new_columns_at_column(
+        frame_data, "damage", ["damage", "chip_damage"]
+    )
 
     frame_data = clean_frame_data(frame_data)
 
