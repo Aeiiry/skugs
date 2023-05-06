@@ -27,7 +27,7 @@ class FrameDataSchema:
     properties: str
     damage: str
     chip_damage: str
-    meter: int
+    # meter: int
     on_hit: int
     on_block: int
     startup: int
@@ -40,37 +40,21 @@ class FrameDataSchema:
     footer: str
     thumbnail_url: str
     footer_url: str
+    meter_on_hit: float | int | None
+    meter_on_whiff: float | int | None
 
 
 def attempt_to_int(value: str | int) -> str | int:
-    """
-    Attempts to convert a string to an integer. If the string is numeric it is returned as - is.
-
-    Args:
-        value: The value to attempt to convert.
-
-    Returns:
-        The converted value or the original value if it couldn't be converted
-    """
     return int(value) if isinstance(value, str) and value.isnumeric() else value
 
 
 def remove_spaces(string: str) -> str:
-    """
-    Removes spaces from a string. This is useful for stripping spaces from text that is sent to Sphinx.
-
-    Args:
-        string: The string to remove spaces from. Can be a string or anything that can be converted to a string.
-
-    Returns:
-        The string with spaces removed or the original string if nothing was
-    """
     return string.replace(" ", "") if " " in string else string
 
 
-def split_on_char(string: str, char: str, strip: bool = True) -> str | list[str]:
+def split_on_char(string: str, char: str, strip: bool = True) -> list[str]:
     if char not in string:
-        return string
+        return [string]
     split_string: list[str] = string.split(char)
     if strip:
         split_string = [remove_spaces(x) for x in split_string]
@@ -78,16 +62,17 @@ def split_on_char(string: str, char: str, strip: bool = True) -> str | list[str]
     return split_string
 
 
-def expand_all_x_n(damage: str) -> str:
-    while True:
-        if x_n_match := const.RE_X_N.search(damage):
-            log.debug(f"Expanding all x_n in '{damage}'")
-            damage = expand_x_n(x_n_match)
-        elif x_n_brackets_matches := const.RE_BRACKETS_X_N.search(damage):
-            log.debug(f"Expanding all x_n in '{damage}'")
-            damage = expand_x_n(x_n_brackets_matches)
-        else:
-            break
+def expand_all_x_n(damage: Any) -> Any:
+    if isinstance(damage, str):
+        while True:
+            if x_n_match := const.RE_X_N.search(damage):
+                log.debug(f"Expanding all x_n in '{damage}'")
+                damage = expand_x_n(x_n_match)
+            elif x_n_brackets_matches := const.RE_BRACKETS_X_N.search(damage):
+                log.debug(f"Expanding all x_n in '{damage}'")
+                damage = expand_x_n(x_n_brackets_matches)
+            else:
+                break
     return damage
 
 
@@ -106,7 +91,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     if "[" in original_damage:
         damage = re.sub(r"[\[\]]", "", original_damage).replace(" ", "")
         expanded_list: list[str] = damage.split(",") * num
-        expanded_damage = ",".join(expanded_list)
+        expanded_damage: str = ",".join(expanded_list)
     else:
         expanded_damage = ",".join([damage] * num)
     return (
@@ -116,15 +101,48 @@ def expand_x_n(match: re.Match[str]) -> str:
     )
 
 
-def check_frame_data_types(df: pd.DataFrame) -> None:
+def separate_meter(frame_data: pd.DataFrame) -> pd.DataFrame:
+    """Separate meter into on_hit and on_whiff"""
+    fd_meter = frame_data.loc[:, "meter"]
+    fd_meter_old = fd_meter.copy()
 
-        try:
-            DataSet[FrameDataSchema](df)
-        except TypeError as e:
-            log.warning("Frame data types are incorrect")
-            log.warning(e)
-        else:
-            log.debug("Frame data types are correct")
+    on_hit, on_whiff = zip(*fd_meter.apply(split_meter))
+    # on_hit and on_whiff are tuples, convert to lists
+    on_hit = list(on_hit)
+    on_whiff = list(on_whiff)
+    # Split on_hit and on_whiff's values on commas if they are strings
+    on_hit = [split_on_char(x, ",") if isinstance(x, str) else x for x in on_hit]
+    on_whiff = [split_on_char(x, ",") if isinstance(x, str) else x for x in on_whiff]
+    # Insert new columns into frame_data to the right of meter
+    frame_data.insert(frame_data.columns.get_loc("meter") + 1, "meter_on_hit", on_hit)
+    frame_data.insert(
+        frame_data.columns.get_loc("meter_on_hit") + 1, "meter_on_whiff", on_whiff
+    )
+    # Drop old meter column
+    frame_data.drop(columns="meter", inplace=True)
+
+    return frame_data
+
+
+def split_meter(meter: str) -> tuple[str | None, str | None]:
+    if isinstance(meter, str) and (search := const.RE_IN_PAREN.search(meter)):
+        on_whiff: str | Any = search.group(1)
+    else:
+        on_whiff = None
+    on_hit: str | None = (
+        meter.replace(f"({on_whiff})", "") if isinstance(meter, str) else None
+    )
+    return on_hit, on_whiff
+
+
+def check_frame_data_types(df: pd.DataFrame) -> None:
+    try:
+        DataSet[FrameDataSchema](df)
+    except TypeError as e:
+        log.warning("Frame data types are incorrect")
+        log.warning(e)
+    else:
+        log.debug("Frame data types are correct")
 
 
 def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
@@ -139,26 +157,62 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     log.debug("Cleaning frame data")
 
     log.debug("Initial string cleaning")
-
     frame_data = initial_string_cleaning(frame_data)
 
     log.debug("Separating Annie stars")
-
     frame_data = separate_annie_stars(frame_data)
 
     log.debug("Separating damage and chip damage")
-
     frame_data = separate_damage_chip_damage(frame_data)
 
-    log.debug("Converting negative numbers to int")
+    log.debug("Separating meter into on_hit and on_whiff")
+    frame_data = separate_meter(frame_data)
 
-    numberic_columns: list[str] = ["damage", "chip_damage", "meter"]
+    log.debug("Converting negative numbers to int")
+    numeric_columns: list[str] = [
+        "damage",
+        "chip_damage",
+        "meter_on_hit",
+        "meter_on_whiff",
+    ]
 
     frame_data = apply_to_columns(
         frame_data,
         lambda x: int(x) if isinstance(x, str) and "-" in x and x.isnumeric() else x,
-        numberic_columns,
+        numeric_columns,
     )
+
+    damage_meter_on_hit = frame_data.loc[
+        frame_data["damage"].apply(lambda x: isinstance(x, list))
+        & frame_data["meter_on_hit"].apply(lambda x: isinstance(x, list))
+        & frame_data["meter_on_hit"].apply(
+            lambda x: isinstance(x, list)
+            and (
+                False
+                not in [isinstance(d, str) and len(d) > 0 and d[0] != "-" for d in x]
+            )
+        )
+        & (~frame_data["move_name"].str.contains("STAR_POWER"))
+    ]
+
+    damage_meter_on_hit = damage_meter_on_hit.loc[
+        damage_meter_on_hit["damage"].apply(lambda x: len(x))
+        != damage_meter_on_hit["meter_on_hit"].apply(lambda x: len(x))
+    ]
+    # Drop all columns except move_name, character, damage, meter_on_hit, and append a column to display the difference
+    damage_meter_on_hit = damage_meter_on_hit[
+        [
+            "move_name",
+            "character",
+            "damage",
+            "meter_on_hit",
+        ]
+    ]
+    damage_meter_on_hit["difference"] = damage_meter_on_hit.apply(
+        lambda x: len(x["damage"]) - len(x["meter_on_hit"]), axis=1
+    )
+
+    log.debug("Checking frame data types")
 
     check_frame_data_types(frame_data)
 
@@ -178,21 +232,24 @@ def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
     columns_to_remove_chars: list[str] = frame_data.columns.tolist()
     if "alt_names" in columns_to_remove_chars:
         columns_to_remove_chars.remove("alt_names")
-        columns_to_remove_chars.remove("footer")
         columns_to_remove_chars.remove("damage")
         columns_to_remove_chars.remove("chip_damage")
 
     function_column_dict: dict[abc.Callable, list[str]] = {  # type: ignore
-        lambda x: x.split("-"): ["footer"],
         lambda x: const.RE_CHARACTERS_TO_REMOVE.sub("", x)
         if isinstance(x, str)
         else x: columns_to_remove_chars,
-        lambda x: x.split("\n"): ["alt_names"],
-        lambda x: split_on_char(x, "- ", False): ["properties"],
+        lambda x: x.replace("%", "") if isinstance(x, str) else x: ["meter"],
+        lambda x: x.split("\n") if isinstance(x, str) else x: ["alt_names"],
+        lambda x: split_on_char(x, "- ", False)[1:]
+        if isinstance(x, str)
+        else x: ["footer"],
         expand_all_x_n: ["damage", "meter"],
     }
     for func, columns in function_column_dict.items():
         frame_data = apply_to_columns(frame_data, func, columns)
+
+    # find if there are any lists in the damage column that are not equal in length to the meter_on_hit column for that row
 
     return frame_data
 
@@ -207,14 +264,28 @@ def separate_damage_chip_damage(frame_data: pd.DataFrame) -> pd.DataFrame:
     Returns:
         New dataframe with chip_damage column seper
     """
-    frame_data["chip_damage"] = frame_data["damage"].apply(
-        lambda d: d[d.find("(") + 1 : d.find(")")] if isinstance(d, str) else d
+    # Create a new column for chip damage
+    # If the damage column is a string, get the value between the parentheses, this is the chip damage
+
+    # apply the function to the 'damage' column and assign the result to a new 'chip_damage' column
+    frame_data["chip_damage"] = (
+        frame_data["damage"]
+        .where(frame_data["damage"].apply(lambda x: isinstance(x, str) and "(" in x))
+        .apply(lambda x: x[x.find("(") + 1 : x.find(")")] if isinstance(x, str) else x)
     )
+
+    # Create a dictionary of functions to apply to the damage and chip_damage columns
     function_column_dict: dict[abc.Callable, list[str]] = {  # type: ignore
-        lambda d: d[: d.find("(")] if isinstance(d, str) else d: ["damage"],
+        # Similar to above, but replace the value with the value before the parentheses
+        lambda d: d[: d.find("(")]
+        if isinstance(d, str) and "(" in d
+        else d: ["damage"],
+        # Split the value by commas, and convert each value to an integer if possible
         lambda x: [
             int(d.strip()) if d.strip().isnumeric() else d for d in (x.split(","))
-        ]: ["damage", "chip_damage"],
+        ]
+        if isinstance(x, str)
+        else x: ["damage", "chip_damage"],
     }
     for func, columns in function_column_dict.items():
         frame_data = apply_to_columns(frame_data, func, columns)
@@ -272,8 +343,8 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
 
     original_annie_rows: pd.DataFrame = star_power_annie_rows.copy()
     row: pd.Series[Any]
-    re_stars = const.RE_ANNIE_STARS
-    re_any = const.RE_ANY
+    re_stars: re.Pattern[str] = const.RE_ANNIE_STARS
+    re_any: re.Pattern[str] = const.RE_ANY
     star_damage = original_annie_rows["damage"].apply(
         lambda x: re_stars.search(x) or re_any.search(x)  # type: ignore
     )
@@ -393,9 +464,6 @@ def main() -> Literal[1, 0]:
 
     frame_data = add_new_columns(frame_data, new_columns_dict)
 
-    # convert columns to string
-    frame_data = frame_data.astype(str).fillna("-")
-
     frame_data = clean_frame_data(frame_data)
 
     # Get some stats about the data
@@ -417,14 +485,12 @@ def main() -> Literal[1, 0]:
     else:
         log.info("Exported to csv")
     log.info("========== Finished skug_stats ==========")
-    profiler.dump_stats("stats.prof")
-    stats = pstats.Stats(profiler)
-
-    stats.sort_stats("tottime").print_stats(10)
-    stats.sort_stats("cumtime").print_stats(10)
+    stats = pstats.Stats(pr)
+    stats.dump_stats("skug_stats.prof")
+    stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats(25)
     return 0
 
 
 if __name__ == "__main__":
-    with cProfile.Profile() as profiler:
+    with cProfile.Profile() as pr:
         main()

@@ -77,7 +77,7 @@ LOG_LEVEL_FILE: int = logging.DEBUG
 
 RE_IN_BRACKETS: re.Pattern[str] = re.compile(r"\[[^\[]*]")
 RE_IN_PAREN: re.Pattern[str] = re.compile(r"\((.*?)\)")
-RE_X_N: re.Pattern[str] = re.compile(r"(\d+\s?)([x*]\s?)(\d+)")
+RE_X_N: re.Pattern[str] = re.compile(r"(\d*?\.?\d+\s?)([x*]\s?)(\d+)")
 RE_BRACKETS_X_N: re.Pattern[str] = re.compile(r"(\[[\d,\s]*?]\s?)([x*])(\d+)")
 RE_ANY: re.Pattern[str] = re.compile(r".*")
 

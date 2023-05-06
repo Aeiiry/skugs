@@ -16,7 +16,6 @@ def init_logger() -> logging.Logger:
     os.path.join(os.path.dirname(__file__), "logs")
     log_file_name: str = "skug_fd_parse"
 
-
     # Create console and file handlers
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
@@ -26,9 +25,8 @@ def init_logger() -> logging.Logger:
     )
     file_handler.setLevel(logging.DEBUG)
 
-    log_format: str = "%(asctime)s [%(relativeCreated)dms] %(module)s[%(lineno)s] - %(levelname)s - %(message)s"
-    date_format: str = "%H:%M:%S"
-    formatter: logging.Formatter = logging.Formatter(log_format, date_format)
+    log_format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    formatter: logging.Formatter = logging.Formatter(log_format)
 
     console_handler.setFormatter(formatter)
     file_handler.setFormatter(formatter)

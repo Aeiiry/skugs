@@ -17,3 +17,4 @@ stats.prof
 .vs
 src/skullgirls_frame_data_parse.egg-info
 skug_fd_parse.log
+skug_stats.prof
