@@ -6,12 +6,10 @@ import pstats
 import re
 from collections import abc
 from typing import Any, Literal
-import numpy as np
 
+import numpy as np
 import pandas as pd
-import strictly_typed_pandas
 from strictly_typed_pandas.dataset import DataSet
-from tabulate import tabulate
 
 import skug_fd_parse.constants as const
 import skug_fd_parse.file_management as fm
@@ -138,6 +136,27 @@ def split_meter(meter: str) -> tuple[str | None, str | None]:
     return on_hit, on_whiff
 
 
+def separate_on_hit(frame_data: pd.DataFrame) -> pd.DataFrame:
+    frame_data = add_new_columns_at_column(
+        frame_data, "on_hit", ["on_hit_advantage", "on_hit_effect"], copy_values=True
+    )
+    frame_data["on_hit_effect"] = frame_data["on_hit_advantage"].copy()
+    frame_data = apply_to_columns(
+        frame_data,
+        lambda x: x
+        if (isinstance(x, str) and x.isnumeric()) or isinstance(x, int)
+        else None,
+        ["on_hit_advantage"],
+    )
+    frame_data = apply_to_columns(
+        frame_data,
+        lambda x: x if isinstance(x, str) and not x.isnumeric() else None,
+        ["on_hit_effect"],
+    )
+
+    return frame_data
+
+
 def check_frame_data_types(df: pd.DataFrame) -> None:
     try:
         DataSet[FrameDataSchema](df)
@@ -177,15 +196,31 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
         "chip_damage",
         "meter_on_hit",
         "meter_on_whiff",
+        "on_hit",
+        "on_block",
+        "startup",
+        "active",
+        "recovery",
+        "hitstun",
+        "blockstun",
+        "hitstop",
+        "on_pushblock",
     ]
 
     frame_data = apply_to_columns(
         frame_data,
-        lambda x: int(x) if isinstance(x, str) and "-" in x and x.isnumeric() else x,
+        lambda x: int(x)
+        if isinstance(x, str)
+        and "-" in x[0]
+        and x.replace("-", "", 1).strip().isnumeric()
+        else x,
         numeric_columns,
     )
 
-    damage_meter_on_hit = frame_data.loc[
+    log.debug("Separating on_hit into on_hit_advantage and on_hit_effect")
+    frame_data = separate_on_hit(frame_data)
+
+    """     damage_meter_on_hit = frame_data.loc[
         frame_data["damage"].apply(lambda x: isinstance(x, list))
         & frame_data["meter_on_hit"].apply(lambda x: isinstance(x, list))
         & frame_data["meter_on_hit"].apply(
@@ -210,7 +245,7 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
             "damage",
             "meter_on_hit",
         ]
-    ]
+    ] """
 
     log.debug("Checking frame data types")
 
@@ -244,7 +279,14 @@ def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
         lambda x: split_on_char(x, "- ", False)[1:]
         if isinstance(x, str)
         else x: ["footer"],
-        expand_all_x_n: ["damage", "meter"],
+        expand_all_x_n: [
+            "damage",
+            "meter",
+            "hitstun",
+            "blockstun",
+            "hitstop",
+            "active",
+        ],
     }
     for func, columns in function_column_dict.items():
         frame_data = apply_to_columns(frame_data, func, columns)
@@ -309,7 +351,8 @@ def add_new_columns_at_column(
 
     Args:
         frame_data: pd.DataFrame to add new columns to
-        new_columns: Dictionary of reference columns to add to
+        old_columns: old columns to be used as reference for index and/or data
+        new_columns: names of new columns
         offset: Offset to insert the new columns
         copy_values: Copy values from old columns to new columns, if there are more new columns than old columns, the values will be copied to next empty column (1 old, 2 new -> 2 new with values from old in first column)
 
@@ -499,6 +542,7 @@ def capitalise_words(name: str) -> str:
 
 def main() -> Literal[1, 0]:
     """Main"""
+
     log.info("========== Starting skug_stats ==========")
     log.info("Loading csvs into dataframes")
     log.info(f"Currect working directory: {os.getcwd()}")
@@ -542,8 +586,7 @@ def main() -> Literal[1, 0]:
     else:
         log.info("Exported to csv")
     log.info("========== Finished skug_stats ==========")
-    stats = pstats.Stats(pr)
-    stats.dump_stats("skug_stats.prof")
+
     # stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats(25)
     return 0
 
@@ -551,3 +594,5 @@ def main() -> Literal[1, 0]:
 if __name__ == "__main__":
     with cProfile.Profile() as pr:
         main()
+    stats = pstats.Stats(pr)
+    stats.dump_stats("skug_stats.prof")

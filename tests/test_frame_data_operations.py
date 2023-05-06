@@ -1,3 +1,4 @@
+from typing import Any
 from skug_fd_parse import frame_data_operations as fdo
 
 from skug_fd_parse.frame_data_operations import (
@@ -5,13 +6,11 @@ from skug_fd_parse.frame_data_operations import (
 )
 
 
-def test_fdo_main():
-    # type: () -> None
+def test_fdo_main() -> Any:
     assert fdo.main() == 0
 
 
-def test_expand_all_x_n():
-    # type: () -> None
+def test_expand_all_x_n() -> Any:
     assert expand_all_x_n("1x2") == "1,1"
     assert expand_all_x_n("1x2,2x3") == "1,1,2,2,2"
     assert expand_all_x_n("1x2,2x3,3x4") == "1,1,2,2,2,3,3,3,3"
