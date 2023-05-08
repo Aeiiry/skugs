@@ -17,6 +17,22 @@ DAMAGE: Literal["Damage"] = "Damage"
 
 EXPECTED_DAMAGE: Literal["ExpectedDamage"] = "ExpectedDamage"
 
+NUMERIC_COLUMNS: list[str] = [
+    "damage",
+    "chip_damage",
+    "meter_on_hit",
+    "meter_on_whiff",
+    "on_hit",
+    "on_block",
+    "startup",
+    "active",
+    "recovery",
+    "hitstun",
+    "blockstun",
+    "hitstop",
+    "on_pushblock",
+]
+
 # Column names for combo data
 HIT_NUMBER: Literal["HitNumber"] = "HitNumber"
 DAMAGE_SCALING: Literal["DamageScaling"] = "DamageScaling"
@@ -87,8 +103,6 @@ RE_CHARACTERS_TO_REMOVE: re.Pattern[str] = re.compile(
     r"[" + re.escape("".join(CHARACTERS_TO_REMOVE)) + r"]"
 )
 
-RE_ANNIE_STARS: re.Pattern[str] = re.compile(r"(.*?)(,?)\s?\[(.*)](.*)")
-""" Group 1 and 4 are non-star values, Group 3 is star values"""
 
 RE_STR_BETWEEN_WHITESPACE: re.Pattern[str] = re.compile(r"^\s*(.*?)\s*$")
 
@@ -111,13 +125,13 @@ FD_COLUMNS_TO_MOVE_ATTR_DICT: dict[str, str] = {
     "hitstop": "hitstop",
 }
 
-MOVE_CATEGORIES = {
-    "tag": "TAG IN",
-    "snap": "SNAPBACK",
-    "throw": "THROW",
-    "air_throw": "AIR THROW",
-    "taunt": "TAUNT",
-    "assist_recovery": "ASSIST RECOVERY",
+UNIVERSAL_MOVE_CATEGORIES = {
+    "TAG IN": "tag",
+    "SNAPBACK": "snap",
+    "THROW": "throw",
+    "AIR THROW": "air_throw",
+    "TAUNT": "taunt",
+    "ASSIST RECOVERY": "assist_recovery",
 }
 MOVE_PROPERTY_IDEAL_TYPES: dict[str, list[Type]] = {  # type: ignore
     "character": [str],
