@@ -42,11 +42,14 @@ TOTAL_DAMAGE_FOR_MOVE: Literal["TotalDamageForMove"] = "TotalDamageForMove"
 TOTAL_DAMAGE_FOR_COMBO: Literal["TotalDamageForCombo"] = "TotalDamageForCombo"
 
 UNDIZZY_DICT: dict[str, int] = {
-    "Light": 15,
-    "Medium": 30,
-    "Heavy": 40,
-    "Special": 30,
-    "Throws+Supers": 0,
+    "LIGHT_NORMAL": 15,
+    "MEDIUM_NORMAL": 20,
+    "HEAVY_NORMAL": 30,
+    "SPECIAL_MOVE": 20,
+    "SUPER": 0,
+    "THROW": 0,
+    "AIR_THROW": 0,
+    "TAUNT": 0,
 }
 """Undizzy values for each hit type.
 """

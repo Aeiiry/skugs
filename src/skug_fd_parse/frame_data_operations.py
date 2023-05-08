@@ -152,13 +152,24 @@ def categorise_moves(df: pd.DataFrame) -> pd.DataFrame:
     df["move_category"] = df["move_name"].map(universal_move_categories)
 
     re_normal_move: re.Pattern[str] = re.compile(
-        r"^j?\.?\d?.?[lmh][pk]", flags=re.IGNORECASE
+        r"^j?\.?\d?.?([lmh])[pk]", flags=re.IGNORECASE
     )
     """ regex to find normal moves """
 
-    df.loc[
-        df["move_name"].apply(lambda x: bool(re_normal_move.search(x))), "move_category"
-    ] = "normal"
+    normal_strengths: dict[str, str] = {
+        "l": "LIGHT",
+        "m": "MEDIUM",
+        "h": "HEAVY",
+    }
+    # Normal moves are where move_name matches the regex and the move_category is None, we can use the regex to find the strength of the move by the first group
+
+    df.loc[:, "move_category"] = df.loc[:, "move_name"].apply(
+        lambda x: normal_strengths[search.group(1).lower()] + "_NORMAL"
+        if isinstance(x, str)
+        and (search := re_normal_move.search(x))
+        and search.groups().__len__() > 0
+        else np.nan
+    )
 
     # Supers are where meter_on_hit has length 1 and meter_on_hit[0] is  -100 or less
     df.loc[
@@ -170,12 +181,12 @@ def categorise_moves(df: pd.DataFrame) -> pd.DataFrame:
             and int(x[0]) <= -100
         ),
         "move_category",
-    ] = "super"
+    ] = "SUPER"
 
     # For now, assume everything else is a special
     # TODO: Add more special move categories for things like double's level 5 projectiles, annie taunt riposte etc
 
-    df.loc[df["move_category"].isna(), "move_category"] = "special"
+    df.loc[df["move_category"].isna(), "move_category"] = "SPECIAL_MOVE"
 
     return df
 
@@ -198,7 +209,15 @@ def insert_alt_name_aliases(frame_data: pd.DataFrame) -> pd.DataFrame:
     )
 
     return frame_data
+def add_undizzy_values(df: pd.DataFrame) -> pd.DataFrame:
+    """Add undizzy values to the dataframe"""
 
+    undizzy_dict: dict[str, int] = const.UNDIZZY_DICT
+
+    # Create a new column for undizzy values
+    df["undizzy"] = df["move_category"].map(undizzy_dict)
+
+    return df
 
 def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     """
@@ -231,6 +250,7 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     log.debug("Converting negative numbers to int")
     numeric_columns = const.NUMERIC_COLUMNS
 
+    log.debug("Converting numbers in strings to int")
     frame_data = apply_to_columns(
         frame_data,
         lambda x: int(x)
@@ -251,6 +271,8 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     log.debug("Separating on_hit into on_hit_advantage and on_hit_effect")
     frame_data = separate_on_hit(frame_data)
 
+
+    log.debug("Adding summed damage columns")
     frame_data["summed_damage"] = frame_data["damage"].apply(
         lambda x: sum(x)
         if isinstance(x, list) and all(isinstance(d, int) for d in x)
@@ -261,8 +283,12 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
         if isinstance(x, list) and all(isinstance(d, int) for d in x)
         else x
     )
+    
     log.debug("Categorising moves")
     frame_data = categorise_moves(frame_data)
+
+    log.debug("Adding undizzy values")
+    frame_data = add_undizzy_values(frame_data)
     return frame_data
 
 
