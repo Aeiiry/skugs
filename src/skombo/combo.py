@@ -7,8 +7,8 @@ from typing import Any
 
 import pandas as pd
 
-from skug_fd_parse import fd_clean as fdo
-from skug_fd_parse import sklog as sklog
+from skombo import fd_clean as fdo
+from skombo import sklog as sklog
 log = sklog.get_logger()
 
 global fd

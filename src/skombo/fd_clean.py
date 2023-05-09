@@ -12,9 +12,9 @@ from typing import Any, Literal
 import numpy as np
 import pandas as pd
 
-import skug_fd_parse.const as const
-import skug_fd_parse.file_man as fm
-from skug_fd_parse import sklog as sklog
+import skombo.const as const
+import skombo.file_man as fm
+from skombo import sklog as sklog
 log = sklog.get_logger()
 
 DataFrame = pd.DataFrame

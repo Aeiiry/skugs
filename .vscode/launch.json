@@ -8,7 +8,7 @@
       "name": "main",
       "type": "python",
       "request": "launch",
-      "program": "src\\skug_fd_parse\\main.py",
+      "program": "src\\skombo\\main.py",
       "console": "integratedTerminal",
       "justMyCode": true
     },

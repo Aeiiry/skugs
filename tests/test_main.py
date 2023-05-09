@@ -1,6 +1,6 @@
 from typing import Any
 
-from skug_fd_parse.fd_clean import (
+from skombo.fd_clean import (
     expand_all_x_n,
 )
 

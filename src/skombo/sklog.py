@@ -2,8 +2,8 @@ import logging
 import os
 import sys
 
-from skug_fd_parse import const as const
-from skug_fd_parse import file_man as fm
+from skombo import const as const
+from skombo import file_man as fm
 
 
 def init_logger() -> logging.Logger:
@@ -15,7 +15,7 @@ def init_logger() -> logging.Logger:
     """
     # Get the path to the parent directory of the module
     os.path.join(os.path.dirname(__file__), "logs")
-    log_file_name: str = "skug_fd_parse"
+    log_file_name: str = "skombo"
 
     # Create console and file handlers
     console_handler = logging.StreamHandler(sys.stdout)
