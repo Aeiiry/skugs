@@ -5,6 +5,7 @@ import os
 import pstats
 import re
 from collections import abc
+from dataclasses import dataclass
 from typing import Any, Literal
 
 import numpy as np
@@ -13,6 +14,11 @@ import pandas as pd
 import skug_fd_parse.constants as const
 import skug_fd_parse.file_management as fm
 from skug_fd_parse.skug_logger import log
+
+DataFrame = pd.DataFrame
+global frame_data
+
+frame_data = None
 
 
 def attempt_to_int(value: str | int) -> str | int:
@@ -34,24 +40,23 @@ def split_on_char(string: str, char: str, strip: bool = True) -> list[str]:
 
 
 def expand_all_x_n(damage: str) -> str:
-    if " " in damage:
-        damage = damage.replace(" ", "")
-    while True:
-        if x_n_match := const.RE_X_N.search(damage):
-            damage = expand_x_n(x_n_match)
-        elif x_n_brackets_matches := const.RE_BRACKETS_X_N.search(damage):
-            damage = expand_x_n(x_n_brackets_matches)
-        else:
-            break
+    if isinstance(damage, str):
+        if " " in damage:
+            damage = damage.replace(" ", "")
+        while re.search(r"\d+\s?[x*]\s?\d+", damage):
+            if x_n_match := const.RE_X_N.search(damage):
+                damage = expand_x_n(x_n_match)
+            elif x_n_brackets_matches := const.RE_BRACKETS_X_N.search(damage):
+                damage = expand_x_n(x_n_brackets_matches)
     return damage
 
 
 def apply_to_columns(
-    frame_data: pd.DataFrame,
+    frame_data: DataFrame,
     func: abc.Callable,  # type: ignore
     columns: list[str],
     non_nan: bool = False,
-) -> pd.DataFrame:
+) -> DataFrame:
     if non_nan:
         # apply function to non-nan cells in specified columns
         frame_data[columns] = frame_data[columns].applymap(
@@ -80,7 +85,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     )
 
 
-def separate_meter(frame_data: pd.DataFrame) -> pd.DataFrame:
+def separate_meter(frame_data: DataFrame) -> DataFrame:
     """Separate meter into on_hit and on_whiff"""
     fd_meter = frame_data.loc[:, "meter"]
     # fd_meter_old = fd_meter.copy()
@@ -123,7 +128,7 @@ def split_meter(meter: str) -> tuple[str | None, str | None]:
     return on_hit, on_whiff
 
 
-def separate_on_hit(frame_data: pd.DataFrame) -> pd.DataFrame:
+def separate_on_hit(frame_data: DataFrame) -> DataFrame:
     frame_data = add_new_columns_at_column(
         frame_data, "on_hit", ["on_hit_advantage", "on_hit_effect"], copy_values=True
     )
@@ -144,7 +149,7 @@ def separate_on_hit(frame_data: pd.DataFrame) -> pd.DataFrame:
     return frame_data
 
 
-def categorise_moves(df: pd.DataFrame) -> pd.DataFrame:
+def categorise_moves(df: DataFrame) -> DataFrame:
     """Categorise moves into different types"""
     # Dict of move names that each character has 1 of
     log.debug("Categorising moves")
@@ -191,8 +196,8 @@ def categorise_moves(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def insert_alt_name_aliases(frame_data: pd.DataFrame) -> pd.DataFrame:
-    aliases: pd.DataFrame = pd.read_csv(fm.MOVE_NAME_ALIASES_PATH).dropna()
+def insert_alt_name_aliases(frame_data: DataFrame) -> DataFrame:
+    aliases: DataFrame = pd.read_csv(fm.MOVE_NAME_ALIASES_PATH).dropna()
 
     # create dictionary from aliases dataframe
     alias_dict = dict(zip(aliases["Key"], aliases["Value"].str.replace("\n", ",")))
@@ -209,7 +214,9 @@ def insert_alt_name_aliases(frame_data: pd.DataFrame) -> pd.DataFrame:
     )
 
     return frame_data
-def add_undizzy_values(df: pd.DataFrame) -> pd.DataFrame:
+
+
+def add_undizzy_values(df: DataFrame) -> DataFrame:
     """Add undizzy values to the dataframe"""
 
     undizzy_dict: dict[str, int] = const.UNDIZZY_DICT
@@ -219,13 +226,18 @@ def add_undizzy_values(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
+
+def convert_numeric(x: Any) -> int | Any:
+    return int(x) if isinstance(x, str) and x.isnumeric() else x
+
+
+def clean_frame_data(frame_data: DataFrame) -> DataFrame:
     """
     Args:
-        frame_data: pd.DataFrame containing the data to be cleaned
+        frame_data: DataFrame containing the data to be cleaned
 
     Returns:
-        pd.DataFrame containing the cleaned data in a more readable format
+        DataFrame containing the cleaned data in a more readable format
     """
 
     log.debug("Cleaning frame data")
@@ -251,26 +263,11 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     numeric_columns = const.NUMERIC_COLUMNS
 
     log.debug("Converting numbers in strings to int")
-    frame_data = apply_to_columns(
-        frame_data,
-        lambda x: int(x)
-        if isinstance(x, str)
-        and len(x) == 1
-        and "-" in x[0]
-        and x.replace("-", "", 1).strip().isnumeric()
-        else x,
-        numeric_columns,
-    )
 
-    frame_data = apply_to_columns(
-        frame_data,
-        lambda x: int(x) if isinstance(x, str) and x.isnumeric() else x,
-        numeric_columns,
-    )
+    frame_data[numeric_columns] = frame_data[numeric_columns].applymap(convert_numeric)
 
     log.debug("Separating on_hit into on_hit_advantage and on_hit_effect")
     frame_data = separate_on_hit(frame_data)
-
 
     log.debug("Adding summed damage columns")
     frame_data["summed_damage"] = frame_data["damage"].apply(
@@ -283,7 +280,7 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
         if isinstance(x, list) and all(isinstance(d, int) for d in x)
         else x
     )
-    
+
     log.debug("Categorising moves")
     frame_data = categorise_moves(frame_data)
 
@@ -292,56 +289,50 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     return frame_data
 
 
-def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
+def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     """
     Initial string operations to clean the data.
 
     Args:
-        frame_data: pd.DataFrame with columns to clean
+        frame_data: DataFrame with columns to clean
 
     Returns:
-        pd.DataFrame with columns that are cleaned after being sent to Son
+        DataFrame with columns that are cleaned after being sent to Son
     """
     # Replace any individual cell that only contain "-" with np.nan
-    frame_data = apply_to_columns(
-        frame_data,
-        lambda x: np.nan if isinstance(x, str) and x == "-" else x,
-        frame_data.columns.tolist(),
-    )
+    frame_data = frame_data.replace("-", np.nan)
 
     # Remove characters from columns that are not needed
     columns_to_remove_chars: list[str] = frame_data.columns.tolist()
     columns_to_remove_chars.remove("alt_names")
+    # Remove characters from all string columns
+    frame_data[columns_to_remove_chars] = frame_data[columns_to_remove_chars].apply(
+        lambda x: x.str.replace(const.RE_CHARACTERS_TO_REMOVE, "", regex=True)
+        if x.dtype == "object"
+        else x
+    )
 
-    function_column_dict: dict[abc.Callable, list[str]] = {  # type: ignore
-        lambda x: const.RE_CHARACTERS_TO_REMOVE.sub("", x).strip()
-        if isinstance(x, str)
-        else x: columns_to_remove_chars,
-        lambda x: x.replace("%", "") if isinstance(x, str) else x: ["meter"],
-        lambda x: x.split("\n") if isinstance(x, str) else x: ["alt_names"],
-        lambda x: split_on_char(x, "- ", False)[1:]
-        if isinstance(x, str)
-        else x: ["footer"],
-        lambda x: expand_all_x_n(x)
-        if pd.notnull(x)
-        else x: [
-            "damage",
-            "meter",
-            "hitstun",
-            "blockstun",
-            "hitstop",
-            "active",
-        ],
-    }
-    for func, columns in function_column_dict.items():
-        frame_data = apply_to_columns(frame_data, func, columns)
+    # Remove percentage symbol from meter column
+    frame_data["meter"] = frame_data["meter"].str.replace("%", "")
+
+    # Split alt_names by newline
+    frame_data["alt_names"] = frame_data["alt_names"].str.split("\n|,")
+
+    # Split footer by dash, drop empty strings, and strip whitespace
+    frame_data["footer"] = frame_data["footer"].str.findall(r"(?:-\s)([^-]+)")
+
+    # Expand all x_n notation in damage, hitstun, blockstun, hitstop, meter, and active columns
+    x_n_cols = ["damage", "hitstun", "blockstun", "hitstop", "meter", "active"]
+    frame_data[x_n_cols] = frame_data[x_n_cols].applymap(
+        lambda x: expand_all_x_n(x) if "x" in str(x) else x
+    )
 
     # find if there are any lists in the damage column that are not equal in length to the meter_on_hit column for that row
 
     return frame_data
 
 
-def separate_damage_chip_damage(frame_data: pd.DataFrame) -> pd.DataFrame:
+def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     """
     Separate damage and chip_damage columns into one column
 
@@ -355,11 +346,18 @@ def separate_damage_chip_damage(frame_data: pd.DataFrame) -> pd.DataFrame:
     # If the damage column is a string, get the value between the parentheses, this is the chip damage
 
     # apply the function to the 'damage' column and assign the result to a new 'chip_damage' column
-    frame_data["chip_damage"] = (
-        frame_data["damage"]
-        .where(frame_data["damage"].apply(lambda x: isinstance(x, str) and "(" in x))
-        .apply(lambda x: x[x.find("(") + 1 : x.find(")")] if isinstance(x, str) else x)
-    )
+
+    # Create a boolean mask of rows containing parentheses in 'damage' column
+    paren_mask = frame_data["damage"].str.contains(r"\(").fillna(False)
+
+    # Extract the content inside parentheses using regex
+    chip_damage = frame_data.loc[paren_mask, "damage"].str.extract(r"\((\d+)\)")
+
+    # Fill NaN values with 0
+    chip_damage = chip_damage.fillna(0).astype(int)
+
+    # Assign extracted values to 'chip_damage' column
+    frame_data.loc[paren_mask, "chip_damage"] = chip_damage
 
     # Create a dictionary of functions to apply to the damage and chip_damage columns
     function_column_dict: dict[abc.Callable, list[str]] = {  # type: ignore
@@ -385,24 +383,24 @@ def separate_damage_chip_damage(frame_data: pd.DataFrame) -> pd.DataFrame:
 
 
 def add_new_columns_at_column(
-    frame_data: pd.DataFrame,
+    frame_data: DataFrame,
     old_columns: str | list[str],
     new_columns: str | list[str],
     offset: int = 1,
     copy_values: bool = False,
-) -> pd.DataFrame:
+) -> DataFrame:
     """
-    Add new columns to a pd.DataFrame in place of old columns, leaving values in the old columns if any of the names match the new columns names
+    Add new columns to a DataFrame in place of old columns, leaving values in the old columns if any of the names match the new columns names
 
     Args:
-        frame_data: pd.DataFrame to add new columns to
+        frame_data: DataFrame to add new columns to
         old_columns: old columns to be used as reference for index and/or data
         new_columns: names of new columns
         offset: Offset to insert the new columns
         copy_values: Copy values from old columns to new columns, if there are more new columns than old columns, the values will be copied to next empty column (1 old, 2 new -> 2 new with values from old in first column)
 
     Returns:
-        pd.DataFrame with new columns added to its reference columns ( index
+        DataFrame with new columns added to its reference columns ( index
     """
     if isinstance(old_columns, str):
         old_columns_list: list[str] = [old_columns]
@@ -443,7 +441,7 @@ def add_new_columns_at_column(
     return frame_data
 
 
-def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
+def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     """
     Separate annie stars into one or more sets of damage and on_block
 
@@ -451,7 +449,7 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
         frame_data: Dataframe to be analysed.
 
     Returns:
-        A pd.DataFrame with a column for each row in the data
+        A DataFrame with a column for each row in the data
     """
     # Locate all rows that have a star power, star power is annie exclusive and is in []
     # These rows will have a damage and on_block value that is a list
@@ -463,7 +461,7 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
         & (frame_data["character"] == "Annie")
     ]
     # Insert copies of the rows that have star power
-    # original_rows_copy: pd.DataFrame = star_power_annie_rows.copy()
+    # original_rows_copy: DataFrame = star_power_annie_rows.copy()
 
     # log the rows that have star power, just move_name, damage and on_block
     log.debug("////////// Rows that have star power //////////")
@@ -485,7 +483,7 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
 
     # Remove stars from original damage and on_block values
     damage_values = damage_values.str.replace(r"\[.*]", "", regex=True)
-    on_block_values = on_block_values.str.replace(r"\[.*]", "")
+    on_block_values = on_block_values.str.replace(r"\[.*]", "", regex=True)
 
     # Update damage and on_block values for original rows
     frame_data.loc[frame_data["move_name"].isin(move_names), "damage"] = damage_values
@@ -511,15 +509,15 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
     return frame_data
 
 
-def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
+def format_column_headings(df: DataFrame) -> DataFrame:
     """
     Formats column headings to make it easier to read.
 
     Args:
-        df: The pd.DataFrame to be formatted. Should be of type pd.DataFrame
+        df: The DataFrame to be formatted. Should be of type DataFrame
 
     Returns:
-        The pd.DataFrame with formatted
+        The DataFrame with formatted
     """
     log.debug("Formatting column headings")
     log.debug(f"Original column headings: {df.columns}")
@@ -540,62 +538,58 @@ def capitalise_words(name: str) -> str:
     )
 
 
-def main() -> Literal[1, 0]:
-    """Main"""
-
+def get_fd_bot_data() -> DataFrame:
     log.info("========== Starting skug_stats ==========")
     log.info("Loading csvs into dataframes")
     log.info(f"Currect working directory: {os.getcwd()}")
+    global frame_data
+    if frame_data is None:
+        frame_data = extract_fd_from_csv()
+
+    return frame_data
+
+
+# TODO Rename this here and in `get_fd_bot_data`
+def extract_fd_from_csv() -> DataFrame:
+    log.info("========== Extracting frame data from fd bot csv ==========")
 
     with open(fm.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
-        characters_df = format_column_headings(
+        characters_df: DataFrame = format_column_headings(
             pd.read_csv(characters_file, encoding="utf8")
         )
 
     with open(fm.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
-        frame_data: pd.DataFrame = format_column_headings(
+        result: DataFrame = format_column_headings(
             pd.read_csv(frame_file, encoding="utf8")
         )
 
     log.info("Loaded csvs into dataframes")
 
     characters_df["character"] = characters_df["character"].apply(capitalise_words)
-    frame_data["character"] = frame_data["character"].apply(capitalise_words)
+    result["character"] = result["character"].apply(capitalise_words)
 
     global sg_characters
     sg_characters = characters_df["character"].tolist()  # type: ignore
+    result = add_new_columns_at_column(result, "damage", ["damage", "chip_damage"])
 
-    frame_data = add_new_columns_at_column(
-        frame_data, "damage", ["damage", "chip_damage"]
-    )
+    result = clean_frame_data(result)
 
-    frame_data = clean_frame_data(frame_data)
+    log.info("========== Data extracted and cleaned ==========")
 
     # Get some stats about the data
-    log.debug(f"Number of rows in frame_data: {frame_data.shape[0]}")
-    log.debug(f"Number of columns in frame_data: {frame_data.shape[1]}")
+    log.debug(f"Number of rows in frame_data: {result.shape[0]}")
+    log.debug(f"Number of columns in frame_data: {result.shape[1]}")
 
     # Value counts for eachc column
-    for column in frame_data.columns:
+    for column in result.columns:
         log.debug(f"Value counts for column {column}:")
-        log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n")
+        log.debug(f"\n\n{result[column].value_counts(dropna=False)}\n\n")
 
-    # Export as csv
+        # Export as csv
     try:
-        frame_data.to_csv("output.csv", index=False)
+        result.to_csv("output.csv", index=False)
     except PermissionError:
         log.error("Could not export to csv, ensure output.csv is not open")
-        return 1
     else:
         log.info("Exported to csv")
-    log.info("========== Finished skug_stats ==========")
-
-    # stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats(25)
-    return 0
-
-
-if __name__ == "__main__":
-    with cProfile.Profile() as pr:
-        main()
-    stats = pstats.Stats(pr)
-    stats.dump_stats("skug_stats.prof")
+    return result

@@ -1,13 +1,8 @@
 from typing import Any
-from skug_fd_parse import frame_data_operations as fdo
 
 from skug_fd_parse.frame_data_operations import (
     expand_all_x_n,
 )
-
-
-def test_fdo_main() -> Any:
-    assert fdo.main() == 0
 
 
 def test_expand_all_x_n() -> Any:

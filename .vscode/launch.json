@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "frame_data_operations",
+      "name": "main",
       "type": "python",
       "request": "launch",
-      "program": "src\\skug_fd_parse\\frame_data_operations.py",
+      "program": "src\\skug_fd_parse\\main.py",
       "console": "integratedTerminal",
       "justMyCode": true
     },
