@@ -1059,7 +1059,7 @@ L DP
 DP L
 WEA DE L BEAT",Mid,"Invuln. (Strike) (Frame 2),
  Sound Stun","350, 350, 150 x9 (100, 100, 50 x9)","(2.5) 5.5%, 3%, 1.5% x9",KD,-24,8,"1, (6), 1 [(2), 1, (2), 1...]",34,"18 x2, (16 x9 Shake)","18, 13, (19 x9 Shake)","2, 60, 35 x9 OR 2, 33, 12 x9 (4, 9, 35 x9 on block)",-18/-11,"- On hit, Big Band can ""shake"" using → and ←, or LP and HP. Shakes add extra hits that lift the opponent slightly higher.
-- Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent will fall invincibily and end the combo.
+- Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent is not invincible but will fall too quickly for Big Band to follow up.
 - As an assist, this move has an extra 1F of aditional vulnerability before performing its attack. (5F total)
 - As an assist, it has 5F less blockstun.",https://wiki.gbl.gg/images/9/9c/SG_big_dpp_hb.png,https://wiki.gbl.gg/images/f/f4/SG_big_dplp_fd.png
 BIG BAND,M BEAT EXTEND,"M BEAT
@@ -1074,7 +1074,7 @@ M DP
 DP M
 WEA DE M BEAT",Mid,"Invuln. (Strike),
  Sound Stun","350, 550, 150 x12 (100, 100, 50 x12)","(2.5%) 7%, 4.5%, 1.5% x12",KD,-29,10,"3, (3), 3 [(4), 1, (2), 1...]",39,"18 x2, (16 x12 Shake)","21, 15, (19 x12 Shake)","4, 60, 35 x12 OR 4, 33, 12 x12 (8, 9, 35 x12 on block)",-24/-18,"- On hit, Big Band can ""shake"" using → and ←, or LP and HP. Shakes add extra hits that lift the opponent slightly higher.
-- Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent will fall invincibily and end the combo.
+- Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent is not invincible but will fall too quickly for Big Band to follow up.
 - As an assist, this move has an extra 2F of aditional vulnerability before performing its attack. (5F total)
 - As an assist, it has 7F less blockstun.",https://wiki.gbl.gg/images/9/9c/SG_big_dpp_hb.png,https://wiki.gbl.gg/images/a/af/SG_big_dpmp_fd.png
 BIG BAND,H BEAT EXTEND,"H BEAT
@@ -1095,7 +1095,7 @@ H DP
 DP H
 WEA DE H BEAT",Mid,"Invuln. (Full),
  Sound Stun","350 x2, 550, 150 x14 (100, 100, 100, 50 x14)","(2.5%) 7%, 4.5% x2, 1.5% x9",KD,-27,12,"3, (6), 3, (3), 3 [(4), 1, (2), 1...]",36,"18 x3, (16 x14 Shake)","18 x2, 15 (19 x14 Shake)","4, 2, 60, 35 x14 OR 4, 2, 33, 12 x14 (4, 4, 8, 35 x14 on block)",-29/-16,"- On hit, Big Band can ""shake"" using → and ←, or LP and HP. Shakes add extra hits that lift the opponent slightly higher.
-- Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent will fall invincibily and end the combo.
+- Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent is not invincible but will fall too quickly for Big Band to follow up.
 - As an assist, it has 7F less blockstun.",https://wiki.gbl.gg/images/9/9c/SG_big_dpp_hb.png,https://wiki.gbl.gg/images/2/2b/SG_big_dphp_fd.png
 BIG BAND,L BRASS KNUCKLES,"MACRO_46LP
 L BRASS
@@ -1421,13 +1421,17 @@ ASSIST TAUNT
 WEA DE ASSIST RECOVERY",-,-,-,-,-,-,-,-,58,-,-,-,-,"- Amount of time it takes for the character to turn invulnerable after they finish performing their assist action.
 - Longer recovery → more time to punish the assist.
 - Crouching assist actions must uncrouch before performing assist taunt, so they take even longer.",https://wiki.gbl.gg/images/4/49/SG_big_assist.png,-
-BLACK DAHLIA,5LP,MACRO_5LP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also 5LP X2.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,5LP X2,MACRO_5LP_2ND,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also 5LP.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,5MP,MACRO_5MP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,5HP,MACRO_5HP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also 5[HP] for the Empowered version.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+BLACK DAHLIA,5LP,MACRO_5LP,Mid,Chains Into Self,300,2.50%,4,2,7,2,14,19,17,7,-,"- If 5LP x1 whiffs, x2 followup becomes slower (13f startup).
+- See also 5LP X2.",https://wiki.gbl.gg/images/5/51/SG_dhl_slp_hb.png,https://wiki.gbl.gg/images/6/64/SG_dhl_slp1_fd.png
+BLACK DAHLIA,5LP X2,MACRO_5LP_2ND,Mid,-,300,2.50%,4,2,8,3,13,19,17,9,-,"- If 5LP x1 whiffs, x2 followup becomes slower (13f startup).
+- See also 5LP.",https://wiki.gbl.gg/images/5/51/SG_dhl_slp_hb.png,https://wiki.gbl.gg/images/e/e8/SG_dhl_slp2_fd.png
+BLACK DAHLIA,5MP,MACRO_5MP,Mid,-,"200 x2, 250","3.6% x2,
+5.4%",-8,-14,16,3 x3,33,27 x3,21,"3x2, 9
+(1x2, 9 on block)",-,"- Moves her forward.
+- ""That button is SO big!""",https://wiki.gbl.gg/images/b/b7/SG_dhl_smp_hb.png,https://wiki.gbl.gg/images/8/86/SG_dhl_smp_fd.png
+BLACK DAHLIA,5HP,MACRO_5HP,High,-,1000,10.00%,"Ground Bounce,
+KD",-17,20,2,43,34,27,11,-,"- Her only grounded overhead.
+- See also 5[HP] for the Empowered version. (Hitbox image includes Empowered followup)",https://wiki.gbl.gg/images/a/a7/SG_dhl_shp_hb.png,https://wiki.gbl.gg/images/e/e8/SG_dhl_shp_fd.png
 BLACK DAHLIA,5[HP],"[HP]
 S.[HP]
 S[HP]
@@ -1461,14 +1465,25 @@ EMPOWERED 5.HP
 HP EMPOWERED
 S.HP EMPOWERED
 SHP EMPOWERED
-5.HP EMPOWERED",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,5LK,MACRO_5LK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,5MK,MACRO_5MK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,5HK,MACRO_5HK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,2LP,MACRO_2LP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,2MP,MACRO_2MP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,2HP,MACRO_2HP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also 2[HP] for the Empowered version.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+5.HP EMPOWERED","High, Mid","Projectile
+(second hit)","1000, 500","10.0%, 4.5%","Ground Bounce,
+KD",-15,20,"2, (12), 6",45,34,27 x2,"11, 8",-,"- Knocks the opponent up much higher and non-Empowered 5HP.
+- Can reload mid-combo without spending OTG universally with Empowered 5HP > Another Round > Rush Order > 2LP.
+- See also 5HP for the non-Empowered version.",https://wiki.gbl.gg/images/a/a7/SG_dhl_shp_hb.png,https://wiki.gbl.gg/images/c/cd/SG_dhl_shp_hold_fd.png
+BLACK DAHLIA,5LK,MACRO_5LK,Low,-,425,2.50%,3,4,9,2,21,25,26,6,-,"- Standing low.
+- Moves her forward slightly.
+- Only normal to combo into 5MK.",https://wiki.gbl.gg/images/c/ca/SG_dhl_slk_hb.png,https://wiki.gbl.gg/images/6/6e/SG_dhl_slk_fd.png
+BLACK DAHLIA,5MK,MACRO_5MK,Mid,-,600,7.50%,-3,-7,21,4,27,27,23,9,-,- Moves her forward significantly.,https://wiki.gbl.gg/images/4/47/SG_dhl_smk_hb.png,https://wiki.gbl.gg/images/e/eb/SG_dhl_smk_fd.png
+BLACK DAHLIA,5HK,MACRO_5HK,Mid,Launcher,700,10.00%,±0,-13,17,3,30,32,23,10,-,"- Her only launcher.
+- Moves her forward slightly.",https://wiki.gbl.gg/images/b/b9/SG_dhl_shk_hb.png,https://wiki.gbl.gg/images/3/3f/SG_dhl_shk_fd.png
+BLACK DAHLIA,2LP,MACRO_2LP,Mid,-,325,2.50%,2,1,6,2,17,20,19,7,-,"- Her fastest normal.
+- A random weapon will be used to attack, but every weapon behaves the same, similar to Peacock's M Bang.",https://wiki.gbl.gg/images/5/57/SG_dhl_clp_hb.png,https://wiki.gbl.gg/images/e/e8/SG_dhl_clp_fd.png
+BLACK DAHLIA,2MP,MACRO_2MP,Mid,-,500,7.50%,-6,-5,13,3,28,24,25,9,-,- Powerful vacuum inwards on hit.,https://wiki.gbl.gg/images/e/ec/SG_dhl_cmp_hb.png,https://wiki.gbl.gg/images/e/e4/SG_dhl_cmp_fd.png
+BLACK DAHLIA,2HP,MACRO_2HP,Mid,-,750,10.00%,-4,-9,17,5,31,20,23,"20
+(12 on block)",-,"- Ignites the oil from Stage Hazard.
+- First 2 active frames cannot hit the opponent, they are there to trigger the oil from Stage Hazard.
+- Hits on both sides.
+- See also 2[HP] for the Empowered version. (Hitbox image includes Empowered followup)",https://wiki.gbl.gg/images/1/1e/SG_dhl_chp_hb.png,https://wiki.gbl.gg/images/1/17/SG_dhl_chp_fd.png
 BLACK DAHLIA,2[HP],"C.[HP]
 C[HP]
 2.[HP]
@@ -1495,17 +1510,29 @@ EMPOWERED 2.HP
 2HP EMPOWERED
 C.HP EMPOWERED
 CHP EMPOWERED
-2.HP EMPOWERED",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,2LK,MACRO_2LK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+2.HP EMPOWERED",Mid,"Projectile
+(second hit)","750, 500","10.0%, 4.5%",Sliding KD,-12,17,"3, (14), 5",42,"20, 24","23, 27","20, 7",-,"- Ignites the oil from Stage Hazard.
+- First 2 active frames cannot hit the opponent, they are there to trigger the oil from Stage Hazard.
+- Hits on both sides.
+- See also 2HP for the non-Empowered version.",https://wiki.gbl.gg/images/1/1e/SG_dhl_chp_hb.png,https://wiki.gbl.gg/images/f/f8/SG_dhl_chp_hold_fd.png
+BLACK DAHLIA,2LK,MACRO_2LK,Low,-,175 x3,2.05% x3,1,1,8,4 x3,17,21 x3,21 x3,3x3,-,- 3-hit low.,https://wiki.gbl.gg/images/8/8d/SG_dhl_clk_hb.png,https://wiki.gbl.gg/images/b/b1/SG_dhl_clk_fd.png
 BLACK DAHLIA,2MK,"MACRO_2MK
 TRAP
 MOUSETRAP
-MEDICI MOUSETRAP",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,2HK,MACRO_2HK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,JLP,MACRO_JLP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,JMP,MACRO_JMP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,JHP,MACRO_JHP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also J[HP] for the Empowered version.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+MEDICI MOUSETRAP
+TRAPPY",Low,"70%
+Damage Scaling",400,5.25%,35,-1,25,"147, (4), 4",30,25,17,"35
+(7 on block)",-,"- Leaps backwards with a slight high profile.
+- The trap will activate after a 4 frame delay when an opponent steps on it, or after a few seconds have elapsed.
+- If a trap is already onscreen, this move will move you backwards as usual, but it will not spawn a new trap.
+- Despite the animation Dahlia is never airborne throughout this move.
+- Big Band can parry this high or low.",https://wiki.gbl.gg/images/9/9b/SG_dhl_cmk_hb.png,https://wiki.gbl.gg/images/8/87/SG_dhl_cmk_fd.png
+BLACK DAHLIA,2HK,MACRO_2HK,Low,Sweep,1050,7.50%,"Soft KD
+(Invuln.)",-5,17,3,24,38,21,10,-,,https://wiki.gbl.gg/images/6/6f/SG_dhl_chk_hb.png,https://wiki.gbl.gg/images/0/03/SG_dhl_chk_fd.png
+BLACK DAHLIA,JLP,MACRO_JLP,High,-,325,2.50%,5,8,7,3,16,23,26,7,-,"- Like 2LP, she pulls out a random weapon to attack, but all weapons behave the same.",https://wiki.gbl.gg/images/1/14/SG_dhl_jlp_hb.png,https://wiki.gbl.gg/images/3/37/SG_dhl_jlp_fd.png
+BLACK DAHLIA,JMP,MACRO_JMP,High,-,"300, 200",7.5% x2,4,-4,12,"2, (3), 3",24,28 x2,"31, 20",9x2,-,"- Pushes the opponent away, comboing consistently into jHK.",https://wiki.gbl.gg/images/1/1f/SG_dhl_jmp_hb.png,https://wiki.gbl.gg/images/b/b0/SG_dhl_jmp_fd.png
+BLACK DAHLIA,JHP,MACRO_JHP,High,-,650,10.00%,7,10,16,3,19,29,32,11,-,"- Crossup hitbox.
+- See also J[HP] for the Empowered version. (Hitbox image also shows Empowered version)",https://wiki.gbl.gg/images/2/2b/SG_dhl_jhp_hb.png,https://wiki.gbl.gg/images/c/c7/SG_dhl_jhp_fd.png
 BLACK DAHLIA,J[HP],"J.[HP]
 HELD J.HP
 HELD JHP
@@ -1518,10 +1545,15 @@ JHP EMPOWER
 EMPOWERED J.HP
 EMPOWERED JHP
 J.HP EMPOWERED
-JHP EMPOWERED",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,JLK,MACRO_JLK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,JMK,MACRO_JMK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,JHK,MACRO_JHK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JHP EMPOWERED",Mid,Projectile,400x3,10.0%x3,KD,-4,13,6,17,18,21,16,-,"- Wide hitbox spread, but doesn't hit overhead.
+- 3 separate hitboxes, need a wide character to hit all 3 on.
+- See also JHP for the non-Empowered version. (Hitbox image also shows non-Empowered version)",https://wiki.gbl.gg/images/2/2b/SG_dhl_jhp_hb.png,https://wiki.gbl.gg/images/4/4c/SG_dhl_jhp_hold_fd.png
+BLACK DAHLIA,JLK,MACRO_JLK,"High
+(rising mid)",-,300,2.50%,-6,-3,6,4,19,16,19,7,-,"- Ignites the oil from Stage Hazard.
+- Halts downward momentum slightly.",https://wiki.gbl.gg/images/6/69/SG_dhl_jlk_hb.png,https://wiki.gbl.gg/images/f/f3/SG_dhl_jlk_fd.png
+BLACK DAHLIA,JMK,MACRO_JMK,High,-,500,7.50%,±0,3,14,3,25,27,30,10,-,,https://wiki.gbl.gg/images/9/9c/SG_dhl_jmk_hb.png,https://wiki.gbl.gg/images/8/88/SG_dhl_jmk_fd.png
+BLACK DAHLIA,JHK,MACRO_JHK,Mid,-,"500, 450",5.0%x2,-9,-6,21,"3, (7), 2",36,28x2,31x2,"5, 11",-,"- Long, very disjointed hitbox.
+- Combo after with 236LP KK.",https://wiki.gbl.gg/images/7/74/SG_dhl_jhk_hb.png,https://wiki.gbl.gg/images/a/a7/SG_dhl_jhk_fd.png
 BLACK DAHLIA,THROW,"MACRO_THROW
 HELD THROW
 HELD LPLK
@@ -2086,7 +2118,9 @@ QCB.K FEINT
 FAKE QCB.K
 FEINT QCB.K",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
 - See also TEA TIME, and TEA SLIP.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,EMPOWER,MACRO_236LPLK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+BLACK DAHLIA,EMPOWER,"MACRO_236LPLK
+KIDNEY STEAL
+KIDNEYSTEAL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
 BLACK DAHLIA,"COUNTER, STRIKE! PARRY","MACRO_623K
 COUNTER
 COUNTERSTRIKE
@@ -2467,7 +2501,8 @@ BF+K,LK
 [B],F+K,LK
 B,F+K,LK
 RUNSTOP",-,-,-,0%,-,-,-,-,16,-,-,-,-,"- The first armored frame in the frame data graph is from the first frame of run needed to execute this run follow-up.
-- To select as an assist, input [4]6LPLK on the custom assist selection.",https://wiki.gbl.gg/images/2/26/SG_cer_runl.png,https://wiki.gbl.gg/images/6/61/SG_cer_runl_fd.png
+- To select as an assist, input [4]6LPLK on the custom assist selection.
+- When inputting as a run followup in combos, use LKMK or LKHK. Using punches causes it to come out 1 frame slower (true for all run followups but particularly important for runstop)",https://wiki.gbl.gg/images/2/26/SG_cer_runl.png,https://wiki.gbl.gg/images/6/61/SG_cer_runl_fd.png
 CEREBELLA,KANCHOU,"CROSSUP
 KANCHO
 [4]6K~MK
@@ -2802,10 +2837,12 @@ DOUBLE,JHK,MACRO_JHK,High,-,900,7.50%,-9,-8,13,2,30,22,21,11 (9 on block),-,"- H
 - The first hit will pop a grounded opponent into the air.",https://wiki.gbl.gg/images/d/df/SG_dbl_jhk_hb.png,https://wiki.gbl.gg/images/8/8f/SG_dbl_jhk_fd.png
 DOUBLE,JHK PROJECTILE,"AVERY
 BIRD
+BIRDO
 JHK AVERY
 JHK BIRD
 J.HK AVERY
-J.HK BIRD",Mid,Projectile,450 x2,2.25% x2,-,-,7,(Until ground),-,19 x2,17 x2,5 x2,-,- The two hit projectile summoned from jHK,https://wiki.gbl.gg/images/d/df/SG_dbl_jhk_hb.png,-
+J.HK BIRD",Mid,Projectile,450 x2,2.25% x2,-,-,7,(Until ground),-,19 x2,17 x2,5 x2,-,"- The two hit projectile summoned from jHK
+- See also jHK.",https://wiki.gbl.gg/images/d/df/SG_dbl_jhk_hb.png,-
 DOUBLE,THROW,MACRO_THROW,Throw,50% Damage Scaling,"0, 300, 900","4%, 0%, 7%",KD,-,7,1,28,-,-,-,-,- Combo: Throw > 214K > 2MP,https://wiki.gbl.gg/images/5/5c/SG_dbl_throw_hb.png,https://wiki.gbl.gg/images/4/42/SG_dbl_throw_fd.png
 DOUBLE,AIR THROW,MACRO_AIR_THROW,Air Throw,50% Damage Scaling,"0 x2, 800","0% x2, 9%",Ground Bounce,-,7,3,19,-,-,-,-,- Combo: Air throw > dash > OTG 2MP or 2LK. The latter saves OTG.,https://wiki.gbl.gg/images/5/5b/SG_dbl_airthrow_hb.png,https://wiki.gbl.gg/images/e/e3/SG_dbl_airthrow_fd.png
 DOUBLE,TAG IN,MACRO_TAG,Mid,Tag,"200, 300",10% x2,"Ground Bounce,
@@ -3690,7 +3727,7 @@ AIR HAIRBALL M
 L HAIRBALL AIR
 L AIR HAIRBALL
 HAIRBALL AIR L
-AIR HAIRBALL L",Mid,Airdash Cancel,"300 x3, 400 (50, x3, 150)","(2.5%) 2% x3, 4.5%",+1,-12,13,20,16,"16 x3, 19","15 x3, 13","3 x3, 16 (4 x3, 11 on block)",-,"- The strength determines the trajectory.
+AIR HAIRBALL L",Mid,Airdash Cancel,"300 x3, 400 (50 x3, 150)","(2.5%) 2% x3, 4.5%",+1,-12,13,20,16,"16 x3, 19","15 x3, 13","3 x3, 16 (4 x3, 11 on block)",-,"- The strength determines the trajectory.
 - Filia can cancel the recovery of Airball into an air dash, but only once per combo.
 - If using the HK version to curve into the ground, she will cancel into a ground dash instead.",https://wiki.gbl.gg/images/8/82/SG_fil_qcbk_hb.png,https://wiki.gbl.gg/images/5/5c/SG_fil_jqcbk_fd.png
 FILIA,FENRIR DRIVE,"MACRO_623PP
@@ -4607,7 +4644,7 @@ TACO
 TACO KICK
 J.4LK
 4JLK
-4 JLK",High,Ignites Tears,150 x3,1.5% x3,+18,+20,10,18,16,23x x3,26 x3,7 x3 (6 x3 on block),-,- Crossup hitbox.,https://wiki.gbl.gg/images/5/58/SG_par_jblk_hb.png,https://wiki.gbl.gg/images/e/e2/SG_par_jblk_fd.png
+4 JLK",High,Ignites Tears,150 x3,1.5% x3,+18,+20,10,18,16,23 x3,26 x3,7 x3 (6 x3 on block),-,- Crossup hitbox.,https://wiki.gbl.gg/images/5/58/SG_par_jblk_hb.png,https://wiki.gbl.gg/images/e/e2/SG_par_jblk_fd.png
 PARASOUL,J2MK,"J.2MK
 JDMK
 J.DMK
