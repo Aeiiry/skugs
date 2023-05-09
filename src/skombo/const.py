@@ -40,7 +40,10 @@ LOG_FILE_EXT = ".log"
 LOG_LEVEL_CONSOLE: int = logging.INFO
 LOG_LEVEL_FILE: int = logging.DEBUG
 
-
+RE_NORMAL_MOVE: re.Pattern[str] = re.compile(
+    r"^j?\.?\d?.?([lmh])[pk]", flags=re.IGNORECASE
+)
+""" regex to find normal moves """
 RE_IN_PAREN: re.Pattern[str] = re.compile(r"\((.*?)\)")
 RE_X_N: re.Pattern[str] = re.compile(r"(\d*?\.?\d+\s?)([x*]\s?)(\d+)")
 RE_BRACKETS_X_N: re.Pattern[str] = re.compile(r"(\[[\d,\s]*?]\s?)([x*])(\d+)")
@@ -51,8 +54,6 @@ CHARACTERS_TO_REMOVE: list[str] = ["+", "\n", "±"]
 RE_CHARACTERS_TO_REMOVE: re.Pattern[str] = re.compile(
     r"[" + re.escape("".join(CHARACTERS_TO_REMOVE)) + r"]"
 )
-
-
 
 
 UNIVERSAL_MOVE_CATEGORIES = {

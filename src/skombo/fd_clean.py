@@ -1,6 +1,7 @@
 # sourcery skip: lambdas-should-be-short
 """Main module for frame data operations."""
 import cProfile
+import functools
 import os
 import pstats
 import re
@@ -11,9 +12,10 @@ from typing import Any, Literal
 import numpy as np
 import pandas as pd
 
-import skug_fd_parse.constants as const
-import skug_fd_parse.file_management as fm
-from skug_fd_parse.skug_logger import log
+import skug_fd_parse.const as const
+import skug_fd_parse.file_man as fm
+from skug_fd_parse import sklog as sklog
+log = sklog.get_logger()
 
 DataFrame = pd.DataFrame
 global frame_data
@@ -21,10 +23,12 @@ global frame_data
 frame_data = None
 
 
+@functools.cache
 def attempt_to_int(value: str | int) -> str | int:
     return int(value) if isinstance(value, str) and value.isnumeric() else value
 
 
+@functools.cache
 def remove_spaces(string: str) -> str:
     return string.replace(" ", "") if " " in string else string
 
@@ -39,15 +43,16 @@ def split_on_char(string: str, char: str, strip: bool = True) -> list[str]:
     return split_string
 
 
+@functools.cache
 def expand_all_x_n(damage: str) -> str:
     if isinstance(damage, str):
         if " " in damage:
             damage = damage.replace(" ", "")
-        while re.search(r"\d+\s?[x*]\s?\d+", damage):
-            if x_n_match := const.RE_X_N.search(damage):
-                damage = expand_x_n(x_n_match)
-            elif x_n_brackets_matches := const.RE_BRACKETS_X_N.search(damage):
-                damage = expand_x_n(x_n_brackets_matches)
+        while (x_n_match := const.RE_X_N.search(damage)) or (
+            x_n_match := const.RE_BRACKETS_X_N.search(damage)
+        ):
+            damage = expand_x_n(x_n_match)
+
     return damage
 
 
@@ -68,6 +73,7 @@ def apply_to_columns(
     return frame_data
 
 
+@functools.cache
 def expand_x_n(match: re.Match[str]) -> str:
     num = int(match.group(3))
     damage: str = match.group(1).strip()
@@ -156,10 +162,7 @@ def categorise_moves(df: DataFrame) -> DataFrame:
     universal_move_categories: dict[str, str] = const.UNIVERSAL_MOVE_CATEGORIES
     df["move_category"] = df["move_name"].map(universal_move_categories)
 
-    re_normal_move: re.Pattern[str] = re.compile(
-        r"^j?\.?\d?.?([lmh])[pk]", flags=re.IGNORECASE
-    )
-    """ regex to find normal moves """
+    re_normal_move = const.RE_NORMAL_MOVE
 
     normal_strengths: dict[str, str] = {
         "l": "LIGHT",
@@ -227,6 +230,7 @@ def add_undizzy_values(df: DataFrame) -> DataFrame:
     return df
 
 
+@functools.cache
 def convert_numeric(x: Any) -> int | Any:
     return int(x) if isinstance(x, str) and x.isnumeric() else x
 
@@ -264,7 +268,7 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
 
     log.debug("Converting numbers in strings to int")
 
-    frame_data[numeric_columns] = frame_data[numeric_columns].applymap(convert_numeric)
+    frame_data[numeric_columns] = frame_data[numeric_columns].convert_dtypes()
 
     log.debug("Separating on_hit into on_hit_advantage and on_hit_effect")
     frame_data = separate_on_hit(frame_data)
@@ -453,13 +457,11 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     """
     # Locate all rows that have a star power, star power is annie exclusive and is in []
     # These rows will have a damage and on_block value that is a list
-    star_power_annie_rows = frame_data[
-        (
-            (frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x))
-            | (frame_data["on_block"].apply(lambda x: isinstance(x, str) and "[" in x))
-        )
-        & (frame_data["character"] == "Annie")
-    ]
+    # character and move name are the multiindex
+    star_power_annie_rows = frame_data.loc["Annie",:].applymap(
+        lambda x: isinstance(x, list) and "[" in x
+    )
+    
     # Insert copies of the rows that have star power
     # original_rows_copy: DataFrame = star_power_annie_rows.copy()
 
@@ -538,58 +540,63 @@ def capitalise_words(name: str) -> str:
     )
 
 
+@functools.cache
 def get_fd_bot_data() -> DataFrame:
-    log.info("========== Starting skug_stats ==========")
+    log.info("========== Getting frame data bot data ==========")
     log.info("Loading csvs into dataframes")
     log.info(f"Currect working directory: {os.getcwd()}")
-    global frame_data
-    if frame_data is None:
-        frame_data = extract_fd_from_csv()
-
-    return frame_data
+    fd: DataFrame = extract_fd_from_csv()
+    return fd
 
 
-# TODO Rename this here and in `get_fd_bot_data`
+@functools.cache
 def extract_fd_from_csv() -> DataFrame:
     log.info("========== Extracting frame data from fd bot csv ==========")
-
+    # We don't need existing index column
     with open(fm.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
         characters_df: DataFrame = format_column_headings(
             pd.read_csv(characters_file, encoding="utf8")
         )
 
     with open(fm.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
-        result: DataFrame = format_column_headings(
+        frame_data: DataFrame = format_column_headings(
             pd.read_csv(frame_file, encoding="utf8")
         )
 
     log.info("Loaded csvs into dataframes")
+    # Characters df is indexed by character name, so we need to rename it
 
     characters_df["character"] = characters_df["character"].apply(capitalise_words)
-    result["character"] = result["character"].apply(capitalise_words)
+    frame_data["character"] = frame_data["character"].apply(capitalise_words)
 
-    global sg_characters
-    sg_characters = characters_df["character"].tolist()  # type: ignore
-    result = add_new_columns_at_column(result, "damage", ["damage", "chip_damage"])
+    characters_df.set_index("character", inplace=True)
+    frame_data.set_index(["character", "move_name"], inplace=True)
 
-    result = clean_frame_data(result)
+    log.debug(f"Changed index of characters_df to {characters_df.index.name}")
+    log.debug(f"Changed index of frame_data to {frame_data.index.names}")
+    
+    frame_data = add_new_columns_at_column(
+        frame_data, "damage", ["damage", "chip_damage"]
+    )
+
+    frame_data = clean_frame_data(frame_data)
 
     log.info("========== Data extracted and cleaned ==========")
 
     # Get some stats about the data
-    log.debug(f"Number of rows in frame_data: {result.shape[0]}")
-    log.debug(f"Number of columns in frame_data: {result.shape[1]}")
+    log.debug(f"Number of rows in frame_data: {frame_data.shape[0]}")
+    log.debug(f"Number of columns in frame_data: {frame_data.shape[1]}")
 
     # Value counts for eachc column
-    for column in result.columns:
+    for column in frame_data.columns:
         log.debug(f"Value counts for column {column}:")
-        log.debug(f"\n\n{result[column].value_counts(dropna=False)}\n\n")
+        log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n")
 
         # Export as csv
     try:
-        result.to_csv("output.csv", index=False)
+        frame_data.to_csv("output.csv", index=False)
     except PermissionError:
         log.error("Could not export to csv, ensure output.csv is not open")
     else:
         log.info("Exported to csv")
-    return result
+    return frame_data
