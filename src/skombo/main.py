@@ -26,6 +26,7 @@ if __name__ == "__main__":
     with cProfile.Profile() as pr:
         main()
     stats = pstats.Stats(pr)
+    stats = stats.strip_dirs()
     stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats("skombo")
     stats.sort_stats(pstats.SortKey.CUMULATIVE).print_callers("concat", 10)
     stats.sort_stats(pstats.SortKey.CUMULATIVE).print_callees("concat", 10)

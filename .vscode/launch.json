@@ -13,6 +13,14 @@
       "justMyCode": true
     },
     {
+        "name": "main - justmycode false",
+        "type": "python",
+        "request": "launch",
+        "program": "src\\skombo\\main.py",
+        "console": "integratedTerminal",
+        "justMyCode": false
+      },
+    {
       "name": "Python: Current File",
       "type": "python",
       "request": "launch",

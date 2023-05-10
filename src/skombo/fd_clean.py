@@ -8,13 +8,14 @@ import re
 from collections import abc
 from dataclasses import dataclass
 from typing import Any, Literal
-
+from tabulate import tabulate
 import numpy as np
 import pandas as pd
 
 import skombo.const as const
 import skombo.file_man as fm
 from skombo import sklog as sklog
+
 log = sklog.get_logger()
 
 DataFrame = pd.DataFrame
@@ -205,16 +206,19 @@ def insert_alt_name_aliases(frame_data: DataFrame) -> DataFrame:
     # create dictionary from aliases dataframe
     alias_dict = dict(zip(aliases["Key"], aliases["Value"].str.replace("\n", ",")))
 
-    # replace substrings using map method with dictionary
-    frame_data["alt_names"] = frame_data["alt_names"].map(
+    # create a pandas Series from alt_names column using the map method
+    alt_names_series = frame_data["alt_names"].map(
         lambda x: re.sub(
-            rf"\b({'|'.join(alias_dict.keys())})\b",  # type: ignore
-            lambda m: alias_dict.get(m.group(0)),  # type: ignore
-            x,  # type: ignore
+            rf"\b({'|'.join(alias_dict.keys())})\b", #type: ignore
+            lambda m: alias_dict.get(m.group(0)), #type: ignore
+            x, #type: ignore
         )
         if isinstance(x, str)
         else x
     )
+
+    # replace alt_names column with the new pandas Series
+    frame_data["alt_names"] = alt_names_series
 
     return frame_data
 
@@ -457,17 +461,21 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     """
     # Locate all rows that have a star power, star power is annie exclusive and is in []
     # These rows will have a damage and on_block value that is a list
-    # character and move name are the multiindex
-    star_power_annie_rows = frame_data.loc["Annie",:].applymap(
-        lambda x: isinstance(x, list) and "[" in x
-    )
-    
+    # character is annie
+    star_power_annie_rows: pd.DataFrame = frame_data[
+        (
+            frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x)
+            | frame_data["on_block"].apply(lambda x: isinstance(x, str) and "[" in x)
+        )
+        & (frame_data["character"] == "Annie")
+    ]  # type: ignore
+
     # Insert copies of the rows that have star power
     # original_rows_copy: DataFrame = star_power_annie_rows.copy()
 
     # log the rows that have star power, just move_name, damage and on_block
     log.debug("////////// Rows that have star power //////////")
-    log.debug(f"\n{star_power_annie_rows[['move_name', 'damage', 'on_block']]}")
+    log.debug(f"\n{tabulate(star_power_annie_rows[['move_name', 'damage', 'on_block']])}") # type: ignore
 
     # Probably isn't too slow to iterate through unique move names to get pairs of rows
     # Get unique move names from star_power_annie_rows
@@ -555,12 +563,12 @@ def extract_fd_from_csv() -> DataFrame:
     # We don't need existing index column
     with open(fm.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
         characters_df: DataFrame = format_column_headings(
-            pd.read_csv(characters_file, encoding="utf8")
+            pd.read_csv(characters_file, encoding="utf8").convert_dtypes()
         )
 
     with open(fm.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
         frame_data: DataFrame = format_column_headings(
-            pd.read_csv(frame_file, encoding="utf8")
+            pd.read_csv(frame_file, encoding="utf8").convert_dtypes()
         )
 
     log.info("Loaded csvs into dataframes")
@@ -569,30 +577,34 @@ def extract_fd_from_csv() -> DataFrame:
     characters_df["character"] = characters_df["character"].apply(capitalise_words)
     frame_data["character"] = frame_data["character"].apply(capitalise_words)
 
-    characters_df.set_index("character", inplace=True)
-    frame_data.set_index(["character", "move_name"], inplace=True)
-
     log.debug(f"Changed index of characters_df to {characters_df.index.name}")
     log.debug(f"Changed index of frame_data to {frame_data.index.names}")
-    
+
     frame_data = add_new_columns_at_column(
         frame_data, "damage", ["damage", "chip_damage"]
     )
 
+    frame_data = frame_data.convert_dtypes().infer_objects()
+
+    frame_data.info()
+
     frame_data = clean_frame_data(frame_data)
+    frame_data = frame_data.convert_dtypes().infer_objects()
+
+    frame_data.info()
 
     log.info("========== Data extracted and cleaned ==========")
 
-    # Get some stats about the data
+    """     # Get some stats about the data
     log.debug(f"Number of rows in frame_data: {frame_data.shape[0]}")
     log.debug(f"Number of columns in frame_data: {frame_data.shape[1]}")
 
     # Value counts for eachc column
     for column in frame_data.columns:
         log.debug(f"Value counts for column {column}:")
-        log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n")
+        log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n") """
 
-        # Export as csv
+    # Export as csv
     try:
         frame_data.to_csv("output.csv", index=False)
     except PermissionError:
