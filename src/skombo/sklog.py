@@ -1,10 +1,6 @@
-from datetime import time
 import logging
 import os
 import sys
-import atexit
-import pandas as pd
-from tabulate import tabulate
 
 from skombo import const as const
 from skombo import file_man as fm
@@ -78,6 +74,6 @@ class StreamToLogger:
             self.logger.log(self.log_level, line.rstrip())
 
     def flush(
-        self,
+            self,
     ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
         pass

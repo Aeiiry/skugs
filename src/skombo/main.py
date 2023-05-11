@@ -1,20 +1,25 @@
-import cProfile
 import pstats
-from skombo.file_man import CSV_PATH, DATA_PATH, MODULE_NAME, MODULE_PATH
+import sys
+import yappi
 
 from skombo import combo as combo_moves
 from skombo import sklog as sklog
+from skombo.file_man import CSV_PATH, DATA_PATH, MODULE_NAME, MODULE_PATH
+import os
 
 log = sklog.get_logger()
+yappi.set_clock_type("cpu")  # Use set_clock_type("wall") for wall time
+
+yappi.start()
 
 
 def main() -> None:
-    combos = combo_moves.parse_combos_from_csv(
-        "src\\skombo\\data\\csvs\\annie_combos.csv"
-    )
+    csv_path = os.path.join(CSV_PATH, "annie_combos.csv")
+    combos = combo_moves.parse_combos_from_csv(csv_path)
 
 
 if __name__ == "__main__":
+    print("Running main.py")
     log.info(f"MODULE_NAME: {MODULE_NAME}")
 
     log.info(f"MODULE_PATH: {MODULE_PATH}")
@@ -23,12 +28,7 @@ if __name__ == "__main__":
 
     log.info(f"DATA_PATH: {DATA_PATH}")
 
-    with cProfile.Profile() as pr:
-        main()
-    stats = pstats.Stats(pr)
-    stats = stats.strip_dirs()
-    stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats("skombo")
-    stats.sort_stats(pstats.SortKey.CUMULATIVE).print_callers("concat", 10)
-    stats.sort_stats(pstats.SortKey.CUMULATIVE).print_callees("concat", 10)
+    main()
+    stats = yappi.get_func_stats()
 
-    stats.dump_stats("skug.prof")
+    stats.save("skug.prof", type="pstat")

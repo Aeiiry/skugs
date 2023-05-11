@@ -1,4 +1,5 @@
 import os
+
 SRC_NAME = "src"
 DATA_NAME = "data"
 MODULE_NAME: str = __name__.split(".")[0]
@@ -10,9 +11,9 @@ MODULE_PATH: str = os.getcwd()
 # then go into the module folder then into the data folder
 search_path = MODULE_PATH
 while (
-    (search_path := os.path.split(search_path)[1]) != SRC_NAME
-    and search_path != ""
-    and ".tox" not in search_path
+        (search_path := os.path.split(search_path)[1]) != SRC_NAME
+        and search_path != ""
+        and ".tox" not in search_path
 ):
     search_path = os.path.split(search_path)[0]
 

@@ -2,13 +2,16 @@
 """
 
 import re
+import string
 from difflib import SequenceMatcher
 from typing import Any
 
 import pandas as pd
+from tabulate import tabulate
 
 from skombo import fd_clean as fdo
 from skombo import sklog as sklog
+
 log = sklog.get_logger()
 
 global fd
@@ -62,6 +65,7 @@ def fd_rows_to_combo_calc_df(fd_rows: DataFrame, character_fd: DataFrame) -> Dat
     return fd_rows
 
 
+@functools.cache
 def similar(a: Any, b: Any) -> float:
     return (
         ratio
@@ -70,11 +74,8 @@ def similar(a: Any, b: Any) -> float:
     )
 
 
+@functools.cache
 def parse_combo_from_string(character: str, combo_string: str) -> pd.DataFrame:
-    combo: DataFrame
-    character_moves: DataFrame
-    combo_moves: list[str]
-
     combo, character_moves, combo_moves = initial_combo_operations(
         character, combo_string
     )
@@ -83,79 +84,103 @@ def parse_combo_from_string(character: str, combo_string: str) -> pd.DataFrame:
     # If a move is not found, check each item in the alt_names list for the move
 
     # Search character_moves DataFrame for move names or alternative names
-    found_moves: DataFrame = initial_search(character_moves, combo_moves)
+    found_moves = initial_search(character_moves, combo_moves)
 
     # Find the move with the highest similarity score if multiple matches exist
     # if len(found_moves) > 1:
     #   found_moves = best_match(combo_moves, found_moves)
 
     # Add the move to the combo
-    combo = pd.concat([combo, found_moves])
+    # combo = pd.concat([combo, found_moves])
 
     # combo_calc_df: DataFrame = fd_rows_to_combo_calc_df(combo, character_moves)
 
     return combo
 
 
-def best_match(combo_moves: pd.Series, found_moves: DataFrame) -> DataFrame:  # type: ignore
-    move_name_similarity: pd.Series[Any] = found_moves["move_name"].apply(
-        lambda x: max(similar(x, y) for y in combo_moves)
+def best_match(original_move: str, found_moves: pd.Series) -> pd.Series:  # type: ignore
+    move_name_similarity: pd.Series[Any] = found_moves.apply(
+        lambda move_name: similar(original_move, move_name)
     )
     found_moves = found_moves.loc[move_name_similarity == move_name_similarity.max()]
 
     return found_moves
 
 
-def initial_search(character_moves: DataFrame, combo_moves: list[str]) -> DataFrame:
+def move_name_search(
+    character_moves: pd.DataFrame, combo_moves: pd.Series, move_name: str
+) -> pd.Series:
+    if isinstance(move_name, str):
+        # Search for the move name in the frame data
+        move_name_series = (
+            character_moves["move_name"]
+            .where(character_moves["move_name"] == move_name)
+            .dropna()
+            .reset_index(drop=True)
+        )
+
+        # If move name not found in move_names then search in alt_names
+        if len(move_name_series) == 0:
+            move_name_series = (
+                character_moves["move_name"]
+                .where(character_moves["alt_names"].str.contains(move_name))
+                .dropna()
+                .reset_index(drop=True)
+            )
+
+        # If there are multiple matches for move name, then log info message and select the best match
+        if len(move_name_series) > 1:
+            log.info(
+                f"Multiple moves found for move name {move_name}, checking similarity to pick best match"
+            )
+            move_name_series = best_match(move_name, move_name_series)
+
+        return move_name_series
+
+
+def initial_search(character_moves: pd.DataFrame, combo_moves: pd.Series):
     # Initialize empty DataFrame with columns 'original_move_name' and 'move_name'
-    found_moves: pd.DataFrame = pd.DataFrame(
-        columns=["original_move_name", "move_name"]
-    )
-
-    found_moves["original_move_name"] = combo_moves
-
+    move_name_series: pd.Series = pd.Series()
+    combo_series: pd.Series = pd.Series()
     # Search for each move in the combo string in the frame data
     for move_name in combo_moves:
-        # Check if the move is in the frame data
-        move_name_df: DataFrame = character_moves.loc[
-            character_moves["move_name"] == move_name
-        ]
+        # If move_name isn't a string then skip to next move in the list
+        move_name_series = move_name_search(character_moves, combo_moves, move_name)
 
-        # If the move is not in the frame data, check the alternative names
-        if len(move_name_df) == 0:
-            move_name_df = character_moves.loc[
-                character_moves["alt_names"].apply(lambda x: move_name in x)
-            ]
+        # Add the move name to the move_name_series DataFrame
+        if len(move_name_series) == 0:
+            log.warning(f"Move name {move_name} not found in search")
+            combo_series = pd.concat([combo_series, pd.Series()])
+        else:
+            log.debug(f"Move name {move_name} found in search")
 
-        # If the move is in the frame data, add it to the found moves DataFrame
-        if len(move_name_df) == 1:
-            found_moves = pd.concat([found_moves, move_name_df])
-
-    return found_moves
+            combo_series = pd.concat([combo_series, move_name_series])
+    log.info(combo_series)
+    return move_name_series
 
 
 def initial_combo_operations(
     character: str, combo_string: str
-) -> tuple[DataFrame, DataFrame, list[str]]:
+) -> tuple[DataFrame, DataFrame, pd.Series]:
     combo: DataFrame = pd.DataFrame()
     character_moves: DataFrame = get_character_moves(character)
 
-    combo_move_names: list[str] = combo_string.strip().split(" ")
-    log.info(f"combo_moves: {combo_move_names}")
+    combo_move_names = pd.Series(combo_string.strip().split(" "))
 
-    combo_move_names = [move.lower() for move in combo_move_names]
+    combo_move_names = combo_move_names.str.lower()
     character_moves.loc[:, ["move_name"]] = character_moves["move_name"].str.lower()
-    character_moves.loc[:, ["alt_names"]] = character_moves.loc[
-        :, ["alt_names"]
-    ].applymap(lambda x: [alt_name.lower() for alt_name in x])
+    character_moves.loc[:, ["alt_names"]] = character_moves["alt_names"].str.lower()
 
+    # log.info(f"combo_moves: {combo_move_names}")
     return combo, character_moves, combo_move_names
 
 
 @functools.cache
 def get_character_moves(character: str) -> pd.DataFrame:
     fd: DataFrame = fdo.get_fd_bot_data()
-    character_moves: DataFrame = fd[fd["character"].str.lower() == character.lower()]
+    character_moves: DataFrame = fd.loc[
+        fd["character"].str.lower() == character.lower()
+    ]
 
     log.info(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves

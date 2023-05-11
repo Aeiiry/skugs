@@ -18,7 +18,6 @@ NUMERIC_COLUMNS: list[str] = [
     "on_pushblock",
 ]
 
-
 UNDIZZY_DICT: dict[str, int] = {
     "LIGHT_NORMAL": 15,
     "MEDIUM_NORMAL": 20,
@@ -31,8 +30,6 @@ UNDIZZY_DICT: dict[str, int] = {
 }
 """Undizzy values for each hit type.
 """
-
-
 
 LOG_FILE_SUFFIX = "skugLog"
 LOG_FOLEDER_NAME = "logs"
@@ -48,13 +45,11 @@ RE_IN_PAREN: re.Pattern[str] = re.compile(r"\((.*?)\)")
 RE_X_N: re.Pattern[str] = re.compile(r"(\d*?\.?\d+\s?)([x*]\s?)(\d+)")
 RE_BRACKETS_X_N: re.Pattern[str] = re.compile(r"(\[[\d,\s]*?]\s?)([x*])(\d+)")
 
-
 CHARACTERS_TO_REMOVE: list[str] = ["+", "\n", "±"]
 # Put the list of characters to remove in the regex below in a character class ([]), escaping any special characters
 RE_CHARACTERS_TO_REMOVE: re.Pattern[str] = re.compile(
     r"[" + re.escape("".join(CHARACTERS_TO_REMOVE)) + r"]"
 )
-
 
 UNIVERSAL_MOVE_CATEGORIES = {
     "TAG IN": "tag",
@@ -64,7 +59,6 @@ UNIVERSAL_MOVE_CATEGORIES = {
     "TAUNT": "taunt",
     "ASSIST RECOVERY": "assist_recovery",
 }
-
 
 FRAME_VALUE_REPLACEMENTS: list[str] = ["+", "±"]
 FRAME_VALUE_REPLACEMENTS_STR = f"[{''.join(FRAME_VALUE_REPLACEMENTS)}]"
