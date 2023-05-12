@@ -56,7 +56,7 @@ def fd_rows_to_combo_calc_df(fd_rows: DataFrame, character_fd: DataFrame) -> Dat
                 # look for the move name in the frame data
                 move_name_df: DataFrame = character_fd.loc[
                     character_fd["move_name"] == move_name
-                ]
+                    ]
                 if len(move_name_df) == 1:
                     log.debug(f"Found move name {move_name} in frame data")
 
@@ -106,7 +106,7 @@ def best_match(original_move: str, found_moves: pd.Series) -> pd.Series:  # type
 
 
 def move_name_search(
-    character_moves: pd.DataFrame, combo_moves: pd.Series, move_name: str
+        character_moves: pd.DataFrame, combo_moves: pd.Series, move_name: str
 ) -> pd.Series:
     if isinstance(move_name, str):
         # Search for the move name in the frame data
@@ -158,16 +158,12 @@ def initial_search(character_moves: pd.DataFrame, combo_moves: pd.Series):
 
 
 def initial_combo_operations(
-    character: str, combo_string: str
+        character: str, combo_string: str
 ) -> tuple[DataFrame, DataFrame, pd.Series]:
     combo: DataFrame = pd.DataFrame()
     character_moves: DataFrame = get_character_moves(character)
 
     combo_move_names = pd.Series(combo_string.strip().split(" "))
-
-    combo_move_names = combo_move_names.str.lower()
-    character_moves.loc[:, ["move_name"]] = character_moves["move_name"].str.lower()
-    character_moves.loc[:, ["alt_names"]] = character_moves["alt_names"].str.lower()
 
     # log.info(f"combo_moves: {combo_move_names}")
     return combo, character_moves, combo_move_names
@@ -177,8 +173,8 @@ def initial_combo_operations(
 def get_character_moves(character: str) -> pd.DataFrame:
     fd: DataFrame = fdo.get_fd_bot_data()
     character_moves: DataFrame = fd.loc[
-        fd["character"].str.lower() == character.lower()
-    ]
+        fd.index.get_level_values(0) == character.upper()
+        ]
 
     log.info(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves

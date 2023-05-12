@@ -1,16 +1,14 @@
 import os
 
-import yappi
+import pstats,cProfile
 import pandas as pd
-
 from skombo import combo as combo_moves
 from skombo import sklog as sklog
 from skombo.file_man import CSV_PATH, DATA_PATH, MODULE_NAME, ABS_PATH
 
 log = sklog.get_logger()
-yappi.set_clock_type("cpu")  # Use set_clock_type("wall") for wall time
 
-yappi.start()
+
 
 
 def main() -> None:
@@ -27,10 +25,12 @@ if __name__ == "__main__":
     log.info(f"CSV_PATH: {CSV_PATH}")
 
     log.info(f"DATA_PATH: {DATA_PATH}")
-    pd.set_option("display.max_rows", None)
-    pd.set_option("display.max_columns", None)
-    pd.set_option("display.width", None)
-    main()
-    stats = yappi.get_func_stats()
-
-    stats.save("skug.prof", type="pstat")
+    pd.options.display.max_rows = None  # type: ignore
+    pd.options.display.max_columns = None  # type: ignore
+    pd.options.display.width = None  # type: ignore
+    pd.options.display.max_colwidth = 25
+    with cProfile.Profile() as pr:
+        main()
+    
+    stats = pstats.Stats(pr)
+    stats.dump_stats("skug.prof")

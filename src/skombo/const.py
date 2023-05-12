@@ -3,19 +3,20 @@ import logging
 import re
 
 NUMERIC_COLUMNS: list[str] = [
-    "damage",
-    "chip_damage",
-    "meter_on_hit",
-    "meter_on_whiff",
     "on_hit",
     "on_block",
+    "on_pushblock",
+]
+
+NUMERIC_LIST_COLUMNS: list[str] = [
+    "damage",
+    "chip_damage",
     "startup",
     "active",
     "recovery",
     "hitstun",
     "blockstun",
     "hitstop",
-    "on_pushblock",
 ]
 
 UNDIZZY_DICT: dict[str, int] = {
@@ -45,19 +46,45 @@ RE_IN_PAREN: re.Pattern[str] = re.compile(r"\((.*?)\)")
 RE_X_N: re.Pattern[str] = re.compile(r"(\d*?\.?\d+\s?)([x*]\s?)(\d+)")
 RE_BRACKETS_X_N: re.Pattern[str] = re.compile(r"(\[[\d,\s]*?]\s?)([x*])(\d+)")
 
-CHARACTERS_TO_REMOVE: list[str] = ["+", "\n", "±"]
-# Put the list of characters to remove in the regex below in a character class ([]), escaping any special characters
-RE_CHARACTERS_TO_REMOVE: re.Pattern[str] = re.compile(
-    r"[" + re.escape("".join(CHARACTERS_TO_REMOVE)) + r"]"
-)
+PLUS_MINUS_COLS: list[str] = [
+    "alt_names",
+    "on_hit",
+    "on_block",
+    "startup",
+    "active",
+    "hitstun",
+    "on_pushblock",
+]
+
+REMOVE_NEWLINE_COLS: list[str] = [
+    "guard",
+    "properties",
+    "damage",
+    "meter",
+    "on_hit",
+    "on_block",
+    "startup",
+    "active",
+    "recovery",
+    "hitstun",
+    "hitstop",
+    "on_pushblock",
+    "footer",
+]
 
 UNIVERSAL_MOVE_CATEGORIES = {
-    "TAG IN": "tag",
-    "SNAPBACK": "snap",
-    "THROW": "throw",
-    "AIR THROW": "air_throw",
-    "TAUNT": "taunt",
-    "ASSIST RECOVERY": "assist_recovery",
+    "TAG IN": "TAG",
+    "SNAPBACK": "SNAP",
+    "THROW": "THROW",
+    "AIR THROW": "AIR_THROW",
+    "TAUNT": "TAUNT",
+    "ASSIST RECOVERY": "ASSIST_RECOVERY",
+}
+
+NORMAL_STRENGTHS: dict[str, str] = {
+    "L": "LIGHT",
+    "M": "MEDIUM",
+    "H": "HEAVY",
 }
 
 FRAME_VALUE_REPLACEMENTS: list[str] = ["+", "±"]

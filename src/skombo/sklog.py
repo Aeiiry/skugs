@@ -25,15 +25,14 @@ def init_logger() -> logging.Logger:
         f"{log_file_name}{const.LOG_FILE_EXT}", mode="w", encoding="utf8"
     )
     file_handler.setLevel(logging.DEBUG)
-
+    # log format: [ms since start] [log level] [file name:line number] [message]
     log_file_format = (
-        "%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
+        "[%(msecs)03d] %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
     )
-    date_format = "%H:%M:%S"
 
     console_format = "%(message)s"
 
-    log_formatter: logging.Formatter = logging.Formatter(log_file_format, date_format)
+    log_formatter: logging.Formatter = logging.Formatter(log_file_format)
     console_formatter: logging.Formatter = logging.Formatter(console_format)
 
     console_handler.setFormatter(console_formatter)
@@ -41,13 +40,13 @@ def init_logger() -> logging.Logger:
 
     # Add handlers to logger
     logger: logging.Logger = logging.getLogger()
+    # Redirect stdout and stderr to the logger
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
 
     logger.setLevel(logging.DEBUG)
-    # Redirect stdout and stderr to the logger
-    # sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
     sys.stderr = StreamToLogger(logger, logging.ERROR)  # type: ignore
+    sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
 
     return logger
 
@@ -71,9 +70,11 @@ class StreamToLogger:
 
     def write(self, buf: str) -> None:
         for line in buf.rstrip().splitlines():
-            self.logger.log(self.log_level, line.rstrip())
+            self.logger.log(
+                self.log_level, line.rstrip()
+            ) if line.rstrip() not in ["", "\n", "^", "[", "]", "~"] else None
 
     def flush(
-        self,
+            self,
     ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
         pass

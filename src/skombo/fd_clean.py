@@ -9,9 +9,8 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from pandas import Index
+from pandas import Index, MultiIndex
 from tabulate import tabulate
-
 import skombo.const as const
 import skombo.file_man as fm
 from skombo import sklog as sklog
@@ -19,6 +18,7 @@ from skombo import sklog as sklog
 log = sklog.get_logger()
 
 DataFrame = pd.DataFrame
+
 global fd
 
 fd = None
@@ -163,35 +163,29 @@ def categorise_moves(df: DataFrame) -> DataFrame:
     universal_move_categories: dict[str, str] = const.UNIVERSAL_MOVE_CATEGORIES
     df["move_category"] = df.index.get_level_values(1).map(universal_move_categories)
 
-    re_normal_move = const.RE_NORMAL_MOVE
+    re_normal_move: re.Pattern[str] = const.RE_NORMAL_MOVE
 
-    normal_strengths: dict[str, str] = {
-        "l": "LIGHT",
-        "m": "MEDIUM",
-        "h": "HEAVY",
-    }
+    normal_strengths: dict[str, str] = const.NORMAL_STRENGTHS
     # Normal moves are where move_name matches the regex and the move_category is None, we can use the regex to find the strength of the move by the first group
 
-    df.loc[:, "move_category"] = df.loc[:, "move_name"].apply(
-        lambda x: normal_strengths[search.group(1).lower()] + "_NORMAL"
-        if isinstance(x, str)
-        and (search := re_normal_move.search(x))
-        and search.groups().__len__() > 0
-        else np.nan
+    # Make a mask of the rows that are normal moves, by checking against df.index.get_level_values(1)
+
+    mask: Index = df.index.get_level_values(1).map(
+        lambda x: isinstance(x, str) and re_normal_move.search(x) is not None
+    )
+    # Assign the move_category to the strength of the move
+    df.loc[mask, "move_category"] = (  # type: ignore
+        df.loc[mask]
+        .index.get_level_values(1)
+        .map(lambda x: normal_strengths[re_normal_move.search(x).group(1)] + "_NORMAL")  # type: ignore
     )
 
     # Supers are where meter_on_hit has length 1 and meter_on_hit[0] is  -100 or less
     df.loc[
-        df["meter_on_hit"].apply(
-            # meter_on_hit contains a lot of float values represented as strings
-            lambda x: isinstance(x, list)
-            and len(x) >= 1
-            and x[0][0] == "-"
-            and int(x[0]) <= -100
-        ),
+        df.astype(str)["meter_on_hit"].str.contains(r"-\d\d", regex=True, na=False)
+        & df["move_category"].isna(),
         "move_category",
     ] = "SUPER"
-
     # For now, assume everything else is a special
     # TODO: Add more special move categories for things like double's level 5 projectiles, annie taunt riposte etc
 
@@ -235,8 +229,14 @@ def add_undizzy_values(df: DataFrame) -> DataFrame:
 
 
 @functools.cache
-def convert_numeric(x: Any) -> int | Any:
-    return int(x) if isinstance(x, str) and x.isnumeric() else x
+def str_to_int(x: Any) -> int | Any:
+    if isinstance(x, str):
+        x = x.strip()
+        if "-" in x:
+            return 1 - int(numx) if (numx := x.replace("-", "")).isnumeric() else x
+        else:
+            return int(x) if x.isnumeric() else x
+    return x
 
 
 def clean_frame_data(frame_data: DataFrame) -> DataFrame:
@@ -267,12 +267,13 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
     log.debug("Separating meter into on_hit and on_whiff")
     frame_data = separate_meter(frame_data)
 
-    log.debug("Converting negative numbers to int")
-    numeric_columns = const.NUMERIC_COLUMNS
+    frame_data[const.NUMERIC_COLUMNS] = frame_data[const.NUMERIC_COLUMNS].applymap(
+        str_to_int
+    )
 
-    log.debug("Converting numbers in strings to int")
-
-    frame_data[numeric_columns] = frame_data[numeric_columns].convert_dtypes()
+    frame_data[const.NUMERIC_LIST_COLUMNS] = frame_data[
+        const.NUMERIC_LIST_COLUMNS
+    ].applymap(lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x)
 
     log.debug("Separating on_hit into on_hit_advantage and on_hit_effect")
     frame_data = separate_on_hit(frame_data)
@@ -311,14 +312,17 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     frame_data = frame_data.replace("-", np.nan)
 
     # Remove characters from columns that are not needed
-    columns_to_remove_chars: list[str] = frame_data.columns.tolist()
-    columns_to_remove_chars.remove("alt_names")
-    # Remove characters from all string columns
-    frame_data[columns_to_remove_chars] = frame_data[columns_to_remove_chars].apply(
-        lambda x: x.str.replace(const.RE_CHARACTERS_TO_REMOVE, "", regex=True)
-        if x.dtype == "object"
-        else x
-    )
+
+    # Remove newlines from relevant columns
+    frame_data.loc[:, const.REMOVE_NEWLINE_COLS] = frame_data.loc[
+        :, const.REMOVE_NEWLINE_COLS
+    ].replace("\n", "")
+
+    # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
+    re_plus_plusminus = r"\+|\u00B1"
+    frame_data.loc[:, const.PLUS_MINUS_COLS] = frame_data.loc[
+        :, const.PLUS_MINUS_COLS
+    ].replace(re_plus_plusminus, "", regex=True)
 
     # Remove percentage symbol from meter column
     frame_data["meter"] = frame_data["meter"].str.replace("%", "")
@@ -331,11 +335,10 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
 
     # Expand all x_n notation in damage, hitstun, blockstun, hitstop, meter, and active columns
     x_n_cols = ["damage", "hitstun", "blockstun", "hitstop", "meter", "active"]
+
     frame_data[x_n_cols] = frame_data[x_n_cols].applymap(
         lambda x: expand_all_x_n(x) if "x" in str(x) else x
     )
-
-    # find if there are any lists in the damage column that are not equal in length to the meter_on_hit column for that row
 
     return frame_data
 
@@ -358,12 +361,32 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     frame_data.loc[:, "damage"] = frame_data.loc[:, "damage"].str.replace(
         r"\(.*\)", "", regex=True
     )
-    log.debug(f'\n{frame_data.loc[frame_data.loc[:, "chip_damage"].notna(),["damage","chip_damage"]]}')
+
+    frame_data.loc[:, "damage"] = (
+        frame_data.loc[:, "damage"].str.strip().replace(r",,", ",", regex=True)
+    )
+    frame_data.loc[:, "damage"] = (
+        frame_data.loc[:, "damage"]
+        .str.strip()
+        .replace(r"^,|,$", "", regex=True)
+        # .str.split(",")
+    )
+
+    frame_data.loc[:, "chip_damage"] = (
+        frame_data.loc[:, "chip_damage"].str.strip().replace(r",,", ",", regex=True)
+    )
+    frame_data.loc[:, "chip_damage"] = (
+        frame_data.loc[:, "chip_damage"]
+        .str.strip()
+        .replace(r"^,|,$", "", regex=True)
+        # .str.split(",")
+    )
 
     "]'"
-    log.info(f"========== # of rows with chip damage: {frame_data['chip_damage'].count()} ==========")
+    log.info(
+        f"========== # of rows with chip damage: {frame_data['chip_damage'].count()} =========="
+    )
     # log dtypes
-
 
     return frame_data
 
@@ -474,12 +497,10 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     star_rows = star_rows.fillna(frame_data.loc[orig_rows.index])
     # Add _star_power to index 2 to differentiate between the original and star power rows
     star_rows.index = star_rows.index.set_levels(  # type: ignore
-        star_rows.index.levels[1] + "_star_power", level=1  # type: ignore
+        star_rows.index.levels[1] + "_STAR_POWER", level=1  # type: ignore
     )
 
-    log.info(
-        f"Star power extracted and converted for {tabulate(star_rows.index)}"
-    )
+    log.info(f"Star power extracted and converted for {tabulate(star_rows.index)}")
 
     # Modify original rows to have the orig_rows damage and on_block values
     frame_data.loc[orig_rows.index, orig_rows.columns] = orig_rows
@@ -523,16 +544,22 @@ def extract_fd_from_csv() -> DataFrame:
     # We don't need existing index column
     with open(fm.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
         characters_df: DataFrame = format_column_headings(
-            pd.read_csv(characters_file, encoding="utf8").convert_dtypes()
+            pd.read_csv(characters_file, encoding="utf8").astype(str)
         )
 
     with open(fm.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
         frame_data: DataFrame = format_column_headings(
-            pd.read_csv(frame_file, encoding="utf8").convert_dtypes()
+            pd.read_csv(frame_file, encoding="utf8").astype(str)
         )
-    atexit.register(frame_data.to_csv, "frame_data.csv")
 
     log.info("Loaded csvs into dataframes")
+
+    # == Clean up move_name column before using it as an index ==
+    frame_data["move_name"] = (
+        frame_data["move_name"].str.strip().replace(r"\n", "", regex=True)
+    )
+
+    # == Set the index to character and move_name ==
 
     frame_data = frame_data.set_index(["character", "move_name"], verify_integrity=True)
     # Name the index
@@ -541,13 +568,9 @@ def extract_fd_from_csv() -> DataFrame:
     frame_data = add_new_columns_at_column(
         frame_data, "damage", ["damage", "chip_damage"]
     )
+    frame_data = frame_data.astype(str)
 
-    frame_data.info(verbose=True, memory_usage="deep")
     frame_data = clean_frame_data(frame_data)
-
-    frame_data.info(buf=log.debug, verbose=True, memory_usage="deep")
-
-    log.info("========== Data extracted and cleaned ==========")
 
     """     # Get some stats about the data
     log.debug(f"Number of rows in frame_data: {frame_data.shape[0]}")
@@ -558,6 +581,7 @@ def extract_fd_from_csv() -> DataFrame:
         log.debug(f"Value counts for column {column}:")
         log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n") """
 
-    # Export as csv on program exit
+    # Export as csv
+    frame_data.to_csv("fd_cleaned.csv")
 
     return frame_data
