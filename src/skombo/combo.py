@@ -2,12 +2,10 @@
 """
 
 import re
-import string
 from difflib import SequenceMatcher
 from typing import Any
 
 import pandas as pd
-from tabulate import tabulate
 
 from skombo import fd_clean as fdo
 from skombo import sklog as sklog
@@ -84,7 +82,7 @@ def parse_combo_from_string(character: str, combo_string: str) -> pd.DataFrame:
     # If a move is not found, check each item in the alt_names list for the move
 
     # Search character_moves DataFrame for move names or alternative names
-    found_moves = initial_search(character_moves, combo_moves)
+    # found_moves = initial_search(character_moves, combo_moves)
 
     # Find the move with the highest similarity score if multiple matches exist
     # if len(found_moves) > 1:

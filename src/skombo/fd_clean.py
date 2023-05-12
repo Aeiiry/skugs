@@ -1,5 +1,6 @@
 # sourcery skip: lambdas-should-be-short
 """Main module for frame data operations."""
+import atexit
 import functools
 import os
 import re
@@ -8,17 +9,19 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+from pandas import Index
+from tabulate import tabulate
+
 import skombo.const as const
 import skombo.file_man as fm
 from skombo import sklog as sklog
-from tabulate import tabulate
 
 log = sklog.get_logger()
 
 DataFrame = pd.DataFrame
-global frame_data
+global fd
 
-frame_data = None
+fd = None
 
 
 @functools.cache
@@ -47,7 +50,7 @@ def expand_all_x_n(damage: str) -> str:
         if " " in damage:
             damage = damage.replace(" ", "")
         while (x_n_match := const.RE_X_N.search(damage)) or (
-                x_n_match := const.RE_BRACKETS_X_N.search(damage)
+            x_n_match := const.RE_BRACKETS_X_N.search(damage)
         ):
             damage = expand_x_n(x_n_match)
 
@@ -55,10 +58,10 @@ def expand_all_x_n(damage: str) -> str:
 
 
 def apply_to_columns(
-        frame_data: DataFrame,
-        func: abc.Callable,  # type: ignore
-        columns: list[str],
-        non_nan: bool = False,
+    frame_data: DataFrame,
+    func: abc.Callable,  # type: ignore
+    columns: list[str],
+    non_nan: bool = False,
 ) -> DataFrame:
     if non_nan:
         # apply function to non-nan cells in specified columns
@@ -83,7 +86,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     else:
         expanded_damage = ",".join([damage] * num)
     return (
-        match.string[: match.start()] + expanded_damage + match.string[match.end():]
+        match.string[: match.start()] + expanded_damage + match.string[match.end() :]
         if match.end()
         else match.string[: match.start()] + expanded_damage
     )
@@ -158,7 +161,7 @@ def categorise_moves(df: DataFrame) -> DataFrame:
     # Dict of move names that each character has 1 of
     log.debug("Categorising moves")
     universal_move_categories: dict[str, str] = const.UNIVERSAL_MOVE_CATEGORIES
-    df["move_category"] = df["move_name"].map(universal_move_categories)
+    df["move_category"] = df.index.get_level_values(1).map(universal_move_categories)
 
     re_normal_move = const.RE_NORMAL_MOVE
 
@@ -172,8 +175,8 @@ def categorise_moves(df: DataFrame) -> DataFrame:
     df.loc[:, "move_category"] = df.loc[:, "move_name"].apply(
         lambda x: normal_strengths[search.group(1).lower()] + "_NORMAL"
         if isinstance(x, str)
-           and (search := re_normal_move.search(x))
-           and search.groups().__len__() > 0
+        and (search := re_normal_move.search(x))
+        and search.groups().__len__() > 0
         else np.nan
     )
 
@@ -182,9 +185,9 @@ def categorise_moves(df: DataFrame) -> DataFrame:
         df["meter_on_hit"].apply(
             # meter_on_hit contains a lot of float values represented as strings
             lambda x: isinstance(x, list)
-                      and len(x) >= 1
-                      and x[0][0] == "-"
-                      and int(x[0]) <= -100
+            and len(x) >= 1
+            and x[0][0] == "-"
+            and int(x[0]) <= -100
         ),
         "move_category",
     ] = "SUPER"
@@ -347,52 +350,30 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     Returns:
         New dataframe with chip_damage column seper
     """
-    # Create a new column for chip damage
-    # If the damage column is a string, get the value between the parentheses, this is the chip damage
+    # Extract values in parentheses from damage column and put them in chip_damage column
+    frame_data.loc[:, "chip_damage"] = frame_data.loc[:, "damage"].str.extract(
+        r"\((.*)\)"
+    )[0]
+    # Remove the values in parentheses from damage column
+    frame_data.loc[:, "damage"] = frame_data.loc[:, "damage"].str.replace(
+        r"\(.*\)", "", regex=True
+    )
+    log.debug(f'\n{frame_data.loc[frame_data.loc[:, "chip_damage"].notna(),["damage","chip_damage"]]}')
 
-    # apply the function to the 'damage' column and assign the result to a new 'chip_damage' column
-
-    # Create a boolean mask of rows containing parentheses in 'damage' column
-    paren_mask = frame_data["damage"].str.contains(r"\(").fillna(False)
-
-    # Extract the content inside parentheses using regex
-    chip_damage = frame_data.loc[paren_mask, "damage"].str.extract(r"\((\d+)\)")
-
-    # Fill NaN values with 0
-    chip_damage = chip_damage.fillna(0).astype(int)
-
-    # Assign extracted values to 'chip_damage' column
-    frame_data.loc[paren_mask, "chip_damage"] = chip_damage
-
-    # Create a dictionary of functions to apply to the damage and chip_damage columns
-    function_column_dict: dict[abc.Callable, list[str]] = {  # type: ignore
-        lambda d: d[: d.find("(")]
-        if isinstance(d, str) and "(" in d
-        else d: ["damage"],
-        lambda x: [
-            int(d.strip()) if d.strip().isnumeric() else d
-            for d in (x.split(","))
-            if d.strip() not in ["", ","]
-        ]
-        if isinstance(x, str)
-        else x: ["damage", "chip_damage"],
-    }
-    for func, columns in function_column_dict.items():
-        frame_data = apply_to_columns(frame_data, func, columns)
-
+    "]'"
+    log.info(f"========== # of rows with chip damage: {frame_data['chip_damage'].count()} ==========")
     # log dtypes
-    log.debug("Data types after separating damage and chip damage")
-    log.debug(frame_data.dtypes)
+
 
     return frame_data
 
 
 def add_new_columns_at_column(
-        frame_data: DataFrame,
-        old_columns: str | list[str],
-        new_columns: str | list[str],
-        offset: int = 1,
-        copy_values: bool = False,
+    frame_data: DataFrame,
+    old_columns: str | list[str],
+    new_columns: str | list[str],
+    offset: int = 1,
+    copy_values: bool = False,
 ) -> DataFrame:
     """
     Add new columns to a DataFrame in place of old columns, leaving values in the old columns if any of the names match the new columns names
@@ -420,7 +401,7 @@ def add_new_columns_at_column(
     # Otherwise, the old columns will be overwritten
 
     new_columns_index: int = (
-            frame_data.columns.tolist().index(old_columns_list[-1]) + offset
+        frame_data.columns.tolist().index(old_columns_list[-1]) + offset
     )
 
     # Insert the new columns at the last index of the old columns
@@ -456,62 +437,55 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     Returns:
         A DataFrame with a column for each row in the data
     """
-    # Locate all rows that have a star power, star power is annie exclusive and is in []
-    # These rows will have a damage and on_block value that is a list
-    # character is annie
-    star_power_annie_rows: pd.DataFrame = frame_data[
-        (
-                frame_data["damage"].apply(lambda x: isinstance(x, str) and "[" in x)
-                | frame_data["on_block"].apply(lambda x: isinstance(x, str) and "[" in x)
-        )
-        & (frame_data["character"] == "Annie")
-        ]  # type: ignore
 
-    # Insert copies of the rows that have star power
-    # original_rows_copy: DataFrame = star_power_annie_rows.copy()
+    # First select rows of index ANNIE and just the  damage and on_block
+    star_rows: DataFrame = frame_data.loc[("ANNIE", slice(None)), ["damage", "on_block"]]  # type: ignore
+    log.info("Splitting Annie's normals into star power and original versions")
 
-    # log the rows that have star power, just move_name, damage and on_block
-    log.debug("////////// Rows that have star power //////////")
-    log.debug(f"\n{tabulate(star_power_annie_rows[['move_name', 'damage', 'on_block']])}")  # type: ignore
+    # Filter out rows without a "[" in damage or on_block
+    star_rows = star_rows[
+        (star_rows["damage"].notna() & star_rows["damage"].str.contains(r"\["))
+        | (star_rows["on_block"].notna() & star_rows["on_block"].str.contains(r"\["))
+    ]
 
-    # Probably isn't too slow to iterate through unique move names to get pairs of rows
-    # Get unique move names from star_power_annie_rows
-    move_names = star_power_annie_rows["move_name"].unique()
+    orig_rows: DataFrame = star_rows.copy()
 
-    # Get the single string damage and on_block values for each move name
-    damage_values = star_power_annie_rows[
-        star_power_annie_rows["move_name"].isin(move_names)
-    ]["damage"]
-    star_damage_values = damage_values.str.replace(r"[\[\]]", "", regex=True)
-    on_block_values = star_power_annie_rows[
-        star_power_annie_rows["move_name"].isin(move_names)
-    ]["on_block"]
-    star_on_block_values = on_block_values.str.extract(r"\[(.*)]").fillna("").iloc[:, 0]
+    # Remove the content inside the brackets for the original rows
+    orig_rows.loc[:, "damage"] = orig_rows["damage"].str.replace(
+        r"\[.*\]", "", regex=True
+    )
+    orig_rows.loc[:, "on_block"] = orig_rows["on_block"].str.replace(
+        r"\[.*\]", "", regex=True
+    )
 
-    # Remove stars from original damage and on_block values
-    damage_values = damage_values.str.replace(r"\[.*]", "", regex=True)
-    on_block_values = on_block_values.str.replace(r"\[.*]", "", regex=True)
+    # Remove brackets for star power damage
+    star_rows.loc[:, "damage"] = star_rows["damage"].str.replace(
+        r"\[|\]", "", regex=True
+    )
+    # Extract the content inside the brackets for star power on_block
+    star_rows.loc[:, "on_block"] = star_rows["on_block"].str.extract(
+        r"\[(.*)\]", expand=False
+    )
 
-    # Update damage and on_block values for original rows
-    frame_data.loc[frame_data["move_name"].isin(move_names), "damage"] = damage_values
-    frame_data.loc[
-        frame_data["move_name"].isin(move_names), "on_block"
-    ] = on_block_values
+    # convert star rows to have the same columns as frame_data
+    star_rows = star_rows.reindex(columns=frame_data.columns)
 
-    # Update damage and on_block values for new rows
-    star_power_annie_rows.loc[
-        star_power_annie_rows["move_name"].isin(move_names), "damage"
-    ] = star_damage_values
-    star_power_annie_rows.loc[
-        star_power_annie_rows["move_name"].isin(move_names), "on_block"
-    ] = star_on_block_values
+    # Fill the nan values with corresponding values from the original rows
+    star_rows = star_rows.fillna(frame_data.loc[orig_rows.index])
+    # Add _star_power to index 2 to differentiate between the original and star power rows
+    star_rows.index = star_rows.index.set_levels(  # type: ignore
+        star_rows.index.levels[1] + "_star_power", level=1  # type: ignore
+    )
 
-    # Update move_name for new rows
-    star_power_annie_rows.loc[
-        star_power_annie_rows["move_name"].isin(move_names), "move_name"
-    ] = (move_names + "_STAR_POWER")
+    log.info(
+        f"Star power extracted and converted for {tabulate(star_rows.index)}"
+    )
 
-    frame_data = pd.concat([frame_data, star_power_annie_rows], ignore_index=True)
+    # Modify original rows to have the orig_rows damage and on_block values
+    frame_data.loc[orig_rows.index, orig_rows.columns] = orig_rows
+
+    # Add the star power rows to the original frame_data, interleave the rows with the original rows
+    frame_data = pd.concat([frame_data, star_rows])  # type: ignore
 
     return frame_data
 
@@ -532,17 +506,6 @@ def format_column_headings(df: DataFrame) -> DataFrame:
     df.columns = df_lower_cols  # type: ignore
     log.debug(f"Formatted column headings: {df.columns}")
     return df
-
-
-def capitalise_words(name: str) -> str:
-    """
-    Capitalise the first letter of each word in a string
-    """
-    return (
-        " ".join([word.capitalize() for word in name.split(" ")])
-        if pd.notnull(name)
-        else name
-    )
 
 
 @functools.cache
@@ -567,28 +530,22 @@ def extract_fd_from_csv() -> DataFrame:
         frame_data: DataFrame = format_column_headings(
             pd.read_csv(frame_file, encoding="utf8").convert_dtypes()
         )
+    atexit.register(frame_data.to_csv, "frame_data.csv")
 
     log.info("Loaded csvs into dataframes")
-    # Characters df is indexed by character name, so we need to rename it
 
-    characters_df["character"] = characters_df["character"].apply(capitalise_words)
-    frame_data["character"] = frame_data["character"].apply(capitalise_words)
-
-    log.debug(f"Changed index of characters_df to {characters_df.index.name}")
-    log.debug(f"Changed index of frame_data to {frame_data.index.names}")
+    frame_data = frame_data.set_index(["character", "move_name"], verify_integrity=True)
+    # Name the index
+    frame_data.index.names = ["character", "move_name"]
 
     frame_data = add_new_columns_at_column(
         frame_data, "damage", ["damage", "chip_damage"]
     )
 
-
-
-    frame_data.info()
-
+    frame_data.info(verbose=True, memory_usage="deep")
     frame_data = clean_frame_data(frame_data)
 
-
-    frame_data.info()
+    frame_data.info(buf=log.debug, verbose=True, memory_usage="deep")
 
     log.info("========== Data extracted and cleaned ==========")
 
@@ -601,11 +558,6 @@ def extract_fd_from_csv() -> DataFrame:
         log.debug(f"Value counts for column {column}:")
         log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n") """
 
-    # Export as csv
-    try:
-        frame_data.to_csv("output.csv", index=False)
-    except PermissionError:
-        log.error("Could not export to csv, ensure output.csv is not open")
-    else:
-        log.info("Exported to csv")
+    # Export as csv on program exit
+
     return frame_data

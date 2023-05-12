@@ -46,7 +46,7 @@ def init_logger() -> logging.Logger:
 
     logger.setLevel(logging.DEBUG)
     # Redirect stdout and stderr to the logger
-    sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
+    # sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
     sys.stderr = StreamToLogger(logger, logging.ERROR)  # type: ignore
 
     return logger
@@ -74,6 +74,6 @@ class StreamToLogger:
             self.logger.log(self.log_level, line.rstrip())
 
     def flush(
-            self,
+        self,
     ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
         pass
