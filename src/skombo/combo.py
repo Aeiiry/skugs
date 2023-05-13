@@ -4,9 +4,11 @@
 import re
 from difflib import SequenceMatcher
 from typing import Any
+from numpy import char, number
 
 import pandas as pd
-
+from pandas.core import frame
+from skombo import const
 from skombo import fd_clean as fdo
 from skombo import sklog as sklog
 
@@ -18,49 +20,85 @@ import functools
 DataFrame = pd.DataFrame
 
 
-def parse_combos_from_csv(csv_path: str) -> pd.DataFrame:
+def get_combo_scaling_factor(fd: DataFrame) -> pd.Series:
+    """Get the scaling factor for the combo"""
+    fd = fd.reset_index(drop=True)
+    scaling_series = pd.Series(dtype=float)
+
+    # constants
+    factor = const.SCALING_FACTOR
+
+    min_1k = const.SCALING_MIN_1K
+    min_other = const.SCALING_MIN
+    start = const.SCALING_START
+
+    # Scaling is 1.0 for first 3 hits
+    # Then 0.875 less for each hit after that
+    # Minimum scaling is 0.2
+    # Minimum scaling for moves with over 1000 base damage is 0.275
+    index: int
+    skip_row: int = 0
+    for index, row in fd.iterrows():  # type: ignore
+        offset_index = index - skip_row
+        if not isinstance(row["damage"], int) or row["damage"] == 0:
+            scaling_series[offset_index] = scaling_series[offset_index - 1]
+            skip_row += 1
+
+            continue
+        if offset_index < 3:
+            scaling_series[offset_index] = start
+        else:
+            min_for_hit: float = min_1k if row["damage"] >= 1000 else min_other
+            scaling_series[offset_index] = max(
+                start * factor ** (offset_index - 2), min_for_hit
+            )
+
+    # Return the scaling factor for the combo for each hit
+
+    return scaling_series
+
+
+def naiive_damage_calc(moves: DataFrame):
+    """Naiive damage calc for a series of moves"""
+    moves["scaling_factor"] = get_combo_scaling_factor(moves)
+    moves["damage"] = moves["damage"].apply(fdo.attempt_to_int)
+    # Replace any non floats with 0
+    moves["damage"] = moves["damage"].apply(lambda x: x if isinstance(x, int) else 0).astype(float)
+    moves["scaled_damage"] = moves["damage"] * moves["scaling_factor"]
+
+    return moves["scaled_damage"].sum(), moves
+
+
+def parse_combos_from_csv(csv_path: str) -> list:
     """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
+    log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
     combos_df: DataFrame = pd.read_csv(csv_path)
-    return pd.concat(
-        [
+    log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
+    return [
+        (
             parse_combo_from_string(
                 combos_df["character"][index], combos_df["notation"][index]
-            )
-            for index in range(len(combos_df.index))
-        ]
-    )
+            ),
+            combos_df["damage"][index],
+        )
+        for index in range(len(combos_df.index))
+    ]
 
 
-def fd_rows_to_combo_calc_df(fd_rows: DataFrame, character_fd: DataFrame) -> DataFrame:
+def fd_to_combo_df(fd: DataFrame, character_fd: DataFrame) -> DataFrame:
     """This is a function primarily to turn pure frame data rows into a dataframe that can be used for combo calculations
     Individual hits will be separated out, and the damage will be calculated for each hit alongside considerations for what current move the combo is on
     """
 
-    # First we need to expand on moves that are technically multiple moves, e.g 5HPx2 -> 5HP, 5HPx2. 236K~K -> 236K, 236K~K
+    combo_df = fd.copy().drop(
+        ["alt_names", "footer", "thumbnail_url", "footer_url"], axis=1
+    )
 
-    # Case for moves that have a number in the name, e.g 5HPx2
-    # There is a possibility of changing the number of rows in the dataframe, so we need to iterate over the dataframe in reverse
-    re_xn_move_name: re.Pattern[str] = re.compile(r"[xX]\s?(\d)")
-    for index, row in fd_rows[::-1].iterrows():
-        if move_name_xn := re_xn_move_name.search(row["move_name"]):
-            log.debug(f"Found move with possible xN repetition: {row['move_name']}")
+    # Split damage into individual rows for each hit, damage column contains individual lists of damage for each hit of the move
 
-            if move_name_xn[1].isnumeric():
-                log.debug(f"Found move with xN repetition: {row['move_name']}")
-                # Get the number of repetitions
-                repetitions: int = int(move_name_xn[1])
+    combo_df = combo_df.explode(["damage"]).convert_dtypes()
 
-                # See if a valid move exists for the move with the xN removed
-                move_name: str = row["move_name"].replace(move_name_xn[0], "").strip()
-
-                # look for the move name in the frame data
-                move_name_df: DataFrame = character_fd.loc[
-                    character_fd["move_name"] == move_name
-                    ]
-                if len(move_name_df) == 1:
-                    log.debug(f"Found move name {move_name} in frame data")
-
-    return fd_rows
+    return combo_df
 
 
 @functools.cache
@@ -74,26 +112,25 @@ def similar(a: Any, b: Any) -> float:
 
 @functools.cache
 def parse_combo_from_string(character: str, combo_string: str) -> pd.DataFrame:
-    combo, character_moves, combo_moves = initial_combo_operations(
-        character, combo_string
-    )
+    # Get the frame data for the character
 
+    character_moves: DataFrame = get_character_moves(character)
+
+    combo_move_names = pd.Series(combo_string.strip().split(" "))
+    log.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
     # Attempt to find each move in the combo string in the character's moves from the frame data
     # If a move is not found, check each item in the alt_names list for the move
 
     # Search character_moves DataFrame for move names or alternative names
-    # found_moves = initial_search(character_moves, combo_moves)
+    combo_df: DataFrame = find_combo_moves(character_moves, combo_move_names)
 
     # Find the move with the highest similarity score if multiple matches exist
     # if len(found_moves) > 1:
-    #   found_moves = best_match(combo_moves, found_moves)
+    # found_moves = best_match(combo_moves, found_moves)
 
-    # Add the move to the combo
-    # combo = pd.concat([combo, found_moves])
+    combo_calc_df: DataFrame = fd_to_combo_df(combo_df, character_moves)
 
-    # combo_calc_df: DataFrame = fd_rows_to_combo_calc_df(combo, character_moves)
-
-    return combo
+    return combo_calc_df.reset_index(drop=True)
 
 
 def best_match(original_move: str, found_moves: pd.Series) -> pd.Series:  # type: ignore
@@ -105,68 +142,117 @@ def best_match(original_move: str, found_moves: pd.Series) -> pd.Series:  # type
     return found_moves
 
 
-def move_name_search(
-        character_moves: pd.DataFrame, combo_moves: pd.Series, move_name: str
-) -> pd.Series:
-    if isinstance(move_name, str):
-        # Search for the move name in the frame data
-        move_name_series = (
-            character_moves["move_name"]
-            .where(character_moves["move_name"] == move_name)
-            .dropna()
-            .reset_index(drop=True)
+def character_specific_move_name_check(character: str, move_name: str) -> str:
+    # sourcery skip: merge-nested-ifs
+    if character == "ANNIE":
+        # We don't actually need the move strength for annie divekicks
+        if re.search(r"236[lmh]k", move_name, flags=re.IGNORECASE):
+            log.debug(f"Removing move strength from annie divekick {move_name}")
+            move_name = re.sub(r"[lmh]", "", move_name, flags=re.IGNORECASE)
+
+    return move_name
+
+
+def find_single_move(
+    character_moves: pd.DataFrame, combo_moves: pd.Series, move_name: str
+) -> pd.Series:  # sourcery skip: remove-pass-body
+    move_name = move_name.upper()
+
+    character = str(character_moves.index.get_level_values(0)[0])
+
+    blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
+
+    move_df = pd.DataFrame()
+
+    if move_name in const.IGNORED_MOVES:
+        return blank_move
+
+    in_index = character_moves.index.get_level_values(1) == move_name
+
+    move_name = character_specific_move_name_check(character, move_name)
+
+    if in_index.max() == True:
+        # log.info(f"Found move name {move_name} in frame data")
+        move_df = character_moves[in_index]
+
+    else:
+        in_alt_names = character_moves["alt_names"].str.contains(move_name, regex=False)
+        if in_alt_names.any():
+            pass
+        # log.info(f"Found move name {move_name} in alt_names")
+        else:
+            log.warning(f"!!! Could not find move name {move_name} in frame data !!!")
+        move_df = character_moves[in_alt_names]
+
+    blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
+    return move_df.iloc[0] if move_df.__len__() > 0 else blank_move
+
+
+def find_move_repeats_follow_ups(moves: pd.Series):
+    moves_new: pd.Series = pd.Series()
+
+    xn_re: re.Pattern[str] = re.compile(r"\s?X\s?(\d+)", re.IGNORECASE)
+
+    for move in moves:
+        if xn_match := xn_re.search(move):
+            # log.info(f"Found move repeat {xn_match[1]} in {move}")
+
+            xn = int(xn_match[1])
+
+            for i in range(xn):
+                move_name: str = (
+                    move.replace(xn_match[0], f" X{str(i + 1)}")
+                    if i > 0
+                    else move.replace(xn_match[0], "")
+                )
+
+                moves_new = pd.concat([moves_new, pd.Series([move_name])])
+
+        elif followup_match := re.search(r"[~]", move):
+            followup_split: list[str] = followup_match.string.split("~")
+
+            for i in range(followup_split.__len__()):
+                moves_new = pd.concat(
+                    [moves_new, pd.Series("~".join(followup_split[: i + 1]))]
+                )
+
+            # log.info(f"Found followup {followup_split[1]} in {move}")
+
+        else:
+            moves_new = pd.concat([moves_new, pd.Series([move])])
+
+    # log.info(moves_new)
+
+    return moves_new
+
+
+def find_combo_moves(
+    character_moves: pd.DataFrame, combo_moves: pd.Series
+) -> DataFrame:
+    # Initialize empty DataFrame with columns 'original_move_name' and 'move_name'
+    move_series: pd.Series = pd.Series()
+    # character mopves columns plus 'character' and 'move_name'
+    combo_df_cols: list[str] = ["character", "move_name"] + list(
+        character_moves.columns
+    )
+    combo_df: pd.DataFrame = pd.DataFrame(columns=combo_df_cols)
+
+    # Interpret things such as 5HPx2 as 5hpx1, 5hpx2
+    combo_moves = find_move_repeats_follow_ups(combo_moves)
+
+    # Search for each move in the combo string in the frame data
+    for i, move_name in enumerate(combo_moves):
+        # If move_name isn't a string then skip to next move in the list
+        move_series = find_single_move(character_moves, combo_moves, move_name).fillna(
+            ""
         )
 
-        # If move name not found in move_names then search in alt_names
-        if len(move_name_series) == 0:
-            move_name_series = (
-                character_moves["move_name"]
-                .where(character_moves["alt_names"].str.contains(move_name))
-                .dropna()
-                .reset_index(drop=True)
-            )
-
-        # If there are multiple matches for move name, then log info message and select the best match
-        if len(move_name_series) > 1:
-            log.info(
-                f"Multiple moves found for move name {move_name}, checking similarity to pick best match"
-            )
-            move_name_series = best_match(move_name, move_name_series)
-
-        return move_name_series
-
-
-def initial_search(character_moves: pd.DataFrame, combo_moves: pd.Series):
-    # Initialize empty DataFrame with columns 'original_move_name' and 'move_name'
-    move_name_series: pd.Series = pd.Series()
-    combo_series: pd.Series = pd.Series()
-    # Search for each move in the combo string in the frame data
-    for move_name in combo_moves:
-        # If move_name isn't a string then skip to next move in the list
-        move_name_series = move_name_search(character_moves, combo_moves, move_name)
-
         # Add the move name to the move_name_series DataFrame
-        if len(move_name_series) == 0:
-            log.warning(f"Move name {move_name} not found in search")
-            combo_series = pd.concat([combo_series, pd.Series()])
-        else:
-            log.debug(f"Move name {move_name} found in search")
+        combo_df.loc[i, :] = move_series
+        combo_df.at[i, "character"] = move_series.name[0]  # type: ignore
+        combo_df.at[i, "move_name"] = move_series.name[1]  # type: ignore
 
-            combo_series = pd.concat([combo_series, move_name_series])
-    log.info(combo_series)
-    return move_name_series
-
-
-def initial_combo_operations(
-        character: str, combo_string: str
-) -> tuple[DataFrame, DataFrame, pd.Series]:
-    combo: DataFrame = pd.DataFrame()
-    character_moves: DataFrame = get_character_moves(character)
-
-    combo_move_names = pd.Series(combo_string.strip().split(" "))
-
-    # log.info(f"combo_moves: {combo_move_names}")
-    return combo, character_moves, combo_move_names
+    return combo_df
 
 
 @functools.cache
@@ -174,7 +260,7 @@ def get_character_moves(character: str) -> pd.DataFrame:
     fd: DataFrame = fdo.get_fd_bot_data()
     character_moves: DataFrame = fd.loc[
         fd.index.get_level_values(0) == character.upper()
-        ]
+    ]
 
-    log.info(f"Retreived {len(character_moves)} moves for {character}")
+    # log.info(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves

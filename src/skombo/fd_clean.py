@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from pandas import Index, MultiIndex
 from tabulate import tabulate
+
 import skombo.const as const
 import skombo.file_man as fm
 from skombo import sklog as sklog
@@ -159,7 +160,6 @@ def separate_on_hit(frame_data: DataFrame) -> DataFrame:
 def categorise_moves(df: DataFrame) -> DataFrame:
     """Categorise moves into different types"""
     # Dict of move names that each character has 1 of
-    log.debug("Categorising moves")
     universal_move_categories: dict[str, str] = const.UNIVERSAL_MOVE_CATEGORIES
     df["move_category"] = df.index.get_level_values(1).map(universal_move_categories)
 
@@ -248,53 +248,44 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
         DataFrame containing the cleaned data in a more readable format
     """
 
-    log.debug("Cleaning frame data")
-    log.debug("Inserting alt name aliases")
+    log.info("========== Cleaning frame data ==========")
     frame_data = insert_alt_name_aliases(frame_data)
+    log.info("Inserted alt name aliases from macros .csv")
 
-    log.debug("Initial string cleaning")
+    log.info("=== Initial string cleaning ===")
     frame_data = initial_string_cleaning(frame_data)
 
-    # Turn empty strings into np.nan
-    frame_data = frame_data.replace("", np.nan)
-
-    log.debug("Separating Annie stars")
     frame_data = separate_annie_stars(frame_data)
 
-    log.debug("Separating damage and chip damage")
     frame_data = separate_damage_chip_damage(frame_data)
 
-    log.debug("Separating meter into on_hit and on_whiff")
     frame_data = separate_meter(frame_data)
+    log.info(
+        "Separated [meter] column into [meter_on_hit] and [meter_on_whiff] columns"
+    )
 
     frame_data[const.NUMERIC_COLUMNS] = frame_data[const.NUMERIC_COLUMNS].applymap(
         str_to_int
     )
+    log.info(f"Converted numeric columns to integers: {const.NUMERIC_COLUMNS}")
 
     frame_data[const.NUMERIC_LIST_COLUMNS] = frame_data[
         const.NUMERIC_LIST_COLUMNS
     ].applymap(lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x)
+    log.info(
+        f"Converted numeric list columns to lists of integers: {const.NUMERIC_LIST_COLUMNS}"
+    )
 
-    log.debug("Separating on_hit into on_hit_advantage and on_hit_effect")
     frame_data = separate_on_hit(frame_data)
-
-    log.debug("Adding summed damage columns")
-    frame_data["summed_damage"] = frame_data["damage"].apply(
-        lambda x: sum(x)
-        if isinstance(x, list) and all(isinstance(d, int) for d in x)
-        else x
-    )
-    frame_data["summed_chip_damage"] = frame_data["chip_damage"].apply(
-        lambda x: sum(x)
-        if isinstance(x, list) and all(isinstance(d, int) for d in x)
-        else x
+    log.info(
+        "Separated [on_hit] column into [on_hit_advantage] and [on_hit_effect] columns"
     )
 
-    log.debug("Categorising moves")
     frame_data = categorise_moves(frame_data)
+    log.info("Added categories to moves")
 
-    log.debug("Adding undizzy values")
     frame_data = add_undizzy_values(frame_data)
+    log.info("Adding undizzy values to moves")
     return frame_data
 
 
@@ -310,7 +301,9 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     """
     # Replace any individual cell that only contain "-" with np.nan
     frame_data = frame_data.replace("-", np.nan)
-
+    log.info("Replaced [-] and [ ] with [NaN]")
+    frame_data = frame_data.replace("", np.nan)
+    log.info("Replaced empty strings with [NaN]")
     # Remove characters from columns that are not needed
 
     # Remove newlines from relevant columns
@@ -318,20 +311,27 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
         :, const.REMOVE_NEWLINE_COLS
     ].replace("\n", "")
 
+    log.info(f"Removed newlines from columns: {const.REMOVE_NEWLINE_COLS}")
+
     # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
     re_plus_plusminus = r"\+|\u00B1"
     frame_data.loc[:, const.PLUS_MINUS_COLS] = frame_data.loc[
         :, const.PLUS_MINUS_COLS
     ].replace(re_plus_plusminus, "", regex=True)
 
+    log.info(f"Removed [+] and [±] from columns: {const.PLUS_MINUS_COLS}")
+
     # Remove percentage symbol from meter column
     frame_data["meter"] = frame_data["meter"].str.replace("%", "")
+    log.info("Removed [%] from [meter] column")
 
     # Split alt_names by newline
     frame_data["alt_names"] = frame_data["alt_names"].str.replace("\n", ",")
+    log.info("Split [alt_names] by [\\n]")
 
     # Split footer by dash, drop empty strings, and strip whitespace
     frame_data["footer"] = frame_data["footer"].str.findall(r"(?:-\s)([^-]+)")
+    log.info("Split [footer] by [-]")
 
     # Expand all x_n notation in damage, hitstun, blockstun, hitstop, meter, and active columns
     x_n_cols = ["damage", "hitstun", "blockstun", "hitstop", "meter", "active"]
@@ -339,7 +339,7 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     frame_data[x_n_cols] = frame_data[x_n_cols].applymap(
         lambda x: expand_all_x_n(x) if "x" in str(x) else x
     )
-
+    log.info(f"Expanded [x_n] notation in columns: {x_n_cols}")
     return frame_data
 
 
@@ -383,11 +383,8 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     )
 
     "]'"
-    log.info(
-        f"========== # of rows with chip damage: {frame_data['chip_damage'].count()} =========="
-    )
-    # log dtypes
 
+    log.info("Separated [damage] column into [damage] and [chip_damage] columns")
     return frame_data
 
 
@@ -431,7 +428,7 @@ def add_new_columns_at_column(
     # This is to ensure that the new columns are added after the old columns
 
     for i, new_column in enumerate(new_columns_list):
-        log.debug(f"Adding new column {new_column} to dataframe")
+        log.debug(f"Adding new column '{new_column}' to dataframe")
         if new_column not in old_columns_list:
             # Copy values from old columns to new columns if copy_values is True and values exist in the old columns for the current index
             new_column_values: pd.Series[Any] | float = (
@@ -446,7 +443,6 @@ def add_new_columns_at_column(
         frame_data.drop(
             columns=old_column, inplace=True
         ) if old_column not in new_columns_list else None
-    log.debug(f"Columns after adding new columns: {frame_data.columns.tolist()}")
     return frame_data
 
 
@@ -500,7 +496,7 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
         star_rows.index.levels[1] + "_STAR_POWER", level=1  # type: ignore
     )
 
-    log.info(f"Star power extracted and converted for {tabulate(star_rows.index)}")
+    # log.info(f"Star power extracted and converted for {tabulate(star_rows.index)}")
 
     # Modify original rows to have the orig_rows damage and on_block values
     frame_data.loc[orig_rows.index, orig_rows.columns] = orig_rows
@@ -581,7 +577,11 @@ def extract_fd_from_csv() -> DataFrame:
         log.debug(f"Value counts for column {column}:")
         log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n") """
 
-    # Export as csv
-    frame_data.to_csv("fd_cleaned.csv")
 
+    # Export as csv
+    
+    frame_data.to_csv("fd_cleaned.csv")
+    log.info("Exported cleaned frame data to csv: [fd_cleaned.csv]")
+    log.info("========== Finished extracting frame data from fd bot csv ==========")
+    
     return frame_data
