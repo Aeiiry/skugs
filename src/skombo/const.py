@@ -47,7 +47,6 @@ RE_X_N: re.Pattern[str] = re.compile(r"(\d*?\.?\d+\s?)([x*]\s?)(\d+)")
 RE_BRACKETS_X_N: re.Pattern[str] = re.compile(r"(\[[\d,\s]*?]\s?)([x*])(\d+)")
 
 PLUS_MINUS_COLS: list[str] = [
-    "alt_names",
     "on_hit",
     "on_block",
     "startup",

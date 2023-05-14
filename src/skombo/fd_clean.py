@@ -1,6 +1,5 @@
 # sourcery skip: lambdas-should-be-short
 """Main module for frame data operations."""
-import atexit
 import functools
 import os
 import re
@@ -9,8 +8,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from pandas import Index, MultiIndex
-from tabulate import tabulate
+from pandas import Index
 
 import skombo.const as const
 import skombo.file_man as fm
@@ -21,8 +19,6 @@ log = sklog.get_logger()
 DataFrame = pd.DataFrame
 
 global fd
-
-fd = None
 
 
 @functools.cache
@@ -51,7 +47,7 @@ def expand_all_x_n(damage: str) -> str:
         if " " in damage:
             damage = damage.replace(" ", "")
         while (x_n_match := const.RE_X_N.search(damage)) or (
-            x_n_match := const.RE_BRACKETS_X_N.search(damage)
+                x_n_match := const.RE_BRACKETS_X_N.search(damage)
         ):
             damage = expand_x_n(x_n_match)
 
@@ -59,10 +55,10 @@ def expand_all_x_n(damage: str) -> str:
 
 
 def apply_to_columns(
-    frame_data: DataFrame,
-    func: abc.Callable,  # type: ignore
-    columns: list[str],
-    non_nan: bool = False,
+        frame_data: DataFrame,
+        func: abc.Callable,  # type: ignore
+        columns: list[str],
+        non_nan: bool = False,
 ) -> DataFrame:
     if non_nan:
         # apply function to non-nan cells in specified columns
@@ -87,7 +83,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     else:
         expanded_damage = ",".join([damage] * num)
     return (
-        match.string[: match.start()] + expanded_damage + match.string[match.end() :]
+        match.string[: match.start()] + expanded_damage + match.string[match.end():]
         if match.end()
         else match.string[: match.start()] + expanded_damage
     )
@@ -308,16 +304,16 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
 
     # Remove newlines from relevant columns
     frame_data.loc[:, const.REMOVE_NEWLINE_COLS] = frame_data.loc[
-        :, const.REMOVE_NEWLINE_COLS
-    ].replace("\n", "")
+                                                   :, const.REMOVE_NEWLINE_COLS
+                                                   ].replace("\n", "")
 
     log.info(f"Removed newlines from columns: {const.REMOVE_NEWLINE_COLS}")
 
     # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
     re_plus_plusminus = r"\+|\u00B1"
     frame_data.loc[:, const.PLUS_MINUS_COLS] = frame_data.loc[
-        :, const.PLUS_MINUS_COLS
-    ].replace(re_plus_plusminus, "", regex=True)
+                                               :, const.PLUS_MINUS_COLS
+                                               ].replace(re_plus_plusminus, "", regex=True)
 
     log.info(f"Removed [+] and [±] from columns: {const.PLUS_MINUS_COLS}")
 
@@ -389,11 +385,11 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
 
 
 def add_new_columns_at_column(
-    frame_data: DataFrame,
-    old_columns: str | list[str],
-    new_columns: str | list[str],
-    offset: int = 1,
-    copy_values: bool = False,
+        frame_data: DataFrame,
+        old_columns: str | list[str],
+        new_columns: str | list[str],
+        offset: int = 1,
+        copy_values: bool = False,
 ) -> DataFrame:
     """
     Add new columns to a DataFrame in place of old columns, leaving values in the old columns if any of the names match the new columns names
@@ -421,7 +417,7 @@ def add_new_columns_at_column(
     # Otherwise, the old columns will be overwritten
 
     new_columns_index: int = (
-        frame_data.columns.tolist().index(old_columns_list[-1]) + offset
+            frame_data.columns.tolist().index(old_columns_list[-1]) + offset
     )
 
     # Insert the new columns at the last index of the old columns
@@ -465,7 +461,7 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     star_rows = star_rows[
         (star_rows["damage"].notna() & star_rows["damage"].str.contains(r"\["))
         | (star_rows["on_block"].notna() & star_rows["on_block"].str.contains(r"\["))
-    ]
+        ]
 
     orig_rows: DataFrame = star_rows.copy()
 
@@ -577,11 +573,10 @@ def extract_fd_from_csv() -> DataFrame:
         log.debug(f"Value counts for column {column}:")
         log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n") """
 
-
     # Export as csv
-    
+
     frame_data.to_csv("fd_cleaned.csv")
     log.info("Exported cleaned frame data to csv: [fd_cleaned.csv]")
     log.info("========== Finished extracting frame data from fd bot csv ==========")
-    
+
     return frame_data

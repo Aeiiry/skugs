@@ -1,7 +1,7 @@
 __pycache__/
 py/*.prof
 
-/old_files
+/old_files/*
 /.venv
 /logs
 /mypy.ini
@@ -18,3 +18,4 @@ stats.prof
 src/skullgirls_frame_data_parse.egg-info
 skombo.log
 *.prof
+/debug/*
