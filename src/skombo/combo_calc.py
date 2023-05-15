@@ -224,8 +224,9 @@ def get_fd_for_single_move(
         # log.info(f"Found move name {move_name} in frame data")
         move_df = character_moves[in_index]
 
-    else:
-        in_alt_names = character_moves["alt_names"].str.contains(move_name, regex=False)
+    else:   
+        name_between_re = re.compile(rf"^{move_name}$|^{move_name},|,{move_name},|,{move_name}$", re.IGNORECASE)
+        in_alt_names = character_moves["alt_names"].str.contains(name_between_re.pattern, regex=True)
         # Check if move name is in alt_names
         if in_alt_names.any():
             pass
