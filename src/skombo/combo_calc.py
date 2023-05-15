@@ -8,11 +8,8 @@ from typing import Any
 import pandas as pd
 from numpy import floor
 
-from skombo import const
-from skombo import fd_clean as fdo
-from skombo import sklog as sklog
-
-log = sklog.get_logger()
+from skombo import *
+from skombo.frame_data_operations import attempt_to_int, get_fd_bot_data
 
 global fd
 import functools
@@ -20,7 +17,7 @@ import functools
 DataFrame = pd.DataFrame
 
 
-def get_combo_scaling_factor(fd: DataFrame) -> DataFrame:
+def get_combo_scaling(fd: DataFrame) -> DataFrame:
     """
     Get the scaling factor for the combo. It is used to determine the number of moves that will be taken in a round of damage to get to the next combat hit
 
@@ -31,11 +28,11 @@ def get_combo_scaling_factor(fd: DataFrame) -> DataFrame:
     fd = fd.reset_index(drop=True)
 
     # constants
-    factor = const.SCALING_FACTOR
+    factor = SCALING_FACTOR
 
-    min_1k = const.SCALING_MIN_1K
-    min_other = const.SCALING_MIN
-    start = const.SCALING_START
+    min_1k = SCALING_MIN_1K
+    min_other = SCALING_MIN
+    start = SCALING_START
 
     # Scaling is 1.0 for first 3 hits
     # Then 0.875 less for each hit after that
@@ -57,18 +54,18 @@ def get_combo_scaling_factor(fd: DataFrame) -> DataFrame:
             fd.loc[index, "scaling_for_hit"] = start
         else:
             min_for_hit = min_1k if row["damage"] >= 1000 else min_for_hit
-            fd.loc[index, "scaling_for_hit"] = max(
-                fd.loc[index - 1, "scaling_for_hit"] * factor, min_other # type: ignore
-            )  # type: ignore
+            fd.loc[index, "scaling_for_hit"] = max(  # type: ignore
+                fd.loc[index - 1, "scaling_for_hit"] * factor, min_other  # type: ignore
+            ) 
         fd.loc[index, "scaling_after_modifiers"] = max(  # type: ignore
-            min_for_hit, fd.loc[index, "scaling_for_hit"]  # type: ignore
+            min_for_hit, fd.loc[index, "scaling_for_hit"] # type: ignore
         )
     # Return the scaling factor added to the frame data
 
     return fd
 
 
-def naiive_damage_calc(moves: DataFrame):
+def naiive_damage_calc(combo: DataFrame, cull_columns: bool = True) ->DataFrame:
     """
     Calculates naiive damage for a series of moves.
 
@@ -79,34 +76,48 @@ def naiive_damage_calc(moves: DataFrame):
         Tuple with combo damage and moves
     """
     """Naiive damage calc for a series of moves"""
-    moves = get_combo_scaling_factor(moves)
-    moves["damage"] = moves["damage"].apply(fdo.attempt_to_int)
+    if cull_columns:
+        combo = combo[["move_name", "damage"]]
+    combo = get_combo_scaling(combo)
+    combo["damage"] = combo["damage"].apply(attempt_to_int)
     # Replace any non floats with 0
-    moves["damage"] = (
-        moves["damage"].apply(lambda x: x if isinstance(x, int) else 0).astype(float)
+    combo["damage"] = (
+        combo["damage"].apply(lambda x: x if isinstance(x, int) else 0).astype(float)
     )
-    moves["scaled_damage"] = moves.apply(
+    combo["scaled_damage"] = combo.apply(
         lambda row: floor(row["damage"] * row["scaling_after_modifiers"]), axis=1
     )
-    moves["summed_damage"] = moves["scaled_damage"].cumsum()
+    combo["summed_damage"] = combo["scaled_damage"].cumsum()
 
-    return moves.at[moves.index[-1], "summed_damage"], moves
+    return combo
 
 
-def parse_combos_from_csv(csv_path: str) -> list[tuple[DataFrame, int]]:
+def parse_combos_from_csv(
+    csv_path: str, calc_damage: bool = False
+) -> tuple[list[DataFrame], list[int]]:
     """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
+
     log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
+
     combos_df: DataFrame = pd.read_csv(csv_path)
+
     log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
-    return [
+
+    combo_dfs: list[DataFrame] = [
         (
             parse_combo_from_string(
                 combos_df["character"][index], combos_df["notation"][index]
-            ),
-            combos_df["damage"][index],
+            )
         )
         for index in range(len(combos_df.index))
     ]
+
+    combos_expected_damage: list[int] = combos_df["damage"].tolist()
+
+    if calc_damage:
+        combo_dfs = [naiive_damage_calc(combo) for combo in combo_dfs]
+
+    return combo_dfs, combos_expected_damage
 
 
 def fd_to_combo_df(fd: DataFrame) -> DataFrame:
@@ -214,7 +225,7 @@ def get_fd_for_single_move(
     blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
 
     # Return blank move if it is in the list of ignored moves
-    if move_name in const.IGNORED_MOVES:
+    if move_name in IGNORED_MOVES:
         return blank_move
 
     in_index = character_moves.index.get_level_values(1) == move_name
@@ -224,9 +235,13 @@ def get_fd_for_single_move(
         # log.info(f"Found move name {move_name} in frame data")
         move_df = character_moves[in_index]
 
-    else:   
-        name_between_re = re.compile(rf"^{move_name}$|^{move_name},|,{move_name},|,{move_name}$", re.IGNORECASE)
-        in_alt_names = character_moves["alt_names"].str.contains(name_between_re.pattern, regex=True)
+    else:
+        name_between_re = re.compile(
+            rf"^{move_name}$|^{move_name},|,{move_name},|,{move_name}$", re.IGNORECASE
+        )
+        in_alt_names = character_moves["alt_names"].str.contains(
+            name_between_re.pattern, regex=True
+        )
         # Check if move name is in alt_names
         if in_alt_names.any():
             pass
@@ -344,7 +359,7 @@ def find_combo_moves(character_moves: DataFrame, combo_moves: pd.Series) -> Data
 
 @functools.cache
 def get_character_moves(character: str) -> DataFrame:
-    fd: DataFrame = fdo.get_fd_bot_data()
+    fd: DataFrame = get_fd_bot_data()
     character_moves: DataFrame = fd.loc[
         fd.index.get_level_values(0) == character.upper()
     ]

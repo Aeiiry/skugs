@@ -1,56 +1,93 @@
-import cProfile
-import os
-import pstats
+from ast import Slice
 
 import pandas as pd
+from tabulate import tabulate
 
-from skombo import combo as combo_moves
-from skombo import sklog as sklog
-from skombo.file_man import CSV_PATH, DATA_PATH, MODULE_NAME, ABS_PATH
-
-log = sklog.get_logger()
+from skombo import *
+from skombo.frame_data_operations import get_fd_bot_data
 
 
 def main() -> None:
-    csv_path: str = os.path.join(CSV_PATH, "annie_combos.csv")
-    combos: list[tuple[pd.DataFrame, int]] = combo_moves.parse_combos_from_csv(csv_path)
+    return None
 
-    for i, combo in enumerate(combos):
-        combo_df = combo[0]
-        expected_damage: int = combo[1]
 
-        calculated_damage: float
-
-        calculated_damage, combo_df = combo_moves.naiive_damage_calc(combo_df)
-        calculated_damage = round(calculated_damage)
-        diff_percentage = round((calculated_damage - expected_damage) / expected_damage * 100, 2)
-        log.info(
-            f"Combo [{i + 1}] did [{calculated_damage}] damage, expected damage was [{expected_damage}][Diff: {diff_percentage}%]"
+def hacky_sort_thing():
+    fd: pd.DataFrame = get_fd_bot_data()
+    fd_copy = fd.copy()
+    fd = fd[
+        ~fd["properties"].apply(
+            lambda x: re.search(r"LAUNCH|KNOCKDOWN|KD|SPLAT|BOUNCE", x, re.IGNORECASE)
+            is not None
+            if isinstance(x, str)
+            else False
         )
-        # create debug dir if it doesn't exist
-        if not os.path.exists("debug"):
-            os.makedirs("debug")
-        combo_df.to_csv(
-            f"debug/combo{i + 1}.csv",
+    ]
+    fd = fd[
+        ~fd["on_hit_effect"].apply(
+            lambda x: re.search(r"LAUNCH|KNOCKDOWN|KD|SPLAT|BOUNCE", x, re.IGNORECASE)
+            is not None
+            if isinstance(x, str)
+            else False
         )
+    ]
+    fd = fd[fd["move_category"].str.contains(r"NORMAL|SPECIAL", regex=True)]
+
+    # Drop all rows containing non list[int] values
+    fd = fd[fd["damage"].apply(lambda x: isinstance(x, list))]
+    fd = fd[fd["startup"].apply(lambda x: isinstance(x, list))]
+
+    # Drop all rows containing lists with any non int values
+    fd = fd[fd["damage"].apply(lambda x: all(isinstance(i, int) for i in x))]
+    fd = fd[fd["startup"].apply(lambda x: all(isinstance(i, int) for i in x))]
+
+    # Drop all rows containing empty lists
+    fd = fd[fd["damage"].apply(lambda x: len(x) > 0)]
+    fd = fd[fd["startup"].apply(lambda x: len(x) > 0)]
+
+    fd["made_up_value"] = fd.apply(
+        lambda x: round(
+            x["damage"][0] / (x["startup"][0] + x["hitstun"][0] + x["hitstop"][0]), 2
+        )
+        if all(
+            isinstance(i, list)
+            for i in [x["damage"], x["startup"], x["hitstun"], x["hitstop"]]
+        )
+        and all(
+            isinstance(i, int)
+            for i in [x["damage"][0], x["startup"][0], x["hitstun"][0], x["hitstop"][0]]
+        )
+        and x["startup"][0] > 0
+        else 0,
+        axis=1,
+    )
+
+    # Filter out index 1 names that start with J
+    fd = fd[fd.index.get_level_values(1).str.contains(r"^[^J]", regex=True)]
+    fd = fd[~fd.index.get_level_values(1).str.contains(r"[xX]\s?\d", regex=True)]
+    pd.options.display.max_rows = None  # type: ignore
+    # Sort by index 0 (string value) nd made_up_value, select top 10
+
+    fd["damage"] = fd["damage"].apply(lambda x: x[0])
+    fd["startup"] = fd["startup"].apply(lambda x: x[0])
+    fd["hitstun"] = fd["hitstun"].apply(lambda x: x[0] if isinstance(x, list) else x)
+    fd["hitstop"] = fd["hitstop"].apply(lambda x: x[0] if isinstance(x, list) else x)
+    fd = fd.loc[
+        :,
+        [
+            "made_up_value",
+            "damage",
+            "startup",
+            "hitstun",
+            "hitstop",
+            "properties",
+            "on_hit_effect",
+        ],
+    ]
+    fd = fd.groupby(fd.index.levels[0].values).head(10)  # type: ignore
+    fd = fd.sort_values(["made_up_value"], ascending=False)
+
+    log.info(f"\n{fd}")
 
 
 if __name__ == "__main__":
-    log.info("========== Main started ==========")
-    log.info(f"MODULE_NAME: {MODULE_NAME}")
-
-    log.info(f"MODULE_PATH: {ABS_PATH}")
-
-    log.info(f"CSV_PATH: {CSV_PATH}")
-
-    log.info(f"DATA_PATH: {DATA_PATH}")
-    pd.options.display.max_rows = None  # type: ignore
-    pd.options.display.max_columns = None  # type: ignore
-    pd.options.display.width = None  # type: ignore
-    pd.options.display.max_colwidth = 25
-    with cProfile.Profile() as pr:
-        main()
-
-    stats = pstats.Stats(pr)
-    stats.dump_stats("skug.prof")
-    log.info("========== Main finished ==========")
+    main()

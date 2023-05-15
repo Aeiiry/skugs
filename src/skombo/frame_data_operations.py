@@ -10,11 +10,9 @@ import numpy as np
 import pandas as pd
 from pandas import Index
 
-import skombo.const as const
-import skombo.file_man as fm
-from skombo import sklog as sklog
+from skombo import *
 
-log = sklog.get_logger()
+
 
 DataFrame = pd.DataFrame
 
@@ -46,8 +44,8 @@ def expand_all_x_n(damage: str) -> str:
     if isinstance(damage, str):
         if " " in damage:
             damage = damage.replace(" ", "")
-        while (x_n_match := const.RE_X_N.search(damage)) or (
-                x_n_match := const.RE_BRACKETS_X_N.search(damage)
+        while (x_n_match := RE_X_N.search(damage)) or (
+                x_n_match := RE_BRACKETS_X_N.search(damage)
         ):
             damage = expand_x_n(x_n_match)
 
@@ -122,7 +120,7 @@ def separate_meter(frame_data: DataFrame) -> DataFrame:
 
 
 def split_meter(meter: str) -> tuple[str | None, str | None]:
-    if isinstance(meter, str) and (search := const.RE_IN_PAREN.search(meter)):
+    if isinstance(meter, str) and (search := RE_IN_PAREN.search(meter)):
         on_whiff: str | Any = search.group(1)
     else:
         on_whiff = None
@@ -156,12 +154,12 @@ def separate_on_hit(frame_data: DataFrame) -> DataFrame:
 def categorise_moves(df: DataFrame) -> DataFrame:
     """Categorise moves into different types"""
     # Dict of move names that each character has 1 of
-    universal_move_categories: dict[str, str] = const.UNIVERSAL_MOVE_CATEGORIES
+    universal_move_categories: dict[str, str] = UNIVERSAL_MOVE_CATEGORIES
     df["move_category"] = df.index.get_level_values(1).map(universal_move_categories)
 
-    re_normal_move: re.Pattern[str] = const.RE_NORMAL_MOVE
+    re_normal_move: re.Pattern[str] = RE_NORMAL_MOVE
 
-    normal_strengths: dict[str, str] = const.NORMAL_STRENGTHS
+    normal_strengths: dict[str, str] = NORMAL_STRENGTHS
     # Normal moves are where move_name matches the regex and the move_category is None, we can use the regex to find the strength of the move by the first group
 
     # Make a mask of the rows that are normal moves, by checking against df.index.get_level_values(1)
@@ -191,7 +189,7 @@ def categorise_moves(df: DataFrame) -> DataFrame:
 
 
 def insert_alt_name_aliases(frame_data: DataFrame) -> DataFrame:
-    aliases: DataFrame = pd.read_csv(fm.MOVE_NAME_ALIASES_PATH).dropna()
+    aliases: DataFrame = pd.read_csv(MOVE_NAME_ALIASES_PATH).dropna()
 
     # create dictionary from aliases dataframe
     alias_dict = dict(zip(aliases["Key"], aliases["Value"].str.replace("\n", ",")))
@@ -216,7 +214,7 @@ def insert_alt_name_aliases(frame_data: DataFrame) -> DataFrame:
 def add_undizzy_values(df: DataFrame) -> DataFrame:
     """Add undizzy values to the dataframe"""
 
-    undizzy_dict: dict[str, int] = const.UNDIZZY_DICT
+    undizzy_dict: dict[str, int] = UNDIZZY_DICT
 
     # Create a new column for undizzy values
     df["undizzy"] = df["move_category"].map(undizzy_dict)
@@ -260,16 +258,16 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
         "Separated [meter] column into [meter_on_hit] and [meter_on_whiff] columns"
     )
 
-    frame_data[const.NUMERIC_COLUMNS] = frame_data[const.NUMERIC_COLUMNS].applymap(
+    frame_data[NUMERIC_COLUMNS] = frame_data[NUMERIC_COLUMNS].applymap(
         str_to_int
     )
-    log.info(f"Converted numeric columns to integers: {const.NUMERIC_COLUMNS}")
+    log.info(f"Converted numeric columns to integers: {NUMERIC_COLUMNS}")
 
-    frame_data[const.NUMERIC_LIST_COLUMNS] = frame_data[
-        const.NUMERIC_LIST_COLUMNS
+    frame_data[NUMERIC_LIST_COLUMNS] = frame_data[
+        NUMERIC_LIST_COLUMNS
     ].applymap(lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x)
     log.info(
-        f"Converted numeric list columns to lists of integers: {const.NUMERIC_LIST_COLUMNS}"
+        f"Converted numeric list columns to lists of integers: {NUMERIC_LIST_COLUMNS}"
     )
 
     frame_data = separate_on_hit(frame_data)
@@ -303,19 +301,19 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     # Remove characters from columns that are not needed
 
     # Remove newlines from relevant columns
-    frame_data.loc[:, const.REMOVE_NEWLINE_COLS] = frame_data.loc[
-                                                   :, const.REMOVE_NEWLINE_COLS
+    frame_data.loc[:, REMOVE_NEWLINE_COLS] = frame_data.loc[
+                                                   :, REMOVE_NEWLINE_COLS
                                                    ].replace("\n", "")
 
-    log.info(f"Removed newlines from columns: {const.REMOVE_NEWLINE_COLS}")
+    log.info(f"Removed newlines from columns: {REMOVE_NEWLINE_COLS}")
 
     # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
     re_plus_plusminus = r"\+|\u00B1"
-    frame_data.loc[:, const.PLUS_MINUS_COLS] = frame_data.loc[
-                                               :, const.PLUS_MINUS_COLS
+    frame_data.loc[:, PLUS_MINUS_COLS] = frame_data.loc[
+                                               :, PLUS_MINUS_COLS
                                                ].replace(re_plus_plusminus, "", regex=True)
 
-    log.info(f"Removed [+] and [±] from columns: {const.PLUS_MINUS_COLS}")
+    log.info(f"Removed [+] and [±] from columns: {PLUS_MINUS_COLS}")
 
     # Remove percentage symbol from meter column
     frame_data["meter"] = frame_data["meter"].str.replace("%", "")
@@ -534,12 +532,12 @@ def get_fd_bot_data() -> DataFrame:
 def extract_fd_from_csv() -> DataFrame:
     log.info("========== Extracting frame data from fd bot csv ==========")
     # We don't need existing index column
-    with open(fm.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
+    with open(CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
         characters_df: DataFrame = format_column_headings(
             pd.read_csv(characters_file, encoding="utf8").astype(str)
         )
 
-    with open(fm.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
+    with open(FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
         frame_data: DataFrame = format_column_headings(
             pd.read_csv(frame_file, encoding="utf8").astype(str)
         )
