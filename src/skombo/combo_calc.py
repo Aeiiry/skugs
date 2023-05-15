@@ -1,7 +1,6 @@
 """Parsing combo from strings/csvs and calculating the combo's damage/properties
 """
 
-import re
 from difflib import SequenceMatcher
 from typing import Any
 
@@ -56,25 +55,16 @@ def get_combo_scaling(fd: DataFrame) -> DataFrame:
             min_for_hit = min_1k if row["damage"] >= 1000 else min_for_hit
             fd.loc[index, "scaling_for_hit"] = max(  # type: ignore
                 fd.loc[index - 1, "scaling_for_hit"] * factor, min_other  # type: ignore
-            ) 
+            )
         fd.loc[index, "scaling_after_modifiers"] = max(  # type: ignore
-            min_for_hit, fd.loc[index, "scaling_for_hit"] # type: ignore
+            min_for_hit, fd.loc[index, "scaling_for_hit"]  # type: ignore
         )
     # Return the scaling factor added to the frame data
 
     return fd
 
 
-def naiive_damage_calc(combo: DataFrame, cull_columns: bool = True) ->DataFrame:
-    """
-    Calculates naiive damage for a series of moves.
-
-    Args:
-        moves: DataFrame with moves as index and values as column
-
-    Returns:
-        Tuple with combo damage and moves
-    """
+def naiive_damage_calc(combo: DataFrame, cull_columns: bool = True) -> DataFrame:
     """Naiive damage calc for a series of moves"""
     if cull_columns:
         combo = combo[["move_name", "damage"]]
@@ -93,7 +83,7 @@ def naiive_damage_calc(combo: DataFrame, cull_columns: bool = True) ->DataFrame:
 
 
 def parse_combos_from_csv(
-    csv_path: str, calc_damage: bool = False
+        csv_path: str, calc_damage: bool = False
 ) -> tuple[list[DataFrame], list[int]]:
     """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
 
@@ -207,7 +197,7 @@ def character_specific_move_name_check(character: str, move_name: str) -> str:
 
 
 def get_fd_for_single_move(
-    character_moves: DataFrame, move_name: str
+        character_moves: DataFrame, move_name: str
 ) -> pd.Series:  # sourcery skip: remove-pass-body
     """
     Find a single move by name.
@@ -297,7 +287,7 @@ def find_move_repeats_follow_ups(moves: pd.Series):
 
 
 def character_specific_operations(
-    character: str, combo_df: DataFrame, character_fd: DataFrame
+        character: str, combo_df: DataFrame, character_fd: DataFrame
 ) -> DataFrame:
     if character == "ANNIE":
         annie_divekick = "RE ENTRY"
@@ -362,7 +352,7 @@ def get_character_moves(character: str) -> DataFrame:
     fd: DataFrame = get_fd_bot_data()
     character_moves: DataFrame = fd.loc[
         fd.index.get_level_values(0) == character.upper()
-    ]
+        ]
 
     # log.info(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves

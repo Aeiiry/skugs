@@ -1,7 +1,4 @@
-from ast import Slice
-
 import pandas as pd
-from tabulate import tabulate
 
 from skombo import *
 from skombo.frame_data_operations import get_fd_bot_data
@@ -17,7 +14,7 @@ def hacky_sort_thing():
     fd = fd[
         ~fd["properties"].apply(
             lambda x: re.search(r"LAUNCH|KNOCKDOWN|KD|SPLAT|BOUNCE", x, re.IGNORECASE)
-            is not None
+                      is not None
             if isinstance(x, str)
             else False
         )
@@ -25,7 +22,7 @@ def hacky_sort_thing():
     fd = fd[
         ~fd["on_hit_effect"].apply(
             lambda x: re.search(r"LAUNCH|KNOCKDOWN|KD|SPLAT|BOUNCE", x, re.IGNORECASE)
-            is not None
+                      is not None
             if isinstance(x, str)
             else False
         )
@@ -52,11 +49,11 @@ def hacky_sort_thing():
             isinstance(i, list)
             for i in [x["damage"], x["startup"], x["hitstun"], x["hitstop"]]
         )
-        and all(
+           and all(
             isinstance(i, int)
             for i in [x["damage"][0], x["startup"][0], x["hitstun"][0], x["hitstop"][0]]
         )
-        and x["startup"][0] > 0
+           and x["startup"][0] > 0
         else 0,
         axis=1,
     )
@@ -72,17 +69,17 @@ def hacky_sort_thing():
     fd["hitstun"] = fd["hitstun"].apply(lambda x: x[0] if isinstance(x, list) else x)
     fd["hitstop"] = fd["hitstop"].apply(lambda x: x[0] if isinstance(x, list) else x)
     fd = fd.loc[
-        :,
-        [
-            "made_up_value",
-            "damage",
-            "startup",
-            "hitstun",
-            "hitstop",
-            "properties",
-            "on_hit_effect",
-        ],
-    ]
+         :,
+         [
+             "made_up_value",
+             "damage",
+             "startup",
+             "hitstun",
+             "hitstop",
+             "properties",
+             "on_hit_effect",
+         ],
+         ]
     fd = fd.groupby(fd.index.levels[0].values).head(10)  # type: ignore
     fd = fd.sort_values(["made_up_value"], ascending=False)
 

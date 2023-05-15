@@ -1,16 +1,7 @@
 import logging
 import os
-import sys
-
-global log
-import pathlib
-import cProfile
-import pstats
-
-import logging
 import re
-import atexit
-
+import sys
 
 NUMERIC_COLUMNS: list[str] = [
     "on_hit",
@@ -120,7 +111,6 @@ SCALING_ASSIST_START_COUNTER = 0.9
 
 SCALING_START = 1.0
 
-
 ##################################################################################################
 #                                        CHARACTER NAMES                                         #
 ##################################################################################################
@@ -227,7 +217,6 @@ CHARACTERS = [
     VALENTINE,
 ]
 
-
 ##################################################################################################
 #                                      FILE PATH CONSTANTS                                       #
 ##################################################################################################
@@ -258,6 +247,8 @@ TEST_DATA_FOLDER = "test_data"
 TEST_COMBOS_SUFFIX = "_test_combos.csv"
 
 LOG_DIR: str = os.path.join(ABS_PATH, "logs")
+
+
 ##################################################################################################
 #                                      LOGGING CONSTANTS                                         #
 ##################################################################################################
@@ -343,7 +334,7 @@ class StreamToLogger:
             ] else None
 
     def flush(
-        self,
+            self,
     ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
         pass
 
@@ -365,6 +356,5 @@ log.info(f"FRAME_DATA_PATH: {FRAME_DATA_PATH}")
 log.info(f"MOVE_NAME_ALIASES_PATH: {MOVE_NAME_ALIASES_PATH}")
 log.info(f"TEST_DATA_FOLDER: {TEST_DATA_FOLDER}")
 log.info(f"TEST_COMBOS_SUFFIX: {TEST_COMBOS_SUFFIX}")
-
 
 log.info("Logger initialized")

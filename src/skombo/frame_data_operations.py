@@ -1,8 +1,6 @@
 # sourcery skip: lambdas-should-be-short
 """Main module for frame data operations."""
 import functools
-import os
-import re
 from collections import abc
 from typing import Any
 
@@ -11,8 +9,6 @@ import pandas as pd
 from pandas import Index
 
 from skombo import *
-
-
 
 DataFrame = pd.DataFrame
 
@@ -302,16 +298,16 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
 
     # Remove newlines from relevant columns
     frame_data.loc[:, REMOVE_NEWLINE_COLS] = frame_data.loc[
-                                                   :, REMOVE_NEWLINE_COLS
-                                                   ].replace("\n", "")
+                                             :, REMOVE_NEWLINE_COLS
+                                             ].replace("\n", "")
 
     log.info(f"Removed newlines from columns: {REMOVE_NEWLINE_COLS}")
 
     # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
     re_plus_plusminus = r"\+|\u00B1"
     frame_data.loc[:, PLUS_MINUS_COLS] = frame_data.loc[
-                                               :, PLUS_MINUS_COLS
-                                               ].replace(re_plus_plusminus, "", regex=True)
+                                         :, PLUS_MINUS_COLS
+                                         ].replace(re_plus_plusminus, "", regex=True)
 
     log.info(f"Removed [+] and [±] from columns: {PLUS_MINUS_COLS}")
 

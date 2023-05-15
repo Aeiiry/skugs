@@ -1,17 +1,14 @@
-from logging import warn
-import os
-from typing import Any
-from numpy import character
+import pathlib
+import warnings
+
 import pytest
+from tabulate import tabulate
+
 from skombo import *
 from skombo.combo_calc import parse_combos_from_csv
-
 # disable mypy for this file
 # mypy: ignore-errors
 from skombo.frame_data_operations import expand_all_x_n
-import pathlib
-import warnings
-from tabulate import tabulate
 
 
 @pytest.mark.parametrize(
@@ -65,4 +62,4 @@ def test_combos(test_csv_path: str, character: str, profile) -> None:
         damage_diff_percent: float = round(abs(damage_diff / combo_damage[i] * 100), 2)
         log.info(f"Damage difference: {damage_diff_percent}%")
 
-        assert damage_diff_percent < 1 and damage_diff_percent >= 0
+        assert 1 > damage_diff_percent >= 0
