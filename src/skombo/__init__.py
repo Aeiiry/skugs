@@ -116,26 +116,24 @@ SCALING_START = 1.0
 ##################################################################################################
 
 
-
-CHARACTERS = {
-
-ANNIE : "ANNIE",
-BEOWULF : "BEOWULF",
-BIG_BAND : "BIG BAND",
-BLACK_DAHLIA : "BLACK DAHLIA",
-CEREBELLA : "CEREBELLA",
-DOUBLE : "DOUBLE",
-ELIZA : "ELIZA",
-FILIA : "FILIA",
-FUKUA : "FUKUA",
-MS_FORTUNE : "MS. FORTUNE",
-PAINWHEEL : "PAINWHEEL",
-PARASOUL : "PARASOUL",
-PEACOCK : "PEACOCK",
-ROBO_FORTUNE : "ROBO-FORTUNE",
-SQUIGLY : "SQUIGLY",
-UMBRELLA : "UMBRELLA",
-VALENTINE : "VALENTINE"
+CHARACTERS: dict[str, str] = {
+    "AN": "ANNIE",
+    "BE": "BEOWULF",
+    "BB": "BIG BAND",
+    "BD": "BLACK DAHLIA",
+    "CE": "CEREBELLA",
+    "DB": "DOUBLE",
+    "EL": "ELIZA",
+    "FI": "FILIA",
+    "FU": "FUKUA",
+    "MF": "MS. FORTUNE",
+    "PW": "PAINWHEEL",
+    "PA": "PARASOUL",
+    "PE": "PEACOCK",
+    "RF": "ROBO-FORTUNE",
+    "SQ": "SQUIGLY",
+    "UM": "UMBRELLA",
+    "VA": "VALENTINE",
 }
 
 ##################################################################################################
@@ -255,7 +253,7 @@ class StreamToLogger:
             ] else None
 
     def flush(
-            self,
+        self,
     ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
         pass
 

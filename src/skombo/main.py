@@ -1,12 +1,17 @@
-import pandas as pd
-from tabulate import tabulate
+import os
 
-from skombo import *
-from skombo.frame_data_operations import get_fd_bot_data
+import skombo
+from skombo.combo_calc import parse_combos_from_csv
 
 
 def main() -> None:
-
+    parse_combos_from_csv(
+        os.path.join(
+            skombo.ABS_PATH,
+            (skombo.CHARACTERS["AN"].lower() + skombo.TEST_COMBOS_SUFFIX),
+        ),
+        calc_damage=True,
+    )
     return None
 
 

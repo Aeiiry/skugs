@@ -6,6 +6,7 @@ from tabulate import tabulate
 
 from skombo import *
 from skombo.combo_calc import parse_combos_from_csv
+
 # disable mypy for this file
 # mypy: ignore-errors
 from skombo.frame_data_operations import expand_all_x_n
@@ -51,10 +52,8 @@ def test_combos(test_csv_path: str, character: str, profile) -> None:
 
     combos, combo_damage = parse_combos_from_csv(test_csv_path, calc_damage=True)
 
-        
-
     for i, combo in enumerate(combos):
-        log.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}") # type: ignore
+        log.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
         damage_diff: int = (
             combo_damage[i] - combo.at[combo.__len__() - 1, "summed_damage"]
         )

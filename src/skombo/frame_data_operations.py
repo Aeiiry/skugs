@@ -1,6 +1,8 @@
 # sourcery skip: lambdas-should-be-short
 """Main module for frame data operations."""
 import functools
+import os
+import re
 from collections import abc
 from typing import Any
 
@@ -8,7 +10,9 @@ import numpy as np
 import pandas as pd
 from pandas import Index
 
-from skombo import *
+import skombo
+
+log = skombo.log
 
 DataFrame = pd.DataFrame
 
@@ -40,8 +44,8 @@ def expand_all_x_n(damage: str) -> str:
     if isinstance(damage, str):
         if " " in damage:
             damage = damage.replace(" ", "")
-        while (x_n_match := RE_X_N.search(damage)) or (
-                x_n_match := RE_BRACKETS_X_N.search(damage)
+        while (x_n_match := skombo.RE_X_N.search(damage)) or (
+            x_n_match := skombo.RE_BRACKETS_X_N.search(damage)
         ):
             damage = expand_x_n(x_n_match)
 
@@ -49,10 +53,10 @@ def expand_all_x_n(damage: str) -> str:
 
 
 def apply_to_columns(
-        frame_data: DataFrame,
-        func: abc.Callable,  # type: ignore
-        columns: list[str],
-        non_nan: bool = False,
+    frame_data: DataFrame,
+    func: abc.Callable,  # type: ignore
+    columns: list[str],
+    non_nan: bool = False,
 ) -> DataFrame:
     if non_nan:
         # apply function to non-nan cells in specified columns
@@ -77,7 +81,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     else:
         expanded_damage = ",".join([damage] * num)
     return (
-        match.string[: match.start()] + expanded_damage + match.string[match.end():]
+        match.string[: match.start()] + expanded_damage + match.string[match.end() :]
         if match.end()
         else match.string[: match.start()] + expanded_damage
     )
@@ -116,7 +120,7 @@ def separate_meter(frame_data: DataFrame) -> DataFrame:
 
 
 def split_meter(meter: str) -> tuple[str | None, str | None]:
-    if isinstance(meter, str) and (search := RE_IN_PAREN.search(meter)):
+    if isinstance(meter, str) and (search := skombo.RE_IN_PAREN.search(meter)):
         on_whiff: str | Any = search.group(1)
     else:
         on_whiff = None
@@ -150,12 +154,12 @@ def separate_on_hit(frame_data: DataFrame) -> DataFrame:
 def categorise_moves(df: DataFrame) -> DataFrame:
     """Categorise moves into different types"""
     # Dict of move names that each character has 1 of
-    universal_move_categories: dict[str, str] = UNIVERSAL_MOVE_CATEGORIES
+    universal_move_categories: dict[str, str] = skombo.UNIVERSAL_MOVE_CATEGORIES
     df["move_category"] = df.index.get_level_values(1).map(universal_move_categories)
 
-    re_normal_move: re.Pattern[str] = RE_NORMAL_MOVE
+    re_normal_move: re.Pattern[str] = skombo.RE_NORMAL_MOVE
 
-    normal_strengths: dict[str, str] = NORMAL_STRENGTHS
+    normal_strengths: dict[str, str] = skombo.NORMAL_STRENGTHS
     # Normal moves are where move_name matches the regex and the move_category is None, we can use the regex to find the strength of the move by the first group
 
     # Make a mask of the rows that are normal moves, by checking against df.index.get_level_values(1)
@@ -185,7 +189,7 @@ def categorise_moves(df: DataFrame) -> DataFrame:
 
 
 def insert_alt_name_aliases(frame_data: DataFrame) -> DataFrame:
-    aliases: DataFrame = pd.read_csv(MOVE_NAME_ALIASES_PATH).dropna()
+    aliases: DataFrame = pd.read_csv(skombo.MOVE_NAME_ALIASES_PATH).dropna()
 
     # create dictionary from aliases dataframe
     alias_dict = dict(zip(aliases["Key"], aliases["Value"].str.replace("\n", ",")))
@@ -210,7 +214,7 @@ def insert_alt_name_aliases(frame_data: DataFrame) -> DataFrame:
 def add_undizzy_values(df: DataFrame) -> DataFrame:
     """Add undizzy values to the dataframe"""
 
-    undizzy_dict: dict[str, int] = UNDIZZY_DICT
+    undizzy_dict: dict[str, int] = skombo.UNDIZZY_DICT
 
     # Create a new column for undizzy values
     df["undizzy"] = df["move_category"].map(undizzy_dict)
@@ -253,17 +257,16 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
     log.info(
         "Separated [meter] column into [meter_on_hit] and [meter_on_whiff] columns"
     )
+    numeric_columns = skombo.NUMERIC_COLUMNS
+    frame_data[numeric_columns] = frame_data[numeric_columns].applymap(str_to_int)
+    log.info(f"Converted numeric columns to integers: {numeric_columns}")
 
-    frame_data[NUMERIC_COLUMNS] = frame_data[NUMERIC_COLUMNS].applymap(
-        str_to_int
+    numeric_list_columns = skombo.NUMERIC_LIST_COLUMNS
+    frame_data[numeric_list_columns] = frame_data[numeric_list_columns].applymap(
+        lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x
     )
-    log.info(f"Converted numeric columns to integers: {NUMERIC_COLUMNS}")
-
-    frame_data[NUMERIC_LIST_COLUMNS] = frame_data[
-        NUMERIC_LIST_COLUMNS
-    ].applymap(lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x)
     log.info(
-        f"Converted numeric list columns to lists of integers: {NUMERIC_LIST_COLUMNS}"
+        f"Converted numeric list columns to lists of integers: {numeric_list_columns}"
     )
 
     frame_data = separate_on_hit(frame_data)
@@ -297,19 +300,21 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     # Remove characters from columns that are not needed
 
     # Remove newlines from relevant columns
-    frame_data.loc[:, REMOVE_NEWLINE_COLS] = frame_data.loc[
-                                             :, REMOVE_NEWLINE_COLS
-                                             ].replace("\n", "")
+    remove_newline_cols = skombo.REMOVE_NEWLINE_COLS
+    frame_data.loc[:, remove_newline_cols] = frame_data.loc[
+        :, remove_newline_cols
+    ].replace("\n", "")
 
-    log.info(f"Removed newlines from columns: {REMOVE_NEWLINE_COLS}")
+    log.info(f"Removed newlines from columns: {remove_newline_cols}")
 
     # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
+    plus_minus_cols = skombo.PLUS_MINUS_COLS
     re_plus_plusminus = r"\+|\u00B1"
-    frame_data.loc[:, PLUS_MINUS_COLS] = frame_data.loc[
-                                         :, PLUS_MINUS_COLS
-                                         ].replace(re_plus_plusminus, "", regex=True)
+    frame_data.loc[:, plus_minus_cols] = frame_data.loc[:, plus_minus_cols].replace(
+        re_plus_plusminus, "", regex=True
+    )
 
-    log.info(f"Removed [+] and [±] from columns: {PLUS_MINUS_COLS}")
+    log.info(f"Removed [+] and [±] from columns: {plus_minus_cols}")
 
     # Remove percentage symbol from meter column
     frame_data["meter"] = frame_data["meter"].str.replace("%", "")
@@ -379,11 +384,11 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
 
 
 def add_new_columns_at_column(
-        frame_data: DataFrame,
-        old_columns: str | list[str],
-        new_columns: str | list[str],
-        offset: int = 1,
-        copy_values: bool = False,
+    frame_data: DataFrame,
+    old_columns: str | list[str],
+    new_columns: str | list[str],
+    offset: int = 1,
+    copy_values: bool = False,
 ) -> DataFrame:
     """
     Add new columns to a DataFrame in place of old columns, leaving values in the old columns if any of the names match the new columns names
@@ -411,7 +416,7 @@ def add_new_columns_at_column(
     # Otherwise, the old columns will be overwritten
 
     new_columns_index: int = (
-            frame_data.columns.tolist().index(old_columns_list[-1]) + offset
+        frame_data.columns.tolist().index(old_columns_list[-1]) + offset
     )
 
     # Insert the new columns at the last index of the old columns
@@ -455,7 +460,7 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     star_rows = star_rows[
         (star_rows["damage"].notna() & star_rows["damage"].str.contains(r"\["))
         | (star_rows["on_block"].notna() & star_rows["on_block"].str.contains(r"\["))
-        ]
+    ]
 
     orig_rows: DataFrame = star_rows.copy()
 
@@ -528,12 +533,12 @@ def get_fd_bot_data() -> DataFrame:
 def extract_fd_from_csv() -> DataFrame:
     log.info("========== Extracting frame data from fd bot csv ==========")
     # We don't need existing index column
-    with open(CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
+    with open(skombo.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
         characters_df: DataFrame = format_column_headings(
             pd.read_csv(characters_file, encoding="utf8").astype(str)
         )
 
-    with open(FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
+    with open(skombo.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
         frame_data: DataFrame = format_column_headings(
             pd.read_csv(frame_file, encoding="utf8").astype(str)
         )
@@ -544,7 +549,6 @@ def extract_fd_from_csv() -> DataFrame:
     frame_data["move_name"] = (
         frame_data["move_name"].str.strip().replace(r"\n", "", regex=True)
     )
-
     # == Set the index to character and move_name ==
 
     frame_data = frame_data.set_index(["character", "move_name"], verify_integrity=True)
