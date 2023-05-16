@@ -115,107 +115,28 @@ SCALING_START = 1.0
 #                                        CHARACTER NAMES                                         #
 ##################################################################################################
 
-ANNIE = "ANNIE"
-BEOWULF = "BEOWULF"
-BIG_BAND = "BIG BAND"
-BLACK_DAHLIA = "BLACK DAHLIA"
-CEREBELLA = "CEREBELLA"
-DOUBLE = "DOUBLE"
-ELIZA = "ELIZA"
-FILIA = "FILIA"
-FUKUA = "FUKUA"
-MS_FORTUNE = "MS. FORTUNE"
-PAINWHEEL = "PAINWHEEL"
-PARASOUL = "PARASOUL"
-PEACOCK = "PEACOCK"
-ROBO_FORTUNE = "ROBO-FORTUNE"
-SQUIGLY = "SQUIGLY"
-UMBRELLA = "UMBRELLA"
-VALENTINE = "VALENTINE"
-##################################################################################################
-#                                        CHARACTER ALIASES                                       #
-##################################################################################################
-AN = ANNIE
-ANN = ANNIE
 
-BEO = BEOWULF
-WU = BEOWULF
-WO = BEOWULF
-BW = BEOWULF
 
-BIGB = BIG_BAND
-BI = BIG_BAND
-BB = BIG_BAND
-BA = BIG_BAND
+CHARACTERS = {
 
-BLACKD = BLACK_DAHLIA
-BD = BLACK_DAHLIA
-DA = BLACK_DAHLIA
-BL = BLACK_DAHLIA
-
-BEL = CEREBELLA
-CE = CEREBELLA
-CLOWN = CEREBELLA
-
-DO = DOUBLE
-DB = DOUBLE
-
-LI = ELIZA
-EL = ELIZA
-
-FI = FILIA
-
-FU = FUKUA
-
-MSF = MS_FORTUNE
-MS = MS_FORTUNE
-MF = MS_FORTUNE
-FO = MS_FORTUNE
-CAT = MS_FORTUNE
-
-PAI = PAINWHEEL
-PW = PAINWHEEL
-
-PAR = PARASOUL
-PS = PARASOUL
-SOUL = PARASOUL
-
-PE = PEACOCK
-CO = PEACOCK
-PC = PEACOCK
-
-ROBOFO = ROBO_FORTUNE
-ROBO = ROBO_FORTUNE
-RO = ROBO_FORTUNE
-RF = ROBO_FORTUNE
-RB = ROBO_FORTUNE
-
-SQ = SQUIGLY
-
-UM = UMBRELLA
-BR = UMBRELLA
-
-VA = VALENTINE
-
-CHARACTERS = [
-    ANNIE,
-    BEOWULF,
-    BIG_BAND,
-    BLACK_DAHLIA,
-    CEREBELLA,
-    DOUBLE,
-    ELIZA,
-    FILIA,
-    FUKUA,
-    MS_FORTUNE,
-    PAINWHEEL,
-    PARASOUL,
-    PEACOCK,
-    ROBO_FORTUNE,
-    SQUIGLY,
-    UMBRELLA,
-    VALENTINE,
-]
+ANNIE : "ANNIE",
+BEOWULF : "BEOWULF",
+BIG_BAND : "BIG BAND",
+BLACK_DAHLIA : "BLACK DAHLIA",
+CEREBELLA : "CEREBELLA",
+DOUBLE : "DOUBLE",
+ELIZA : "ELIZA",
+FILIA : "FILIA",
+FUKUA : "FUKUA",
+MS_FORTUNE : "MS. FORTUNE",
+PAINWHEEL : "PAINWHEEL",
+PARASOUL : "PARASOUL",
+PEACOCK : "PEACOCK",
+ROBO_FORTUNE : "ROBO-FORTUNE",
+SQUIGLY : "SQUIGLY",
+UMBRELLA : "UMBRELLA",
+VALENTINE : "VALENTINE"
+}
 
 ##################################################################################################
 #                                      FILE PATH CONSTANTS                                       #
