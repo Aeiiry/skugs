@@ -146,7 +146,10 @@ DATA_NAME = "data"
 CSVS = "csvs"
 GAME_DATA = "game_data"
 
-ABS_PATH: str = os.path.abspath(os.path.dirname(__file__))
+if getattr(sys, "frozen", False):
+    ABS_PATH: str = os.path.dirname(sys.executable)
+else:
+    ABS_PATH = os.path.abspath(os.path.dirname(__file__))
 
 MODULE_NAME: str = os.path.basename(ABS_PATH)
 
@@ -166,7 +169,6 @@ TEST_DATA_FOLDER = "test_data"
 TEST_COMBOS_SUFFIX = "_test_combos.csv"
 
 LOG_DIR: str = os.path.join(ABS_PATH, "logs")
-
 
 ##################################################################################################
 #                                      LOGGING CONSTANTS                                         #
@@ -217,10 +219,9 @@ def init_logger(name=__name__) -> logging.Logger:
     logger.addHandler(file_handler)
 
     logger.setLevel(logging.DEBUG)
-    sys.stderr = StreamToLogger(logger, logging.ERROR)  # type: ignore
-    sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
+    #sys.stderr = StreamToLogger(logger, logging.ERROR)  # type: ignore
+    #sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
 
-    logger.info(sys.argv)
     return logger
 
 

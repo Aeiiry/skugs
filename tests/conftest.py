@@ -9,7 +9,7 @@ import pstats
 
 @pytest.fixture(scope="session")
 def log() -> logging.Logger:
-    return get_logger("test")
+    return get_logger()
 
 
 @pytest.fixture(scope="session")
