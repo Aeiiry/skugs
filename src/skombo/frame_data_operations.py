@@ -4,6 +4,7 @@ import functools
 import os
 import re
 from collections import abc
+from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
@@ -11,12 +12,96 @@ import pandas as pd
 from pandas import Index
 
 import skombo
+from skombo import CHARS
 
 log = skombo.log
 
 DataFrame = pd.DataFrame
 
 global fd
+
+
+@dataclass
+class Columns:
+    char: str = "character"
+    m_name: str = "move_name"
+    a_names: str = "alt_names"
+    guard: str = "guard"
+    props: str = "properties"
+    dmg: str = "damage"
+    chip: str = "chip_damage"
+    meter: str = "meter_on_hit"
+    meter_whiff: str = "meter_on_whiff"
+    onhit: str = "on_hit_adv"
+    onhit_eff: str = "on_hit_effect"
+    onblock: str = "on_block_adv"
+    startup: str = "startup"
+    active: str = "active"
+    recovery: str = "recovery"
+    hitstun: str = "hitstun"
+    blockstun: str = "blockstun"
+    hitstop: str = "hitstop"
+    blockstop: str = "blockstop"
+    super_hitstop: str = "super_hitstop"
+    onpb: str = "on_pushblock"
+    footer: str = "footer"
+    thumb_url: str = "thumbnail_url"
+    footer_url: str = "footer_url"
+    move_cat: str = "move_category"
+    undizzy: str = "undizzy"
+
+
+COLS = Columns()
+
+
+class ColumnClassification:
+    REMOVE_NEWLINE_COLS = [
+        COLS.guard,
+        COLS.props,
+        COLS.dmg,
+        COLS.meter,
+        COLS.onhit,
+        COLS.onblock,
+        COLS.startup,
+        COLS.active,
+        COLS.recovery,
+        COLS.hitstun,
+        COLS.hitstop,
+        COLS.onpb,
+        COLS.footer,
+    ]
+
+    PLUS_MINUS_COLS = [
+        COLS.onhit,
+        COLS.onblock,
+        COLS.startup,
+        COLS.active,
+        COLS.hitstun,
+        COLS.onpb,
+    ]
+
+    NUMERIC_COLUMNS = [
+        COLS.onhit,
+        COLS.onblock,
+        COLS.onpb,
+    ]
+
+    NUMERIC_LIST_COLUMNS = [
+        COLS.dmg,
+        COLS.chip,
+        COLS.startup,
+        COLS.active,
+        COLS.recovery,
+        COLS.hitstun,
+        COLS.blockstun,
+        COLS.hitstop,
+        COLS.blockstop,
+        COLS.super_hitstop,
+        COLS.undizzy,
+    ]
+
+
+COL_CLASS = ColumnClassification()
 
 
 @functools.cache
@@ -45,7 +130,7 @@ def expand_all_x_n(damage: str) -> str:
         if " " in damage:
             damage = damage.replace(" ", "")
         while (x_n_match := skombo.RE_X_N.search(damage)) or (
-            x_n_match := skombo.RE_BRACKETS_X_N.search(damage)
+                x_n_match := skombo.RE_BRACKETS_X_N.search(damage)
         ):
             damage = expand_x_n(x_n_match)
 
@@ -53,10 +138,10 @@ def expand_all_x_n(damage: str) -> str:
 
 
 def apply_to_columns(
-    frame_data: DataFrame,
-    func: abc.Callable,  # type: ignore
-    columns: list[str],
-    non_nan: bool = False,
+        frame_data: DataFrame,
+        func: abc.Callable,  # type: ignore
+        columns: list[str],
+        non_nan: bool = False,
 ) -> DataFrame:
     if non_nan:
         # apply function to non-nan cells in specified columns
@@ -81,7 +166,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     else:
         expanded_damage = ",".join([damage] * num)
     return (
-        match.string[: match.start()] + expanded_damage + match.string[match.end() :]
+        match.string[: match.start()] + expanded_damage + match.string[match.end():]
         if match.end()
         else match.string[: match.start()] + expanded_damage
     )
@@ -89,7 +174,7 @@ def expand_x_n(match: re.Match[str]) -> str:
 
 def separate_meter(frame_data: DataFrame) -> DataFrame:
     """Separate meter into on_hit and on_whiff"""
-    fd_meter = frame_data.loc[:, "meter"]
+    fd_meter = frame_data.loc[:, COLS.meter]
     # fd_meter_old = fd_meter.copy()
 
     on_hit, on_whiff = zip(*fd_meter.apply(split_meter))
@@ -109,12 +194,10 @@ def separate_meter(frame_data: DataFrame) -> DataFrame:
     ]
 
     # Insert new columns into frame_data to the right of meter
-    frame_data = add_new_columns_at_column(
-        frame_data, "meter", ["meter_on_hit", "meter_on_whiff"], copy_values=True
-    )
+
     # Assign on_hit and on_whiff to the new columns
-    frame_data["meter_on_hit"] = on_hit
-    frame_data["meter_on_whiff"] = on_whiff
+    frame_data[COLS.meter] = on_hit
+    frame_data[COLS.meter_whiff] = on_whiff
 
     return frame_data
 
@@ -131,21 +214,18 @@ def split_meter(meter: str) -> tuple[str | None, str | None]:
 
 
 def separate_on_hit(frame_data: DataFrame) -> DataFrame:
-    frame_data = add_new_columns_at_column(
-        frame_data, "on_hit", ["on_hit_advantage", "on_hit_effect"], copy_values=True
-    )
-    frame_data["on_hit_effect"] = frame_data["on_hit_advantage"].copy()
+    frame_data[COLS.onhit_eff] = frame_data[COLS.onhit].copy()
     frame_data = apply_to_columns(
         frame_data,
         lambda x: x
         if (isinstance(x, str) and x.isnumeric()) or isinstance(x, int)
         else None,
-        ["on_hit_advantage"],
+        [COLS.onhit],
     )
     frame_data = apply_to_columns(
         frame_data,
         lambda x: x if isinstance(x, str) and not x.isnumeric() else None,
-        ["on_hit_effect"],
+        [COLS.onhit_eff],
     )
 
     return frame_data
@@ -155,7 +235,7 @@ def categorise_moves(df: DataFrame) -> DataFrame:
     """Categorise moves into different types"""
     # Dict of move names that each character has 1 of
     universal_move_categories: dict[str, str] = skombo.UNIVERSAL_MOVE_CATEGORIES
-    df["move_category"] = df.index.get_level_values(1).map(universal_move_categories)
+    df[COLS.move_cat] = df.index.get_level_values(1).map(universal_move_categories)
 
     re_normal_move: re.Pattern[str] = skombo.RE_NORMAL_MOVE
 
@@ -168,7 +248,7 @@ def categorise_moves(df: DataFrame) -> DataFrame:
         lambda x: isinstance(x, str) and re_normal_move.search(x) is not None
     )
     # Assign the move_category to the strength of the move
-    df.loc[mask, "move_category"] = (  # type: ignore
+    df.loc[mask, COLS.move_cat] = (  # type: ignore
         df.loc[mask]
         .index.get_level_values(1)
         .map(lambda x: normal_strengths[re_normal_move.search(x).group(1)] + "_NORMAL")  # type: ignore
@@ -176,14 +256,14 @@ def categorise_moves(df: DataFrame) -> DataFrame:
 
     # Supers are where meter_on_hit has length 1 and meter_on_hit[0] is  -100 or less
     df.loc[
-        df.astype(str)["meter_on_hit"].str.contains(r"-\d\d", regex=True, na=False)
-        & df["move_category"].isna(),
-        "move_category",
+        df.astype(str)[COLS.meter].str.contains(r"-\d\d", regex=True, na=False)
+        & df[COLS.move_cat].isna(),
+        COLS.move_cat,
     ] = "SUPER"
     # For now, assume everything else is a special
     # TODO: Add more special move categories for things like double's level 5 projectiles, annie taunt riposte etc
 
-    df.loc[df["move_category"].isna(), "move_category"] = "SPECIAL_MOVE"
+    df.loc[df[COLS.move_cat].isna(), COLS.move_cat] = "SPECIAL_MOVE"
 
     return df
 
@@ -217,7 +297,7 @@ def add_undizzy_values(df: DataFrame) -> DataFrame:
     undizzy_dict: dict[str, int] = skombo.UNDIZZY_DICT
 
     # Create a new column for undizzy values
-    df["undizzy"] = df["move_category"].map(undizzy_dict)
+    df["undizzy"] = df[COLS.move_cat].map(undizzy_dict)
 
     return df
 
@@ -257,11 +337,11 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
     log.info(
         "Separated [meter] column into [meter_on_hit] and [meter_on_whiff] columns"
     )
-    numeric_columns = skombo.NUMERIC_COLUMNS
+    numeric_columns = COL_CLASS.NUMERIC_COLUMNS
     frame_data[numeric_columns] = frame_data[numeric_columns].applymap(str_to_int)
     log.info(f"Converted numeric columns to integers: {numeric_columns}")
 
-    numeric_list_columns = skombo.NUMERIC_LIST_COLUMNS
+    numeric_list_columns = COL_CLASS.NUMERIC_LIST_COLUMNS
     frame_data[numeric_list_columns] = frame_data[numeric_list_columns].applymap(
         lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x
     )
@@ -300,15 +380,15 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     # Remove characters from columns that are not needed
 
     # Remove newlines from relevant columns
-    remove_newline_cols = skombo.REMOVE_NEWLINE_COLS
+    remove_newline_cols = COL_CLASS.REMOVE_NEWLINE_COLS
     frame_data.loc[:, remove_newline_cols] = frame_data.loc[
-        :, remove_newline_cols
-    ].replace("\n", "")
+                                             :, remove_newline_cols
+                                             ].replace("\n", "")
 
     log.info(f"Removed newlines from columns: {remove_newline_cols}")
 
     # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
-    plus_minus_cols = skombo.PLUS_MINUS_COLS
+    plus_minus_cols = COL_CLASS.PLUS_MINUS_COLS
     re_plus_plusminus = r"\+|\u00B1"
     frame_data.loc[:, plus_minus_cols] = frame_data.loc[:, plus_minus_cols].replace(
         re_plus_plusminus, "", regex=True
@@ -317,7 +397,7 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     log.info(f"Removed [+] and [±] from columns: {plus_minus_cols}")
 
     # Remove percentage symbol from meter column
-    frame_data["meter"] = frame_data["meter"].str.replace("%", "")
+    frame_data[COLS.meter] = frame_data[COLS.meter].str.replace("%", "")
     log.info("Removed [%] from [meter] column")
 
     # Split alt_names by newline
@@ -329,7 +409,14 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     log.info("Split [footer] by [-]")
 
     # Expand all x_n notation in damage, hitstun, blockstun, hitstop, meter, and active columns
-    x_n_cols = ["damage", "hitstun", "blockstun", "hitstop", "meter", "active"]
+    x_n_cols = [
+        COLS.dmg,
+        COLS.hitstun,
+        COLS.blockstun,
+        COLS.hitstop,
+        COLS.meter,
+        COLS.active,
+    ]
 
     frame_data[x_n_cols] = frame_data[x_n_cols].applymap(
         lambda x: expand_all_x_n(x) if "x" in str(x) else x
@@ -349,29 +436,29 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
         New dataframe with chip_damage column seper
     """
     # Extract values in parentheses from damage column and put them in chip_damage column
-    frame_data.loc[:, "chip_damage"] = frame_data.loc[:, "damage"].str.extract(
-        r"\((.*)\)"
-    )[0]
+    frame_data.loc[:, COLS.chip] = frame_data.loc[:, COLS.dmg].str.extract(r"\((.*)\)")[
+        0
+    ]
     # Remove the values in parentheses from damage column
-    frame_data.loc[:, "damage"] = frame_data.loc[:, "damage"].str.replace(
+    frame_data.loc[:, COLS.dmg] = frame_data.loc[:, COLS.dmg].str.replace(
         r"\(.*\)", "", regex=True
     )
 
-    frame_data.loc[:, "damage"] = (
-        frame_data.loc[:, "damage"].str.strip().replace(r",,", ",", regex=True)
+    frame_data.loc[:, COLS.dmg] = (
+        frame_data.loc[:, COLS.dmg].str.strip().replace(r",,", ",", regex=True)
     )
-    frame_data.loc[:, "damage"] = (
-        frame_data.loc[:, "damage"]
+    frame_data.loc[:, COLS.dmg] = (
+        frame_data.loc[:, COLS.dmg]
         .str.strip()
         .replace(r"^,|,$", "", regex=True)
         # .str.split(",")
     )
 
-    frame_data.loc[:, "chip_damage"] = (
-        frame_data.loc[:, "chip_damage"].str.strip().replace(r",,", ",", regex=True)
+    frame_data.loc[:, COLS.chip] = (
+        frame_data.loc[:, COLS.chip].str.strip().replace(r",,", ",", regex=True)
     )
-    frame_data.loc[:, "chip_damage"] = (
-        frame_data.loc[:, "chip_damage"]
+    frame_data.loc[:, COLS.chip] = (
+        frame_data.loc[:, COLS.chip]
         .str.strip()
         .replace(r"^,|,$", "", regex=True)
         # .str.split(",")
@@ -380,64 +467,6 @@ def separate_damage_chip_damage(frame_data: DataFrame) -> DataFrame:
     "]'"
 
     log.info("Separated [damage] column into [damage] and [chip_damage] columns")
-    return frame_data
-
-
-def add_new_columns_at_column(
-    frame_data: DataFrame,
-    old_columns: str | list[str],
-    new_columns: str | list[str],
-    offset: int = 1,
-    copy_values: bool = False,
-) -> DataFrame:
-    """
-    Add new columns to a DataFrame in place of old columns, leaving values in the old columns if any of the names match the new columns names
-
-    Args:
-        frame_data: DataFrame to add new columns to
-        old_columns: old columns to be used as reference for index and/or data
-        new_columns: names of new columns
-        offset: Offset to insert the new columns
-        copy_values: Copy values from old columns to new columns, if there are more new columns than old columns, the values will be copied to next empty column (1 old, 2 new -> 2 new with values from old in first column)
-
-    Returns:
-        DataFrame with new columns added to its reference columns ( index
-    """
-    if isinstance(old_columns, str):
-        old_columns_list: list[str] = [old_columns]
-    else:
-        old_columns_list = old_columns  # type: ignore
-    if isinstance(new_columns, str):
-        new_columns_list: list[str] = [new_columns]
-    else:
-        new_columns_list = new_columns  # type: ignore
-
-    # Don't update old_columns if any of the new columns are in the old columns
-    # Otherwise, the old columns will be overwritten
-
-    new_columns_index: int = (
-        frame_data.columns.tolist().index(old_columns_list[-1]) + offset
-    )
-
-    # Insert the new columns at the last index of the old columns
-    # This is to ensure that the new columns are added after the old columns
-
-    for i, new_column in enumerate(new_columns_list):
-        log.debug(f"Adding new column '{new_column}' to dataframe")
-        if new_column not in old_columns_list:
-            # Copy values from old columns to new columns if copy_values is True and values exist in the old columns for the current index
-            new_column_values: pd.Series[Any] | float = (
-                frame_data[old_columns_list[i]]
-                if copy_values and i < len(old_columns_list)
-                else np.nan
-            )
-            frame_data.insert(new_columns_index, new_column, new_column_values)
-            new_columns_index += 1
-
-    for old_column in old_columns_list:
-        frame_data.drop(
-            columns=old_column, inplace=True
-        ) if old_column not in new_columns_list else None
     return frame_data
 
 
@@ -453,31 +482,34 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     """
 
     # First select rows of index ANNIE and just the  damage and on_block
-    star_rows: DataFrame = frame_data.loc[("ANNIE", slice(None)), ["damage", "on_block"]]  # type: ignore
+    star_rows: DataFrame = frame_data.loc[(CHARS.AN, slice(None)), [COLS.dmg, COLS.onblock]]  # type: ignore
     log.info("Splitting Annie's normals into star power and original versions")
 
     # Filter out rows without a "[" in damage or on_block
     star_rows = star_rows[
-        (star_rows["damage"].notna() & star_rows["damage"].str.contains(r"\["))
-        | (star_rows["on_block"].notna() & star_rows["on_block"].str.contains(r"\["))
-    ]
+        (star_rows[COLS.dmg].notna() & star_rows[COLS.dmg].str.contains(r"\["))
+        | (
+                star_rows[COLS.onblock].notna()
+                & star_rows[COLS.onblock].str.contains(r"\[")
+        )
+        ]
 
     orig_rows: DataFrame = star_rows.copy()
 
     # Remove the content inside the brackets for the original rows
-    orig_rows.loc[:, "damage"] = orig_rows["damage"].str.replace(
+    orig_rows.loc[:, COLS.dmg] = orig_rows[COLS.dmg].str.replace(
         r"\[.*\]", "", regex=True
     )
-    orig_rows.loc[:, "on_block"] = orig_rows["on_block"].str.replace(
+    orig_rows.loc[:, COLS.onblock] = orig_rows[COLS.onblock].str.replace(
         r"\[.*\]", "", regex=True
     )
 
     # Remove brackets for star power damage
-    star_rows.loc[:, "damage"] = star_rows["damage"].str.replace(
+    star_rows.loc[:, COLS.dmg] = star_rows[COLS.dmg].str.replace(
         r"\[|\]", "", regex=True
     )
     # Extract the content inside the brackets for star power on_block
-    star_rows.loc[:, "on_block"] = star_rows["on_block"].str.extract(
+    star_rows.loc[:, COLS.onblock] = star_rows[COLS.onblock].str.extract(
         r"\[(.*)\]", expand=False
     )
 
@@ -535,41 +567,36 @@ def extract_fd_from_csv() -> DataFrame:
     # We don't need existing index column
     with open(skombo.CHARACTER_DATA_PATH, "r", encoding="utf8") as characters_file:
         characters_df: DataFrame = format_column_headings(
-            pd.read_csv(characters_file, encoding="utf8").astype(str)
+            pd.read_csv(characters_file, encoding="utf8")
         )
 
     with open(skombo.FRAME_DATA_PATH, "r", encoding="utf8") as frame_file:
         frame_data: DataFrame = format_column_headings(
-            pd.read_csv(frame_file, encoding="utf8").astype(str)
+            pd.read_csv(frame_file, encoding="utf8")
         )
 
     log.info("Loaded csvs into dataframes")
 
     # == Clean up move_name column before using it as an index ==
-    frame_data["move_name"] = (
-        frame_data["move_name"].str.strip().replace(r"\n", "", regex=True)
+    frame_data[COLS.m_name] = (
+        frame_data[COLS.m_name].str.strip().replace(r"\n", "", regex=True)
     )
     # == Set the index to character and move_name ==
 
-    frame_data = frame_data.set_index(["character", "move_name"], verify_integrity=True)
+    frame_data = frame_data.set_index([COLS.char, COLS.m_name], verify_integrity=True)
     # Name the index
-    frame_data.index.names = ["character", "move_name"]
+    frame_data.index.names = [COLS.char, COLS.m_name]
 
-    frame_data = add_new_columns_at_column(
-        frame_data, "damage", ["damage", "chip_damage"]
-    )
-    frame_data = frame_data.astype(str)
+    rename_cols = {
+        "on_block": COLS.onblock,
+        "meter": COLS.meter,
+        "on_hit": COLS.onhit,
+    }
+    frame_data.rename(columns=rename_cols, inplace=True)
+    cols_minus_index: list[str] = list(COLS.__dict__.values())[2:]
+    frame_data = pd.DataFrame(data=frame_data, columns=cols_minus_index)
 
     frame_data = clean_frame_data(frame_data)
-
-    """     # Get some stats about the data
-    log.debug(f"Number of rows in frame_data: {frame_data.shape[0]}")
-    log.debug(f"Number of columns in frame_data: {frame_data.shape[1]}")
-
-    # Value counts for eachc column
-    for column in frame_data.columns:
-        log.debug(f"Value counts for column {column}:")
-        log.debug(f"\n\n{frame_data[column].value_counts(dropna=False)}\n\n") """
 
     # Export as csv
 

@@ -8,7 +8,7 @@ def main() -> None:
     parse_combos_from_csv(
         os.path.join(
             skombo.ABS_PATH,
-            (skombo.CHARACTERS["AN"].lower() + skombo.TEST_COMBOS_SUFFIX),
+            (skombo.CHARS.AN.lower() + skombo.TEST_COMBOS_SUFFIX),
         ),
         calc_damage=True,
     )

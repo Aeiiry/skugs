@@ -1,26 +1,19 @@
 """Gui"""
-import os
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QPushButton as PushButton,
     QApplication as App,
     QWidget as Widget,
-    QDialog as Dialog,
-    QDialogButtonBox as DialogButtonBox,
-    QFormLayout as FormLayout,
     QGridLayout as GridLayout,
     QLineEdit as LineEdit,
     QVBoxLayout as VBoxLayout,
     QMainWindow as MainWindow,
 )
-from PyQt6.QtCore import Qt
-import skombo
-from skombo.combo_calc import parse_combos_from_csv
 
 ALINGN_LEFT = Qt.AlignmentFlag.AlignLeft
 ALINGN_RIGHT = Qt.AlignmentFlag.AlignRight
 ALINGN_CENTER = Qt.AlignmentFlag.AlignCenter
 ALINGN_JUSTIFY = Qt.AlignmentFlag.AlignJustify
-
 
 TEMP_BUTTON_SIZE = 100
 
@@ -57,15 +50,7 @@ class SkomboWindow(MainWindow):
         for text in button_texts:
             self.buttons[text] = PushButton(text)
             self.buttons[text].setFixedSize(TEMP_BUTTON_SIZE, TEMP_BUTTON_SIZE)
-            self.buttons[text].clicked.connect(
-                parse_combos_from_csv(
-                    os.path.join(
-                        skombo.ABS_PATH,
-                        (skombo.CHARACTERS["AN"].lower() + skombo.TEST_COMBOS_SUFFIX),
-                    ),
-                    calc_damage=True,
-                )
-            )
+
             buttons_layout.addWidget(self.buttons[text])
 
         self.general_layout.addLayout(buttons_layout)

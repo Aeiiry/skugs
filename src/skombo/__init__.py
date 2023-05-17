@@ -111,31 +111,33 @@ SCALING_ASSIST_START_COUNTER = 0.9
 
 SCALING_START = 1.0
 
+
 ##################################################################################################
 #                                        CHARACTER NAMES                                         #
 ##################################################################################################
 
 
-CHARACTERS: dict[str, str] = {
-    "AN": "ANNIE",
-    "BE": "BEOWULF",
-    "BB": "BIG BAND",
-    "BD": "BLACK DAHLIA",
-    "CE": "CEREBELLA",
-    "DB": "DOUBLE",
-    "EL": "ELIZA",
-    "FI": "FILIA",
-    "FU": "FUKUA",
-    "MF": "MS. FORTUNE",
-    "PW": "PAINWHEEL",
-    "PA": "PARASOUL",
-    "PE": "PEACOCK",
-    "RF": "ROBO-FORTUNE",
-    "SQ": "SQUIGLY",
-    "UM": "UMBRELLA",
-    "VA": "VALENTINE",
-}
+class Characters:
+    AN = "ANNIE"
+    BE = "BEOWULF"
+    BB = "BIG BAND"
+    BD = "BLACK DAHLIA"
+    CE = "CEREBELLA"
+    DB = "DOUBLE"
+    EL = "ELIZA"
+    FI = "FILIA"
+    FU = "FUKUA"
+    MF = "MS. FORTUNE"
+    PW = "PAINWHEEL"
+    PA = "PARASOUL"
+    PE = "PEACOCK"
+    RF = "ROBO-FORTUNE"
+    SQ = "SQUIGLY"
+    UM = "UMBRELLA"
+    VA = "VALENTINE"
 
+
+CHARS = Characters()
 ##################################################################################################
 #                                      FILE PATH CONSTANTS                                       #
 ##################################################################################################
@@ -169,6 +171,7 @@ TEST_DATA_FOLDER = "test_data"
 TEST_COMBOS_SUFFIX = "_test_combos.csv"
 
 LOG_DIR: str = os.path.join(ABS_PATH, "logs")
+
 
 ##################################################################################################
 #                                      LOGGING CONSTANTS                                         #
@@ -219,8 +222,8 @@ def init_logger(name=__name__) -> logging.Logger:
     logger.addHandler(file_handler)
 
     logger.setLevel(logging.DEBUG)
-    #sys.stderr = StreamToLogger(logger, logging.ERROR)  # type: ignore
-    #sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
+    # sys.stderr = StreamToLogger(logger, logging.ERROR)  # type: ignore
+    # sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
 
     return logger
 
@@ -254,7 +257,7 @@ class StreamToLogger:
             ] else None
 
     def flush(
-        self,
+            self,
     ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
         pass
 

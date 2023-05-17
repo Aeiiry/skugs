@@ -85,7 +85,7 @@ def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.Dat
 
 
 def parse_combos_from_csv(
-    csv_path: str, calc_damage: bool = False
+        csv_path: str, calc_damage: bool = False
 ) -> tuple[list[pd.DataFrame], list[int]]:
     """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
 
@@ -285,7 +285,7 @@ def find_move_repeats_follow_ups(moves: pd.Series):
 
 
 def character_specific_operations(
-    character: str, combo_df: pd.DataFrame, character_fd: pd.DataFrame
+        character: str, combo_df: pd.DataFrame, character_fd: pd.DataFrame
 ) -> pd.DataFrame:
     if character == "ANNIE":
         annie_divekick = "RE ENTRY"
@@ -315,7 +315,7 @@ def character_specific_operations(
 
 
 def find_combo_moves(
-    character_moves: pd.DataFrame, combo_moves: pd.Series
+        character_moves: pd.DataFrame, combo_moves: pd.Series
 ) -> pd.DataFrame:
     # Initialize empty pd.DataFrame with columns 'original_move_name' and 'move_name'
     # character mopves columns plus 'character' and 'move_name'
@@ -352,7 +352,7 @@ def get_character_moves(character: str) -> pd.DataFrame:
     fd: pd.DataFrame = get_fd_bot_data()
     character_moves: pd.DataFrame = fd.loc[
         fd.index.get_level_values(0) == character.upper()
-    ]
+        ]
 
     # log.info(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves

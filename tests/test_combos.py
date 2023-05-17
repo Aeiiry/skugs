@@ -40,7 +40,7 @@ def test_expand_all_x_n(input_str, expected_output) -> None:
             ),
             character,
         )
-        for character in CHARACTERS
+        for character in CHARS.__dict__
     ],
 )
 def test_combos(test_csv_path: str, character: str, profile) -> None:
