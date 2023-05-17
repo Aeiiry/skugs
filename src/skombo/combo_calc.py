@@ -9,7 +9,13 @@ import pandas as pd
 from numpy import floor
 
 import skombo
-from skombo.frame_data_operations import attempt_to_int, get_fd_bot_data
+from skombo.frame_data_operations import (
+    attempt_to_int,
+    format_column_headings,
+    get_fd_bot_data,
+    format_column_headings,
+    COLS,
+)
 
 global fd
 import functools
@@ -27,6 +33,9 @@ def get_combo_scaling(fd: pd.DataFrame) -> pd.DataFrame:
     """Get the scaling factor for the combo"""
     fd = fd.reset_index(drop=True)
 
+    # Turn damage into int
+    fd["damage"] = fd["damage"].apply(attempt_to_int)
+
     # constants
     factor = skombo.SCALING_FACTOR
 
@@ -38,13 +47,14 @@ def get_combo_scaling(fd: pd.DataFrame) -> pd.DataFrame:
     # Then 0.875 less for each hit after that
     # Minimum scaling is 0.2
     # Minimum scaling for moves with over 1000 base damage is 0.275
-    fd = fd.assign(scaling_for_hit=0.0, scaling_after_modifiers=0.0)
+    fd["scaling_for_hit"] = 0.0
+    fd["scaling_after_modifiers"] = 0.0
     for move in fd.itertuples():
         min_for_hit: float = min_other
         skip_row: int = 0
-        index = move[0]
-        name = move[1]
-        damage = move[2]
+        index = move.Index
+        name = move.move_name
+        damage = move.damage
 
         if index == 0:
             fd.loc[index, "scaling_for_hit"] = start
@@ -85,14 +95,19 @@ def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.Dat
 
 
 def parse_combos_from_csv(
-        csv_path: str, calc_damage: bool = False
+    csv_path: str, calc_damage: bool = False
 ) -> tuple[list[pd.DataFrame], list[int]]:
     """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
 
     log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
 
     combos_df: pd.DataFrame = pd.read_csv(csv_path)
-
+    global alias_df
+    alias_df = format_column_headings(
+        pd.read_csv(skombo.MOVE_NAME_ALIASES_PATH)
+        .replace("\n", ",", regex=True)
+        .dropna(axis=0)
+    )
     log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
 
     combo_dfs: list[pd.DataFrame] = [
@@ -226,16 +241,23 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
         move_df = character_moves[in_index]
 
     else:
-        name_between_re = re.compile(
-            rf"^{move_name}$|^{move_name},|,{move_name},|,{move_name}$", re.IGNORECASE
-        )
+        name_between_re = re.compile(rf"[^,]?{move_name}[,$]", re.IGNORECASE)
         in_alt_names = character_moves["alt_names"].str.contains(
             name_between_re.pattern, regex=True
         )
         # Check if move name is in alt_names
         # log.info(f"Found move name {move_name} in alt_names")
         if not in_alt_names.any():
-            log.warning(f"!!! Could not find move name {move_name} in frame data !!!")
+            # Search alias_df
+            in_alias_keys = alias_df["value"].str.contains(
+                name_between_re.pattern, regex=True
+            )
+            if in_alias_keys.any():
+                move_df = character_moves.loc[
+                    character_moves["alt_names"].str.startswith(
+                        alias_df.loc[in_alias_keys, "key"].values[0]
+                    )
+                ]
         move_df = character_moves[in_alt_names]
 
     blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
@@ -285,7 +307,7 @@ def find_move_repeats_follow_ups(moves: pd.Series):
 
 
 def character_specific_operations(
-        character: str, combo_df: pd.DataFrame, character_fd: pd.DataFrame
+    character: str, combo_df: pd.DataFrame, character_fd: pd.DataFrame
 ) -> pd.DataFrame:
     if character == "ANNIE":
         annie_divekick = "RE ENTRY"
@@ -315,7 +337,7 @@ def character_specific_operations(
 
 
 def find_combo_moves(
-        character_moves: pd.DataFrame, combo_moves: pd.Series
+    character_moves: pd.DataFrame, combo_moves: pd.Series
 ) -> pd.DataFrame:
     # Initialize empty pd.DataFrame with columns 'original_move_name' and 'move_name'
     # character mopves columns plus 'character' and 'move_name'
@@ -352,7 +374,7 @@ def get_character_moves(character: str) -> pd.DataFrame:
     fd: pd.DataFrame = get_fd_bot_data()
     character_moves: pd.DataFrame = fd.loc[
         fd.index.get_level_values(0) == character.upper()
-        ]
+    ]
 
     # log.info(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves

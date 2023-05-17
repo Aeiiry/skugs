@@ -54,6 +54,7 @@ class Columns:
 COLS = Columns()
 
 
+@dataclass
 class ColumnClassification:
     REMOVE_NEWLINE_COLS = [
         COLS.guard,
@@ -130,7 +131,7 @@ def expand_all_x_n(damage: str) -> str:
         if " " in damage:
             damage = damage.replace(" ", "")
         while (x_n_match := skombo.RE_X_N.search(damage)) or (
-                x_n_match := skombo.RE_BRACKETS_X_N.search(damage)
+            x_n_match := skombo.RE_BRACKETS_X_N.search(damage)
         ):
             damage = expand_x_n(x_n_match)
 
@@ -138,10 +139,10 @@ def expand_all_x_n(damage: str) -> str:
 
 
 def apply_to_columns(
-        frame_data: DataFrame,
-        func: abc.Callable,  # type: ignore
-        columns: list[str],
-        non_nan: bool = False,
+    frame_data: DataFrame,
+    func: abc.Callable,  # type: ignore
+    columns: list[str],
+    non_nan: bool = False,
 ) -> DataFrame:
     if non_nan:
         # apply function to non-nan cells in specified columns
@@ -166,7 +167,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     else:
         expanded_damage = ",".join([damage] * num)
     return (
-        match.string[: match.start()] + expanded_damage + match.string[match.end():]
+        match.string[: match.start()] + expanded_damage + match.string[match.end() :]
         if match.end()
         else match.string[: match.start()] + expanded_damage
     )
@@ -268,27 +269,7 @@ def categorise_moves(df: DataFrame) -> DataFrame:
     return df
 
 
-def insert_alt_name_aliases(frame_data: DataFrame) -> DataFrame:
-    aliases: DataFrame = pd.read_csv(skombo.MOVE_NAME_ALIASES_PATH).dropna()
 
-    # create dictionary from aliases dataframe
-    alias_dict = dict(zip(aliases["Key"], aliases["Value"].str.replace("\n", ",")))
-
-    # create a pandas Series from alt_names column using the map method
-    alt_names_series = frame_data["alt_names"].map(
-        lambda x: re.sub(
-            rf"\b({'|'.join(alias_dict.keys())})\b",  # type: ignore
-            lambda m: alias_dict.get(m.group(0)),  # type: ignore
-            x,  # type: ignore
-        )
-        if isinstance(x, str)
-        else x
-    )
-
-    # replace alt_names column with the new pandas Series
-    frame_data["alt_names"] = alt_names_series
-
-    return frame_data
 
 
 def add_undizzy_values(df: DataFrame) -> DataFrame:
@@ -323,7 +304,6 @@ def clean_frame_data(frame_data: DataFrame) -> DataFrame:
     """
 
     log.info("========== Cleaning frame data ==========")
-    frame_data = insert_alt_name_aliases(frame_data)
     log.info("Inserted alt name aliases from macros .csv")
 
     log.info("=== Initial string cleaning ===")
@@ -382,8 +362,8 @@ def initial_string_cleaning(frame_data: DataFrame) -> DataFrame:
     # Remove newlines from relevant columns
     remove_newline_cols = COL_CLASS.REMOVE_NEWLINE_COLS
     frame_data.loc[:, remove_newline_cols] = frame_data.loc[
-                                             :, remove_newline_cols
-                                             ].replace("\n", "")
+        :, remove_newline_cols
+    ].replace("\n", "")
 
     log.info(f"Removed newlines from columns: {remove_newline_cols}")
 
@@ -489,10 +469,10 @@ def separate_annie_stars(frame_data: DataFrame) -> DataFrame:
     star_rows = star_rows[
         (star_rows[COLS.dmg].notna() & star_rows[COLS.dmg].str.contains(r"\["))
         | (
-                star_rows[COLS.onblock].notna()
-                & star_rows[COLS.onblock].str.contains(r"\[")
+            star_rows[COLS.onblock].notna()
+            & star_rows[COLS.onblock].str.contains(r"\[")
         )
-        ]
+    ]
 
     orig_rows: DataFrame = star_rows.copy()
 
@@ -575,6 +555,14 @@ def extract_fd_from_csv() -> DataFrame:
             pd.read_csv(frame_file, encoding="utf8")
         )
 
+    with open(skombo.MOVE_NAME_ALIASES_PATH, "r", encoding="utf8") as aliases_file:
+        aliases_df: DataFrame = format_column_headings(
+            pd.read_csv(aliases_file, encoding="utf8")
+        )
+    
+
+    
+
     log.info("Loaded csvs into dataframes")
 
     # == Clean up move_name column before using it as an index ==
@@ -587,20 +575,19 @@ def extract_fd_from_csv() -> DataFrame:
     # Name the index
     frame_data.index.names = [COLS.char, COLS.m_name]
 
-    rename_cols = {
+    rename_cols: dict[str, str] = {
         "on_block": COLS.onblock,
         "meter": COLS.meter,
         "on_hit": COLS.onhit,
     }
     frame_data.rename(columns=rename_cols, inplace=True)
     cols_minus_index: list[str] = list(COLS.__dict__.values())[2:]
-    frame_data = pd.DataFrame(data=frame_data, columns=cols_minus_index)
+    frame_data = pd.DataFrame(data=frame_data, columns=cols_minus_index).fillna(np.nan)
 
     frame_data = clean_frame_data(frame_data)
 
-    # Export as csv
-
     frame_data.to_csv("fd_cleaned.csv")
+
     log.info("Exported cleaned frame data to csv: [fd_cleaned.csv]")
     log.info("========== Finished extracting frame data from fd bot csv ==========")
 

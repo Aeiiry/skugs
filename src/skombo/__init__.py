@@ -2,6 +2,13 @@ import logging
 import os
 import re
 import sys
+import datetime
+import time
+import atexit
+
+# get the start datetime
+START_TIME = datetime.datetime.now()
+
 
 NUMERIC_COLUMNS: list[str] = [
     "on_hit",
@@ -87,7 +94,7 @@ NORMAL_STRENGTHS: dict[str, str] = {
     "H": "HEAVY",
 }
 
-IGNORED_MOVES: list[str] = ["RESTAND", "KARA", "ADC", "OTG", "RE STAND", "RE-STAND"]
+IGNORED_MOVES: list[str] = ["RESTAND", "KARA", "ADC", "AD","OTG", "RE STAND", "RE-STAND"]
 
 FRAME_VALUE_REPLACEMENTS: list[str] = ["+", "±"]
 FRAME_VALUE_REPLACEMENTS_STR: str = f"[{''.join(FRAME_VALUE_REPLACEMENTS)}]"
@@ -257,7 +264,7 @@ class StreamToLogger:
             ] else None
 
     def flush(
-            self,
+        self,
     ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
         pass
 
@@ -281,3 +288,15 @@ log.info(f"TEST_DATA_FOLDER: {TEST_DATA_FOLDER}")
 log.info(f"TEST_COMBOS_SUFFIX: {TEST_COMBOS_SUFFIX}")
 
 log.info("Logger initialized")
+
+
+def exit_handler() -> None:
+    # get the end datetime
+    END_TIME = datetime.datetime.now()
+
+    # get execution time
+    elapsed_time = END_TIME - START_TIME
+    log.info(f"Execution time: {elapsed_time} seconds 🤠")
+
+
+atexit.register(exit_handler)
