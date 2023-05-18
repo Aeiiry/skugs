@@ -3,9 +3,12 @@ import warnings
 
 import pytest
 from tabulate import tabulate
-
-from skombo import *
+import skombo
 from skombo.combo_calc import parse_combos_from_csv
+import os
+from skombo import CHARS, TEST_DATA_FOLDER, TEST_COMBOS_SUFFIX
+
+LOG = skombo.LOG
 
 # disable mypy for this file
 # mypy: ignore-errors
