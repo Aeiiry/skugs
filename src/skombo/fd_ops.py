@@ -102,57 +102,10 @@ class ColumnClassification:
 COL_CLASS = ColumnClassification()
 
 
-class CsvManager:
-    """Class to manage CSV files"""
-
-    def __init__(self, path: str, file_keys: dict[str, str]) -> None:
-        self.path: str = path
-        self.file_keys: dict[str, str] = file_keys
-        self.dataframes: dict[str, pd.DataFrame] = {}
-        for key in self.file_keys:
-            self.dataframes[key] = self.open_csv(key)
-
-    def open_csv(self, file_key: str) -> pd.DataFrame:
-        """Open a CSV file and return it as a DataFrame"""
-        file_ends_with: str = self.file_keys[file_key] + ".csv"
-        file_found: list[str] = fnmatch.filter(
-            os.listdir(self.path), f"*{file_ends_with}"
-        )
-        if not file_found:
-            raise FileNotFoundError(
-                f"Could not find {file_key} CSV in {self.path} with ending {file_ends_with}"
-            )
-        file_path: str = os.path.join(self.path, file_found[0])
-        if file_found[0].lower() != file_ends_with:
-            os.rename(file_path, os.path.join(self.path, file_ends_with))
-            file_path = os.path.join(self.path, file_ends_with)
-        with open(file_path, "r", encoding="utf8") as file:
-            df: pd.DataFrame = pd.read_csv(file, encoding="utf8")
-            return format_column_headings(df)
-
-
 def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
     """Format column headings to lowercase with underscores"""
     df.columns = [col.replace(" ", "_").lower() for col in df.columns]
     return df
-
-
-class FdBotCsvManager(CsvManager):
-    """Class to manage the frame data bot CSV files"""
-
-    file_keys: dict[str, str] = {
-        "characters": "characters",
-        "aliases": "macros",
-        "frame_data": "moves",
-    }
-
-    def __init__(self, path: str = skombo.GAME_DATA_PATH) -> None:
-        """Initialise the class"""
-
-        super().__init__(path, self.file_keys)
-
-
-FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
 
 @functools.cache
@@ -568,6 +521,53 @@ def get_fd_bot_data() -> pd.DataFrame:
     _log.info(f"Currect working directory: {os.getcwd()}")
     fd: pd.DataFrame = extract_fd_from_csv()
     return fd
+
+
+class CsvManager:
+    """Class to manage CSV files"""
+
+    def __init__(self, path: str, file_keys: dict[str, str]) -> None:
+        self.path: str = path
+        self.file_keys: dict[str, str] = file_keys
+        self.dataframes: dict[str, pd.DataFrame] = {}
+        for key in self.file_keys:
+            self.dataframes[key] = self.open_csv(key)
+
+    def open_csv(self, file_key: str) -> pd.DataFrame:
+        """Open a CSV file and return it as a DataFrame"""
+        file_ends_with: str = self.file_keys[file_key] + ".csv"
+        file_found: list[str] = fnmatch.filter(
+            os.listdir(self.path), f"*{file_ends_with}"
+        )
+        if not file_found:
+            raise FileNotFoundError(
+                f"Could not find {file_key} CSV in {self.path} with ending {file_ends_with}"
+            )
+        file_path: str = os.path.join(self.path, file_found[0])
+        if file_found[0].lower() != file_ends_with:
+            os.rename(file_path, os.path.join(self.path, file_ends_with))
+            file_path = os.path.join(self.path, file_ends_with)
+        with open(file_path, "r", encoding="utf8") as file:
+            df: pd.DataFrame = pd.read_csv(file, encoding="utf8")
+            return format_column_headings(df)
+
+
+class FdBotCsvManager(CsvManager):
+    """Class to manage the frame data bot CSV files"""
+
+    file_keys: dict[str, str] = {
+        "characters": "characters",
+        "aliases": "macros",
+        "frame_data": "moves",
+    }
+
+    def __init__(self, path: str = skombo.GAME_DATA_PATH) -> None:
+        """Initialise the class"""
+
+        super().__init__(path, self.file_keys)
+
+
+FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
 
 @functools.cache

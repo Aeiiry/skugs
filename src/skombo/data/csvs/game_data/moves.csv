@@ -307,7 +307,7 @@ J 236K,K
 J 236 K,K
 J 236+K,K
 J QCFK,K
-J QCF K,K,,,,"500 x4, 1200 (100 x4, 200)"
+J QCF K,K
 J QCF+K,K
 JUMPING 236K,K
 JUMPING 236 K,K
@@ -1569,10 +1569,12 @@ LPLK EMPOWER
 EMPOWERED THROW
 EMPOWERED LPLK
 THROW EMPOWERED
-LPLK EMPOWERED",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,AIR THROW,MACRO_AIR_THROW,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+LPLK EMPOWERED",Throw,50% Damage Scaling,"800
+(1750 held)",5.00%,KD,N/A,7,1,28,N/A,N/A,N/A,-,"- Hold HP or LPLK while empowered for an enhanced version which does more damage and leaves your victim closer to you for an easier pickup.
+- Convert midscreen with Shotgun, Barrel or Sticky Bomb.",https://wiki.gbl.gg/images/6/69/SG_dhl_throw_hb.png,https://wiki.gbl.gg/images/3/32/SG_dhl_throw_fd.png
+BLACK DAHLIA,AIR THROW,MACRO_AIR_THROW,Air Throw,50% Damage Scaling,900,9.00%,KD,N/A,7,3,18,N/A,N/A,N/A,-,- Can convert with OTG 2HK 236LPLK.,https://wiki.gbl.gg/images/1/1c/SG_dhl_airthrow_hb.png,https://wiki.gbl.gg/images/9/99/SG_dhl_airthrow_fd.png
 BLACK DAHLIA,TAG IN,MACRO_TAG,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
-BLACK DAHLIA,SNAPBACK,MACRO_SNAPBACK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+BLACK DAHLIA,SNAPBACK,MACRO_SNAPBACK,Mid,Snapback,0,-100%,N/A,-21,12 + 3,4,44,21,30,9,-,- Causes the barrel to explode if hit directly.,https://wiki.gbl.gg/images/5/57/SG_dhl_snap_hb.png,https://wiki.gbl.gg/images/d/d5/SG_dhl_snap_fd.png
 BLACK DAHLIA,ONSLAUGHT,"ASSAULT
 KK
 JUMP ONSLAUGHT
@@ -1582,7 +1584,19 @@ JUMPING ONSLAUGHT
 JUMPING ASSAULT
 JUMPING KK
 JKK
-J.KK",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+J.KK
+J66
+J.66
+JUMPING 66
+JUMP 66
+JFF
+J.FF
+JUMPING FF
+JUMP FF",N/A,-,N/A,0%,N/A,N/A,10,-,23,N/A,N/A,N/A,-,"- A command hop that propels Black Dahlia upwards and forwards.
+- The grounded version cannot go over an opponent, and will adjust its trajectory to land right in front of the opponent.
+- Can ""chain"" to normals and specials after 10 frames of mandatory startup.
+- Airborne on frame 6 if done from the ground.
+- Cannot be input while crouching.",https://wiki.gbl.gg/images/1/10/SG_dhl_kk.png,https://wiki.gbl.gg/images/0/04/SG_dhl_kk_fd.png
 BLACK DAHLIA,ORDER UP! STANDARD SHOT,"MACRO_236P
 MACRO_236LP
 MACRO_236MP
@@ -3014,8 +3028,10 @@ CILIA CLIDE",Low,Sweep,1000 (100),(2.5%) 7.5%,KD,-16,16,10,36,18,21,12,-,"- Move
 - Has sweep properties (breaks armor)
 - Super canceling into 214KK is ~-10 on block
 - Super canceling into 236KK, the cathead attacks will be a true blockstring",https://wiki.gbl.gg/images/1/15/SG_dbl_blkhk_hb.png,https://wiki.gbl.gg/images/2/27/SG_dbl_blkhk_fd.png
-DOUBLE,CAR,MACRO_236PP,Mid,"Invuln. (Full) ,
-33% Min. Scaling (except 1st hit)","500 x4, 1200 (100 x4. 200)",-100%,KD,-64 (at best),6 + 2 OR 6 + 11,--,32,26 x5,26 x5,"(8) 5 x4, 24",-,"- Double disappears from the screen as Peacock, returning as invulnerable car that travels across the screen. Double becomes vulnerable again as she transforms during recovery, always appearing directly in front of the opponent.
+DOUBLE,CAR,"MACRO_236PP
+BANDWAGON
+BANDWAGON RUSHDOWN",Mid,"Invuln. (Full) ,
+33% Min. Scaling (except 1st hit)","500 x4, 1200 (100 x4, 200)",-100%,KD,-64 (at best),6 + 2 OR 6 + 11,--,32,26 x5,26 x5,"(8) 5 x4, 24",-,"- Double disappears from the screen as Peacock, returning as invulnerable car that travels across the screen. Double becomes vulnerable again as she transforms during recovery, always appearing directly in front of the opponent.
 - The car will come from the side of the screen behind Double. If 4 is held, the car will come from the reverse side and 9 frames of startup are added.
 - If done in the corner without reversing the direction, it could potentially be post flash unblockable.
 - Before the screen zooms back out from the super flash, some dust will appear. The side the dust is on indicates what side the car will come from (Dust on left side means the car will come from the left and travel to the right, and vice versa). See the wiki entry for a visual.
