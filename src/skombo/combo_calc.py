@@ -9,18 +9,13 @@ import pandas as pd
 from numpy import floor
 
 import skombo
-from skombo.frame_data_operations import (
-    attempt_to_int,
-    format_column_headings,
-    get_fd_bot_data,
-    format_column_headings,
-    COLS,
-)
+from skombo.fd_ops import COLS, FdBotCsvManager, attempt_to_int, get_fd_bot_data
 
-global fd
 import functools
+from skombo.fd_ops import FD_BOT_CSV_MANAGER
 
-log = skombo.log
+ALIAS_DF = FD_BOT_CSV_MANAGER.dataframes["aliases"]
+_log = skombo.LOG
 
 
 def get_combo_scaling(fd: pd.DataFrame) -> pd.DataFrame:
@@ -99,16 +94,10 @@ def parse_combos_from_csv(
 ) -> tuple[list[pd.DataFrame], list[int]]:
     """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
 
-    log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
+    _log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
 
     combos_df: pd.DataFrame = pd.read_csv(csv_path)
-    global alias_df
-    alias_df = format_column_headings(
-        pd.read_csv(skombo.MOVE_NAME_ALIASES_PATH)
-        .replace("\n", ",", regex=True)
-        .dropna(axis=0)
-    )
-    log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
+    _log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
 
     combo_dfs: list[pd.DataFrame] = [
         (
@@ -177,7 +166,7 @@ def parse_combo_from_string(character: str, combo_string: str) -> pd.DataFrame:
     character_moves: pd.DataFrame = get_character_moves(character)
 
     combo_move_names = pd.Series(combo_string.strip().split(" "))
-    log.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
+    _log.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
     # Attempt to find each move in the combo string in the character's moves from the frame data
     # If a move is not found, check each item in the alt_names list for the move
 
@@ -207,7 +196,7 @@ def character_specific_move_name_check(character: str, move_name: str) -> str:
     if character == "ANNIE":
         # We don't actually need the move strength for annie divekicks
         if re.search(r"236[lmh]k", move_name, flags=re.IGNORECASE):
-            log.debug(f"Removing move strength from annie divekick {move_name}")
+            _log.debug(f"Removing move strength from annie divekick {move_name}")
             move_name = re.sub(r"[lmh]", "", move_name, flags=re.IGNORECASE)
 
     return move_name
@@ -249,13 +238,13 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
         # log.info(f"Found move name {move_name} in alt_names")
         if not in_alt_names.any():
             # Search alias_df
-            in_alias_keys = alias_df["value"].str.contains(
+            in_alias_keys = ALIAS_DF["value"].str.contains(
                 name_between_re.pattern, regex=True
             )
             if in_alias_keys.any():
                 move_df = character_moves.loc[
                     character_moves["alt_names"].str.startswith(
-                        alias_df.loc[in_alias_keys, "key"].values[0]
+                        ALIAS_DF.loc[in_alias_keys, "key"].values[0]
                     )
                 ]
         move_df = character_moves[in_alt_names]

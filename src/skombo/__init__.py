@@ -1,10 +1,12 @@
+"""init for skombo package.
+primarily contains constants used throughout the package. also contains the logger."""
+import atexit
+import datetime
 import logging
 import os
 import re
 import sys
-import datetime
 import time
-import atexit
 
 # get the start datetime
 START_TIME = datetime.datetime.now()
@@ -94,7 +96,15 @@ NORMAL_STRENGTHS: dict[str, str] = {
     "H": "HEAVY",
 }
 
-IGNORED_MOVES: list[str] = ["RESTAND", "KARA", "ADC", "AD","OTG", "RE STAND", "RE-STAND"]
+IGNORED_MOVES: list[str] = [
+    "RESTAND",
+    "KARA",
+    "ADC",
+    "AD",
+    "OTG",
+    "RE STAND",
+    "RE-STAND",
+]
 
 FRAME_VALUE_REPLACEMENTS: list[str] = ["+", "±"]
 FRAME_VALUE_REPLACEMENTS_STR: str = f"[{''.join(FRAME_VALUE_REPLACEMENTS)}]"
@@ -125,6 +135,8 @@ SCALING_START = 1.0
 
 
 class Characters:
+    """Class to hold character names as constants.
+    """
     AN = "ANNIE"
     BE = "BEOWULF"
     BB = "BIG BAND"
@@ -272,22 +284,22 @@ class StreamToLogger:
         pass
 
 
-log: logging.Logger = get_logger(__name__)
+LOG: logging.Logger = get_logger(__name__)
 
-log.info("Constants initialized")
+LOG.info("Constants initialized")
 
-log.info(f"ABS_PATH: {ABS_PATH}")
-log.info(f"MODULE_NAME: {MODULE_NAME}")
-log.info(f"DATA_PATH: {DATA_PATH}")
-log.info(f"CSV_PATH: {CSV_PATH}")
-log.info(f"GAME_DATA_PATH: {GAME_DATA_PATH}")
-log.info(f"CHARACTER_DATA_PATH: {CHARACTER_DATA_PATH}")
-log.info(f"FRAME_DATA_PATH: {FRAME_DATA_PATH}")
-log.info(f"MOVE_NAME_ALIASES_PATH: {MOVE_NAME_ALIASES_PATH}")
-log.info(f"TEST_DATA_FOLDER: {TEST_DATA_FOLDER}")
-log.info(f"TEST_COMBOS_SUFFIX: {TEST_COMBOS_SUFFIX}")
+LOG.info(f"ABS_PATH: {ABS_PATH}")
+LOG.info(f"MODULE_NAME: {MODULE_NAME}")
+LOG.info(f"DATA_PATH: {DATA_PATH}")
+LOG.info(f"CSV_PATH: {CSV_PATH}")
+LOG.info(f"GAME_DATA_PATH: {GAME_DATA_PATH}")
+LOG.info(f"CHARACTER_DATA_PATH: {CHARACTER_DATA_PATH}")
+LOG.info(f"FRAME_DATA_PATH: {FRAME_DATA_PATH}")
+LOG.info(f"MOVE_NAME_ALIASES_PATH: {MOVE_NAME_ALIASES_PATH}")
+LOG.info(f"TEST_DATA_FOLDER: {TEST_DATA_FOLDER}")
+LOG.info(f"TEST_COMBOS_SUFFIX: {TEST_COMBOS_SUFFIX}")
 
-log.info("Logger initialized")
+LOG.info("Logger initialized")
 
 
 def exit_handler() -> None:
@@ -296,7 +308,7 @@ def exit_handler() -> None:
 
     # get execution time
     elapsed_time = END_TIME - START_TIME
-    log.info(f"Execution time: {elapsed_time} seconds 🤠")
+    LOG.info(f"Execution time: {elapsed_time} seconds 🤠")
 
 
 atexit.register(exit_handler)
