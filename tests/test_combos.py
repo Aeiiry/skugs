@@ -9,7 +9,7 @@ from skombo.combo_calc import parse_combos_from_csv
 
 # disable mypy for this file
 # mypy: ignore-errors
-from skombo.frame_data_operations import expand_all_x_n
+from skombo.fd_ops import expand_all_x_n
 
 
 @pytest.mark.parametrize(
@@ -25,7 +25,7 @@ from skombo.frame_data_operations import expand_all_x_n
 )
 def test_expand_all_x_n(input_str, expected_output) -> None:
     calculated_output = expand_all_x_n(input_str)
-    log.info(f"Expanded ( {input_str} ) ==> ( {calculated_output} )")
+    LOG.info(f"Expanded ( {input_str} ) ==> ( {calculated_output} )")
     assert calculated_output == expected_output
 
 
@@ -44,21 +44,21 @@ def test_expand_all_x_n(input_str, expected_output) -> None:
     ],
 )
 def test_combos(test_csv_path: str, character: str, profile) -> None:
-    log.info(f"Testing combos for [[{character}]]")
+    LOG.info(f"Testing combos for [[{character}]]")
     if not pathlib.Path(test_csv_path).is_file():
-        log.warning(f"!!!!! No test file found for [[{character}]] !!!!!")
+        LOG.warning(f"!!!!! No test file found for [[{character}]] !!!!!")
         warnings.warn(f"!!!!! No test file found for [[{character}]] !!!!!")
         pytest.skip(f"Test file not found: {test_csv_path}")
 
     combos, combo_damage = parse_combos_from_csv(test_csv_path, calc_damage=True)
 
     for i, combo in enumerate(combos):
-        log.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
+        LOG.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
         damage_diff: int = (
             combo_damage[i] - combo.at[combo.__len__() - 1, "summed_damage"]
         )
 
         damage_diff_percent: float = round(abs(damage_diff / combo_damage[i] * 100), 2)
-        log.info(f"Damage difference: {damage_diff_percent}%")
+        LOG.info(f"Damage difference: {damage_diff_percent}%")
 
         assert 1 > damage_diff_percent >= 0
