@@ -7,6 +7,13 @@ import re
 from collections import abc
 from dataclasses import dataclass
 from typing import Any, Self
+
+import numpy as np
+import pandas as pd
+from pandas import Index
+
+import skombo
+from skombo import CHARS, LOG
 from skombo.utils import (
     filter_dict,
     remove_spaces,
@@ -15,12 +22,8 @@ from skombo.utils import (
     remove_spaces,
     format_column_headings,
 )
-import numpy as np
-import pandas as pd
-from pandas import Index
 
-import skombo
-from skombo import CHARS, LOG
+global FD
 
 
 @dataclass
@@ -104,7 +107,7 @@ class ColumnClassification:
     ]
 
 
-COL_CLASS = ColumnClassification()
+COLS_CLASSES = ColumnClassification()
 
 
 def separate_meter(frame_data: pd.DataFrame) -> pd.DataFrame:
@@ -245,11 +248,11 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     LOG.info(
         "Separated [meter] column into [meter_on_hit] and [meter_on_whiff] columns"
     )
-    numeric_columns = COL_CLASS.NUMERIC_COLUMNS
+    numeric_columns = COLS_CLASSES.NUMERIC_COLUMNS
     frame_data[numeric_columns] = frame_data[numeric_columns].applymap(str_to_int)
     LOG.info(f"Converted numeric columns to integers: {numeric_columns}")
 
-    numeric_list_columns = COL_CLASS.NUMERIC_LIST_COLUMNS
+    numeric_list_columns = COLS_CLASSES.NUMERIC_LIST_COLUMNS
     frame_data[numeric_list_columns] = frame_data[numeric_list_columns].applymap(
         lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x
     )
@@ -280,40 +283,9 @@ def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
     Returns:
         DataFrame with columns that are cleaned after being sent to Son
     """
-    # Replace any individual cell that only contain "-" with np.nan
-    frame_data = frame_data.replace("-", np.nan)
-    LOG.info("Replaced [-] and [ ] with [NaN]")
-    frame_data = frame_data.replace("", np.nan)
-    LOG.info("Replaced empty strings with [NaN]")
-    # Remove characters from columns that are not needed
-
-    # Remove newlines from relevant columns
-    remove_newline_cols = COL_CLASS.REMOVE_NEWLINE_COLS
-    frame_data.loc[:, remove_newline_cols] = frame_data.loc[
-        :, remove_newline_cols
-    ].replace("\n", "")
-
-    LOG.info(f"Removed newlines from columns: {remove_newline_cols}")
-
-    # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
-    plus_minus_cols = COL_CLASS.PLUS_MINUS_COLS
-    re_plus_plusminus = r"\+|\u00B1"
-    frame_data.loc[:, plus_minus_cols] = frame_data.loc[:, plus_minus_cols].replace(
-        re_plus_plusminus, "", regex=True
-    )
-
-    LOG.info(f"Removed [+] and [±] from columns: {plus_minus_cols}")
-
-    # Remove percentage symbol from meter column
-    frame_data[COLS.meter] = frame_data[COLS.meter].str.replace("%", "")
-    LOG.info("Removed [%] from [meter] column")
-
-    # Split alt_names by newline
-    frame_data["alt_names"] = frame_data["alt_names"].str.replace("\n", ",")
-    LOG.info("Split [alt_names] by [\\n]")
 
     # Split footer by dash, drop empty strings, and strip whitespace
-    frame_data["footer"] = frame_data["footer"].str.findall(r"(?:-\s)([^-]+)")
+    # frame_data["footer"] = frame_data["footer"].str.findall(r"(?:-\s)([^-]+)")
     LOG.info("Split [footer] by [-]")
 
     # Expand all x_n notation in damage, hitstun, blockstun, hitstop, meter, and active columns
@@ -501,9 +473,6 @@ class FdBotCsvManager(CsvManager):
         super().__init__(path, self.file_keys)
 
 
-FD_BOT_CSV_MANAGER = FdBotCsvManager()
-
-
 class FrameData(pd.DataFrame):
     """DataFrame subclass for frame data"""
 
@@ -516,38 +485,86 @@ class FrameData(pd.DataFrame):
         self.index.names = [COLS.char, COLS.m_name]
         return self
 
-    def rename_cols(self):
-        rename_cols: dict[str, str] = {
-            "on_block": COLS.onblock,
-            "meter": COLS.meter,
-            "on_hit": COLS.onhit,
-        }
+    def rename_cols(
+        self,
+        rename_cols: dict[str, str],
+    ) -> Self:  # sourcery skip: default-mutable-arg
         self.rename(columns=rename_cols, inplace=True)
 
         cols_minus_index: list[str] = list(
             filter_dict(COLS.__dict__, self.index.names, filter_values=True).values()
         )
-        self = FrameData(data=self, columns=cols_minus_index)
+        self = FrameData(data=self, columns=cols_minus_index)  # type:ignore
         self.fillna(np.nan, inplace=True)
         return self
 
+    def remove_chars_from_cols(
+        self, chars: str | list[str], cols: str | list[str]
+    ) -> Self:
+        for col in cols if isinstance(cols, list) else [cols]:
+            chars_re = "|".join(re.escape(char) for char in chars)
+            self[col] = self[col].str.replace(chars_re, "", regex=True)
+        return self
 
-FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"]).re_index().rename_cols()
+    def bulk_remove_chars_from_cols(
+        self, chars_cols: list[tuple[str | list[str], str | list[str]]]
+    ) -> Self:
+        for chars, cols in chars_cols:
+            self.remove_chars_from_cols(chars, cols)
+
+        return self
+
+    def strings_to_nan(self, strings: list[str]) -> Self:
+        self.replace(strings, np.nan, inplace=True)
+        return self
+
+    def col_str_replace(self, col: str, old: str, new: str) -> Self:
+        self[col] = self[col].str.replace(old, new)
+        return self
 
 
 @functools.cache
 def extract_fd_from_csv() -> pd.DataFrame:
-    LOG.info("========== Extracting frame data from fd bot csv ==========")
+    fd_bot_csv_manager = FdBotCsvManager()
+
+    cols_to_rename = {
+        "on_block": COLS.onblock,
+        "meter": COLS.meter,
+        "on_hit": COLS.onhit,
+    }
+    remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
+        ("\n", COLS_CLASSES.REMOVE_NEWLINE_COLS),
+        (["+", "±"], COLS_CLASSES.PLUS_MINUS_COLS),
+        ("%", COLS.meter),
+    ]
+
+    string_to_nan: list[str] = ["-", ""]
+
+    FD: FrameData = FrameData(fd_bot_csv_manager.dataframes["frame_data"])
+
+    FD = (
+        FD.re_index()  # Reindex the dataframe to have character and move_name as the index
+        .rename_cols(
+            rename_cols=cols_to_rename
+        )  # Rename columns as specified in cols_to_rename
+        .bulk_remove_chars_from_cols(
+            remove_chars_from_cols
+        )  # Remove characters from columns as specified in remove_chars_from_cols
+        .strings_to_nan(
+            string_to_nan
+        )  # Replace strings with np.nan as specified in string_to_nan
+        .col_str_replace(
+            COLS.a_names, "\n", ","
+        )  # Replace newlines in alt_names with commas
+    )
+
     # We don't need existing index column
-    frame_data = FD
-    LOG.info("Copied frame data from fd bot csv")
 
-    LOG.info("Loaded csvs into dataframes")
+    FD = clean_frame_data(FD)  # type: ignore
 
-    frame_data = clean_frame_data(frame_data)
+    FD.to_csv("fd_cleaned.csv")
 
-    frame_data.to_csv("fd_cleaned.csv")
+    return FD
 
-    LOG.info("Exported cleaned frame data to csv: [fd_cleaned.csv]")
-    LOG.info("========== Finished extracting frame data from fd bot csv ==========")
-    return frame_data
+
+extract_fd_from_csv()

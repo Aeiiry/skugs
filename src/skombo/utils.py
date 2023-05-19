@@ -6,7 +6,7 @@ import skombo
 import re
 
 def filter_dict(
-    dict: dict[str, Any], filter: str | list[str], filter_values: bool = False
+    dict: dict[str, Any], colfilter: str | list[str], filter_values: bool = False
 ) -> dict[str, Any]:
     """
     Return a dict excluding the keys in the filter param\n
@@ -14,13 +14,13 @@ def filter_dict(
     filter_values = True will filter values instead, only supports string values\n
     """
 
-    filter = list(filter)
+    colfilter = list(colfilter)
     if filter_values:
         return {
-            k: v for k, v in dict.items() if not isinstance(v, str) or v not in filter
+            k: v for k, v in dict.items() if not isinstance(v, str) or v not in colfilter
         }
     else:
-        return {k: v for k, v in dict.items() if k not in filter}
+        return {k: v for k, v in dict.items() if k not in colfilter}
 
 
 def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
