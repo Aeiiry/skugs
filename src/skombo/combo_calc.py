@@ -9,8 +9,8 @@ import pandas as pd
 from numpy import floor
 
 import skombo
-from skombo.fd_ops import COLS, FdBotCsvManager, attempt_to_int, get_fd_bot_data
-
+from skombo.fd_ops import COLS, FdBotCsvManager, get_fd_bot_data
+from skombo.utils import attempt_to_int
 import functools
 from skombo.fd_ops import FD_BOT_CSV_MANAGER
 

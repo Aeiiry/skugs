@@ -6,16 +6,21 @@ import os
 import re
 from collections import abc
 from dataclasses import dataclass
-from typing import Any
-
+from typing import Any, Self
+from skombo.utils import (
+    filter_dict,
+    remove_spaces,
+    split_on_char,
+    expand_all_x_n,
+    remove_spaces,
+    format_column_headings,
+)
 import numpy as np
 import pandas as pd
 from pandas import Index
 
 import skombo
-from skombo import CHARS
-
-_log = skombo.LOG
+from skombo import CHARS, LOG
 
 
 @dataclass
@@ -102,80 +107,6 @@ class ColumnClassification:
 COL_CLASS = ColumnClassification()
 
 
-def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
-    """Format column headings to lowercase with underscores"""
-    df.columns = [col.replace(" ", "_").lower() for col in df.columns]
-    return df
-
-
-@functools.cache
-def attempt_to_int(value: str | int) -> str | int:
-    return int(value) if isinstance(value, str) and value.isnumeric() else value
-
-
-@functools.cache
-def remove_spaces(string: str) -> str:
-    return string.replace(" ", "") if " " in string else string
-
-
-def split_on_char(string: str, char: str, strip: bool = True) -> list[str]:
-    if char not in string:
-        return [string]
-    split_string: list[str] = string.split(char)
-    if strip:
-        split_string = [remove_spaces(x) for x in split_string]
-
-    return split_string
-
-
-@functools.cache
-def expand_all_x_n(damage: str) -> str:
-    if isinstance(damage, str):
-        if " " in damage:
-            damage = damage.replace(" ", "")
-        while (x_n_match := skombo.RE_X_N.search(damage)) or (
-            x_n_match := skombo.RE_BRACKETS_X_N.search(damage)
-        ):
-            damage = expand_x_n(x_n_match)
-
-    return damage
-
-
-def apply_to_columns(
-    frame_data: pd.DataFrame,
-    func: abc.Callable,  # type: ignore
-    columns: list[str],
-    non_nan: bool = False,
-) -> pd.DataFrame:
-    if non_nan:
-        # apply function to non-nan cells in specified columns
-        frame_data[columns] = frame_data[columns].applymap(
-            lambda x: func(x) if pd.notna(x) else x
-        )
-    else:
-        # apply function to all cells in specified columns
-        frame_data[columns] = frame_data[columns].applymap(func)
-    return frame_data
-
-
-@functools.cache
-def expand_x_n(match: re.Match[str]) -> str:
-    num = int(match.group(3))
-    damage: str = match.group(1).strip()
-    original_damage: str = match.group(0)
-    if "[" in original_damage:
-        damage = re.sub(r"[\[\]]", "", original_damage).replace(" ", "")
-        expanded_list: list[str] = damage.split(",") * num
-        expanded_damage: str = ",".join(expanded_list)
-    else:
-        expanded_damage = ",".join([damage] * num)
-    return (
-        match.string[: match.start()] + expanded_damage + match.string[match.end() :]
-        if match.end()
-        else match.string[: match.start()] + expanded_damage
-    )
-
-
 def separate_meter(frame_data: pd.DataFrame) -> pd.DataFrame:
     """Separate meter into on_hit and on_whiff"""
     fd_meter = frame_data.loc[:, COLS.meter]
@@ -219,17 +150,14 @@ def split_meter(meter: str) -> tuple[str | None, str | None]:
 
 def separate_on_hit(frame_data: pd.DataFrame) -> pd.DataFrame:
     frame_data[COLS.onhit_eff] = frame_data[COLS.onhit].copy()
-    frame_data = apply_to_columns(
-        frame_data,
-        lambda x: x
+    frame_data[COLS.onhit] = frame_data[COLS.onhit].apply(
+        lambda x: x  # type: ignore
         if (isinstance(x, str) and x.isnumeric()) or isinstance(x, int)
-        else None,
-        [COLS.onhit],
+        else None
     )
-    frame_data = apply_to_columns(
-        frame_data,
-        lambda x: x if isinstance(x, str) and not x.isnumeric() else None,
-        [COLS.onhit_eff],
+
+    frame_data[COLS.onhit_eff] = frame_data[COLS.onhit_eff].apply(
+        lambda x: x if isinstance(x, str) and not x.isnumeric() else None  # type: ignore
     )
 
     return frame_data
@@ -303,10 +231,10 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
         DataFrame containing the cleaned data in a more readable format
     """
 
-    _log.info("========== Cleaning frame data ==========")
-    _log.info("Inserted alt name aliases from macros .csv")
+    LOG.info("========== Cleaning frame data ==========")
+    LOG.info("Inserted alt name aliases from macros .csv")
 
-    _log.info("=== Initial string cleaning ===")
+    LOG.info("=== Initial string cleaning ===")
     frame_data = initial_string_cleaning(frame_data)
 
     frame_data = separate_annie_stars(frame_data)
@@ -314,31 +242,31 @@ def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
     frame_data = separate_damage_chip_damage(frame_data)
 
     frame_data = separate_meter(frame_data)
-    _log.info(
+    LOG.info(
         "Separated [meter] column into [meter_on_hit] and [meter_on_whiff] columns"
     )
     numeric_columns = COL_CLASS.NUMERIC_COLUMNS
     frame_data[numeric_columns] = frame_data[numeric_columns].applymap(str_to_int)
-    _log.info(f"Converted numeric columns to integers: {numeric_columns}")
+    LOG.info(f"Converted numeric columns to integers: {numeric_columns}")
 
     numeric_list_columns = COL_CLASS.NUMERIC_LIST_COLUMNS
     frame_data[numeric_list_columns] = frame_data[numeric_list_columns].applymap(
         lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x
     )
-    _log.info(
+    LOG.info(
         f"Converted numeric list columns to lists of integers: {numeric_list_columns}"
     )
 
     frame_data = separate_on_hit(frame_data)
-    _log.info(
+    LOG.info(
         "Separated [on_hit] column into [on_hit_advantage] and [on_hit_effect] columns"
     )
 
     frame_data = categorise_moves(frame_data)
-    _log.info("Added categories to moves")
+    LOG.info("Added categories to moves")
 
     frame_data = add_undizzy_values(frame_data)
-    _log.info("Adding undizzy values to moves")
+    LOG.info("Adding undizzy values to moves")
     return frame_data
 
 
@@ -354,9 +282,9 @@ def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
     """
     # Replace any individual cell that only contain "-" with np.nan
     frame_data = frame_data.replace("-", np.nan)
-    _log.info("Replaced [-] and [ ] with [NaN]")
+    LOG.info("Replaced [-] and [ ] with [NaN]")
     frame_data = frame_data.replace("", np.nan)
-    _log.info("Replaced empty strings with [NaN]")
+    LOG.info("Replaced empty strings with [NaN]")
     # Remove characters from columns that are not needed
 
     # Remove newlines from relevant columns
@@ -365,7 +293,7 @@ def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
         :, remove_newline_cols
     ].replace("\n", "")
 
-    _log.info(f"Removed newlines from columns: {remove_newline_cols}")
+    LOG.info(f"Removed newlines from columns: {remove_newline_cols}")
 
     # Remove + and ± from relevant columns (\u00B1 is the unicode for ±)
     plus_minus_cols = COL_CLASS.PLUS_MINUS_COLS
@@ -374,19 +302,19 @@ def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
         re_plus_plusminus, "", regex=True
     )
 
-    _log.info(f"Removed [+] and [±] from columns: {plus_minus_cols}")
+    LOG.info(f"Removed [+] and [±] from columns: {plus_minus_cols}")
 
     # Remove percentage symbol from meter column
     frame_data[COLS.meter] = frame_data[COLS.meter].str.replace("%", "")
-    _log.info("Removed [%] from [meter] column")
+    LOG.info("Removed [%] from [meter] column")
 
     # Split alt_names by newline
     frame_data["alt_names"] = frame_data["alt_names"].str.replace("\n", ",")
-    _log.info("Split [alt_names] by [\\n]")
+    LOG.info("Split [alt_names] by [\\n]")
 
     # Split footer by dash, drop empty strings, and strip whitespace
     frame_data["footer"] = frame_data["footer"].str.findall(r"(?:-\s)([^-]+)")
-    _log.info("Split [footer] by [-]")
+    LOG.info("Split [footer] by [-]")
 
     # Expand all x_n notation in damage, hitstun, blockstun, hitstop, meter, and active columns
     x_n_cols = [
@@ -401,7 +329,7 @@ def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
     frame_data[x_n_cols] = frame_data[x_n_cols].applymap(
         lambda x: expand_all_x_n(x) if "x" in str(x) else x
     )
-    _log.info(f"Expanded [x_n] notation in columns: {x_n_cols}")
+    LOG.info(f"Expanded [x_n] notation in columns: {x_n_cols}")
     return frame_data
 
 
@@ -446,7 +374,7 @@ def separate_damage_chip_damage(frame_data: pd.DataFrame) -> pd.DataFrame:
 
     "]'"
 
-    _log.info("Separated [damage] column into [damage] and [chip_damage] columns")
+    LOG.info("Separated [damage] column into [damage] and [chip_damage] columns")
     return frame_data
 
 
@@ -463,7 +391,7 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
 
     # First select rows of index ANNIE and just the  damage and on_block
     star_rows: pd.DataFrame = frame_data.loc[(CHARS.AN, slice(None)), [COLS.dmg, COLS.onblock]]  # type: ignore
-    _log.info("Splitting Annie's normals into star power and original versions")
+    LOG.info("Splitting Annie's normals into star power and original versions")
 
     # Filter out rows without a "[" in damage or on_block
     star_rows = star_rows[
@@ -516,9 +444,9 @@ def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
 
 @functools.cache
 def get_fd_bot_data() -> pd.DataFrame:
-    _log.info("========== Getting frame data bot data ==========")
-    _log.info("Loading csvs into dataframes")
-    _log.info(f"Currect working directory: {os.getcwd()}")
+    LOG.info("========== Getting frame data bot data ==========")
+    LOG.info("Loading csvs into dataframes")
+    LOG.info(f"Currect working directory: {os.getcwd()}")
     fd: pd.DataFrame = extract_fd_from_csv()
     return fd
 
@@ -530,23 +458,29 @@ class CsvManager:
         self.path: str = path
         self.file_keys: dict[str, str] = file_keys
         self.dataframes: dict[str, pd.DataFrame] = {}
+        """Raw dataframes from csvs before they are modified"""
         for key in self.file_keys:
             self.dataframes[key] = self.open_csv(key)
 
     def open_csv(self, file_key: str) -> pd.DataFrame:
         """Open a CSV file and return it as a DataFrame"""
         file_ends_with: str = self.file_keys[file_key] + ".csv"
+
         file_found: list[str] = fnmatch.filter(
             os.listdir(self.path), f"*{file_ends_with}"
         )
+
         if not file_found:
             raise FileNotFoundError(
                 f"Could not find {file_key} CSV in {self.path} with ending {file_ends_with}"
             )
+
         file_path: str = os.path.join(self.path, file_found[0])
+
         if file_found[0].lower() != file_ends_with:
             os.rename(file_path, os.path.join(self.path, file_ends_with))
             file_path = os.path.join(self.path, file_ends_with)
+
         with open(file_path, "r", encoding="utf8") as file:
             df: pd.DataFrame = pd.read_csv(file, encoding="utf8")
             return format_column_headings(df)
@@ -570,40 +504,50 @@ class FdBotCsvManager(CsvManager):
 FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
 
+class FrameData(pd.DataFrame):
+    """DataFrame subclass for frame data"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def re_index(self) -> Self:
+        self[COLS.m_name] = self[COLS.m_name].str.strip().replace(r"\n", "", regex=True)
+        self.set_index([COLS.char, COLS.m_name], verify_integrity=True, inplace=True)
+        self.index.names = [COLS.char, COLS.m_name]
+        return self
+
+    def rename_cols(self):
+        rename_cols: dict[str, str] = {
+            "on_block": COLS.onblock,
+            "meter": COLS.meter,
+            "on_hit": COLS.onhit,
+        }
+        self.rename(columns=rename_cols, inplace=True)
+
+        cols_minus_index: list[str] = list(
+            filter_dict(COLS.__dict__, self.index.names, filter_values=True).values()
+        )
+        self = FrameData(data=self, columns=cols_minus_index)
+        self.fillna(np.nan, inplace=True)
+        return self
+
+
+FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"]).re_index().rename_cols()
+
+
 @functools.cache
 def extract_fd_from_csv() -> pd.DataFrame:
-    _log.info("========== Extracting frame data from fd bot csv ==========")
+    LOG.info("========== Extracting frame data from fd bot csv ==========")
     # We don't need existing index column
-    fd_bot_csv_manager = FdBotCsvManager()
-    frame_data: pd.DataFrame = fd_bot_csv_manager.dataframes["frame_data"]
-    _log.info("Copied frame data from fd bot csv")
+    frame_data = FD
+    LOG.info("Copied frame data from fd bot csv")
 
-    _log.info("Loaded csvs into dataframes")
-
-    # == Clean up move_name column before using it as an index ==
-    frame_data[COLS.m_name] = (
-        frame_data[COLS.m_name].str.strip().replace(r"\n", "", regex=True)
-    )
-    # == Set the index to character and move_name ==
-
-    frame_data = frame_data.set_index([COLS.char, COLS.m_name], verify_integrity=True)
-    # Name the index
-    frame_data.index.names = [COLS.char, COLS.m_name]
-
-    rename_cols: dict[str, str] = {
-        "on_block": COLS.onblock,
-        "meter": COLS.meter,
-        "on_hit": COLS.onhit,
-    }
-    frame_data.rename(columns=rename_cols, inplace=True)
-    cols_minus_index: list[str] = list(COLS.__dict__.values())[2:]
-    frame_data = pd.DataFrame(data=frame_data, columns=cols_minus_index).fillna(np.nan)
+    LOG.info("Loaded csvs into dataframes")
 
     frame_data = clean_frame_data(frame_data)
 
     frame_data.to_csv("fd_cleaned.csv")
 
-    _log.info("Exported cleaned frame data to csv: [fd_cleaned.csv]")
-    _log.info("========== Finished extracting frame data from fd bot csv ==========")
-
+    LOG.info("Exported cleaned frame data to csv: [fd_cleaned.csv]")
+    LOG.info("========== Finished extracting frame data from fd bot csv ==========")
     return frame_data
