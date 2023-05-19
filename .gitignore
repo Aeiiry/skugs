@@ -19,3 +19,4 @@ src/skullgirls_frame_data_parse.egg-info
 skombo.log
 *.prof
 /debug/*
+fd_cleaned.csv
