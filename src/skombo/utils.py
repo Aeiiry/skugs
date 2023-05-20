@@ -7,13 +7,11 @@ import pandas as pd
 
 import skombo
 from skombo import LOG
+import numpy as np
 
 
-def extract_blockstop(hitstop: str, in_paren: bool = True) -> str | None:
-    if match := re.search(r"\((.*)\s?on block\)", hitstop):
-        return match[1] if in_paren else match[0]
-    else:
-        return None
+def extract_blockstop(hitstop: str):
+    return re.search(r"\(([^()]*)\s?on block[^()]*\)", hitstop)
 
 
 def split_meter(meter: str) -> tuple[str | None, str | None]:

@@ -271,48 +271,32 @@ class FrameData(pd.DataFrame):
         self[COLS.onpb] = self[COLS.onpb].str.split(" to ")
         return self
 
-    def sep_hitstop_blockstop(self) -> Self:
-        mask = self[COLS.hitstop].apply(
-            lambda x: any("on block" in i for i in x) if isinstance(x, list) else False
-        )
-        test = self.loc[mask, [COLS.hitstop, COLS.blockstop]]
-        self[COLS.blockstop] = self[COLS.hitstop].apply(
-            # big lambda to extract the blockstop value from the hitstop column
-            # is messy but it is really convenient 🤷‍♀️
-            lambda x: bs
-            if isinstance(x, list)  # only split list values
-            and (
-                bs := [
-                    ex_i.strip()
-                    for i in x  # iterate over each value in the list
-                    if isinstance(i, str)
-                    if (ex_i := extract_blockstop(i))
-                    is not None  # extract the blockstop value
-                ]
-            ).__len__()
-            > 0  # only return the list if it has values
-            else pd.NA  # type: ignore
+    def separate_hitstop_blockstop(self) -> Self:
+        # Split hitstop and blockstop into separate columns
+        LOG.debug("Separating hitstop and blockstop...")
+
+        # Make a mask of the rows that have a blockstop value
+        block_mask: pd.Series[bool] = (
+            self[COLS.hitstop].str.contains("on block").fillna(False)
         )
 
-        self[COLS.hitstop] = self[COLS.hitstop].apply(
-            # similar but just remove the blockstop values from the hitstop column
-            lambda x: ex_hs
-            if isinstance(x, list)
-            and (
-                ex_hs := [
-                    i.replace(
-                        ex_i, ""
-                    ).strip()  # remove the blockstop value from the hitstop value
-                    for i in x  # iterate over each value in the list
-                    if isinstance(i, str)
-                    if (ex_i := extract_blockstop(i, in_paren=False))
-                    is not None  # extract the blockstop value
-                ]
-            ).__len__()
-            > 0
-            else x
-        )
+        block_rows: pd.DataFrame = self.loc[block_mask, [COLS.hitstop, COLS.blockstop]]
 
+        for i, row in block_rows.iterrows():
+            # Extract the blockstop value from the hitstop column, returns a re match object
+            ext_block = extract_blockstop(row[COLS.hitstop])
+            if ext_block is not None:
+                # TLDR: blockstop = value before "on block", hitstop has the parenthesised substring removed
+                blockstop, hitstop = (
+                    ext_block[1].strip(),
+                    row[COLS.hitstop].replace(ext_block[0].strip(), "").strip(),
+                )
+                block_rows.at[i, COLS.blockstop], block_rows.at[i, COLS.hitstop] = (
+                    blockstop,
+                    hitstop,
+                )
+
+        self.loc[block_mask, [COLS.hitstop, COLS.blockstop]] = block_rows
         return self
 
 
@@ -359,12 +343,12 @@ def clean_fd() -> FrameData:
         .separate_annie_stars()  # Separate Annie's star power moves into separate rows
         .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
         .separate_meter()  # Separate meter into on_hit and on_whiff
-        .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
         .separate_on_hit()  # Separate on_hit and on_hit_eff
         .categorise_moves()  # Categorise moves
         .add_undizzy_values()  # Add undizzy values
         .split_on_pushblock()  # Split on_pushblock into lists
-        .sep_hitstop_blockstop()  # Separate hitstop and blockstop
+        .separate_hitstop_blockstop()  # Separate hitstop and blockstop
+        .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
     )
     return FD
 
