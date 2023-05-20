@@ -272,6 +272,10 @@ class FrameData(pd.DataFrame):
         return self
 
     def sep_hitstop_blockstop(self) -> Self:
+        mask = self[COLS.hitstop].apply(
+            lambda x: any("on block" in i for i in x) if isinstance(x, list) else False
+        )
+        test = self.loc[mask, [COLS.hitstop, COLS.blockstop]]
         self[COLS.blockstop] = self[COLS.hitstop].apply(
             # big lambda to extract the blockstop value from the hitstop column
             # is messy but it is really convenient 🤷‍♀️
