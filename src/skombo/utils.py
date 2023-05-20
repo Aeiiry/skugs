@@ -9,6 +9,13 @@ import skombo
 from skombo import LOG
 
 
+def extract_blockstop(hitstop: str, in_paren: bool = True) -> str | None:
+    if match := re.search(r"\((.*)\s?on block\)", hitstop):
+        return match[1] if in_paren else match[0]
+    else:
+        return None
+
+
 def split_meter(meter: str) -> tuple[str | None, str | None]:
     if isinstance(meter, str) and (search := skombo.RE_IN_PAREN.search(meter)):
         on_whiff: str | Any = search.group(1)

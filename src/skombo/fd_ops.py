@@ -1,4 +1,3 @@
-# sourcery skip: lambdas-should-be-short
 """Main module for frame data operations."""
 import fnmatch
 import os
@@ -13,6 +12,7 @@ import skombo
 from skombo import CHARS, COLS, COLS_CLASSES, LOG
 from skombo.utils import (
     expand_all_x_n,
+    extract_blockstop,
     filter_dict,
     format_column_headings,
     split_meter,
@@ -173,7 +173,7 @@ class FrameData(pd.DataFrame):
 
         return self
 
-    def separate_damage_chip_damage(self):
+    def separate_damage_chip_damage(self) -> Self:
         LOG.debug("Separating damage and chip damage...")
         # Extract values in parentheses from damage column and put them in chip_damage column
         self[COLS.chip] = self[COLS.dmg].str.extract(r"\((.*)\)")[0]
@@ -261,7 +261,7 @@ class FrameData(pd.DataFrame):
         self.loc[self[COLS.move_cat].isna(), COLS.move_cat] = "SPECIAL_MOVE"
         return self
 
-    def add_undizzy_values(self):
+    def add_undizzy_values(self) -> Self:
         LOG.debug("Adding undizzy values...")
         self[COLS.undizzy] = self[COLS.move_cat].map(skombo.UNDIZZY_DICT)
         return self
@@ -271,8 +271,48 @@ class FrameData(pd.DataFrame):
         self[COLS.onpb] = self[COLS.onpb].str.split(" to ")
         return self
 
+    def sep_hitstop_blockstop(self) -> Self:
+        self[COLS.blockstop] = self[COLS.hitstop].apply(
+            # big lambda to extract the blockstop value from the hitstop column
+            # is messy but it is really convenient 🤷‍♀️
+            lambda x: bs
+            if isinstance(x, list)  # only split list values
+            and (
+                bs := [
+                    ex_i.strip()
+                    for i in x  # iterate over each value in the list
+                    if isinstance(i, str)
+                    if (ex_i := extract_blockstop(i))
+                    is not None  # extract the blockstop value
+                ]
+            ).__len__()
+            > 0  # only return the list if it has values
+            else pd.NA  # type: ignore
+        )
 
-cols_to_rename = {
+        self[COLS.hitstop] = self[COLS.hitstop].apply(
+            # similar but just remove the blockstop values from the hitstop column
+            lambda x: ex_hs
+            if isinstance(x, list)
+            and (
+                ex_hs := [
+                    i.replace(
+                        ex_i, ""
+                    ).strip()  # remove the blockstop value from the hitstop value
+                    for i in x  # iterate over each value in the list
+                    if isinstance(i, str)
+                    if (ex_i := extract_blockstop(i, in_paren=False))
+                    is not None  # extract the blockstop value
+                ]
+            ).__len__()
+            > 0
+            else x
+        )
+
+        return self
+
+
+cols_to_rename: dict[str, str] = {
     "on_block": COLS.onblock,
     "meter": COLS.meter,
     "on_hit": COLS.onhit,
@@ -320,6 +360,7 @@ def clean_fd() -> FrameData:
         .categorise_moves()  # Categorise moves
         .add_undizzy_values()  # Add undizzy values
         .split_on_pushblock()  # Split on_pushblock into lists
+        .sep_hitstop_blockstop()  # Separate hitstop and blockstop
     )
     return FD
 
