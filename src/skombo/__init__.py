@@ -2,14 +2,126 @@
 primarily contains constants used throughout the package. also contains the logger."""
 import atexit
 import datetime
+
+START_TIME = datetime.datetime.now()
+
 import logging
 import os
 import re
 import sys
-import time
+from dataclasses import dataclass
 
+
+@dataclass
+class Columns:
+    char: str = "character"
+    m_name: str = "move_name"
+    a_names: str = "alt_names"
+    guard: str = "guard"
+    props: str = "properties"
+    dmg: str = "damage"
+    chip: str = "chip_damage"
+    meter: str = "meter_on_hit"
+    meter_whiff: str = "meter_on_whiff"
+    onhit: str = "on_hit_adv"
+    onhit_eff: str = "on_hit_effect"
+    onblock: str = "on_block_adv"
+    startup: str = "startup"
+    active: str = "active"
+    recovery: str = "recovery"
+    hitstun: str = "hitstun"
+    blockstun: str = "blockstun"
+    hitstop: str = "hitstop"
+    blockstop: str = "blockstop"
+    super_hitstop: str = "super_hitstop"
+    onpb: str = "on_pushblock"
+    footer: str = "footer"
+    thumb_url: str = "thumbnail_url"
+    footer_url: str = "footer_url"
+    move_cat: str = "move_category"
+    undizzy: str = "undizzy"
+
+
+COLS = Columns()
+COL_TYPES: dict[str, str | tuple[str, str]] = {
+    COLS.char: "str",
+    COLS.m_name: "str",
+    COLS.a_names: "str",
+    COLS.guard: "str",
+    COLS.props: "str",
+    COLS.dmg: ("list", "int"),
+    COLS.chip: ("list", "int"),
+    COLS.meter: ("list", "int"),
+    COLS.meter_whiff: ("list", "int"),
+}
+
+
+@dataclass
+class ColumnClassification:
+    REMOVE_NEWLINE_COLS = [
+        COLS.guard,
+        COLS.props,
+        COLS.dmg,
+        COLS.meter,
+        COLS.onhit,
+        COLS.onblock,
+        COLS.startup,
+        COLS.active,
+        COLS.recovery,
+        COLS.hitstun,
+        COLS.hitstop,
+        COLS.onpb,
+        COLS.footer,
+    ]
+
+    PLUS_MINUS_COLS = [
+        COLS.onhit,
+        COLS.onblock,
+        COLS.startup,
+        COLS.active,
+        COLS.hitstun,
+        COLS.onpb,
+    ]
+
+    NUMERIC_COLUMNS = [
+        COLS.onhit,
+        COLS.onblock,
+        COLS.onpb,
+    ]
+
+    LIST_COLUMNS = [
+        COLS.dmg,
+        COLS.chip,
+        COLS.startup,
+        COLS.active,
+        COLS.recovery,
+        COLS.hitstun,
+        COLS.blockstun,
+        COLS.hitstop,
+        COLS.blockstop,
+        COLS.super_hitstop,
+        COLS.undizzy,
+        COLS.startup,
+        COLS.recovery,
+        COLS.meter,
+        COLS.meter_whiff,
+        COLS.props,
+        COLS.guard,
+        COLS.a_names,
+    ]
+
+    XN_COLS = [
+        COLS.dmg,
+        COLS.hitstun,
+        COLS.blockstun,
+        COLS.hitstop,
+        COLS.meter,
+        COLS.active,
+    ]
+
+
+COLS_CLASSES = ColumnClassification()
 # get the start datetime
-START_TIME = datetime.datetime.now()
 
 
 NUMERIC_COLUMNS: list[str] = [
@@ -135,8 +247,8 @@ SCALING_START = 1.0
 
 
 class Characters:
-    """Class to hold character names as constants.
-    """
+    """Class to hold character names as constants."""
+
     AN = "ANNIE"
     BE = "BEOWULF"
     BB = "BIG BAND"
@@ -178,14 +290,6 @@ DATA_PATH: str = os.path.join(ABS_PATH, DATA_NAME)
 CSV_PATH: str = os.path.join(DATA_PATH, CSVS)
 GAME_DATA_PATH: str = os.path.join(CSV_PATH, GAME_DATA)
 
-CHARACTER_DATA_PATH: str = os.path.join(
-    GAME_DATA_PATH, f"{FD_BOT_FILE_PREFIX}Characters.csv"
-)
-FRAME_DATA_PATH: str = os.path.join(GAME_DATA_PATH, f"{FD_BOT_FILE_PREFIX}Moves.csv")
-MOVE_NAME_ALIASES_PATH: str = os.path.join(
-    GAME_DATA_PATH, f"{FD_BOT_FILE_PREFIX}Macros.csv"
-)
-
 TEST_DATA_FOLDER = "test_data"
 TEST_COMBOS_SUFFIX = "_test_combos.csv"
 
@@ -219,7 +323,7 @@ def init_logger(name=__name__) -> logging.Logger:
     file_handler.setLevel(logging.DEBUG)
     # log format: datetime [ms since start] [log level] [file name:line number] [message]
     log_file_format = (
-        "[%(asctime)s] [%(module)s.%(funcName)s] [%(levelname)s] %(message)s"
+        "[%(msecs)03d] %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
     )
 
     datetime_format = "%Y-%m-%d %H:%M:%S"
@@ -290,14 +394,6 @@ LOG.info("Constants initialized")
 
 LOG.info(f"ABS_PATH: {ABS_PATH}")
 LOG.info(f"MODULE_NAME: {MODULE_NAME}")
-LOG.info(f"DATA_PATH: {DATA_PATH}")
-LOG.info(f"CSV_PATH: {CSV_PATH}")
-LOG.info(f"GAME_DATA_PATH: {GAME_DATA_PATH}")
-LOG.info(f"CHARACTER_DATA_PATH: {CHARACTER_DATA_PATH}")
-LOG.info(f"FRAME_DATA_PATH: {FRAME_DATA_PATH}")
-LOG.info(f"MOVE_NAME_ALIASES_PATH: {MOVE_NAME_ALIASES_PATH}")
-LOG.info(f"TEST_DATA_FOLDER: {TEST_DATA_FOLDER}")
-LOG.info(f"TEST_COMBOS_SUFFIX: {TEST_COMBOS_SUFFIX}")
 
 LOG.info("Logger initialized")
 

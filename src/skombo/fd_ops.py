@@ -1,426 +1,24 @@
 # sourcery skip: lambdas-should-be-short
 """Main module for frame data operations."""
 import fnmatch
-import functools
 import os
 import re
-from collections import abc
-from dataclasses import dataclass
-from typing import Any, Self
+from typing import Self
 
 import numpy as np
 import pandas as pd
 from pandas import Index
 
 import skombo
-from skombo import CHARS, LOG
+from skombo import CHARS, COLS, COLS_CLASSES, LOG
 from skombo.utils import (
-    filter_dict,
-    remove_spaces,
-    split_on_char,
     expand_all_x_n,
-    remove_spaces,
+    filter_dict,
     format_column_headings,
+    split_meter,
+    timer_func,
 )
-
-global FD
-
-
-@dataclass
-class Columns:
-    char: str = "character"
-    m_name: str = "move_name"
-    a_names: str = "alt_names"
-    guard: str = "guard"
-    props: str = "properties"
-    dmg: str = "damage"
-    chip: str = "chip_damage"
-    meter: str = "meter_on_hit"
-    meter_whiff: str = "meter_on_whiff"
-    onhit: str = "on_hit_adv"
-    onhit_eff: str = "on_hit_effect"
-    onblock: str = "on_block_adv"
-    startup: str = "startup"
-    active: str = "active"
-    recovery: str = "recovery"
-    hitstun: str = "hitstun"
-    blockstun: str = "blockstun"
-    hitstop: str = "hitstop"
-    blockstop: str = "blockstop"
-    super_hitstop: str = "super_hitstop"
-    onpb: str = "on_pushblock"
-    footer: str = "footer"
-    thumb_url: str = "thumbnail_url"
-    footer_url: str = "footer_url"
-    move_cat: str = "move_category"
-    undizzy: str = "undizzy"
-
-
-COLS = Columns()
-
-
-@dataclass
-class ColumnClassification:
-    REMOVE_NEWLINE_COLS = [
-        COLS.guard,
-        COLS.props,
-        COLS.dmg,
-        COLS.meter,
-        COLS.onhit,
-        COLS.onblock,
-        COLS.startup,
-        COLS.active,
-        COLS.recovery,
-        COLS.hitstun,
-        COLS.hitstop,
-        COLS.onpb,
-        COLS.footer,
-    ]
-
-    PLUS_MINUS_COLS = [
-        COLS.onhit,
-        COLS.onblock,
-        COLS.startup,
-        COLS.active,
-        COLS.hitstun,
-        COLS.onpb,
-    ]
-
-    NUMERIC_COLUMNS = [
-        COLS.onhit,
-        COLS.onblock,
-        COLS.onpb,
-    ]
-
-    NUMERIC_LIST_COLUMNS = [
-        COLS.dmg,
-        COLS.chip,
-        COLS.startup,
-        COLS.active,
-        COLS.recovery,
-        COLS.hitstun,
-        COLS.blockstun,
-        COLS.hitstop,
-        COLS.blockstop,
-        COLS.super_hitstop,
-        COLS.undizzy,
-    ]
-
-
-COLS_CLASSES = ColumnClassification()
-
-
-def separate_meter(frame_data: pd.DataFrame) -> pd.DataFrame:
-    """Separate meter into on_hit and on_whiff"""
-    fd_meter = frame_data.loc[:, COLS.meter]
-    # fd_meter_old = fd_meter.copy()
-
-    on_hit, on_whiff = zip(*fd_meter.apply(split_meter))
-    # on_hit and on_whiff are tuples, convert to lists
-    on_hit = list(on_hit)
-    on_whiff = list(on_whiff)
-    # Split on_hit and on_whiff's values on commas if they are strings
-    on_hit = [split_on_char(x, ",") if isinstance(x, str) else x for x in on_hit]
-    on_whiff = [split_on_char(x, ",") if isinstance(x, str) else x for x in on_whiff]
-
-    # Strip whitespace from on_hit and on_whiff and remove empty strings
-    on_hit = [
-        [remove_spaces(y) for y in x if y != "" and y is not None]
-        if isinstance(x, list)
-        else x
-        for x in on_hit
-    ]
-
-    # Insert new columns into frame_data to the right of meter
-
-    # Assign on_hit and on_whiff to the new columns
-    frame_data[COLS.meter] = on_hit
-    frame_data[COLS.meter_whiff] = on_whiff
-
-    return frame_data
-
-
-def split_meter(meter: str) -> tuple[str | None, str | None]:
-    if isinstance(meter, str) and (search := skombo.RE_IN_PAREN.search(meter)):
-        on_whiff: str | Any = search.group(1)
-    else:
-        on_whiff = None
-    on_hit: str | None = (
-        meter.replace(f"({on_whiff})", "") if isinstance(meter, str) else None
-    )
-    return on_hit, on_whiff
-
-
-def separate_on_hit(frame_data: pd.DataFrame) -> pd.DataFrame:
-    frame_data[COLS.onhit_eff] = frame_data[COLS.onhit].copy()
-    frame_data[COLS.onhit] = frame_data[COLS.onhit].apply(
-        lambda x: x  # type: ignore
-        if (isinstance(x, str) and x.isnumeric()) or isinstance(x, int)
-        else None
-    )
-
-    frame_data[COLS.onhit_eff] = frame_data[COLS.onhit_eff].apply(
-        lambda x: x if isinstance(x, str) and not x.isnumeric() else None  # type: ignore
-    )
-
-    return frame_data
-
-
-def categorise_moves(df: pd.DataFrame) -> pd.DataFrame:
-    """Categorise moves into different types"""
-    # Dict of move names that each character has 1 of
-    universal_move_categories: dict[str, str] = skombo.UNIVERSAL_MOVE_CATEGORIES
-    df[COLS.move_cat] = df.index.get_level_values(1).map(universal_move_categories)
-
-    re_normal_move: re.Pattern[str] = skombo.RE_NORMAL_MOVE
-
-    normal_strengths: dict[str, str] = skombo.NORMAL_STRENGTHS
-    # Normal moves are where move_name matches the regex and the move_category is None, we can use the regex to find the strength of the move by the first group
-
-    # Make a mask of the rows that are normal moves, by checking against df.index.get_level_values(1)
-
-    mask: Index = df.index.get_level_values(1).map(
-        lambda x: isinstance(x, str) and re_normal_move.search(x) is not None
-    )
-    # Assign the move_category to the strength of the move
-    df.loc[mask, COLS.move_cat] = (  # type: ignore
-        df.loc[mask]
-        .index.get_level_values(1)
-        .map(lambda x: normal_strengths[re_normal_move.search(x).group(1)] + "_NORMAL")  # type: ignore
-    )
-
-    # Supers are where meter_on_hit has length 1 and meter_on_hit[0] is  -100 or less
-    df.loc[
-        df.astype(str)[COLS.meter].str.contains(r"-\d\d", regex=True, na=False)
-        & df[COLS.move_cat].isna(),
-        COLS.move_cat,
-    ] = "SUPER"
-    # For now, assume everything else is a special
-    # TODO: Add more special move categories for things like double's level 5 projectiles, annie taunt riposte etc
-
-    df.loc[df[COLS.move_cat].isna(), COLS.move_cat] = "SPECIAL_MOVE"
-
-    return df
-
-
-def add_undizzy_values(df: pd.DataFrame) -> pd.DataFrame:
-    """Add undizzy values to the dataframe"""
-
-    undizzy_dict: dict[str, int] = skombo.UNDIZZY_DICT
-
-    # Create a new column for undizzy values
-    df["undizzy"] = df[COLS.move_cat].map(undizzy_dict)
-
-    return df
-
-
-@functools.cache
-def str_to_int(x: Any) -> int | Any:
-    if isinstance(x, str):
-        x = x.strip()
-        if "-" in x:
-            return 1 - int(numx) if (numx := x.replace("-", "")).isnumeric() else x
-        else:
-            return int(x) if x.isnumeric() else x
-    return x
-
-
-def clean_frame_data(frame_data: pd.DataFrame) -> pd.DataFrame:
-    """
-    Args:
-        frame_data: DataFrame containing the data to be cleaned
-
-    Returns:
-        DataFrame containing the cleaned data in a more readable format
-    """
-
-    LOG.info("========== Cleaning frame data ==========")
-    LOG.info("Inserted alt name aliases from macros .csv")
-
-    LOG.info("=== Initial string cleaning ===")
-    frame_data = initial_string_cleaning(frame_data)
-
-    frame_data = separate_annie_stars(frame_data)
-
-    frame_data = separate_damage_chip_damage(frame_data)
-
-    frame_data = separate_meter(frame_data)
-    LOG.info(
-        "Separated [meter] column into [meter_on_hit] and [meter_on_whiff] columns"
-    )
-    numeric_columns = COLS_CLASSES.NUMERIC_COLUMNS
-    frame_data[numeric_columns] = frame_data[numeric_columns].applymap(str_to_int)
-    LOG.info(f"Converted numeric columns to integers: {numeric_columns}")
-
-    numeric_list_columns = COLS_CLASSES.NUMERIC_LIST_COLUMNS
-    frame_data[numeric_list_columns] = frame_data[numeric_list_columns].applymap(
-        lambda x: [str_to_int(y) for y in x.split(",")] if pd.notnull(x) else x
-    )
-    LOG.info(
-        f"Converted numeric list columns to lists of integers: {numeric_list_columns}"
-    )
-
-    frame_data = separate_on_hit(frame_data)
-    LOG.info(
-        "Separated [on_hit] column into [on_hit_advantage] and [on_hit_effect] columns"
-    )
-
-    frame_data = categorise_moves(frame_data)
-    LOG.info("Added categories to moves")
-
-    frame_data = add_undizzy_values(frame_data)
-    LOG.info("Adding undizzy values to moves")
-    return frame_data
-
-
-def initial_string_cleaning(frame_data: pd.DataFrame) -> pd.DataFrame:
-    """
-    Initial string operations to clean the data.
-
-    Args:
-        frame_data: DataFrame with columns to clean
-
-    Returns:
-        DataFrame with columns that are cleaned after being sent to Son
-    """
-
-    # Split footer by dash, drop empty strings, and strip whitespace
-    # frame_data["footer"] = frame_data["footer"].str.findall(r"(?:-\s)([^-]+)")
-    LOG.info("Split [footer] by [-]")
-
-    # Expand all x_n notation in damage, hitstun, blockstun, hitstop, meter, and active columns
-    x_n_cols = [
-        COLS.dmg,
-        COLS.hitstun,
-        COLS.blockstun,
-        COLS.hitstop,
-        COLS.meter,
-        COLS.active,
-    ]
-
-    frame_data[x_n_cols] = frame_data[x_n_cols].applymap(
-        lambda x: expand_all_x_n(x) if "x" in str(x) else x
-    )
-    LOG.info(f"Expanded [x_n] notation in columns: {x_n_cols}")
-    return frame_data
-
-
-def separate_damage_chip_damage(frame_data: pd.DataFrame) -> pd.DataFrame:
-    """
-    Separate damage and chip_damage columns into one column
-
-    Args:
-        frame_data: Dataframe to be processed by function
-
-    Returns:
-        New dataframe with chip_damage column seper
-    """
-    # Extract values in parentheses from damage column and put them in chip_damage column
-    frame_data.loc[:, COLS.chip] = frame_data.loc[:, COLS.dmg].str.extract(r"\((.*)\)")[
-        0
-    ]
-    # Remove the values in parentheses from damage column
-    frame_data.loc[:, COLS.dmg] = frame_data.loc[:, COLS.dmg].str.replace(
-        r"\(.*\)", "", regex=True
-    )
-
-    frame_data.loc[:, COLS.dmg] = (
-        frame_data.loc[:, COLS.dmg].str.strip().replace(r",,", ",", regex=True)
-    )
-    frame_data.loc[:, COLS.dmg] = (
-        frame_data.loc[:, COLS.dmg]
-        .str.strip()
-        .replace(r"^,|,$", "", regex=True)
-        # .str.split(",")
-    )
-
-    frame_data.loc[:, COLS.chip] = (
-        frame_data.loc[:, COLS.chip].str.strip().replace(r",,", ",", regex=True)
-    )
-    frame_data.loc[:, COLS.chip] = (
-        frame_data.loc[:, COLS.chip]
-        .str.strip()
-        .replace(r"^,|,$", "", regex=True)
-        # .str.split(",")
-    )
-
-    "]'"
-
-    LOG.info("Separated [damage] column into [damage] and [chip_damage] columns")
-    return frame_data
-
-
-def separate_annie_stars(frame_data: pd.DataFrame) -> pd.DataFrame:
-    """
-    Separate annie stars into one or more sets of damage and on_block
-
-    Args:
-        frame_data: Dataframe to be analysed.
-
-    Returns:
-        A DataFrame with a column for each row in the data
-    """
-
-    # First select rows of index ANNIE and just the  damage and on_block
-    star_rows: pd.DataFrame = frame_data.loc[(CHARS.AN, slice(None)), [COLS.dmg, COLS.onblock]]  # type: ignore
-    LOG.info("Splitting Annie's normals into star power and original versions")
-
-    # Filter out rows without a "[" in damage or on_block
-    star_rows = star_rows[
-        (star_rows[COLS.dmg].notna() & star_rows[COLS.dmg].str.contains(r"\["))
-        | (
-            star_rows[COLS.onblock].notna()
-            & star_rows[COLS.onblock].str.contains(r"\[")
-        )
-    ]
-
-    orig_rows: pd.DataFrame = star_rows.copy()
-
-    # Remove the content inside the brackets for the original rows
-    orig_rows.loc[:, COLS.dmg] = orig_rows[COLS.dmg].str.replace(
-        r"\[.*\]", "", regex=True
-    )
-    orig_rows.loc[:, COLS.onblock] = orig_rows[COLS.onblock].str.replace(
-        r"\[.*\]", "", regex=True
-    )
-
-    # Remove brackets for star power damage
-    star_rows.loc[:, COLS.dmg] = star_rows[COLS.dmg].str.replace(
-        r"\[|\]", "", regex=True
-    )
-    # Extract the content inside the brackets for star power on_block
-    star_rows.loc[:, COLS.onblock] = star_rows[COLS.onblock].str.extract(
-        r"\[(.*)\]", expand=False
-    )
-
-    # convert star rows to have the same columns as frame_data
-    star_rows = star_rows.reindex(columns=frame_data.columns)
-
-    # Fill the nan values with corresponding values from the original rows
-    star_rows = star_rows.fillna(frame_data.loc[orig_rows.index])
-    # Add _star_power to index 2 to differentiate between the original and star power rows
-    star_rows.index = star_rows.index.set_levels(  # type: ignore
-        star_rows.index.levels[1] + "_STAR_POWER", level=1  # type: ignore
-    )
-
-    # log.info(f"Star power extracted and converted for {tabulate(star_rows.index)}")
-
-    # Modify original rows to have the orig_rows damage and on_block values
-    frame_data.loc[orig_rows.index, orig_rows.columns] = orig_rows
-
-    # Add the star power rows to the original frame_data, interleave the rows with the original rows
-    frame_data = pd.concat([frame_data, star_rows])  # type: ignore
-
-    return frame_data
-
-
-@functools.cache
-def get_fd_bot_data() -> pd.DataFrame:
-    LOG.info("========== Getting frame data bot data ==========")
-    LOG.info("Loading csvs into dataframes")
-    LOG.info(f"Currect working directory: {os.getcwd()}")
-    fd: pd.DataFrame = extract_fd_from_csv()
-    return fd
+from skombo.utils import for_all_methods
 
 
 class CsvManager:
@@ -473,6 +71,7 @@ class FdBotCsvManager(CsvManager):
         super().__init__(path, self.file_keys)
 
 
+@for_all_methods(timer_func)
 class FrameData(pd.DataFrame):
     """DataFrame subclass for frame data"""
 
@@ -480,15 +79,19 @@ class FrameData(pd.DataFrame):
         super().__init__(*args, **kwargs)
 
     def re_index(self) -> Self:
+        LOG.debug("Re-indexing frame data...")
+
         self[COLS.m_name] = self[COLS.m_name].str.strip().replace(r"\n", "", regex=True)
         self.set_index([COLS.char, COLS.m_name], verify_integrity=True, inplace=True)
         self.index.names = [COLS.char, COLS.m_name]
+        LOG.debug(f"Frame data re-indexed, new index: {self.index.names}")
         return self
 
     def rename_cols(
         self,
         rename_cols: dict[str, str],
     ) -> Self:  # sourcery skip: default-mutable-arg
+        LOG.debug(f"Renaming columns: {rename_cols} ...")
         self.rename(columns=rename_cols, inplace=True)
 
         cols_minus_index: list[str] = list(
@@ -501,6 +104,7 @@ class FrameData(pd.DataFrame):
     def remove_chars_from_cols(
         self, chars: str | list[str], cols: str | list[str]
     ) -> Self:
+        LOG.debug(f"Removing {chars.__repr__()} from {cols}...")
         for col in cols if isinstance(cols, list) else [cols]:
             chars_re = "|".join(re.escape(char) for char in chars)
             self[col] = self[col].str.replace(chars_re, "", regex=True)
@@ -515,33 +119,184 @@ class FrameData(pd.DataFrame):
         return self
 
     def strings_to_nan(self, strings: list[str]) -> Self:
+        LOG.debug(f"Replacing {strings} with NaN...")
         self.replace(strings, np.nan, inplace=True)
+        self.fillna(np.nan, inplace=True)
         return self
 
     def col_str_replace(self, col: str, old: str, new: str) -> Self:
+        LOG.debug(f"Replacing {old.__repr__()} with {new.__repr__()} in {col}...")
         self[col] = self[col].str.replace(old, new)
         return self
 
+    def expand_xn_cols(self, xn_cols: list[str]) -> Self:
+        LOG.debug(f"Expanding {xn_cols}...")
+        self[xn_cols] = self[xn_cols].applymap(lambda x: expand_all_x_n(x))
 
-@functools.cache
-def extract_fd_from_csv() -> pd.DataFrame:
-    fd_bot_csv_manager = FdBotCsvManager()
+        return self
 
-    cols_to_rename = {
-        "on_block": COLS.onblock,
-        "meter": COLS.meter,
-        "on_hit": COLS.onhit,
-    }
-    remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
-        ("\n", COLS_CLASSES.REMOVE_NEWLINE_COLS),
-        (["+", "±"], COLS_CLASSES.PLUS_MINUS_COLS),
-        ("%", COLS.meter),
-    ]
+    def separate_annie_stars(self) -> Self:
+        LOG.debug("Separating Annie stars...")
+        star_rows = self.loc[(CHARS.AN, slice(None)), [COLS.dmg, COLS.onblock]]
 
-    string_to_nan: list[str] = ["-", ""]
+        star_rows = star_rows[
+            (star_rows[COLS.dmg].notna() & star_rows[COLS.dmg].str.contains(r"\["))
+            | (
+                star_rows[COLS.onblock].notna()
+                & star_rows[COLS.onblock].str.contains(r"\[")
+            )
+        ]
 
-    FD: FrameData = FrameData(fd_bot_csv_manager.dataframes["frame_data"])
+        orig_rows: pd.DataFrame = star_rows.copy()
 
+        for col in [COLS.dmg, COLS.onblock]:
+            orig_rows[col] = orig_rows[col].str.replace(r"\[.*\]", "", regex=True)
+
+        star_rows[COLS.dmg] = star_rows[COLS.dmg].str.replace(r"\[|\]", "", regex=True)
+
+        star_rows[COLS.onblock] = star_rows[COLS.onblock].str.extract(
+            r"\[(.*)\]", expand=False
+        )
+
+        # Fill in missing values with original values from the original rows
+
+        # Modify orignal rows to have the orig_rows damage and on_block values
+        self.loc[orig_rows.index, orig_rows.columns] = orig_rows
+
+        star_rows = pd.DataFrame(star_rows, columns=self.columns)
+        star_rows.fillna(self, inplace=True)
+
+        star_rows.index = star_rows.index.set_levels(  # type: ignore
+            star_rows.index.levels[1] + "_STAR_POWER", level=1  # type: ignore
+        )
+        self = FrameData(pd.concat([self, star_rows]))
+
+        return self
+
+    def separate_damage_chip_damage(self):
+        LOG.debug("Separating damage and chip damage...")
+        # Extract values in parentheses from damage column and put them in chip_damage column
+        self[COLS.chip] = self[COLS.dmg].str.extract(r"\((.*)\)")[0]
+        self[COLS.dmg] = self[COLS.dmg].str.replace(r"\(.*\)", "", regex=True)
+
+        # Clean up damage and chip_damage columns
+        for col in [COLS.dmg, COLS.chip]:
+            self[col] = (
+                self[col]
+                .str.strip()
+                .str.replace(r",,", ",", regex=True)
+                .str.replace(r"^,|,$", "", regex=True)
+            )
+        return self
+
+    def separate_meter(self) -> Self:
+        LOG.debug("Separating meter...")
+        # Get the meter column from the dataframe
+        meter_col = self[COLS.meter]
+
+        # Apply the split_meter function to each value in the meter column and store the results in separate lists
+        on_hit, on_whiff = zip(*meter_col.apply(split_meter))
+
+        # Update the dataframe with the new columns and return the updated dataframe
+        self[COLS.meter], self[COLS.meter_whiff] = on_hit, on_whiff
+        return self
+
+    def split_cols_on_comma(self, cols: list[str]) -> Self:
+        LOG.debug(f"Splitting {cols} on comma...")
+        for col in cols:
+            LOG.debug(f"\tSplitting {col.__repr__()}...")
+
+            # only split if the column is a string
+            if self[col].dtype in ["object", "string"]:
+                self[col] = self[col].str.split(",")
+        return self
+
+    def separate_on_hit(self) -> Self:
+        LOG.debug("Separating on hit...")
+        self[COLS.onhit_eff] = self[COLS.onhit].copy()
+        self[COLS.onhit] = self[COLS.onhit].apply(
+            lambda x: x  # type: ignore
+            if (isinstance(x, str) and x.strip("-").isnumeric()) or isinstance(x, int)
+            else None
+        )
+
+        self[COLS.onhit_eff] = self[COLS.onhit_eff].apply(
+            lambda x: x if isinstance(x, str) and not x.strip("-").isnumeric() else np.NaN  # type: ignore
+        )
+        return self
+
+    def categorise_moves(self) -> Self:
+        LOG.debug("Categorising moves...")
+        universal_move_categories: dict[str, str] = skombo.UNIVERSAL_MOVE_CATEGORIES
+        self[COLS.move_cat] = self.index.get_level_values(1).map(
+            universal_move_categories
+        )
+
+        re_normal_move: re.Pattern[str] = skombo.RE_NORMAL_MOVE
+
+        normal_strengths: dict[str, str] = skombo.NORMAL_STRENGTHS
+        # Normal moves are where move_name matches the regex and the move_category is None, we can use the regex to find the strength of the move by the first group
+
+        # Make a mask of the rows that are normal moves, by checking against self.index.get_level_values(1)
+
+        mask: Index = self.index.get_level_values(1).map(
+            lambda x: isinstance(x, str) and re_normal_move.search(x) is not None
+        )
+        # Assign the move_category to the strength of the move
+        self.loc[mask, COLS.move_cat] = (  # type: ignore
+            self.loc[mask]
+            .index.get_level_values(1)
+            .map(lambda x: normal_strengths[re_normal_move.search(x).group(1)] + "_NORMAL")  # type: ignore
+        )
+
+        # Supers are where meter_on_hit has length 1 and meter_on_hit[0] is  -100 or less
+        self.loc[
+            self.astype(str)[COLS.meter].str.contains(r"-\d\d", regex=True, na=False)
+            & self[COLS.move_cat].isna(),
+            COLS.move_cat,
+        ] = "SUPER"
+        # For now, assume everything else is a special
+        # TODO: Add more special move categories for things like double's level 5 projectiles, annie taunt riposte etc
+
+        self.loc[self[COLS.move_cat].isna(), COLS.move_cat] = "SPECIAL_MOVE"
+        return self
+
+    def add_undizzy_values(self):
+        LOG.debug("Adding undizzy values...")
+        self[COLS.undizzy] = self[COLS.move_cat].map(skombo.UNDIZZY_DICT)
+        return self
+
+    def split_on_pushblock(self) -> Self:
+        LOG.debug("Splitting on pushblock...")
+        self[COLS.onpb] = self[COLS.onpb].str.split(" to ")
+        return self
+
+
+cols_to_rename = {
+    "on_block": COLS.onblock,
+    "meter": COLS.meter,
+    "on_hit": COLS.onhit,
+}
+remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
+    ("\n", COLS_CLASSES.REMOVE_NEWLINE_COLS),
+    (["+", "±"], COLS_CLASSES.PLUS_MINUS_COLS),
+    ("%", COLS.meter),
+]
+
+string_to_nan: list[str] = ["-", ""]
+global FD
+
+
+def get_fd() -> FrameData:
+    FD_BOT_CSV_MANAGER = FdBotCsvManager()
+    global FD
+    FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
+    return FD
+
+
+def clean_fd() -> FrameData:
+    global FD
+    LOG.debug("Cleaning frame data...")
     FD = (
         FD.re_index()  # Reindex the dataframe to have character and move_name as the index
         .rename_cols(
@@ -556,15 +311,20 @@ def extract_fd_from_csv() -> pd.DataFrame:
         .col_str_replace(
             COLS.a_names, "\n", ","
         )  # Replace newlines in alt_names with commas
+        .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
+        .separate_annie_stars()  # Separate Annie's star power moves into separate rows
+        .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
+        .separate_meter()  # Separate meter into on_hit and on_whiff
+        .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
+        .separate_on_hit()  # Separate on_hit and on_hit_eff
+        .categorise_moves()  # Categorise moves
+        .add_undizzy_values()  # Add undizzy values
+        .split_on_pushblock()  # Split on_pushblock into lists
     )
-
-    # We don't need existing index column
-
-    FD = clean_frame_data(FD)  # type: ignore
-
-    FD.to_csv("fd_cleaned.csv")
-
     return FD
 
 
-extract_fd_from_csv()
+get_fd()
+clean_fd()
+
+FD.to_csv("fd_cleaned.csv")

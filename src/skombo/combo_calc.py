@@ -1,6 +1,7 @@
 """Parsing combo from strings/csvs and calculating the combo's damage/properties
 """
 
+import functools
 import re
 from difflib import SequenceMatcher
 from typing import Any
@@ -9,12 +10,8 @@ import pandas as pd
 from numpy import floor
 
 import skombo
-from skombo.fd_ops import COLS, FdBotCsvManager, get_fd_bot_data
-from skombo.utils import attempt_to_int
-import functools
-from skombo.fd_ops import FD_BOT_CSV_MANAGER
+from skombo.fd_ops import FD
 
-ALIAS_DF = FD_BOT_CSV_MANAGER.dataframes["aliases"]
 _log = skombo.LOG
 
 
@@ -29,7 +26,6 @@ def get_combo_scaling(fd: pd.DataFrame) -> pd.DataFrame:
     fd = fd.reset_index(drop=True)
 
     # Turn damage into int
-    fd["damage"] = fd["damage"].apply(attempt_to_int)
 
     # constants
     factor = skombo.SCALING_FACTOR
@@ -76,7 +72,6 @@ def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.Dat
     # if cull_columns:
     #  combo = combo[["move_name", "damage"]]
     combo = get_combo_scaling(combo)
-    combo["damage"] = combo["damage"].apply(attempt_to_int)
     # Replace any non floats with 0
     combo["damage"] = (
         combo["damage"].apply(lambda x: x if isinstance(x, int) else 0).astype(float)
@@ -360,9 +355,8 @@ def find_combo_moves(
 
 @functools.cache
 def get_character_moves(character: str) -> pd.DataFrame:
-    fd: pd.DataFrame = get_fd_bot_data()
-    character_moves: pd.DataFrame = fd.loc[
-        fd.index.get_level_values(0) == character.upper()
+    character_moves: pd.DataFrame = FD.loc[
+        FD.index.get_level_values(0) == character.upper()
     ]
 
     # log.info(f"Retreived {len(character_moves)} moves for {character}")

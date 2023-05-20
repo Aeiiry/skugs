@@ -1,6 +1,4 @@
-import cProfile
 import os
-import pstats
 
 import skombo
 from skombo.combo_calc import parse_combos_from_csv
