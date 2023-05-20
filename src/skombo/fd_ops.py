@@ -4,6 +4,7 @@ import os
 import re
 from typing import Self
 
+
 import numpy as np
 import pandas as pd
 from pandas import Index
@@ -271,6 +272,34 @@ class FrameData(pd.DataFrame):
         self[COLS.onpb] = self[COLS.onpb].str.split(" to ")
         return self
 
+    # todo finish this with no scaling, scaling notes and whatever else
+    def extract_damage_scaling(self):
+        replacement_refs = {}
+        scaling_rows = self.loc[
+            self[COLS.props].str.contains("scaling", flags=re.IGNORECASE).fillna(False)
+        ]
+        # Regex patterns for finding the scaling values in the props column
+        forced_scaling_re = re.compile(r"(\d+)%\s?damage scaling", flags=re.IGNORECASE)
+        min_scaling_re = re.compile(r"(\d+)%\s?min\.?\s? scaling", flags=re.IGNORECASE)
+
+        for idx, row in scaling_rows.iterrows():
+            props = row[COLS.props]
+            # Search for forced scaling and min scaling in the props column
+            forced_scaling = forced_scaling_re.search(props)
+            min_scaling = min_scaling_re.search(props)
+            # Store any match in a dictionary
+            scaling_dict = (
+                {"forced_scaling": int(forced_scaling[1])} if forced_scaling else {}
+            )
+            if min_scaling:
+                scaling_dict["min_scaling"] = int(min_scaling[1])
+
+            replacement_refs[idx] = scaling_dict
+        # Update the DataFrame all at once instead of iterating through it
+        self.loc[scaling_rows.index, COLS.scaling] = pd.Series(data=replacement_refs)
+
+        return self
+
     def separate_hitstop_blockstop(self) -> Self:
         # Split hitstop and blockstop into separate columns
         LOG.debug("Separating hitstop and blockstop...")
@@ -348,6 +377,7 @@ def clean_fd() -> FrameData:
         .add_undizzy_values()  # Add undizzy values
         .split_on_pushblock()  # Split on_pushblock into lists
         .separate_hitstop_blockstop()  # Separate hitstop and blockstop
+        .extract_damage_scaling()
         .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
     )
     return FD

@@ -20,6 +20,7 @@ class Columns:
     guard: str = "guard"
     props: str = "properties"
     dmg: str = "damage"
+    scaling: str = "scaling"
     chip: str = "chip_damage"
     meter: str = "meter_on_hit"
     meter_whiff: str = "meter_on_whiff"
@@ -50,6 +51,7 @@ COL_TYPES: dict[str, str | tuple[str, str]] = {
     COLS.guard: ("list", "str"),
     COLS.props: ("list", "str"),
     COLS.dmg: ("list", "int"),
+    COLS.scaling: ("dict", "int"),
     COLS.chip: ("list", "int"),
     COLS.meter: ("list", "int"),
     COLS.meter_whiff: ("list", "int"),
