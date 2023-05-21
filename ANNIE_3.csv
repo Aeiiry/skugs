@@ -1,0 +1,191 @@
+,alt_names,guard,properties,damage,scaling,chip_damage,meter_on_hit,meter_on_whiff,on_hit_adv,on_hit_effect,on_block_adv,startup,active,recovery,hitstun,blockstun,hitstop,blockstop,super_hitstop,on_pushblock,footer,thumbnail_url,footer_url,move_category,undizzy,scaling_for_hit,scaling_after_modifiers,character,move_name,scaled_damage,summed_damage
+0,MACRO_2LK,['Low'],['-'],250,,,['2.5'],,2,,0 ,['7'],['3'],['15'],['19'],['17'],['7'],,,"['9', '25']",,https://wiki.gbl.gg/images/d/d7/SG_ann_clk_hb.png,https://wiki.gbl.gg/images/4/4e/SG_ann_clk_fd.png,LIGHT_NORMAL,15.0,1.0,1.0,ANNIE,2LK,250.0,250.0
+1,MACRO_2MK,['Low'],['-'],575,,,['7.5'],,-2,,-6 ,['14'],['3'],['22'],['22'],['18'],['9'],,,"['2', '19']",,https://wiki.gbl.gg/images/7/77/SG_ann_cmk_hb.png,https://wiki.gbl.gg/images/0/0e/SG_ann_cmk_fd.png,MEDIUM_NORMAL,20.0,1.0,1.0,ANNIE,2MK,575.0,825.0
+2,MACRO_5HK,['Mid'],['Launcher'],950,,,['10'],,-3,,-14 ,['17'],['6'],['28'],['30'],['19'],['14'],['10'],,"['-11', '-6']","- Main combo tool with H DP in the corner.- During install, the star projectile will whiff on most crouching opponents when up close so the block advantage will stay -14.",https://wiki.gbl.gg/images/2/28/SG_ann_shk_hb.png,https://wiki.gbl.gg/images/8/87/SG_ann_shk_fd.png,HEAVY_NORMAL,30.0,1.0,1.0,ANNIE,5HK,950.0,1775.0
+3,MACRO_JLP,['High'],['-'],250,,,['2.5'],,12,,14,['7'],['3'],['7'],['21'],['24'],['7'],,,['-'],,https://wiki.gbl.gg/images/0/0d/SG_ann_jlp_hb.png,https://wiki.gbl.gg/images/9/9c/SG_ann_jlp_fd.png,LIGHT_NORMAL,15.0,0.875,0.875,ANNIE,JLP,218.0,1993.0
+4,MACRO_JLK,['High'],['-'],300,,,['2.5'],,9,,12,['8'],['3'],['8'],['19'],['22'],['7'],,,['-'],,https://wiki.gbl.gg/images/f/f0/SG_ann_jlk_hb.png,https://wiki.gbl.gg/images/f/fd/SG_ann_jlk_fd.png,LIGHT_NORMAL,15.0,0.765625,0.765625,ANNIE,JLK,229.0,2222.0
+5,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.669921875,0.669921875,ANNIE,JMP,167.0,2389.0
+6,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.586181640625,0.586181640625,ANNIE,JMP,146.0,2535.0
+7,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.512908935546875,0.512908935546875,ANNIE,JMP,128.0,2663.0
+8,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.4487953186035156,0.4487953186035156,ANNIE,JMP,112.0,2775.0
+9,"MACRO_J236K
+RE-ENTRY
+RE-ENTRY X1
+RE ENTRY X1
+DIVEKICK X1
+DIVEKICK",['Mid'],['-'],300,,['100'],[' 7.5'],['2.5'],11,,-5,['15'],['Until ground'],['24'],['33'],['20'],['13'],['10'],,['-'],"- Annie does up to three divekicks, with the strength determining the angle of her dive.- L versions dives at a 30° angle, M at a 45° angle, and H at a 50° angle (rough estimates).- Not a rekka and will do the next followup in the chain. After the second dive, only the third dive will happen afterwards.- See also RE ENTRY X2, RE ENTRY X3.",https://wiki.gbl.gg/images/6/63/SG_ann_jqcfk_hb.png,https://wiki.gbl.gg/images/6/6c/SG_ann_jqcfkx1_fd.png,SPECIAL_MOVE,20.0,0.39269590377807617,0.39269590377807617,ANNIE,RE ENTRY,117.0,2892.0
+10,"RE-ENTRY X2
+DIVEKICK X2
+J236K~K
+J236 K~K
+J236+K~K
+JQCFK~K
+JQCF K~K
+JQCF+K~K
+J.236K~K
+J.236 K~K
+J.236+K~K
+J.QCFK~K
+J.QCF K~K
+J.QCF+K~K
+J 236K~K
+J 236 K~K
+J 236+K~K
+J QCFK~K
+J QCF K~K
+J QCF+K~K
+JUMPING 236K~K
+JUMPING 236 K~K
+JUMPING 236+K~K
+JUMPING QCFK~K
+JUMPING QCF K~K
+JUMPING QCF+K~K
+J236K,K
+J236 K,K
+J236+K,K
+JQCFK,K
+JQCF K,K
+JQCF+K,K
+J.236K,K
+J.236 K,K
+J.236+K,K
+J.QCFK,K
+J.QCF K,K
+J.QCF+K,K
+J 236K,K
+J 236 K,K
+J 236+K,K
+J QCFK,K
+J QCF K,K
+J QCF+K,K
+JUMPING 236K,K
+JUMPING 236 K,K
+JUMPING 236+K,K
+JUMPING QCFK,K
+JUMPING QCF K,K
+JUMPING QCF+K,K",['Mid'],['-'],400,,['100'],[' 7.5'],['2.5'],11,,-5,['15'],['Until ground'],['24'],['33'],['20'],['13'],['10'],,['-'],"- Annie does up to three divekicks, with the strength determining the angle of her dive.- L versions dives at a 30° angle, M at a 45° angle, and H at a 50° angle (rough estimates).- Not a rekka and will do the next followup in the chain. After the second dive, only the third dive will happen afterwards. - See also RE ENTRY, RE ENTRY X3.",https://wiki.gbl.gg/images/6/63/SG_ann_jqcfk_hb.png,https://wiki.gbl.gg/images/c/c6/SG_ann_jqcfkx2_fd.png,SPECIAL_MOVE,20.0,0.34360891580581665,0.34360891580581665,ANNIE,RE ENTRY X2,137.0,3029.0
+11,,,,0,,,,,,,,,,,,,,,,,,,,,,0.34360891580581665,0.34360891580581665,ANNIE,ADC,0.0,3029.0
+12,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.30065780133008957,0.30065780133008957,ANNIE,JMP,75.0,3104.0
+13,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.2630755761638284,0.2630755761638284,ANNIE,JMP,65.0,3169.0
+14,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.23019112914334983,0.23019112914334983,ANNIE,JMP,57.0,3226.0
+15,MACRO_JMP,['High'],['-'],250,,,"['2', '2', '2', '2']",,16,,7,['15'],"['1', '2', '3', '3']",['11'],"['25', '25', '25', '25']","['18', '18', '18', '18']","['3', '3', '3', '3']",,,['-'],,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png,MEDIUM_NORMAL,20.0,0.2014172380004311,0.2014172380004311,ANNIE,JMP,50.0,3276.0
+16,,,,0,,,,,,,,,,,,,,,,,,,,,,0.2014172380004311,0.2014172380004311,ANNIE,RESTAND,0.0,3276.0
+17,MACRO_5LK,['Mid'],['-'],200,,,"['2.7', '2.7', '3.15']",,6,,0 ,['8'],"['4', '4', '4']",['15'],"['25', '25', '24']","['17', '17', '18']","['4', '4', '9']",,,"['0', '8']",,https://wiki.gbl.gg/images/c/cf/SG_ann_slk_hb.png,https://wiki.gbl.gg/images/a/a8/SG_ann_slk_fd.png,LIGHT_NORMAL,15.0,0.2,0.2,ANNIE,5LK,40.0,3316.0
+18,MACRO_5LK,['Mid'],['-'],200,,,"['2.7', '2.7', '3.15']",,6,,0 ,['8'],"['4', '4', '4']",['15'],"['25', '25', '24']","['17', '17', '18']","['4', '4', '9']",,,"['0', '8']",,https://wiki.gbl.gg/images/c/cf/SG_ann_slk_hb.png,https://wiki.gbl.gg/images/a/a8/SG_ann_slk_fd.png,LIGHT_NORMAL,15.0,0.2,0.2,ANNIE,5LK,40.0,3356.0
+19,MACRO_5LK,['Mid'],['-'],300,,,"['2.7', '2.7', '3.15']",,6,,0 ,['8'],"['4', '4', '4']",['15'],"['25', '25', '24']","['17', '17', '18']","['4', '4', '9']",,,"['0', '8']",,https://wiki.gbl.gg/images/c/cf/SG_ann_slk_hb.png,https://wiki.gbl.gg/images/a/a8/SG_ann_slk_fd.png,LIGHT_NORMAL,15.0,0.2,0.2,ANNIE,5LK,60.0,3416.0
+20,MACRO_2MP,['Mid'],['-'],600,,,['7.5'],,-2,,-5 ,['10'],['4'],['21'],['28'],['19'],['9'],,,"['2', '20']",,https://wiki.gbl.gg/images/f/fe/SG_ann_cmp_hb.png,https://wiki.gbl.gg/images/8/85/SG_ann_cmp_fd.png,MEDIUM_NORMAL,20.0,0.2,0.2,ANNIE,2MP,120.0,3536.0
+21,MACRO_5MK,['Mid'],['Chains Into Self'],400,,,['3.75'],,3,,3 ,['11'],['4'],['17'],['23'],['23'],['10'],,,"['6', '9']",- See also 5MK X2.,https://wiki.gbl.gg/images/a/a4/SG_ann_smk_hb.png,https://wiki.gbl.gg/images/0/05/SG_ann_smk1_fd.png,MEDIUM_NORMAL,20.0,0.2,0.2,ANNIE,5MK,80.0,3616.0
+22,"MK X2
+S.MK X2
+SMK X2
+5.MK X2
+5MKX2
+MKX2
+S.MKX2
+SMKX2
+5.MKX2",['Mid'],['-'],500,,,['7.5'],,-2,,-7 ,['10'],['3'],['24'],['24'],['19'],['9'],,,"['0', '2']",,https://wiki.gbl.gg/images/a/a4/SG_ann_smk_hb.png,https://wiki.gbl.gg/images/6/6d/SG_ann_smk2_fd.png,MEDIUM_NORMAL,20.0,0.2,0.2,ANNIE,5MK X2,100.0,3716.0
+23,MACRO_5HP,['Mid'],['Chains Into Self'],700,,,['4.5'],,0,,-11 ,['16'],['2'],['33'],['34'],['23'],['11'],,,"['-8', '-7']",- See also 5HP X2.,https://wiki.gbl.gg/images/5/51/SG_ann_shp_hb.png,https://wiki.gbl.gg/images/c/c2/SG_ann_shp_fd.png,HEAVY_NORMAL,30.0,0.2,0.2,ANNIE,5HP,140.0,3856.0
+24,"MACRO_214HP
+NORTH KNUCKLE
+KNUCKLE
+H KNUCKLE",['Mid'],['-'],650,,['100'],[' 13.85'],['2.5'],,KD,-15,['26'],['19'],['26'],['30'],['19'],['13'],,,['-'],"- Annie lunges forward with a punch.- Much longer range but more unsafe than other versions.- -7 on block when perfectly spaced with no followup, due to variable recovery.- See also H NORTH KNUCKLE FOLLOWUP.",https://wiki.gbl.gg/images/3/3e/SG_ann_qcbp_hb.png,https://wiki.gbl.gg/images/3/39/SG_ann_qcbhp_fd.png,SPECIAL_MOVE,20.0,0.2,0.2,ANNIE,H NORTH KNUCKLE,130.0,3986.0
+25,"H KNUCKLE FOLLOWUP
+H KNUCKLE FOLLOW UP
+H KNUCKLE FOLLOW-UP
+214HP~P
+214 HP~P
+214+HP~P
+QCBHP~P
+QCB HP~P
+QCB+HP~P
+QCB.HP~P
+214HP,P
+214 HP,P
+214+HP,P
+QCBHP,P
+QCB HP,P
+QCB+HP,P
+QCB.HP,P
+214HP, P
+214 HP, P
+214+HP, P
+QCBHP, P
+QCB HP, P
+QCB+HP, P
+QCB.HP, P
+214HP P
+214 HP P
+214+HP P
+QCBHP P
+QCB HP P
+QCB+HP P
+QCB.HP P",['Mid'],['-'],900,,['150'],['12.60'],,,Wall Splat,-16,['5'],['3'],['41'],['22'],['27'],['9'],,,['-'],"- Wall splats the opponent once per combo.- As an assist, applies one extra hits' worth of damage scaling.- As an assist, blockstun reduced to 16 and blockstop reduced to 8.",https://wiki.gbl.gg/images/3/3e/SG_ann_qcbp_hb.png,https://wiki.gbl.gg/images/d/d7/SG_ann_qcbpx2_fd.png,SPECIAL_MOVE,20.0,0.2,0.2,ANNIE,H NORTH KNUCKLE FOLLOWUP,180.0,4166.0
+26,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4216.0
+27,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4266.0
+28,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4316.0
+29,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4366.0
+30,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4416.0
+31,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4466.0
+32,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4516.0
+33,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4566.0
+34,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4616.0
+35,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4666.0
+36,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4716.0
+37,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4766.0
+38,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4816.0
+39,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4866.0
+40,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4916.0
+41,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,4966.0
+42,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,5016.0
+43,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,5066.0
+44,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,5116.0
+45,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,5166.0
+46,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,5216.0
+47,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,5266.0
+48,"MACRO_236PP
+BEAM SUPER
+LEVEL 1",['Mid'],"['Projectile', ' Invuln. (Full) (Frames 9-15)']",250,,"['40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40', '40']",['-100'],,,KD,-26,['96'],['37'],['37'],"['34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34', '34']","['27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27', '27']","['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']",,,['-'],"- Annie fires a fullscreen beam from Sagan.- After the first projectile is made, another is made 2f later.- Can be done in the air. See AIR SAGAN BEAM.",https://wiki.gbl.gg/images/1/1d/SG_ann_qcfpp_hb.png,https://wiki.gbl.gg/images/2/27/SG_ann_qcfpp_fd.png,SUPER,0.0,0.2,0.2,ANNIE,SAGAN BEAM,50.0,5316.0

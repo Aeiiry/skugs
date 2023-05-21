@@ -9,90 +9,60 @@ from typing import Any
 
 import pandas as pd
 from numpy import floor
-
+import numpy as np
 import skombo
 from skombo.fd_ops import clean_fd, get_fd
-from skombo import COLS, LOG
+from skombo import COLS, LOG, CHARS
 
 global FD
 
 
-def get_combo_scaling(fd: pd.DataFrame) -> pd.DataFrame:
-    """
-    Get the scaling factor for the combo. It is used to determine the number of moves that will be taken in a round of damage to get to the next combat hit
-
-    Args:
-        fd: pd.DataFrame with hit data in column " damage "
-    """
-    """Get the scaling factor for the combo"""
-    fd = fd.reset_index(drop=True)
-
-    # Turn damage into int
-
-    # constants
+def get_combo_scaling(combo: pd.DataFrame) -> pd.DataFrame:
+    combo = combo.reset_index(drop=True)
     factor = skombo.SCALING_FACTOR
-
     min_1k = skombo.SCALING_MIN_1K
     min_other = skombo.SCALING_MIN
     start = skombo.SCALING_START
 
-    # Scaling is 1.0 for first 3 hits
-    # Then 0.875 less for each hit after that
-    # Minimum scaling is 0.2
-    # Minimum scaling for moves with over 1000 base damage is 0.275
-    scaling_col_names = [
-        COLS.dmg,
-        COLS.hit_scaling,
-        COLS.mod_scaling,
-    ]
-    scaling_cols = fd.loc[:, scaling_col_names]
-    scaling_cols[COLS.hit_scaling] = 0.0
-    scaling_cols[COLS.mod_scaling] = 0.0
-
-    scaling_cols[COLS.dmg] = scaling_cols[COLS.dmg].apply(
-        lambda x: int(x) if isinstance(x, str) and x.isnumeric() else x
-    )
-
-    for move in scaling_cols.itertuples():
-        min_for_hit: float = min_other
-        skip_row: int = 0
-        index = move.Index
-        damage = move.damage
-
-        if index == 0:
-            scaling_cols.loc[index, COLS.hit_scaling] = start
-        elif not isinstance(damage, int) or damage == 0:
-            scaling_cols.loc[index, COLS.hit_scaling] = scaling_cols.iloc[index - 1][
-                COLS.hit_scaling
-            ]
-            skip_row += 1
-        elif index - skip_row < 3:
-            scaling_cols.loc[index, COLS.hit_scaling] = start
+    combo[COLS.hit_scaling] = 0.0
+    combo[COLS.mod_scaling] = 0.0
+    for i, row in combo.iterrows():
+        min_for_hit = min_other
+        if i == 0 or row[COLS.dmg] != 0 and i < 3:  # type: ignore
+            combo.loc[i, COLS.hit_scaling] = start  # type: ignore
+        elif not isinstance(row[COLS.dmg], int) or row[COLS.dmg] == 0:
+            combo.loc[i, COLS.hit_scaling] = combo.loc[i - 1, COLS.hit_scaling]  # type: ignore
         else:
-            min_for_hit = min_1k if damage >= 1000 else min_for_hit
-            scaling_cols.loc[index, COLS.hit_scaling] = max(
-                scaling_cols.iloc[index - 1][COLS.hit_scaling] * factor, min_other
+            min_for_hit = min_1k if row[COLS.dmg] >= 1000 else min_other
+            combo.loc[i, COLS.hit_scaling] = max(  # type: ignore
+                combo.loc[i - 1, COLS.hit_scaling] * factor, min_other  # type: ignore
             )
-        scaling_cols.loc[index, COLS.mod_scaling] = max(
-            min_for_hit, scaling_cols.loc[index, COLS.hit_scaling]  # type: ignore
+        combo.loc[i, COLS.mod_scaling] = max(  # type: ignore
+            min_for_hit, combo.loc[i, COLS.hit_scaling]  # type: ignore
         )
-    # Return the scaling factor added to the frame data
-    fd.loc[:, scaling_col_names] = scaling_cols
+        LOG.debug(
+            f"Hit scaling for {row[COLS.m_name]} is {combo.loc[i, COLS.hit_scaling]}"  # type: ignore
+        )
 
-    return fd
+    combo.loc[:, [COLS.dmg, COLS.hit_scaling, COLS.mod_scaling]] = combo.loc[
+        :, [COLS.dmg, COLS.hit_scaling, COLS.mod_scaling]
+    ]
+
+    return combo
 
 
 def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.DataFrame:
     """Naiive damage calc for a series of moves"""
     # if cull_columns:
-    #  combo = combo[["move_name", "damage"]]
-    combo = get_combo_scaling(combo)
+    #  combo = combo[[COLS.m_name, COLS.dmg]]
     # Replace any non floats with 0
-    combo["damage"] = (
-        combo["damage"].apply(lambda x: x if isinstance(x, int) else 0).astype(float)
+    combo[COLS.dmg] = combo[COLS.dmg].apply(
+        lambda x: int(x) if isinstance(x, str) and x.isnumeric() else 0
     )
+
+    combo = get_combo_scaling(combo)
     combo["scaled_damage"] = combo.apply(
-        lambda row: floor(row["damage"] * row[COLS.mod_scaling]), axis=1
+        lambda row: floor(row[COLS.dmg] * row[COLS.mod_scaling]), axis=1
     )
     combo["summed_damage"] = combo.loc[:, "scaled_damage"].cumsum()
 
@@ -106,7 +76,7 @@ def parse_combos_from_csv(
     global CSV_MAN
     _, CSV_MAN = get_fd()
     FD = clean_fd()
-    """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
+    """Parse combo from csv file, needs to have columns of COLS.char, "notation", COLS.dmg for testing purposes"""
 
     LOG.info(f"========== Parsing combos from csv [{csv_path}] ==========")
 
@@ -116,42 +86,35 @@ def parse_combos_from_csv(
     combo_dfs: list[pd.DataFrame] = [
         (
             parse_combo_from_string(
-                combos_df["character"][index], combos_df["notation"][index]
+                combos_df[COLS.char][index], combos_df["notation"][index]
             )
         )
         for index in range(len(combos_df.index))
     ]
 
-    combos_expected_damage: list[int] = combos_df["damage"].tolist()
+    combos_expected_damage: list[int] = combos_df[COLS.dmg].tolist()
 
     if calc_damage:
         combo_dfs = [naiive_damage_calc(combo) for combo in combo_dfs]
+
+    for i, combo in enumerate(combo_dfs):
+        combo.to_csv(f"{combos_df[COLS.char][i]}_{i}.csv")
 
     return combo_dfs, combos_expected_damage
 
 
 def fd_to_combo_df(fd: pd.DataFrame) -> pd.DataFrame:
-    """
-    Takes pure frame data and character pd.DataFrame and turns it into a pd.DataFrame that can be used for combo calculations
-
-    Args:
-        fd: pure frame data to be converted
-    Returns:
-        converted pd.DataFrame
-    """
-
-    combo_df: pd.DataFrame = fd.copy().drop(
-        ["alt_names", "footer", "thumbnail_url", "footer_url"], axis=1
-    )
-
     # Split damage into individual rows for each hit, damage column contains individual lists of damage for each hit of the move
-
-    combo_df = combo_df.explode("damage")
-
+    fd = fd.explode(COLS.dmg)
+    # Pull the character and move name from the mutliindex
+    fd[COLS.char] = fd.index.get_level_values(0)
+    fd[COLS.m_name] = fd.index.get_level_values(1)
+    # Drop the multiindex
+    fd = fd.reset_index(drop=True)
     # Assume a move that is the row before the move name "kara" is a kara cancel and does not do damage
-    combo_df.loc[combo_df["move_name"].shift(-1) == "KARA", "damage"] = 0
+    fd.loc[fd[COLS.m_name].shift(-1) == "KARA", "damage"] = 0
 
-    return combo_df
+    return fd
 
 
 @functools.cache
@@ -205,9 +168,10 @@ def best_match(original_move: str, found_moves: pd.Series) -> pd.Series:  # type
     return found_moves
 
 
+@functools.cache
 def character_specific_move_name_check(character: str, move_name: str) -> str:
     # sourcery skip: merge-nested-ifs
-    if character == "ANNIE":
+    if character == CHARS.AN:
         # We don't actually need the move strength for annie divekicks
         if re.search(r"236[lmh]k", move_name, flags=re.IGNORECASE):
             LOG.debug(f"Removing move strength from annie divekick {move_name}")
@@ -250,17 +214,22 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
             lambda move_names: move_name in move_names
         )
         # Check if move name is in alt_names
-        LOG.info(f"Found move name {move_name} in alt_names")
+        LOG.debug(f"Found move name {move_name} in alt_names")
+        name_between_re = re.compile(rf"[^\n]?{move_name}[\n$]", re.IGNORECASE)
+        in_alt_names = character_moves["alt_names"].str.contains(
+            name_between_re.pattern, regex=True
+        )
+        # Check if move name is in alt_names
+        # log.info(f"Found move name {move_name} in alt_names")
         if not in_alt_names.any():
             # Search alias_df
-            in_alias_keys = ALIAS_DF["value"].apply(
-                lambda alias: move_name in alias.split("\n")
+            in_alias_keys = ALIAS_DF["value"].str.contains(
+                name_between_re.pattern, regex=True
             )
             if in_alias_keys.any():
                 move_df = character_moves.loc[
-                    character_moves[COLS.a_names].apply(
-                        lambda moves: ALIAS_DF.loc[in_alias_keys, "key"].values[0]
-                        in moves
+                    character_moves["alt_names"].str.startswith(
+                        ALIAS_DF.loc[in_alias_keys, "key"].values[0]
                     )
                 ]
         else:
@@ -307,7 +276,7 @@ def find_move_repeats_follow_ups(moves: pd.Series):
         else:
             moves_new = pd.concat([moves_new, pd.Series([move])])
 
-    LOG.debug(moves_new)
+    # LOG.debug(moves_new)
 
     return moves_new
 
@@ -317,7 +286,11 @@ def character_specific_operations(
 ) -> pd.DataFrame:
     if character == "ANNIE":
         annie_divekick = "RE ENTRY"
-        if (divekick_index := combo_df["move_name"].str.contains(annie_divekick)).any():
+        if (
+            divekick_index := pd.Series(
+                combo_df.index.get_level_values(1).str.contains(annie_divekick)
+            )
+        ).any():
             # Remove all but "True" from divekick_index
 
             divekick_index = divekick_index[
@@ -332,12 +305,10 @@ def character_specific_operations(
                     f"{annie_divekick} X{i + 1}" if i > 0 else annie_divekick
                 )
 
-                if combo_df.loc[divekick_index_cur, "move_name"] != divekick_str:
-                    combo_df.loc[divekick_index_cur] = character_fd.loc[  # type: ignore
+                if combo_df.iloc[divekick_index_cur].name[1] != divekick_str:
+                    combo_df.iloc[divekick_index_cur] = character_fd.loc[  # type: ignore
                         (character, divekick_str)
                     ]
-                    combo_df.loc[divekick_index_cur, "move_name"] = divekick_str
-                    combo_df.loc[divekick_index_cur, "character"] = character
 
     return combo_df
 
@@ -347,11 +318,9 @@ def find_combo_moves(
 ) -> pd.DataFrame:
     # Initialize empty pd.DataFrame with columns 'original_move_name' and 'move_name'
     # character mopves columns plus 'character' and 'move_name'
-    combo_df_cols: list[str] = ["character", "move_name"] + list(
-        character_moves.columns
-    )
+
     character: str = str(character_moves.index.get_level_values(0)[0])
-    combo_df: pd.DataFrame = pd.DataFrame(columns=combo_df_cols)
+    combo_df = pd.DataFrame(columns=character_moves.columns)
 
     # Interpret things such as 5HPx2 as 5hpx1, 5hpx2
     combo_moves = combo_moves.apply(
@@ -361,15 +330,10 @@ def find_combo_moves(
 
     # Search for each move in the combo string in the frame data
     # Add the move name to the move_name_series pd.DataFrame
-    for i, move_name in enumerate(combo_moves):
-        # If move_name isn't a string then skip to next move in the list
-
-        move_series = get_fd_for_single_move(character_moves, move_name).fillna("")
-
-        # Add the move name to the move_name_series pd.DataFrame
-        combo_df.loc[i, :] = move_series
-        combo_df.at[i, "character"] = move_series.name[0]  # type: ignore
-        combo_df.at[i, "move_name"] = move_series.name[1]  # type: ignore
+    combo_df = pd.concat(
+        get_fd_for_single_move(character_moves, move_name).to_frame().T
+        for move_name in combo_moves
+    )
 
     combo_df = character_specific_operations(character, combo_df, character_moves)
     return combo_df

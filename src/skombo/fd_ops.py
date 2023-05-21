@@ -328,12 +328,6 @@ class FrameData(pd.DataFrame):
         self.loc[block_mask, [COLS.hitstop, COLS.blockstop]] = block_rows
         return self
 
-    def split_alt_names(self) -> Self:
-        LOG.debug("Splitting alt names...")
-        self[COLS.a_names] = self[COLS.a_names].str.split("\n")
-
-        return self
-
 
 cols_to_rename: dict[str, str] = {
     "on_block": COLS.onblock,
@@ -368,10 +362,6 @@ def clean_fd() -> FrameData:
         .bulk_remove_chars_from_cols(
             remove_chars_from_cols
         )  # Remove characters from columns as specified in remove_chars_from_cols
-        .strings_to_nan(
-            string_to_nan
-        )  # Replace strings with np.nan as specified in string_to_nan
-        .split_alt_names()  # Split alt names into lists on newline
         .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
         .separate_annie_stars()  # Separate Annie's star power moves into separate rows
         .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
@@ -383,6 +373,9 @@ def clean_fd() -> FrameData:
         .separate_hitstop_blockstop()  # Separate hitstop and blockstop
         .extract_damage_scaling()
         .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
+        .strings_to_nan(
+            string_to_nan
+        )  # Replace strings with np.nan as specified in string_to_nan
     )
     return FD
 
@@ -390,5 +383,4 @@ def clean_fd() -> FrameData:
 if __name__ == "__main__":
     get_fd()
     clean_fd()
-
     FD.to_csv("fd_cleaned.csv")

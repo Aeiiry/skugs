@@ -7,6 +7,7 @@ import skombo
 from skombo.combo_calc import parse_combos_from_csv
 import os
 from skombo import CHARS, TEST_DATA_FOLDER, TEST_COMBOS_SUFFIX
+from skombo.utils import timer_func
 
 LOG = skombo.LOG
 
@@ -46,7 +47,7 @@ def test_expand_all_x_n(input_str, expected_output) -> None:
         for character in CHARS.__dict__.values()
     ],
 )
-def test_combos(test_csv_path: str, character: str) -> None:
+def test_combos(test_csv_path: str, character: str, profile) -> None:
     LOG.info(f"Testing combos for [[{character}]]")
     if not pathlib.Path(test_csv_path).is_file():
         LOG.warning(f"!!!!! No test file found for [[{character}]] !!!!!")
@@ -56,7 +57,7 @@ def test_combos(test_csv_path: str, character: str) -> None:
     combos, combo_damage = parse_combos_from_csv(test_csv_path, calc_damage=True)
 
     for i, combo in enumerate(combos):
-        LOG.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
+        #LOG.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
         damage_diff: int = (
             combo_damage[i] - combo.at[combo.__len__() - 1, "summed_damage"]
         )
@@ -67,12 +68,3 @@ def test_combos(test_csv_path: str, character: str) -> None:
         assert 1 > damage_diff_percent >= 0
 
 
-if __name__ == "__main__":
-    test_combos(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            TEST_DATA_FOLDER,
-            "annie_test_combos.csv",
-        ),
-        "annie",
-    )
