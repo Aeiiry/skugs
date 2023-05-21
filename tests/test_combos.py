@@ -43,10 +43,10 @@ def test_expand_all_x_n(input_str, expected_output) -> None:
             ),
             character,
         )
-        for character in CHARS.__dict__
+        for character in CHARS.__dict__.values()
     ],
 )
-def test_combos(test_csv_path: str, character: str, profile) -> None:
+def test_combos(test_csv_path: str, character: str) -> None:
     LOG.info(f"Testing combos for [[{character}]]")
     if not pathlib.Path(test_csv_path).is_file():
         LOG.warning(f"!!!!! No test file found for [[{character}]] !!!!!")
@@ -65,3 +65,14 @@ def test_combos(test_csv_path: str, character: str, profile) -> None:
         LOG.info(f"Damage difference: {damage_diff_percent}%")
 
         assert 1 > damage_diff_percent >= 0
+
+
+if __name__ == "__main__":
+    test_combos(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            TEST_DATA_FOLDER,
+            "annie_test_combos.csv",
+        ),
+        "annie",
+    )

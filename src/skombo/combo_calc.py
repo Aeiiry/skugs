@@ -1,6 +1,7 @@
 """Parsing combo from strings/csvs and calculating the combo's damage/properties
 """
 
+from distutils.command import clean
 import functools
 import re
 from difflib import SequenceMatcher
@@ -10,9 +11,10 @@ import pandas as pd
 from numpy import floor
 
 import skombo
-from skombo.fd_ops import FD
+from skombo.fd_ops import clean_fd, get_fd
+from skombo import COLS, LOG
 
-_log = skombo.LOG
+global FD
 
 
 def get_combo_scaling(fd: pd.DataFrame) -> pd.DataFrame:
@@ -38,31 +40,44 @@ def get_combo_scaling(fd: pd.DataFrame) -> pd.DataFrame:
     # Then 0.875 less for each hit after that
     # Minimum scaling is 0.2
     # Minimum scaling for moves with over 1000 base damage is 0.275
-    fd["scaling_for_hit"] = 0.0
-    fd["scaling_after_modifiers"] = 0.0
-    for move in fd.itertuples():
+    scaling_col_names = [
+        COLS.dmg,
+        COLS.hit_scaling,
+        COLS.mod_scaling,
+    ]
+    scaling_cols = fd.loc[:, scaling_col_names]
+    scaling_cols[COLS.hit_scaling] = 0.0
+    scaling_cols[COLS.mod_scaling] = 0.0
+
+    scaling_cols[COLS.dmg] = scaling_cols[COLS.dmg].apply(
+        lambda x: int(x) if isinstance(x, str) and x.isnumeric() else x
+    )
+
+    for move in scaling_cols.itertuples():
         min_for_hit: float = min_other
         skip_row: int = 0
         index = move.Index
-        name = move.move_name
         damage = move.damage
 
         if index == 0:
-            fd.loc[index, "scaling_for_hit"] = start
+            scaling_cols.loc[index, COLS.hit_scaling] = start
         elif not isinstance(damage, int) or damage == 0:
-            fd.loc[index, "scaling_for_hit"] = fd.iloc[index - 1]["scaling_for_hit"]
+            scaling_cols.loc[index, COLS.hit_scaling] = scaling_cols.iloc[index - 1][
+                COLS.hit_scaling
+            ]
             skip_row += 1
         elif index - skip_row < 3:
-            fd.loc[index, "scaling_for_hit"] = start
+            scaling_cols.loc[index, COLS.hit_scaling] = start
         else:
             min_for_hit = min_1k if damage >= 1000 else min_for_hit
-            fd.loc[index, "scaling_for_hit"] = max(
-                fd.iloc[index - 1]["scaling_for_hit"] * factor, min_other
+            scaling_cols.loc[index, COLS.hit_scaling] = max(
+                scaling_cols.iloc[index - 1][COLS.hit_scaling] * factor, min_other
             )
-        fd.loc[index, "scaling_after_modifiers"] = max(
-            min_for_hit, fd.loc[index, "scaling_for_hit"]  # type: ignore
+        scaling_cols.loc[index, COLS.mod_scaling] = max(
+            min_for_hit, scaling_cols.loc[index, COLS.hit_scaling]  # type: ignore
         )
     # Return the scaling factor added to the frame data
+    fd.loc[:, scaling_col_names] = scaling_cols
 
     return fd
 
@@ -77,7 +92,7 @@ def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.Dat
         combo["damage"].apply(lambda x: x if isinstance(x, int) else 0).astype(float)
     )
     combo["scaled_damage"] = combo.apply(
-        lambda row: floor(row["damage"] * row["scaling_after_modifiers"]), axis=1
+        lambda row: floor(row["damage"] * row[COLS.mod_scaling]), axis=1
     )
     combo["summed_damage"] = combo.loc[:, "scaled_damage"].cumsum()
 
@@ -87,12 +102,16 @@ def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.Dat
 def parse_combos_from_csv(
     csv_path: str, calc_damage: bool = False
 ) -> tuple[list[pd.DataFrame], list[int]]:
+    global FD
+    global CSV_MAN
+    _, CSV_MAN = get_fd()
+    FD = clean_fd()
     """Parse combo from csv file, needs to have columns of "character", "notation", "damage" for testing purposes"""
 
-    _log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
+    LOG.info(f"========== Parsing combos from csv [{csv_path}] ==========")
 
     combos_df: pd.DataFrame = pd.read_csv(csv_path)
-    _log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
+    LOG.info(f"Parsing [{len(combos_df.index)}] combos from csv")
 
     combo_dfs: list[pd.DataFrame] = [
         (
@@ -161,7 +180,7 @@ def parse_combo_from_string(character: str, combo_string: str) -> pd.DataFrame:
     character_moves: pd.DataFrame = get_character_moves(character)
 
     combo_move_names = pd.Series(combo_string.strip().split(" "))
-    _log.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
+    LOG.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
     # Attempt to find each move in the combo string in the character's moves from the frame data
     # If a move is not found, check each item in the alt_names list for the move
 
@@ -191,7 +210,7 @@ def character_specific_move_name_check(character: str, move_name: str) -> str:
     if character == "ANNIE":
         # We don't actually need the move strength for annie divekicks
         if re.search(r"236[lmh]k", move_name, flags=re.IGNORECASE):
-            _log.debug(f"Removing move strength from annie divekick {move_name}")
+            LOG.debug(f"Removing move strength from annie divekick {move_name}")
             move_name = re.sub(r"[lmh]", "", move_name, flags=re.IGNORECASE)
 
     return move_name
@@ -208,10 +227,12 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
     Returns:
         pandas. Series of ( character move
     """
+    ALIAS_DF = CSV_MAN.dataframes["aliases"]
     move_name = move_name.upper()
     character = str(character_moves.index.get_level_values(0)[0])
 
     blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
+    move_df = blank_move.copy()
 
     # Return blank move if it is in the list of ignored moves
     if move_name in skombo.IGNORED_MOVES:
@@ -220,29 +241,30 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
     in_index = character_moves.index.get_level_values(1) == move_name
 
     # Find the move in frame data.
-    if in_index.max():  # type: ignore
-        # log.info(f"Found move name {move_name} in frame data")
+    if in_index.max():
+        LOG.debug(f"Found move name {move_name} in frame data")
         move_df = character_moves[in_index]
 
     else:
-        name_between_re = re.compile(rf"[^,]?{move_name}[,$]", re.IGNORECASE)
-        in_alt_names = character_moves["alt_names"].str.contains(
-            name_between_re.pattern, regex=True
+        in_alt_names = character_moves[COLS.a_names].apply(
+            lambda move_names: move_name in move_names
         )
         # Check if move name is in alt_names
-        # log.info(f"Found move name {move_name} in alt_names")
+        LOG.info(f"Found move name {move_name} in alt_names")
         if not in_alt_names.any():
             # Search alias_df
-            in_alias_keys = ALIAS_DF["value"].str.contains(
-                name_between_re.pattern, regex=True
+            in_alias_keys = ALIAS_DF["value"].apply(
+                lambda alias: move_name in alias.split("\n")
             )
             if in_alias_keys.any():
                 move_df = character_moves.loc[
-                    character_moves["alt_names"].str.startswith(
-                        ALIAS_DF.loc[in_alias_keys, "key"].values[0]
+                    character_moves[COLS.a_names].apply(
+                        lambda moves: ALIAS_DF.loc[in_alias_keys, "key"].values[0]
+                        in moves
                     )
                 ]
-        move_df = character_moves[in_alt_names]
+        else:
+            move_df = character_moves[in_alt_names]
 
     blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
     return move_df.iloc[0] if move_df.__len__() > 0 else blank_move
@@ -255,7 +277,7 @@ def find_move_repeats_follow_ups(moves: pd.Series):
 
     for move in moves:
         if xn_match := xn_re.search(move):
-            # log.info(f"Found move repeat {xn_match[1]} in {move}")
+            LOG.debug(f"Found move repeat {xn_match[1]} in {move}")
 
             xn = int(xn_match[1])
 
@@ -280,12 +302,12 @@ def find_move_repeats_follow_ups(moves: pd.Series):
                     [moves_new, pd.Series("~".join(followup_split[: i + 1]))]
                 )
 
-            # log.info(f"Found followup {followup_split[1]} in {move}")
+            LOG.debug(f"Found followup {followup_split[1]} in {move}")
 
         else:
             moves_new = pd.concat([moves_new, pd.Series([move])])
 
-    # log.info(moves_new)
+    LOG.debug(moves_new)
 
     return moves_new
 
@@ -359,5 +381,5 @@ def get_character_moves(character: str) -> pd.DataFrame:
         FD.index.get_level_values(0) == character.upper()
     ]
 
-    # log.info(f"Retreived {len(character_moves)} moves for {character}")
+    LOG.debug(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves

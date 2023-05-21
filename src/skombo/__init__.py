@@ -41,6 +41,8 @@ class Columns:
     footer_url: str = "footer_url"
     move_cat: str = "move_category"
     undizzy: str = "undizzy"
+    hit_scaling:str="scaling_for_hit"
+    mod_scaling:str="scaling_after_modifiers"
 
 
 COLS = Columns()
@@ -124,7 +126,6 @@ class ColumnClassification:
         COLS.meter_whiff,
         COLS.props,
         COLS.guard,
-        COLS.a_names,
     ]
 
     XN_COLS = [
@@ -263,26 +264,27 @@ SCALING_START = 1.0
 ##################################################################################################
 
 
+@dataclass
 class Characters:
     """Class to hold character names as constants."""
 
-    AN = "ANNIE"
-    BE = "BEOWULF"
-    BB = "BIG BAND"
-    BD = "BLACK DAHLIA"
-    CE = "CEREBELLA"
-    DB = "DOUBLE"
-    EL = "ELIZA"
-    FI = "FILIA"
-    FU = "FUKUA"
-    MF = "MS. FORTUNE"
-    PW = "PAINWHEEL"
-    PA = "PARASOUL"
-    PE = "PEACOCK"
-    RF = "ROBO-FORTUNE"
-    SQ = "SQUIGLY"
-    UM = "UMBRELLA"
-    VA = "VALENTINE"
+    AN: str = "ANNIE"
+    BE: str = "BEOWULF"
+    BB: str = "BIG BAND"
+    BD: str = "BLACK DAHLIA"
+    CE: str = "CEREBELLA"
+    DB: str = "DOUBLE"
+    EL: str = "ELIZA"
+    FI: str = "FILIA"
+    FU: str = "FUKUA"
+    MF: str = "MS. FORTUNE"
+    PW: str = "PAINWHEEL"
+    PA: str = "PARASOUL"
+    PE: str = "PEACOCK"
+    RF: str = "ROBO-FORTUNE"
+    SQ: str = "SQUIGLY"
+    UM: str = "UMBRELLA"
+    VA: str = "VALENTINE"
 
 
 CHARS = Characters()
@@ -421,7 +423,7 @@ def exit_handler() -> None:
 
     # get execution time
     elapsed_time = END_TIME - START_TIME
-    LOG.info(f"Execution time: {elapsed_time} seconds 🤠")
+    LOG.info(f"Execution time: {elapsed_time} seconds")
 
 
 atexit.register(exit_handler)

@@ -78,7 +78,7 @@ def expand_x_n(match: re.Match[str]) -> str:
         match.string[: match.start()] + expanded_numbers + match.string[match.end() :]
         if match.end()
         else match.string[: match.start()] + expanded_numbers
-    )
+    ).replace(" ", "")
 
 
 from timeit import default_timer as timer

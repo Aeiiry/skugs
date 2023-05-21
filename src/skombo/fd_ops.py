@@ -31,7 +31,7 @@ class CsvManager:
         self.dataframes: dict[str, pd.DataFrame] = {}
         """Raw dataframes from csvs before they are modified"""
         for key in self.file_keys:
-            self.dataframes[key] = self.open_csv(key)
+            self.dataframes[key] = self.open_csv(key).dropna(axis=0, how="all")
 
     def open_csv(self, file_key: str) -> pd.DataFrame:
         """Open a CSV file and return it as a DataFrame"""
@@ -328,6 +328,12 @@ class FrameData(pd.DataFrame):
         self.loc[block_mask, [COLS.hitstop, COLS.blockstop]] = block_rows
         return self
 
+    def split_alt_names(self) -> Self:
+        LOG.debug("Splitting alt names...")
+        self[COLS.a_names] = self[COLS.a_names].str.split("\n")
+
+        return self
+
 
 cols_to_rename: dict[str, str] = {
     "on_block": COLS.onblock,
@@ -344,11 +350,11 @@ string_to_nan: list[str] = ["-", ""]
 global FD
 
 
-def get_fd() -> FrameData:
+def get_fd() -> tuple[FrameData, FdBotCsvManager]:
     FD_BOT_CSV_MANAGER = FdBotCsvManager()
     global FD
     FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
-    return FD
+    return FD, FD_BOT_CSV_MANAGER
 
 
 def clean_fd() -> FrameData:
@@ -365,9 +371,7 @@ def clean_fd() -> FrameData:
         .strings_to_nan(
             string_to_nan
         )  # Replace strings with np.nan as specified in string_to_nan
-        .col_str_replace(
-            COLS.a_names, "\n", ","
-        )  # Replace newlines in alt_names with commas
+        .split_alt_names()  # Split alt names into lists on newline
         .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
         .separate_annie_stars()  # Separate Annie's star power moves into separate rows
         .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
@@ -383,7 +387,8 @@ def clean_fd() -> FrameData:
     return FD
 
 
-get_fd()
-clean_fd()
+if __name__ == "__main__":
+    get_fd()
+    clean_fd()
 
-FD.to_csv("fd_cleaned.csv")
+    FD.to_csv("fd_cleaned.csv")
