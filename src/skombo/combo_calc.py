@@ -1,18 +1,19 @@
 """Parsing combo from strings/csvs and calculating the combo's damage/properties
 """
 
-from distutils.command import clean
 import functools
+import os
 import re
 from difflib import SequenceMatcher
 from typing import Any
 
+import numpy as np
 import pandas as pd
 from numpy import floor
-import numpy as np
+
 import skombo
+from skombo import CHARS, COLS, COLS_CLASSES, LOG
 from skombo.fd_ops import clean_fd, get_fd
-from skombo import COLS, LOG, CHARS
 
 global FD
 
@@ -65,42 +66,15 @@ def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.Dat
         lambda row: floor(row[COLS.dmg] * row[COLS.mod_scaling]), axis=1
     )
     combo["summed_damage"] = combo.loc[:, "scaled_damage"].cumsum()
+    # fill rows with nan if the move does not do damage
+    no_damage_rows = combo[COLS.dmg] == 0
+    # fill all columns but char and move name with nan
+
+    no_damage_df = combo.drop(columns=[COLS.char, COLS.m_name]).loc[no_damage_rows]
+    no_damage_df.loc[:, :] = np.nan
+    combo.loc[no_damage_rows, no_damage_df.columns] = no_damage_df
 
     return combo
-
-
-def parse_combos_from_csv(
-    csv_path: str, calc_damage: bool = False
-) -> tuple[list[pd.DataFrame], list[int]]:
-    global FD
-    global CSV_MAN
-    _, CSV_MAN = get_fd()
-    FD = clean_fd()
-    """Parse combo from csv file, needs to have columns of COLS.char, "notation", COLS.dmg for testing purposes"""
-
-    LOG.info(f"========== Parsing combos from csv [{csv_path}] ==========")
-
-    combos_df: pd.DataFrame = pd.read_csv(csv_path)
-    LOG.info(f"Parsing [{len(combos_df.index)}] combos from csv")
-
-    combo_dfs: list[pd.DataFrame] = [
-        (
-            parse_combo_from_string(
-                combos_df[COLS.char][index], combos_df["notation"][index]
-            )
-        )
-        for index in range(len(combos_df.index))
-    ]
-
-    combos_expected_damage: list[int] = combos_df[COLS.dmg].tolist()
-
-    if calc_damage:
-        combo_dfs = [naiive_damage_calc(combo) for combo in combo_dfs]
-
-    for i, combo in enumerate(combo_dfs):
-        combo.to_csv(f"{combos_df[COLS.char][i]}_{i}.csv")
-
-    return combo_dfs, combos_expected_damage
 
 
 def fd_to_combo_df(fd: pd.DataFrame) -> pd.DataFrame:
@@ -114,21 +88,13 @@ def fd_to_combo_df(fd: pd.DataFrame) -> pd.DataFrame:
     # Assume a move that is the row before the move name "kara" is a kara cancel and does not do damage
     fd.loc[fd[COLS.m_name].shift(-1) == "KARA", "damage"] = 0
 
+    fd = pd.DataFrame(data=fd, columns=COLS_CLASSES.COMBO_COLS)
+
     return fd
 
 
 @functools.cache
 def similar(a: Any, b: Any) -> float:
-    """
-    Compares two sequences and returns the ratio of similar elements. This is useful for comparing a set of elements to see if they are similar or not.
-
-    Args:
-        a: The first sequence to compare. Can be any type that can be converted to a : class : ` str `.
-        b: The second sequence to compare. Can be any type that can be converted to a : class : ` str `.
-
-    Returns:
-        A float between 0 and 1 indicating the similarity of the two sequences. If a ratio cannot be determined, 0 is returned.
-    """
     return (
         ratio
         if (ratio := SequenceMatcher(None, a, b).real_quick_ratio()) > 0
@@ -347,3 +313,83 @@ def get_character_moves(character: str) -> pd.DataFrame:
 
     LOG.debug(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves
+
+
+def flatten_combo_df(combo: pd.DataFrame) -> pd.DataFrame:
+    """Un-explode a combo dataframe, to get information on a per-move instead of per-hit basis"""
+
+    flat_combo = combo.copy()
+    # find each time a move changes, assign a new move number to each move
+    flat_combo["move_id"] = (
+        flat_combo[COLS.m_name].ne(flat_combo[COLS.m_name].shift()).cumsum() - 1
+    )
+    flat_combo = flat_combo.groupby(
+        ["move_id", COLS.m_name, COLS.char], as_index=False
+    ).agg(
+        {
+            COLS.dmg: lambda x: list(x) if any(pd.notna(x)) else np.nan,
+            "scaled_damage": lambda x: sum(x) if any(pd.notna(x)) else np.nan,
+            # max and min for the first and last hit of the move
+            COLS.hit_scaling: lambda x: x.iloc[0],
+            COLS.mod_scaling: lambda x: x.iloc[0],
+            "summed_damage": max,
+        }
+    )
+    # Get the number of hits for each move
+    # Damage is a list of damage values for each hit of the move
+    dmg_col = flat_combo[COLS.dmg]
+    dmg_list_lens = dmg_col[
+        dmg_col.apply(lambda x: isinstance(x, list) and (x.__len__() > 1 or x[0] != 0))
+    ].apply(len)
+    flat_combo["num_hits"] = dmg_list_lens
+
+    return flat_combo
+
+
+def parse_combos_from_csv(
+    csv_path: str, calc_damage: bool = False
+) -> tuple[list[pd.DataFrame], list[int]]:
+    global FD
+    global CSV_MAN
+    _, CSV_MAN = get_fd()
+    FD = clean_fd()
+    """Parse combo from csv file, needs to have columns of COLS.char, "notation", COLS.dmg for testing purposes"""
+
+    LOG.info(f"========== Parsing combos from csv [{csv_path}] ==========")
+
+    combos_df: pd.DataFrame = pd.read_csv(csv_path)
+    LOG.info(f"Parsing [{len(combos_df.index)}] combos from csv")
+
+    combo_dfs: list[pd.DataFrame] = [
+        (
+            parse_combo_from_string(
+                combos_df[COLS.char][index], combos_df["notation"][index]
+            )
+        )
+        for index in range(len(combos_df.index))
+    ]
+
+    combos_expected_damage: list[int] = combos_df[COLS.dmg].tolist()
+
+    if calc_damage:
+        combo_dfs = [naiive_damage_calc(combo) for combo in combo_dfs]
+
+    for i, combo in enumerate(combo_dfs):
+        combo_output_path = os.path.join(
+            skombo.LOG_DIR, f"{combos_df[COLS.char][i]}_{i}.csv"
+        )
+        combo.to_csv(combo_output_path)
+
+    return combo_dfs, combos_expected_damage
+
+
+import os
+
+if __name__ == "__main__":
+    test_combo_csv_path = os.path.join(
+        skombo.ABS_PATH,
+        (skombo.CHARS.AN.lower() + skombo.TEST_COMBOS_SUFFIX),
+    )
+    combos, combo_damage = parse_combos_from_csv(test_combo_csv_path, calc_damage=True)
+
+    test = flatten_combo_df(combos[7])

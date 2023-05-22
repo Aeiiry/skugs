@@ -20,7 +20,6 @@ class Columns:
     guard: str = "guard"
     props: str = "properties"
     dmg: str = "damage"
-    scaling: str = "scaling"
     chip: str = "chip_damage"
     meter: str = "meter_on_hit"
     meter_whiff: str = "meter_on_whiff"
@@ -41,11 +40,15 @@ class Columns:
     footer_url: str = "footer_url"
     move_cat: str = "move_category"
     undizzy: str = "undizzy"
-    hit_scaling:str="scaling_for_hit"
-    mod_scaling:str="scaling_after_modifiers"
+    scaling: str = "scaling_effect"
+    hit_scaling: str = "scaling_for_hit"
+    mod_scaling: str = "scaling_after_modifiers"
 
 
 COLS = Columns()
+
+
+
 COL_TYPES: dict[str, str | tuple[str, str]] = {
     COLS.char: "str",
     COLS.m_name: "str",
@@ -75,7 +78,6 @@ COL_TYPES: dict[str, str | tuple[str, str]] = {
     COLS.move_cat: "str",
     COLS.undizzy: "int",
 }
-
 
 @dataclass
 class ColumnClassification:
@@ -135,6 +137,18 @@ class ColumnClassification:
         COLS.hitstop,
         COLS.meter,
         COLS.active,
+    ]
+
+    COMBO_COLS = [
+        COLS.char,
+        COLS.m_name,
+        COLS.dmg,
+        COLS.scaling,
+        COLS.hit_scaling,
+        COLS.mod_scaling,
+        "scaled_damage",
+        "summed_damage",
+    
     ]
 
 
