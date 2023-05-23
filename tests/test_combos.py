@@ -1,18 +1,19 @@
 import os
 import pathlib
 import warnings
-from pyannotate_runtime import collect_types
+
 import pytest
+from numpy import character
+from pyannotate_runtime import collect_types
 
 import skombo
-from skombo import CHARS, TEST_DATA_FOLDER, TEST_COMBOS_SUFFIX
+from skombo import CHARS, TEST_COMBOS_SUFFIX, TEST_DATA_FOLDER
 from skombo.combo_calc import parse_combos_from_csv
 
 collect_types.init_types_collection()
 
 from skombo.utils import expand_all_x_n
-
-LOG = skombo.LOG
+from loguru import logger as log
 
 
 @pytest.mark.parametrize(
@@ -28,30 +29,14 @@ LOG = skombo.LOG
 )
 def test_expand_all_x_n(input_str, expected_output) -> None:
     calculated_output = expand_all_x_n(input_str)
-    LOG.info(f"Expanded ( {input_str} ) ==> ( {calculated_output} )")
+    log.info(f"Expanded ( {input_str} ) ==> ( {calculated_output} )")
     assert calculated_output == expected_output
 
 
-@pytest.mark.parametrize(
-    "test_csv_path, character",
-    [
-        (
-            os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                TEST_DATA_FOLDER,
-                character.lower() + TEST_COMBOS_SUFFIX,
-            ),
-            character,
-        )
-        for character in CHARS.__dict__.values()
-    ],
-)
-def test_combos(test_csv_path: str, character: str, profile) -> None:
-    LOG.info(f"Testing combos for [[{character}]]")
-    if not pathlib.Path(test_csv_path).is_file():
-        LOG.warning(f"!!!!! No test file found for [[{character}]] !!!!!")
-        warnings.warn(f"!!!!! No test file found for [[{character}]] !!!!!")
-        pytest.skip(f"Test file not found: {test_csv_path}")
+@pytest.mark.parametrize("test_csv_path", skombo.TEST_COMBO_CSVS)
+def test_combos(test_csv_path: str, profile) -> None:
+    character = test_csv_path.split("_")[0]
+    log.info(f"Testing combos for [[{character}]]")
 
     combos, combo_damage = parse_combos_from_csv(test_csv_path, calc_damage=True)
 
@@ -62,6 +47,6 @@ def test_combos(test_csv_path: str, character: str, profile) -> None:
         )
 
         damage_diff_percent: float = round(abs(damage_diff / combo_damage[i] * 100), 2)
-        LOG.info(f"Damage difference: {damage_diff_percent}%")
+        log.info(f"Damage difference: {damage_diff_percent}%")
 
         assert 1 > damage_diff_percent >= 0

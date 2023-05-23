@@ -5,17 +5,10 @@ import pstats
 
 import pytest
 
-from skombo import LOG_DIR
-from skombo import get_logger
-
-
-@pytest.fixture(scope="session")
-def log() -> logging.Logger:
-    return get_logger()
-
 
 @pytest.fixture(scope="session")
 def profile():
+    from skombo import LOG_DIR
     profile = cProfile.Profile()
     profile.enable()
     yield profile

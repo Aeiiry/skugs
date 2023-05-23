@@ -9,3 +9,6 @@ mypy
 pytest
 pytest-cov
 pyannotate
+structlog~=23.1.0
+rich~=13.3.5
+better_exceptions~=0.3.3

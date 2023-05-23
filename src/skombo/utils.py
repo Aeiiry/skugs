@@ -6,7 +6,7 @@ from typing import Any
 import pandas as pd
 
 import skombo
-from skombo import LOG
+from loguru import logger as log
 
 
 def extract_blockstop(hitstop: str):
@@ -32,7 +32,7 @@ def filter_dict(
     Retains order so isn't exceptionally fast\n
     filter_values = True will filter values instead, only supports string values\n
     """
-    LOG.debug(f"Filtering {dict} with {colfilter}")
+    log.debug(f"Filtering {dict} with {colfilter}")
     colfilter = list(colfilter) if isinstance(colfilter, str) else colfilter
     if filter_values:
         return {
@@ -83,19 +83,19 @@ def expand_x_n(match: re.Match[str]) -> str:
 from timeit import default_timer as timer
 
 
-def timer_func(func: Callable):
+def timer_func(func: Callable): #type: ignore
     def wrapper(*args, **kwargs):
         t1: float = timer()
         result = func(*args, **kwargs)
         t2: float = timer()
         # Display total time in milliseconds
-        LOG.debug(f"{func.__name__}() executed in [{(t2 - t1) * 1000:0.4f}] ms")
+        log.debug(f"{func.__name__}() executed in [{(t2 - t1) * 1000:0.4f}] ms")
         return result
 
     return wrapper
 
 
-def for_all_methods(decorator: Callable):
+def for_all_methods(decorator: Callable): #type: ignore
     def decorate(cls):
         for attr in cls.__dict__:  # there's propably a better way to do this
             if callable(getattr(cls, attr)):

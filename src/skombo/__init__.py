@@ -2,14 +2,17 @@
 primarily contains constants used throughout the package. also contains the logger."""
 import atexit
 import datetime
-
-START_TIME = datetime.datetime.now()
-
 import logging
 import os
 import re
 import sys
 from dataclasses import dataclass
+from typing import Any
+
+from loguru import logger as log
+from matplotlib.ticker import LogFormatter
+
+START_TIME = datetime.datetime.now()
 
 
 @dataclass
@@ -184,11 +187,11 @@ UNDIZZY_DICT: dict[str, int] = {
 """Undizzy values for each hit type.
 """
 
-LOG_FILE_SUFFIX = "skugLog"
+LOG_FILE_SUFFIX = "log"
 LOG_FOLEDER_NAME = "logs"
 LOG_FILE_EXT = ".log"
-LOG_LEVEL_CONSOLE: int = logging.INFO
-LOG_LEVEL_FILE: int = logging.DEBUG
+# LOG_LEVEL_CONSOLE: int = logging.INFO
+# LOG_LEVEL_FILE: int = logging.DEBUG
 
 RE_NORMAL_MOVE: re.Pattern[str] = re.compile(
     r"^j?\.?\d?.?([lmh])[pk]", flags=re.IGNORECASE
@@ -271,11 +274,6 @@ SCALING_ASSIST_START_COUNTER = 0.9
 SCALING_START = 1.0
 
 
-##################################################################################################
-#                                        CHARACTER NAMES                                         #
-##################################################################################################
-
-
 @dataclass
 class Characters:
     """Class to hold character names as constants."""
@@ -304,136 +302,145 @@ CHARS = Characters()
 #                                      FILE PATH CONSTANTS                                       #
 ##################################################################################################
 
-
+TESTS = "tests"
 FD_BOT_FILE_PREFIX = "SG2E - Frame Data Bot Data - "
 DATA_NAME = "data"
 CSVS = "csvs"
 GAME_DATA = "game_data"
-
-if getattr(sys, "frozen", False):
-    ABS_PATH: str = os.path.dirname(sys.executable)
-else:
-    ABS_PATH = os.path.abspath(os.path.dirname(__file__))
-
-MODULE_NAME: str = os.path.basename(ABS_PATH)
-
-DATA_PATH: str = os.path.join(ABS_PATH, DATA_NAME)
-CSV_PATH: str = os.path.join(DATA_PATH, CSVS)
-GAME_DATA_PATH: str = os.path.join(CSV_PATH, GAME_DATA)
-
 TEST_DATA_FOLDER = "test_data"
 TEST_COMBOS_SUFFIX = "_test_combos.csv"
 
-LOG_DIR: str = os.path.join(ABS_PATH, "logs")
+
+if getattr(sys, "frozen", False):
+    MODULE_PATH: str = os.path.dirname(sys.executable)
+else:
+    MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
+
+MODULE_NAME: str = os.path.basename(MODULE_PATH)
+
+SRC_FOLDER_PATH: str = os.path.dirname(MODULE_PATH)
+TOP_LEVEL_FOLDER_PATH: str = os.path.dirname(SRC_FOLDER_PATH)
+
+
+DATA_PATH: str = os.path.join(MODULE_PATH, DATA_NAME)
+CSV_PATH: str = os.path.join(DATA_PATH, CSVS)
+GAME_DATA_PATH: str = os.path.join(CSV_PATH, GAME_DATA)
+
+TESTS_PATH: str = os.path.join(TOP_LEVEL_FOLDER_PATH, TESTS)
+TESTS_DATA_PATH: str = os.path.join(TESTS_PATH, TEST_DATA_FOLDER)
+
+
+# filter CHARS dictionary values to only include strings
+char_values = [val for val in CHARS.__dict__.values() if isinstance(val, str)]
+# use a regular variable assignment instead of an assignment expression
+TEST_COMBO_CSVS = [
+    os.path.join(TESTS_DATA_PATH, csv_name)
+    for char in char_values
+    if (csv_name := f"{char.lower()}{TEST_COMBOS_SUFFIX}")
+    in os.listdir(TESTS_DATA_PATH)
+]
+
+
+LOG_DIR: str = os.path.join(MODULE_PATH, "logs")
 
 
 ##################################################################################################
-#                                      LOGGING CONSTANTS                                         #
+#                                    SET UP LOGGING                                              #
 ##################################################################################################
 
+# remove the default logger
 
-def init_logger(name=__name__) -> logging.Logger:
-    """
-    Initialize a logger with both console and file handlers.
-    File logs are saved in a 'logs' folder in the parent directory of the module.
 
-    :return: logging.Logger object
-    """
-    # Get the path to the parent directory of the module
+def config_logger() -> None:
+    log.remove()
 
-    if not os.path.exists(LOG_DIR):
-        os.mkdir(LOG_DIR)
-    log_file_name = os.path.join(LOG_DIR, name)
-    # Create console and file handlers
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
+    levels = [
+        {"name": "TRACE", "color": "<white>", "icon": "🔍"},
+        {"name": "DEBUG", "color": "<cyan>", "icon": "🐛"},
+        {"name": "INFO", "color": "<green>", "icon": "🌟"},
+        {"name": "WARNING", "color": "<yellow>", "icon": "⚠️"},
+        {"name": "ERROR", "color": "<red>", "icon": "❌"},
+        {"name": "CRITICAL", "color": "<magenta>", "icon": "💀"},
+    ]
+    # set up custom levels
+    for level in levels:
+        log.level(**level)
 
-    file_handler: logging.FileHandler = logging.FileHandler(
-        f"{log_file_name}{LOG_FILE_EXT}", mode="w", encoding="utf8"
+    ##########################################
+
+    # formatting components
+
+    format_components = {
+        # time in gray italics
+        "time": "<fg #999999><italic>{time:HH:mm:ss.SSS}</italic></fg #999999>|",
+        "level_icon": "{level.icon:^2}",
+        "level": "<level>{level: <8}</level>|",
+        "name": "[<cyan>{name}</cyan>:",
+        "module": "<cyan>{module}</cyan>:",
+        "function": "<cyan>{function}</cyan>:",
+        "line": "<cyan>{line}</cyan>:]",
+        "message": "<level>{message}</level>",
+    }
+
+    ##########################################
+
+    log_file_path = os.path.join(LOG_DIR, f"{MODULE_NAME}{LOG_FILE_EXT}")
+    file_components = [
+        "time",
+        "level_icon",
+        "level",
+        "name",
+        "module",
+        "function",
+        "line",
+        "message",
+    ]
+    console_components = ["level_icon", "level", "message"]
+
+    log.add(
+        sink=log_file_path,
+        format="".join(format_components[component] for component in file_components),
+        level="DEBUG",
+        rotation="1 week",
+        retention="4 weeks",
+        enqueue=True,
+        backtrace=True,
+        diagnose=True,
     )
-    file_handler.setLevel(logging.DEBUG)
-    # log format: [minutes:seconds:ms] [log level] [filename:line number] [message
-    log_file_format = (
-        # get ms
-        "[%(asctime)s:%(msecs)03d] %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
+    log.add(
+        sink=sys.stderr,
+        format="".join(
+            format_components[component] for component in console_components
+        ),
+        level="INFO",
+        enqueue=True,
     )
-    datetime_format = "%M:%S"
 
-    console_format = "%(message)s"
-
-    log_formatter: logging.Formatter = logging.Formatter(
-        log_file_format, datetime_format
-    )
-    console_formatter: logging.Formatter = logging.Formatter(console_format)
-
-    console_handler.setFormatter(console_formatter)
-    file_handler.setFormatter(log_formatter)
-
-    # Add handlers to logger
-    logger: logging.Logger = logging.getLogger(name)
-    # Redirect stdout and stderr to the logger
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
-
-    logger.setLevel(logging.DEBUG)
-
-    return logger
+    log.warning("warning")
+    log.info("info")
+    log.debug("debug")
+    log.error("error")
+    log.critical("critical")
 
 
-def get_logger(name=__name__) -> logging.Logger:
-    if not logging.getLogger(name).hasHandlers():
-        init_logger(name)
-
-    return logging.getLogger(name)
+config_logger()
 
 
-class StreamToLogger:
-    """
-    Fake file-like stream object that redirects writes to a logger instance.
-    """
-
-    def __init__(self, logger: logging.Logger, log_level: int = logging.INFO) -> None:
-        self.logger: logging.Logger = logger
-        self.log_level: int = log_level
-        self.linebuf: str = ""
-
-    def write(self, buf: str) -> None:
-        for line in buf.rstrip().splitlines():
-            self.logger.log(self.log_level, line.rstrip()) if line.rstrip() not in [
-                "",
-                "\n",
-                "^",
-                "[",
-                "]",
-                "~",
-            ] else None
-
-    def flush(
-        self,
-    ) -> None:  # Needed as we are redirecting stdout and stderr to the logger
-        pass
-
-    def isatty(self) -> None:
-        pass  # Needed as we are redirecting stdout and stderr to the logger
-
-
-LOG: logging.Logger = get_logger(__name__)
-
-LOG.info("Constants initialized")
-
-LOG.info(f"ABS_PATH: {ABS_PATH}")
-LOG.info(f"MODULE_NAME: {MODULE_NAME}")
-
-LOG.info("Logger initialized")
-
-
+@atexit.register
 def exit_handler() -> None:
     # get the end datetime
     END_TIME = datetime.datetime.now()
 
     # get execution time
     elapsed_time = END_TIME - START_TIME
-    LOG.info(f"Execution time: {elapsed_time} seconds")
+    log.info(f"Execution time: {elapsed_time} seconds 🤠")
 
 
-atexit.register(exit_handler)
+# test_funct()
+
+log.info("Constants initialized")
+
+log.info(f"ABS_PATH: {MODULE_PATH}")
+log.info(f"MODULE_NAME: {MODULE_NAME}")
+
+log.info("Logger initialized")

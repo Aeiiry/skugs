@@ -10,12 +10,11 @@ from typing import Any
 import numpy as np
 import pandas as pd
 from numpy import floor
-from pandas import Series
-from pandas import DataFrame
+from pandas import DataFrame, Series
 import skombo
-from skombo import CHARS, COLS, COLS_CLASSES, LOG
+from skombo import CHARS, COLS, COLS_CLASSES
 from skombo.fd_ops import FD, FD_BOT_CSV_MANAGER
-
+from loguru import logger as log
 
 def get_combo_scaling(combo: DataFrame) -> DataFrame:
     combo = combo.reset_index(drop=True)
@@ -99,7 +98,7 @@ def parse_combo_from_string(character: str, combo_string: str) -> DataFrame:
     character_moves: DataFrame = get_character_moves(character)
 
     combo_move_names = Series(combo_string.strip().split(" "))
-    LOG.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
+    log.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
     # Attempt to find each move in the combo string in the character's moves from the frame data
     # If a move is not found, check each item in the alt_names list for the move
 
@@ -130,7 +129,7 @@ def character_specific_move_name_check(character: str, move_name: str) -> str:
     if character == CHARS.AN:
         # We don't actually need the move strength for annie divekicks
         if re.search(r"236[lmh]k", move_name, flags=re.IGNORECASE):
-            LOG.debug(f"Removing move strength from annie divekick {move_name}")
+            log.debug(f"Removing move strength from annie divekick {move_name}")
             move_name = re.sub(r"[lmh]", "", move_name, flags=re.IGNORECASE)
 
     return move_name
@@ -294,7 +293,7 @@ def get_character_moves(character: str) -> DataFrame:
         FD.index.get_level_values(0) == character.upper()
     ]
 
-    LOG.debug(f"Retreived {len(character_moves)} moves for {character}")
+    log.debug(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves
 
 
@@ -334,10 +333,10 @@ def parse_combos_from_csv(
 ) -> tuple[list[DataFrame], list[int]]:
     """Parse combo from csv file, needs to have columns of COLS.char, "notation", COLS.dmg for testing purposes"""
 
-    LOG.info(f"========== Parsing combos from csv [{csv_path}] ==========")
+    log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
 
     combos_df: DataFrame = pd.read_csv(csv_path)
-    LOG.info(f"Parsing [{len(combos_df.index)}] combos from csv")
+    log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
 
     combo_dfs: list[DataFrame] = [
         (
@@ -365,10 +364,7 @@ def parse_combos_from_csv(
 import os
 
 if __name__ == "__main__":
-    test_combo_csv_path = os.path.join(
-        skombo.ABS_PATH,
-        (skombo.CHARS.AN.lower() + skombo.TEST_COMBOS_SUFFIX),
-    )
+    test_combo_csv_path = skombo.TEST_COMBO_CSVS[0]
     combos, combo_damage = parse_combos_from_csv(test_combo_csv_path, calc_damage=True)
 
     test = flatten_combo_df(combos[7])

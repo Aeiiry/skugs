@@ -4,23 +4,16 @@ import os
 import re
 from typing import Self
 
-
 import numpy as np
 import pandas as pd
 from pandas import Index
 
 import skombo
-from skombo import CHARS, COLS, COLS_CLASSES, LOG
-from skombo.utils import (
-    expand_all_x_n,
-    extract_blockstop,
-    filter_dict,
-    format_column_headings,
-    split_meter,
-    timer_func,
-)
-from skombo.utils import for_all_methods
-
+from skombo import CHARS, COLS, COLS_CLASSES
+from skombo.utils import (expand_all_x_n, extract_blockstop, filter_dict,
+                          for_all_methods, format_column_headings, split_meter,
+                          timer_func)
+from loguru import logger as log
 
 class CsvManager:
     """Class to manage CSV files"""
@@ -76,23 +69,23 @@ class FdBotCsvManager(CsvManager):
 class FrameData(pd.DataFrame):
     """DataFrame subclass for frame data"""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
     def re_index(self) -> Self:
-        LOG.debug("Re-indexing frame data...")
+        log.debug("Re-indexing frame data...")
 
         self[COLS.m_name] = self[COLS.m_name].str.strip().replace(r"\n", "", regex=True)
         self.set_index([COLS.char, COLS.m_name], verify_integrity=True, inplace=True)
         self.index.names = [COLS.char, COLS.m_name]
-        LOG.debug(f"Frame data re-indexed, new index: {self.index.names}")
+        log.debug(f"Frame data re-indexed, new index: {self.index.names}")
         return self
 
     def rename_cols(
         self,
         rename_cols: dict[str, str],
-    ) -> Self:  # sourcery skip: default-mutable-arg
-        LOG.debug(f"Renaming columns: {rename_cols} ...")
+    ) -> Self:  # sourcery skip: default-mutable-arg, lambdas-should-be-short
+        log.debug(f"Renaming columns: {rename_cols} ...")
         self.rename(columns=rename_cols, inplace=True)
 
         cols_minus_index: list[str] = list(
@@ -105,7 +98,7 @@ class FrameData(pd.DataFrame):
     def remove_chars_from_cols(
         self, chars: str | list[str], cols: str | list[str]
     ) -> Self:
-        LOG.debug(f"Removing {chars.__repr__()} from {cols}...")
+        log.debug(f"Removing {chars.__repr__()} from {cols}...")
         for col in cols if isinstance(cols, list) else [cols]:
             chars_re = "|".join(re.escape(char) for char in chars)
             self[col] = self[col].str.replace(chars_re, "", regex=True)
@@ -120,24 +113,24 @@ class FrameData(pd.DataFrame):
         return self
 
     def strings_to_nan(self, strings: list[str]) -> Self:
-        LOG.debug(f"Replacing {strings} with NaN...")
+        log.debug(f"Replacing {strings} with NaN...")
         self.replace(strings, np.nan, inplace=True)
         self.fillna(np.nan, inplace=True)
         return self
 
     def col_str_replace(self, col: str, old: str, new: str) -> Self:
-        LOG.debug(f"Replacing {old.__repr__()} with {new.__repr__()} in {col}...")
+        log.debug(f"Replacing {old.__repr__()} with {new.__repr__()} in {col}...")
         self[col] = self[col].str.replace(old, new)
         return self
 
     def expand_xn_cols(self, xn_cols: list[str]) -> Self:
-        LOG.debug(f"Expanding {xn_cols}...")
+        log.debug(f"Expanding {xn_cols}...")
         self[xn_cols] = self[xn_cols].applymap(lambda x: expand_all_x_n(x))
 
         return self
 
     def separate_annie_stars(self) -> Self:
-        LOG.debug("Separating Annie stars...")
+        log.debug("Separating Annie stars...")
         star_rows = self.loc[(CHARS.AN, slice(None)), [COLS.dmg, COLS.onblock]]
 
         star_rows = star_rows[
@@ -177,7 +170,7 @@ class FrameData(pd.DataFrame):
         return self
 
     def separate_damage_chip_damage(self) -> Self:
-        LOG.debug("Separating damage and chip damage...")
+        log.debug("Separating damage and chip damage...")
         # Extract values in parentheses from damage column and put them in chip_damage column
         self[COLS.chip] = self[COLS.dmg].str.extract(r"\((.*)\)")[0]
         self[COLS.dmg] = self[COLS.dmg].str.replace(r"\(.*\)", "", regex=True)
@@ -193,7 +186,7 @@ class FrameData(pd.DataFrame):
         return self
 
     def separate_meter(self) -> Self:
-        LOG.debug("Separating meter...")
+        log.debug("Separating meter...")
         # Get the meter column from the dataframe
         meter_col = self[COLS.meter]
 
@@ -205,9 +198,9 @@ class FrameData(pd.DataFrame):
         return self
 
     def split_cols_on_comma(self, cols: list[str]) -> Self:
-        LOG.debug(f"Splitting {cols} on comma...")
+        log.debug(f"Splitting {cols} on comma...")
         for col in cols:
-            LOG.debug(f"\tSplitting {col.__repr__()}...")
+            log.debug(f"\tSplitting {col.__repr__()}...")
 
             # only split if the column is a string
             if self[col].dtype in ["object", "string"]:
@@ -215,10 +208,10 @@ class FrameData(pd.DataFrame):
         return self
 
     def separate_on_hit(self) -> Self:
-        LOG.debug("Separating on hit...")
+        log.debug("Separating on hit...")
         self[COLS.onhit_eff] = self[COLS.onhit].copy()
-        self[COLS.onhit] = self[COLS.onhit].apply(
-            lambda x: x  # type: ignore
+        self[COLS.onhit] = self[COLS.onhit].apply( # type: ignore
+            lambda x: x  
             if (isinstance(x, str) and x.strip("-").isnumeric()) or isinstance(x, int)
             else None
         )
@@ -229,7 +222,7 @@ class FrameData(pd.DataFrame):
         return self
 
     def categorise_moves(self) -> Self:
-        LOG.debug("Categorising moves...")
+        log.debug("Categorising moves...")
         universal_move_categories: dict[str, str] = skombo.UNIVERSAL_MOVE_CATEGORIES
         self[COLS.move_cat] = self.index.get_level_values(1).map(
             universal_move_categories
@@ -265,17 +258,17 @@ class FrameData(pd.DataFrame):
         return self
 
     def add_undizzy_values(self) -> Self:
-        LOG.debug("Adding undizzy values...")
+        log.debug("Adding undizzy values...")
         self[COLS.undizzy] = self[COLS.move_cat].map(skombo.UNDIZZY_DICT)
         return self
 
     def split_on_pushblock(self) -> Self:
-        LOG.debug("Splitting on pushblock...")
+        log.debug("Splitting on pushblock...")
         self[COLS.onpb] = self[COLS.onpb].str.split(" to ")
         return self
 
     # todo finish this with no scaling, scaling notes and whatever else
-    def extract_damage_scaling(self):
+    def extract_damage_scaling(self) -> Self:
         replacement_refs = {}
         scaling_rows = self.loc[
             self[COLS.props].str.contains("scaling", flags=re.IGNORECASE).fillna(False)
@@ -304,7 +297,7 @@ class FrameData(pd.DataFrame):
 
     def separate_hitstop_blockstop(self) -> Self:
         # Split hitstop and blockstop into separate columns
-        LOG.debug("Separating hitstop and blockstop...")
+        log.debug("Separating hitstop and blockstop...")
 
         # Make a mask of the rows that have a blockstop value
         block_mask: pd.Series[bool] = (
@@ -350,7 +343,7 @@ FD_BOT_CSV_MANAGER = FdBotCsvManager()
 FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
 
 
-LOG.debug("Cleaning frame data...")
+log.debug("Cleaning frame data...")
 FD = (
     FD.re_index()  # Reindex the dataframe to have character and move_name as the index
     .rename_cols(
