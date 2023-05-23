@@ -170,7 +170,9 @@ class FrameData(pd.DataFrame):
         star_rows.index = star_rows.index.set_levels(  # type: ignore
             star_rows.index.levels[1] + "_STAR_POWER", level=1  # type: ignore
         )
-        self = FrameData(pd.concat([self, star_rows]))
+        # Expand self to include the new rows
+        # Keep FrameData type
+        self = FrameData(pd.concat([self, star_rows]))  # type: ignore
 
         return self
 
@@ -341,46 +343,37 @@ remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
 ]
 
 string_to_nan: list[str] = ["-", ""]
-global FD
 
 
-def get_fd() -> tuple[FrameData, FdBotCsvManager]:
-    FD_BOT_CSV_MANAGER = FdBotCsvManager()
-    global FD
-    FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
-    return FD, FD_BOT_CSV_MANAGER
+FD_BOT_CSV_MANAGER = FdBotCsvManager()
+
+FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
 
 
-def clean_fd() -> FrameData:
-    global FD
-    LOG.debug("Cleaning frame data...")
-    FD = (
-        FD.re_index()  # Reindex the dataframe to have character and move_name as the index
-        .rename_cols(
-            rename_cols=cols_to_rename
-        )  # Rename columns as specified in cols_to_rename
-        .bulk_remove_chars_from_cols(
-            remove_chars_from_cols
-        )  # Remove characters from columns as specified in remove_chars_from_cols
-        .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
-        .separate_annie_stars()  # Separate Annie's star power moves into separate rows
-        .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
-        .separate_meter()  # Separate meter into on_hit and on_whiff
-        .separate_on_hit()  # Separate on_hit and on_hit_eff
-        .categorise_moves()  # Categorise moves
-        .add_undizzy_values()  # Add undizzy values
-        .split_on_pushblock()  # Split on_pushblock into lists
-        .separate_hitstop_blockstop()  # Separate hitstop and blockstop
-        .extract_damage_scaling()
-        .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
-        .strings_to_nan(
-            string_to_nan
-        )  # Replace strings with np.nan as specified in string_to_nan
-    )
-    return FD
+LOG.debug("Cleaning frame data...")
+FD = (
+    FD.re_index()  # Reindex the dataframe to have character and move_name as the index
+    .rename_cols(
+        rename_cols=cols_to_rename
+    )  # Rename columns as specified in cols_to_rename
+    .bulk_remove_chars_from_cols(
+        remove_chars_from_cols
+    )  # Remove characters from columns as specified in remove_chars_from_cols
+    .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
+    .separate_annie_stars()  # Separate Annie's star power moves into separate rows
+    .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
+    .separate_meter()  # Separate meter into on_hit and on_whiff
+    .separate_on_hit()  # Separate on_hit and on_hit_eff
+    .categorise_moves()  # Categorise moves
+    .add_undizzy_values()  # Add undizzy values
+    .split_on_pushblock()  # Split on_pushblock into lists
+    .separate_hitstop_blockstop()  # Separate hitstop and blockstop
+    .extract_damage_scaling()
+    .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
+    .strings_to_nan(
+        string_to_nan
+    )  # Replace strings with np.nan as specified in string_to_nan
+)
 
 
-if __name__ == "__main__":
-    get_fd()
-    clean_fd()
-    FD.to_csv("fd_cleaned.csv")
+# FD.to_csv("fd_cleaned.csv")

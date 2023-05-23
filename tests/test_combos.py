@@ -1,19 +1,18 @@
+import os
 import pathlib
 import warnings
-
+from pyannotate_runtime import collect_types
 import pytest
-from tabulate import tabulate
+
 import skombo
-from skombo.combo_calc import parse_combos_from_csv
-import os
 from skombo import CHARS, TEST_DATA_FOLDER, TEST_COMBOS_SUFFIX
-from skombo.utils import timer_func
+from skombo.combo_calc import parse_combos_from_csv
+
+collect_types.init_types_collection()
+
+from skombo.utils import expand_all_x_n
 
 LOG = skombo.LOG
-
-# disable mypy for this file
-# mypy: ignore-errors
-from skombo.fd_ops import expand_all_x_n
 
 
 @pytest.mark.parametrize(
@@ -57,7 +56,7 @@ def test_combos(test_csv_path: str, character: str, profile) -> None:
     combos, combo_damage = parse_combos_from_csv(test_csv_path, calc_damage=True)
 
     for i, combo in enumerate(combos):
-        #LOG.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
+        # LOG.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
         damage_diff: int = (
             combo_damage[i] - combo.at[combo.__len__() - 1, "summed_damage"]
         )
@@ -66,5 +65,3 @@ def test_combos(test_csv_path: str, character: str, profile) -> None:
         LOG.info(f"Damage difference: {damage_diff_percent}%")
 
         assert 1 > damage_diff_percent >= 0
-
-

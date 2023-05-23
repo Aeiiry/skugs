@@ -7,7 +7,6 @@ import pandas as pd
 
 import skombo
 from skombo import LOG
-import numpy as np
 
 
 def extract_blockstop(hitstop: str):

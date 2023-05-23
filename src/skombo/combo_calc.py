@@ -10,15 +10,14 @@ from typing import Any
 import numpy as np
 import pandas as pd
 from numpy import floor
-
+from pandas import Series
+from pandas import DataFrame
 import skombo
 from skombo import CHARS, COLS, COLS_CLASSES, LOG
-from skombo.fd_ops import clean_fd, get_fd
-
-global FD
+from skombo.fd_ops import FD, FD_BOT_CSV_MANAGER
 
 
-def get_combo_scaling(combo: pd.DataFrame) -> pd.DataFrame:
+def get_combo_scaling(combo: DataFrame) -> DataFrame:
     combo = combo.reset_index(drop=True)
     factor = skombo.SCALING_FACTOR
     min_1k = skombo.SCALING_MIN_1K
@@ -41,18 +40,11 @@ def get_combo_scaling(combo: pd.DataFrame) -> pd.DataFrame:
         combo.loc[i, COLS.mod_scaling] = max(  # type: ignore
             min_for_hit, combo.loc[i, COLS.hit_scaling]  # type: ignore
         )
-        LOG.debug(
-            f"Hit scaling for {row[COLS.m_name]} is {combo.loc[i, COLS.hit_scaling]}"  # type: ignore
-        )
-
-    combo.loc[:, [COLS.dmg, COLS.hit_scaling, COLS.mod_scaling]] = combo.loc[
-        :, [COLS.dmg, COLS.hit_scaling, COLS.mod_scaling]
-    ]
 
     return combo
 
 
-def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.DataFrame:
+def naiive_damage_calc(combo: DataFrame) -> DataFrame:
     """Naiive damage calc for a series of moves"""
     # if cull_columns:
     #  combo = combo[[COLS.m_name, COLS.dmg]]
@@ -77,7 +69,7 @@ def naiive_damage_calc(combo: pd.DataFrame, cull_columns: bool = True) -> pd.Dat
     return combo
 
 
-def fd_to_combo_df(fd: pd.DataFrame) -> pd.DataFrame:
+def fd_to_combo_df(fd: DataFrame) -> DataFrame:
     # Split damage into individual rows for each hit, damage column contains individual lists of damage for each hit of the move
     fd = fd.explode(COLS.dmg)
     # Pull the character and move name from the mutliindex
@@ -88,9 +80,7 @@ def fd_to_combo_df(fd: pd.DataFrame) -> pd.DataFrame:
     # Assume a move that is the row before the move name "kara" is a kara cancel and does not do damage
     fd.loc[fd[COLS.m_name].shift(-1) == "KARA", "damage"] = 0
 
-    fd = pd.DataFrame(data=fd, columns=COLS_CLASSES.COMBO_COLS)
-
-    return fd
+    return DataFrame(data=fd, columns=COLS_CLASSES.COMBO_COLS)
 
 
 @functools.cache
@@ -103,30 +93,30 @@ def similar(a: Any, b: Any) -> float:
 
 
 @functools.cache
-def parse_combo_from_string(character: str, combo_string: str) -> pd.DataFrame:
+def parse_combo_from_string(character: str, combo_string: str) -> DataFrame:
     # Get the frame data for the character
 
-    character_moves: pd.DataFrame = get_character_moves(character)
+    character_moves: DataFrame = get_character_moves(character)
 
-    combo_move_names = pd.Series(combo_string.strip().split(" "))
+    combo_move_names = Series(combo_string.strip().split(" "))
     LOG.info(f"Parsing combo for [{character}] : {combo_move_names.to_list()}")
     # Attempt to find each move in the combo string in the character's moves from the frame data
     # If a move is not found, check each item in the alt_names list for the move
 
-    # Search character_moves pd.DataFrame for move names or alternative names
-    combo_df: pd.DataFrame = find_combo_moves(character_moves, combo_move_names)
+    # Search character_moves DataFrame for move names or alternative names
+    combo_df: DataFrame = find_combo_moves(character_moves, combo_move_names)
 
     # Find the move with the highest similarity score if multiple matches exist
     # if len(found_moves) > 1:
     # found_moves = best_match(combo_moves, found_moves)
 
-    combo_calc_df: pd.DataFrame = fd_to_combo_df(combo_df)
+    combo_calc_df: DataFrame = fd_to_combo_df(combo_df)
 
     return combo_calc_df.reset_index(drop=True)
 
 
-def best_match(original_move: str, found_moves: pd.Series) -> pd.Series:  # type: ignore
-    move_name_similarity: pd.Series = found_moves.apply(
+def best_match(original_move: str, found_moves: Series) -> Series:  # type: ignore
+    move_name_similarity: Series = found_moves.apply(  # type: ignore
         lambda move_name: similar(original_move, move_name)
     )
     found_moves = found_moves.loc[move_name_similarity == move_name_similarity.max()]
@@ -146,23 +136,23 @@ def character_specific_move_name_check(character: str, move_name: str) -> str:
     return move_name
 
 
-def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.Series:
+def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series:  # type: ignore
     """
     Find a single move by name.
 
     Args:
-        character_moves: pd.DataFrame of character's moves
+        character_moves: DataFrame of character's moves
         move_name: Name of the move to find e. g. "5HP"
 
     Returns:
         pandas. Series of ( character move
     """
-    ALIAS_DF = CSV_MAN.dataframes["aliases"]
+    ALIAS_DF = FD_BOT_CSV_MANAGER.dataframes["aliases"]
     move_name = move_name.upper()
     character = str(character_moves.index.get_level_values(0)[0])
 
-    blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
-    move_df = blank_move.copy()
+    blank_move = Series(index=character_moves.columns, name=(character, move_name))
+    move_df = DataFrame(columns=character_moves.columns)
 
     # Return blank move if it is in the list of ignored moves
     if move_name in skombo.IGNORED_MOVES:
@@ -172,7 +162,6 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
 
     # Find the move in frame data.
     if in_index.max():
-        LOG.debug(f"Found move name {move_name} in frame data")
         move_df = character_moves[in_index]
 
     else:
@@ -180,7 +169,6 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
             lambda move_names: move_name in move_names
         )
         # Check if move name is in alt_names
-        LOG.debug(f"Found move name {move_name} in alt_names")
         name_between_re = re.compile(rf"[^\n]?{move_name}[\n$]", re.IGNORECASE)
         in_alt_names = character_moves["alt_names"].str.contains(
             name_between_re.pattern, regex=True
@@ -201,19 +189,17 @@ def get_fd_for_single_move(character_moves: pd.DataFrame, move_name: str) -> pd.
         else:
             move_df = character_moves[in_alt_names]
 
-    blank_move = pd.Series(index=character_moves.columns, name=(character, move_name))
+    blank_move = Series(index=character_moves.columns, name=(character, move_name))
     return move_df.iloc[0] if move_df.__len__() > 0 else blank_move
 
 
-def find_move_repeats_follow_ups(moves: pd.Series):
-    moves_new: pd.Series = pd.Series()
+def find_move_repeats_follow_ups(moves):
+    moves_new: Series = Series()
     annie_divekick_count: int = 0
     xn_re: re.Pattern[str] = re.compile(r"\s?X\s?(\d+)", re.IGNORECASE)
 
     for move in moves:
         if xn_match := xn_re.search(move):
-            LOG.debug(f"Found move repeat {xn_match[1]} in {move}")
-
             xn = int(xn_match[1])
 
             if moves.name == "ANNIE" and "RE ENTRY" in move.upper():
@@ -227,20 +213,18 @@ def find_move_repeats_follow_ups(moves: pd.Series):
                     else move.replace(xn_match[0], "")
                 )
 
-                moves_new = pd.concat([moves_new, pd.Series([move_name])])
+                moves_new = pd.concat([moves_new, Series([move_name])])
 
-        elif followup_match := re.search(r"[~]", move):
+        elif followup_match := re.search(r"~", move):
             followup_split: list[str] = followup_match.string.split("~")
 
             for i in range(followup_split.__len__()):
                 moves_new = pd.concat(
-                    [moves_new, pd.Series("~".join(followup_split[: i + 1]))]
+                    [moves_new, Series("~".join(followup_split[: i + 1]))]
                 )
 
-            LOG.debug(f"Found followup {followup_split[1]} in {move}")
-
         else:
-            moves_new = pd.concat([moves_new, pd.Series([move])])
+            moves_new = pd.concat([moves_new, Series([move])])
 
     # LOG.debug(moves_new)
 
@@ -248,12 +232,12 @@ def find_move_repeats_follow_ups(moves: pd.Series):
 
 
 def character_specific_operations(
-    character: str, combo_df: pd.DataFrame, character_fd: pd.DataFrame
-) -> pd.DataFrame:
+    character: str, combo_df: DataFrame, character_fd: DataFrame
+) -> DataFrame:
     if character == "ANNIE":
         annie_divekick = "RE ENTRY"
         if (
-            divekick_index := pd.Series(
+            divekick_index := Series(
                 combo_df.index.get_level_values(1).str.contains(annie_divekick)
             )
         ).any():
@@ -279,14 +263,13 @@ def character_specific_operations(
     return combo_df
 
 
-def find_combo_moves(
-    character_moves: pd.DataFrame, combo_moves: pd.Series
-) -> pd.DataFrame:
-    # Initialize empty pd.DataFrame with columns 'original_move_name' and 'move_name'
+def find_combo_moves(character_moves: DataFrame, combo_moves: Series) -> DataFrame:
+    # character_moves: DataFrame, combo_moves: Series[Any]
+    # Initialize empty DataFrame with columns 'original_move_name' and 'move_name'
     # character mopves columns plus 'character' and 'move_name'
 
     character: str = str(character_moves.index.get_level_values(0)[0])
-    combo_df = pd.DataFrame(columns=character_moves.columns)
+    combo_df = DataFrame(columns=character_moves.columns)
 
     # Interpret things such as 5HPx2 as 5hpx1, 5hpx2
     combo_moves = combo_moves.apply(
@@ -295,7 +278,7 @@ def find_combo_moves(
     combo_moves = find_move_repeats_follow_ups(combo_moves.rename(character))
 
     # Search for each move in the combo string in the frame data
-    # Add the move name to the move_name_series pd.DataFrame
+    # Add the move name to the move_name_series DataFrame
     combo_df = pd.concat(
         get_fd_for_single_move(character_moves, move_name).to_frame().T
         for move_name in combo_moves
@@ -306,8 +289,8 @@ def find_combo_moves(
 
 
 @functools.cache
-def get_character_moves(character: str) -> pd.DataFrame:
-    character_moves: pd.DataFrame = FD.loc[
+def get_character_moves(character: str) -> DataFrame:
+    character_moves: DataFrame = FD.loc[
         FD.index.get_level_values(0) == character.upper()
     ]
 
@@ -315,7 +298,7 @@ def get_character_moves(character: str) -> pd.DataFrame:
     return character_moves
 
 
-def flatten_combo_df(combo: pd.DataFrame) -> pd.DataFrame:
+def flatten_combo_df(combo: DataFrame) -> DataFrame:
     """Un-explode a combo dataframe, to get information on a per-move instead of per-hit basis"""
 
     flat_combo = combo.copy()
@@ -348,19 +331,15 @@ def flatten_combo_df(combo: pd.DataFrame) -> pd.DataFrame:
 
 def parse_combos_from_csv(
     csv_path: str, calc_damage: bool = False
-) -> tuple[list[pd.DataFrame], list[int]]:
-    global FD
-    global CSV_MAN
-    _, CSV_MAN = get_fd()
-    FD = clean_fd()
+) -> tuple[list[DataFrame], list[int]]:
     """Parse combo from csv file, needs to have columns of COLS.char, "notation", COLS.dmg for testing purposes"""
 
     LOG.info(f"========== Parsing combos from csv [{csv_path}] ==========")
 
-    combos_df: pd.DataFrame = pd.read_csv(csv_path)
+    combos_df: DataFrame = pd.read_csv(csv_path)
     LOG.info(f"Parsing [{len(combos_df.index)}] combos from csv")
 
-    combo_dfs: list[pd.DataFrame] = [
+    combo_dfs: list[DataFrame] = [
         (
             parse_combo_from_string(
                 combos_df[COLS.char][index], combos_df["notation"][index]
