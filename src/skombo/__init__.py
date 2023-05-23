@@ -47,8 +47,6 @@ class Columns:
 
 COLS = Columns()
 
-
-
 COL_TYPES: dict[str, str | tuple[str, str]] = {
     COLS.char: "str",
     COLS.m_name: "str",
@@ -78,6 +76,7 @@ COL_TYPES: dict[str, str | tuple[str, str]] = {
     COLS.move_cat: "str",
     COLS.undizzy: "int",
 }
+
 
 @dataclass
 class ColumnClassification:
@@ -148,7 +147,6 @@ class ColumnClassification:
         COLS.mod_scaling,
         "scaled_damage",
         "summed_damage",
-    
     ]
 
 
@@ -354,12 +352,12 @@ def init_logger(name=__name__) -> logging.Logger:
         f"{log_file_name}{LOG_FILE_EXT}", mode="w", encoding="utf8"
     )
     file_handler.setLevel(logging.DEBUG)
-    # log format: datetime [ms since start] [log level] [file name:line number] [message]
+    # log format: [minutes:seconds:ms] [log level] [filename:line number] [message
     log_file_format = (
-        "[%(msecs)03d] %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
+        # get ms
+        "[%(asctime)s:%(msecs)03d] %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s"
     )
-
-    datetime_format = "%Y-%m-%d %H:%M:%S"
+    datetime_format = "%M:%S"
 
     console_format = "%(message)s"
 
@@ -378,8 +376,6 @@ def init_logger(name=__name__) -> logging.Logger:
     logger.addHandler(file_handler)
 
     logger.setLevel(logging.DEBUG)
-    # sys.stderr = StreamToLogger(logger, logging.ERROR)  # type: ignore
-    # sys.stdout = StreamToLogger(logger, logging.INFO)  # type: ignore
 
     return logger
 
@@ -418,7 +414,7 @@ class StreamToLogger:
         pass
 
     def isatty(self) -> None:
-        pass
+        pass  # Needed as we are redirecting stdout and stderr to the logger
 
 
 LOG: logging.Logger = get_logger(__name__)
