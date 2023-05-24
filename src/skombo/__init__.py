@@ -2,15 +2,12 @@
 primarily contains constants used throughout the package. also contains the logger."""
 import atexit
 import datetime
-import logging
 import os
 import re
 import sys
 from dataclasses import dataclass
-from typing import Any
 
 from loguru import logger as log
-from matplotlib.ticker import LogFormatter
 
 START_TIME = datetime.datetime.now()
 
@@ -190,8 +187,6 @@ UNDIZZY_DICT: dict[str, int] = {
 LOG_FILE_SUFFIX = "log"
 LOG_FOLEDER_NAME = "logs"
 LOG_FILE_EXT = ".log"
-# LOG_LEVEL_CONSOLE: int = logging.INFO
-# LOG_LEVEL_FILE: int = logging.DEBUG
 
 RE_NORMAL_MOVE: re.Pattern[str] = re.compile(
     r"^j?\.?\d?.?([lmh])[pk]", flags=re.IGNORECASE
@@ -310,7 +305,6 @@ GAME_DATA = "game_data"
 TEST_DATA_FOLDER = "test_data"
 TEST_COMBOS_SUFFIX = "_test_combos.csv"
 
-
 if getattr(sys, "frozen", False):
     MODULE_PATH: str = os.path.dirname(sys.executable)
 else:
@@ -321,14 +315,12 @@ MODULE_NAME: str = os.path.basename(MODULE_PATH)
 SRC_FOLDER_PATH: str = os.path.dirname(MODULE_PATH)
 TOP_LEVEL_FOLDER_PATH: str = os.path.dirname(SRC_FOLDER_PATH)
 
-
 DATA_PATH: str = os.path.join(MODULE_PATH, DATA_NAME)
 CSV_PATH: str = os.path.join(DATA_PATH, CSVS)
 GAME_DATA_PATH: str = os.path.join(CSV_PATH, GAME_DATA)
 
 TESTS_PATH: str = os.path.join(TOP_LEVEL_FOLDER_PATH, TESTS)
 TESTS_DATA_PATH: str = os.path.join(TESTS_PATH, TEST_DATA_FOLDER)
-
 
 # filter CHARS dictionary values to only include strings
 char_values = [val for val in CHARS.__dict__.values() if isinstance(val, str)]
@@ -339,7 +331,6 @@ TEST_COMBO_CSVS = [
     if (csv_name := f"{char.lower()}{TEST_COMBOS_SUFFIX}")
     in os.listdir(TESTS_DATA_PATH)
 ]
-
 
 LOG_DIR: str = os.path.join(MODULE_PATH, "logs")
 
@@ -357,8 +348,8 @@ def config_logger() -> None:
     levels = [
         {"name": "TRACE", "color": "<white>", "icon": "🔍"},
         {"name": "DEBUG", "color": "<cyan>", "icon": "🐛"},
-        {"name": "INFO", "color": "<green>", "icon": "🌟"},
-        {"name": "WARNING", "color": "<yellow>", "icon": "⚠️"},
+        {"name": "INFO", "color": "<white>", "icon": "🌟"},
+        {"name": "WARNING", "color": "<yellow>", "icon": "🔥"},
         {"name": "ERROR", "color": "<red>", "icon": "❌"},
         {"name": "CRITICAL", "color": "<magenta>", "icon": "💀"},
     ]
@@ -372,14 +363,12 @@ def config_logger() -> None:
 
     format_components = {
         # time in gray italics
-        "time": "<fg #999999><italic>{time:HH:mm:ss.SSS}</italic></fg #999999>|",
-        "level_icon": "{level.icon:^2}",
-        "level": "<level>{level: <8}</level>|",
-        "name": "[<cyan>{name}</cyan>:",
-        "module": "<cyan>{module}</cyan>:",
-        "function": "<cyan>{function}</cyan>:",
-        "line": "<cyan>{line}</cyan>:]",
-        "message": "<level>{message}</level>",
+        "time": "<fg #999999><italic>{time:mm:ss:SSS}</italic></fg #999999>|",
+        "level_icon": "{level.icon}|",
+        "level": "<level>{level: <8}</level>",
+        # format module and line with left aligned space for both as if they were one string
+        "module_line": "|<fg #999999>{module: <10}:{line: <3}</fg #999999>",
+        "message": "| <level>{message}</level>",
     }
 
     ##########################################
@@ -389,10 +378,7 @@ def config_logger() -> None:
         "time",
         "level_icon",
         "level",
-        "name",
-        "module",
-        "function",
-        "line",
+        "module_line",
         "message",
     ]
     console_components = ["level_icon", "level", "message"]
@@ -401,11 +387,12 @@ def config_logger() -> None:
         sink=log_file_path,
         format="".join(format_components[component] for component in file_components),
         level="DEBUG",
-        rotation="1 week",
+        rotation="1 hour",
         retention="4 weeks",
         enqueue=True,
         backtrace=True,
         diagnose=True,
+        catch=True,
     )
     log.add(
         sink=sys.stderr,
@@ -415,12 +402,6 @@ def config_logger() -> None:
         level="INFO",
         enqueue=True,
     )
-
-    log.warning("warning")
-    log.info("info")
-    log.debug("debug")
-    log.error("error")
-    log.critical("critical")
 
 
 config_logger()

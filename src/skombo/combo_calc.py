@@ -2,19 +2,20 @@
 """
 
 import functools
-import os
 import re
 from difflib import SequenceMatcher
 from typing import Any
 
 import numpy as np
 import pandas as pd
+from loguru import logger as log
 from numpy import floor
 from pandas import DataFrame, Series
+
 import skombo
 from skombo import CHARS, COLS, COLS_CLASSES
 from skombo.fd_ops import FD, FD_BOT_CSV_MANAGER
-from loguru import logger as log
+
 
 def get_combo_scaling(combo: DataFrame) -> DataFrame:
     combo = combo.reset_index(drop=True)
@@ -164,9 +165,7 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
         move_df = character_moves[in_index]
 
     else:
-        in_alt_names = character_moves[COLS.a_names].apply(
-            lambda move_names: move_name in move_names
-        )
+        character_moves[COLS.a_names].apply(lambda move_names: move_name in move_names)
         # Check if move name is in alt_names
         name_between_re = re.compile(rf"[^\n]?{move_name}[\n$]", re.IGNORECASE)
         in_alt_names = character_moves["alt_names"].str.contains(
@@ -268,7 +267,7 @@ def find_combo_moves(character_moves: DataFrame, combo_moves: Series) -> DataFra
     # character mopves columns plus 'character' and 'move_name'
 
     character: str = str(character_moves.index.get_level_values(0)[0])
-    combo_df = DataFrame(columns=character_moves.columns)
+    DataFrame(columns=character_moves.columns)
 
     # Interpret things such as 5HPx2 as 5hpx1, 5hpx2
     combo_moves = combo_moves.apply(

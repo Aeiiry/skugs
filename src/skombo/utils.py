@@ -4,9 +4,9 @@ from collections.abc import Callable
 from typing import Any
 
 import pandas as pd
+from loguru import logger as log
 
 import skombo
-from loguru import logger as log
 
 
 def extract_blockstop(hitstop: str):
@@ -25,23 +25,25 @@ def split_meter(meter: str) -> tuple[str | None, str | None]:
 
 
 def filter_dict(
-    dict: dict[str, Any], colfilter: str | list[str], filter_values: bool = False
+    dict_to_filter: dict[str, Any],
+    colfilter: str | list[str],
+    filter_values: bool = False,
 ) -> dict[str, Any]:
     """
     Return a dict excluding the keys in the filter param\n
     Retains order so isn't exceptionally fast\n
     filter_values = True will filter values instead, only supports string values\n
     """
-    log.debug(f"Filtering {dict} with {colfilter}")
+    log.debug(f"Filtering {dict_to_filter} with {colfilter}")
     colfilter = list(colfilter) if isinstance(colfilter, str) else colfilter
     if filter_values:
         return {
             k: v
-            for k, v in dict.items()
+            for k, v in dict_to_filter.items()
             if not isinstance(v, str) or v not in colfilter
         }
     else:
-        return {k: v for k, v in dict.items() if k not in colfilter}
+        return {k: v for k, v in dict_to_filter.items() if k not in colfilter}
 
 
 def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
@@ -83,19 +85,19 @@ def expand_x_n(match: re.Match[str]) -> str:
 from timeit import default_timer as timer
 
 
-def timer_func(func: Callable): #type: ignore
+def timer_func(func: Callable):  # type: ignore
     def wrapper(*args, **kwargs):
         t1: float = timer()
         result = func(*args, **kwargs)
         t2: float = timer()
         # Display total time in milliseconds
-        log.debug(f"{func.__name__}() executed in [{(t2 - t1) * 1000:0.4f}] ms")
+        log.trace(f"{func.__name__}() executed in [{(t2 - t1) * 1000:0.4f}] ms")
         return result
 
     return wrapper
 
 
-def for_all_methods(decorator: Callable): #type: ignore
+def for_all_methods(decorator: Callable):  # type: ignore
     def decorate(cls):
         for attr in cls.__dict__:  # there's propably a better way to do this
             if callable(getattr(cls, attr)):

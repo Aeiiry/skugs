@@ -9,6 +9,7 @@ import pytest
 @pytest.fixture(scope="session")
 def profile():
     from skombo import LOG_DIR
+
     profile = cProfile.Profile()
     profile.enable()
     yield profile

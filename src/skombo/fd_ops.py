@@ -6,25 +6,35 @@ from typing import Self
 
 import numpy as np
 import pandas as pd
+from loguru import logger as log
 from pandas import Index
 
 import skombo
 from skombo import CHARS, COLS, COLS_CLASSES
-from skombo.utils import (expand_all_x_n, extract_blockstop, filter_dict,
-                          for_all_methods, format_column_headings, split_meter,
-                          timer_func)
-from loguru import logger as log
+from skombo.utils import (
+    expand_all_x_n,
+    extract_blockstop,
+    filter_dict,
+    for_all_methods,
+    format_column_headings,
+    split_meter,
+    timer_func,
+)
 
+
+@for_all_methods(timer_func)
 class CsvManager:
     """Class to manage CSV files"""
 
     def __init__(self, path: str, file_keys: dict[str, str]) -> None:
+        log.debug(f"Initialising CSV manager for {path}...")
         self.path: str = path
         self.file_keys: dict[str, str] = file_keys
         self.dataframes: dict[str, pd.DataFrame] = {}
         """Raw dataframes from csvs before they are modified"""
         for key in self.file_keys:
             self.dataframes[key] = self.open_csv(key).dropna(axis=0, how="all")
+            log.debug(f"Opened {key} CSV")
 
     def open_csv(self, file_key: str) -> pd.DataFrame:
         """Open a CSV file and return it as a DataFrame"""
@@ -91,6 +101,7 @@ class FrameData(pd.DataFrame):
         cols_minus_index: list[str] = list(
             filter_dict(COLS.__dict__, self.index.names, filter_values=True).values()
         )
+        # noinspection PyMethodFirstArgAssignment
         self = FrameData(data=self, columns=cols_minus_index)  # type:ignore
         self.fillna(np.nan, inplace=True)
         return self
@@ -165,6 +176,7 @@ class FrameData(pd.DataFrame):
         )
         # Expand self to include the new rows
         # Keep FrameData type
+        # noinspection PyMethodFirstArgAssignment
         self = FrameData(pd.concat([self, star_rows]))  # type: ignore
 
         return self
@@ -210,8 +222,8 @@ class FrameData(pd.DataFrame):
     def separate_on_hit(self) -> Self:
         log.debug("Separating on hit...")
         self[COLS.onhit_eff] = self[COLS.onhit].copy()
-        self[COLS.onhit] = self[COLS.onhit].apply( # type: ignore
-            lambda x: x  
+        self[COLS.onhit] = self[COLS.onhit].apply(  # type: ignore
+            lambda x: x
             if (isinstance(x, str) and x.strip("-").isnumeric()) or isinstance(x, int)
             else None
         )
@@ -337,11 +349,9 @@ remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
 
 string_to_nan: list[str] = ["-", ""]
 
-
 FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
 FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
-
 
 log.debug("Cleaning frame data...")
 FD = (
@@ -367,6 +377,5 @@ FD = (
         string_to_nan
     )  # Replace strings with np.nan as specified in string_to_nan
 )
-
 
 # FD.to_csv("fd_cleaned.csv")
