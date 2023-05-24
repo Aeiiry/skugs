@@ -2,9 +2,12 @@
 """
 
 import functools
+import os
+import pathlib
 import re
+from dataclasses import dataclass
 from difflib import SequenceMatcher
-from typing import Any
+from typing import Any, List, Tuple
 
 import numpy as np
 import pandas as pd
@@ -13,8 +16,88 @@ from numpy import floor
 from pandas import DataFrame, Series
 
 import skombo
-from skombo import CHARS, COLS, COLS_CLASSES
+from skombo import CHARS, COLS, COLS_CLASSES, COMBO_INPUT_COLS
 from skombo.fd_ops import FD, FD_BOT_CSV_MANAGER
+from skombo.utils import format_column_headings, re_split
+
+
+class ComboCalculator:
+    def __init__(self, combo_path: str | None = None):
+        self.input_combos = pd.DataFrame(
+            columns=list(COMBO_INPUT_COLS.__dict__.values())
+        )
+        """Raw input combos in dataframe form, each row is a combo"""
+        if combo_path is not None:
+            self.load_combos_from_csv(combo_path)
+            log.info(f"Loaded {len(self.input_combos)} combos from {combo_path}")
+
+    def load_combos_from_csv(self, combo_path: str):
+        """Load combos from a csv"""
+        combo_csv_df = self.combo_csv_to_df(combo_path)
+        if not combo_csv_df.empty:
+            combo_csv_df = self.clean_validate_combo_csv(combo_csv_df)
+            self.add_multiple_combos(combo_csv_df)
+
+    def combo_csv_to_df(self, combo_path: str):
+        """Convert a combo csv to a dataframe"""
+        try:
+            combo_csv_df = pd.read_csv(combo_path)
+        except FileNotFoundError as e:
+            log.error(f"File not found: {e}")
+            combo_csv_df = pd.DataFrame()
+        return combo_csv_df
+
+    def clean_validate_combo_csv(self, combo_csv_df: DataFrame):
+        """Clean and validate a combo csv"""
+
+        combo_csv_df = format_column_headings(combo_csv_df)
+
+        # Remove any empty rows
+        combo_csv_df.dropna(how="all", inplace=True)
+
+        col = COMBO_INPUT_COLS
+        # minimum required columns are team and notation
+        if not all(
+            [
+                col.character in combo_csv_df.columns,
+                col.notation in combo_csv_df.columns,
+            ]
+        ):
+            return pd.DataFrame()
+        combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(col.__dict__.values()))
+
+        # Set some defaults if they're not present
+        defaults = {
+            col.own_team_size: 3,
+            col.opponent_team_size: 3,
+            col.counter_hit: False,
+            col.undizzy: 0,
+            col.meter: np.nan,
+            col.damage: np.nan,
+        }
+        combo_csv_df = combo_csv_df.fillna(defaults)
+
+        # Any rows with no team or character are invalid
+        combo_csv_df = combo_csv_df.dropna(subset=[col.character, col.notation])
+
+        # If there is no name, use the team+damage
+        combo_csv_df[col.name] = combo_csv_df[col.name].fillna(
+            combo_csv_df[col.character] + "_" + combo_csv_df[col.damage].astype(str)
+        )
+
+        return combo_csv_df
+
+    def add_multiple_combos(self, combos: DataFrame | Series):
+        """Add multiple combos to the input_combos dataframe"""
+        if isinstance(combos, Series):
+            combos = combos.to_frame().T
+
+        self.input_combos = pd.concat([self.input_combos, combos], ignore_index=True)
+
+
+class Combo:
+    def __init__(self, input_combo: pd.Series) -> None:
+        self.input_combo = input_combo
 
 
 def get_combo_scaling(combo: DataFrame) -> DataFrame:
@@ -191,42 +274,43 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
     return move_df.iloc[0] if move_df.__len__() > 0 else blank_move
 
 
-def find_move_repeats_follow_ups(moves):
-    moves_new: Series = Series()
-    annie_divekick_count: int = 0
-    xn_re: re.Pattern[str] = re.compile(r"\s?X\s?(\d+)", re.IGNORECASE)
+import re
+import pandas as pd
 
-    for move in moves:
+
+def find_move_repeats_follow_ups(moves: pd.Series) -> pd.Series:
+    xn_re = re.compile(r"\s?X\s?(\d+)", re.IGNORECASE)
+    annie_divekick_count = 0
+
+    def process_move(move: str) -> list[str] | str:
+        nonlocal annie_divekick_count
+
         if xn_match := xn_re.search(move):
             xn = int(xn_match[1])
 
             if moves.name == "ANNIE" and "RE ENTRY" in move.upper():
                 annie_divekick_count += 1
 
-            for i in range(xn):
-                i_offset = i + annie_divekick_count
-                move_name: str = (
-                    move.replace(xn_match[0], f" X{str(i_offset + 1)}")
-                    if i_offset > 0
-                    else move.replace(xn_match[0], "")
-                )
+            move_names = [
+                move.replace(xn_match[0], f" X{str(i_offset + 1)}")
+                if i_offset > 0
+                else move.replace(xn_match[0], "")
+                for i_offset in range(xn + annie_divekick_count)
+            ]
 
-                moves_new = pd.concat([moves_new, Series([move_name])])
+            return move_names
 
         elif followup_match := re.search(r"~", move):
-            followup_split: list[str] = followup_match.string.split("~")
-
-            for i in range(followup_split.__len__()):
-                moves_new = pd.concat(
-                    [moves_new, Series("~".join(followup_split[: i + 1]))]
-                )
+            followup_split = followup_match.string.split("~")
+            followup_moves = [
+                "~".join(followup_split[: i + 1]) for i in range(len(followup_split))
+            ]
+            return followup_moves
 
         else:
-            moves_new = pd.concat([moves_new, Series([move])])
+            return move
 
-    # LOG.debug(moves_new)
-
-    return moves_new
+    return moves.apply(process_move).explode()
 
 
 def character_specific_operations(
@@ -340,7 +424,7 @@ def parse_combos_from_csv(
     combo_dfs: list[DataFrame] = [
         (
             parse_combo_from_string(
-                combos_df[COLS.char][index], combos_df["notation"][index]
+                combos_df["team"][index], combos_df["notation"][index]
             )
         )
         for index in range(len(combos_df.index))
@@ -351,19 +435,10 @@ def parse_combos_from_csv(
     if calc_damage:
         combo_dfs = [naiive_damage_calc(combo) for combo in combo_dfs]
 
-    for i, combo in enumerate(combo_dfs):
-        combo_output_path = os.path.join(
-            skombo.LOG_DIR, f"{combos_df[COLS.char][i]}_{i}.csv"
-        )
-        combo.to_csv(combo_output_path)
+    # for i, combo in enumerate(combo_dfs):
+    # combo_output_path = os.path.join(
+    #     skombo.LOG_DIR, f"{combos_df[COLS.char][i]}_{i}.csv"
+    # )
+    # combo.to_csv(combo_output_path)
 
     return combo_dfs, combos_expected_damage
-
-
-import os
-
-if __name__ == "__main__":
-    test_combo_csv_path = skombo.TEST_COMBO_CSVS[0]
-    combos, combo_damage = parse_combos_from_csv(test_combo_csv_path, calc_damage=True)
-
-    test = flatten_combo_df(combos[7])

@@ -150,6 +150,25 @@ class ColumnClassification:
     ]
 
 
+@dataclass
+class ComboInputColumns:
+    name: str = "name"
+    character: str = "character"
+    assist_1: str = "assist_1"
+    assist_2: str = "assist_2"
+    own_team_size: str = "own_team_size"
+    opponent_team_size: str = "opponent_team_size"
+    notation: str = "notation"
+
+    counter_hit: str = "counter_hit"
+    undizzy: str = "undizzy"
+
+    damage: str = "damage"
+    meter: str = "meter"
+
+
+COMBO_INPUT_COLS = ComboInputColumns()
+
 COLS_CLASSES = ColumnClassification()
 # get the start datetime
 
