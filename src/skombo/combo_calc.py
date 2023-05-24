@@ -2,12 +2,8 @@
 """
 
 import functools
-import os
-import pathlib
-import re
-from dataclasses import dataclass
 from difflib import SequenceMatcher
-from typing import Any, List, Tuple
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -16,16 +12,16 @@ from numpy import floor
 from pandas import DataFrame, Series
 
 import skombo
-from skombo import CHARS, COLS, COLS_CLASSES, COMBO_INPUT_COLS
+from skombo import CHARS, COLS, COLS_CLASSES
+from skombo import COMBO_INPUT_COLS as input_cols
 from skombo.fd_ops import FD, FD_BOT_CSV_MANAGER
-from skombo.utils import format_column_headings, re_split
+from skombo.utils import for_all_methods, format_column_headings, timer_func
 
 
+@for_all_methods(timer_func)
 class ComboCalculator:
     def __init__(self, combo_path: str | None = None):
-        self.input_combos = pd.DataFrame(
-            columns=list(COMBO_INPUT_COLS.__dict__.values())
-        )
+        self.input_combos = pd.DataFrame(columns=list(input_cols.__dict__.values()))
         """Raw input combos in dataframe form, each row is a combo"""
         if combo_path is not None:
             self.load_combos_from_csv(combo_path)
@@ -36,7 +32,7 @@ class ComboCalculator:
         combo_csv_df = self.combo_csv_to_df(combo_path)
         if not combo_csv_df.empty:
             combo_csv_df = self.clean_validate_combo_csv(combo_csv_df)
-            self.add_multiple_combos(combo_csv_df)
+            self.add_combos(combo_csv_df)
 
     def combo_csv_to_df(self, combo_path: str):
         """Convert a combo csv to a dataframe"""
@@ -55,7 +51,7 @@ class ComboCalculator:
         # Remove any empty rows
         combo_csv_df.dropna(how="all", inplace=True)
 
-        col = COMBO_INPUT_COLS
+        col = input_cols
         # minimum required columns are team and notation
         if not all(
             [
@@ -65,7 +61,10 @@ class ComboCalculator:
         ):
             return pd.DataFrame()
         combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(col.__dict__.values()))
-
+        # Cast to the correct types in skombo.COMBO_INPUT_COLS_DTYPES
+        combo_csv_df = combo_csv_df.apply(
+            lambda col: col.astype(skombo.COMBO_INPUT_COLS_DTYPES[col.name]), axis=0
+        )
         # Set some defaults if they're not present
         defaults = {
             col.own_team_size: 3,
@@ -76,6 +75,7 @@ class ComboCalculator:
             col.damage: np.nan,
         }
         combo_csv_df = combo_csv_df.fillna(defaults)
+        combo_csv_df = combo_csv_df.fillna(np.nan)
 
         # Any rows with no team or character are invalid
         combo_csv_df = combo_csv_df.dropna(subset=[col.character, col.notation])
@@ -87,8 +87,8 @@ class ComboCalculator:
 
         return combo_csv_df
 
-    def add_multiple_combos(self, combos: DataFrame | Series):
-        """Add multiple combos to the input_combos dataframe"""
+    def add_combos(self, combos: DataFrame | Series):
+        """Add one (series) or more (dataframe) combos to the calculator"""
         if isinstance(combos, Series):
             combos = combos.to_frame().T
 
@@ -98,6 +98,8 @@ class ComboCalculator:
 class Combo:
     def __init__(self, input_combo: pd.Series) -> None:
         self.input_combo = input_combo
+
+        self.name = input_combo[input_cols.name]
 
 
 def get_combo_scaling(combo: DataFrame) -> DataFrame:
@@ -411,34 +413,4 @@ def flatten_combo_df(combo: DataFrame) -> DataFrame:
     return flat_combo
 
 
-def parse_combos_from_csv(
-    csv_path: str, calc_damage: bool = False
-) -> tuple[list[DataFrame], list[int]]:
-    """Parse combo from csv file, needs to have columns of COLS.char, "notation", COLS.dmg for testing purposes"""
 
-    log.info(f"========== Parsing combos from csv [{csv_path}] ==========")
-
-    combos_df: DataFrame = pd.read_csv(csv_path)
-    log.info(f"Parsing [{len(combos_df.index)}] combos from csv")
-
-    combo_dfs: list[DataFrame] = [
-        (
-            parse_combo_from_string(
-                combos_df["team"][index], combos_df["notation"][index]
-            )
-        )
-        for index in range(len(combos_df.index))
-    ]
-
-    combos_expected_damage: list[int] = combos_df[COLS.dmg].tolist()
-
-    if calc_damage:
-        combo_dfs = [naiive_damage_calc(combo) for combo in combo_dfs]
-
-    # for i, combo in enumerate(combo_dfs):
-    # combo_output_path = os.path.join(
-    #     skombo.LOG_DIR, f"{combos_df[COLS.char][i]}_{i}.csv"
-    # )
-    # combo.to_csv(combo_output_path)
-
-    return combo_dfs, combos_expected_damage

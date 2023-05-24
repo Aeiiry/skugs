@@ -168,6 +168,23 @@ class ComboInputColumns:
 
 
 COMBO_INPUT_COLS = ComboInputColumns()
+C_COLS = COMBO_INPUT_COLS
+
+
+COMBO_INPUT_COLS_DTYPES = {
+    C_COLS.name: "string",
+    C_COLS.character: "string",
+    C_COLS.assist_1: "string",
+    C_COLS.assist_2: "string",
+    C_COLS.own_team_size: "Int8",
+    C_COLS.opponent_team_size: "Int8",
+    C_COLS.notation: "string",
+    C_COLS.counter_hit: "boolean",
+    C_COLS.undizzy: "Int8",
+    C_COLS.damage: "Int16",
+    C_COLS.meter: "Int8",
+}
+
 
 COLS_CLASSES = ColumnClassification()
 # get the start datetime

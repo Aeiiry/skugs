@@ -36,7 +36,7 @@ def split_meter(meter: str) -> tuple[str | None, str | None]:
 
 def filter_dict(
     dict_to_filter: dict[str, Any],
-    colfilter: str | list[str],
+    fil: str | list[str],
     filter_values: bool = False,
 ) -> dict[str, Any]:
     """
@@ -44,16 +44,16 @@ def filter_dict(
     Retains order so isn't exceptionally fast\n
     filter_values = True will filter values instead, only supports string values\n
     """
-    log.debug(f"Filtering {dict_to_filter} with {colfilter}")
-    colfilter = list(colfilter) if isinstance(colfilter, str) else colfilter
+    log.debug(f"Filtering {dict_to_filter} with {fil}")
+    fil = list(fil) if isinstance(fil, str) else fil
     if filter_values:
         return {
             k: v
             for k, v in dict_to_filter.items()
-            if not isinstance(v, str) or v not in colfilter
+            if not isinstance(v, str) or v not in fil
         }
     else:
-        return {k: v for k, v in dict_to_filter.items() if k not in colfilter}
+        return {k: v for k, v in dict_to_filter.items() if k not in fil}
 
 
 def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
@@ -101,7 +101,7 @@ def timer_func(func: Callable):  # type: ignore
         result = func(*args, **kwargs)
         t2: float = timer()
         # Display total time in milliseconds
-        log.trace(f"{func.__name__}() executed in [{(t2 - t1) * 1000:0.4f}] ms")
+        log.debug(f"{func.__name__}() executed in [{(t2 - t1) * 1000:0.4f}] ms")
         return result
 
     return wrapper
