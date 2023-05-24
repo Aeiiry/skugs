@@ -16,7 +16,9 @@ coverage.xml
 stats.prof
 .vs
 src/skullgirls_frame_data_parse.egg-info
-skombo.log
+*.log
 *.prof
 /debug/*
+/src/*/*.csv
 fd_cleaned.csv
+src/skombo/testing.ipynb
