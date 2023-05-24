@@ -1,5 +1,0 @@
-,character,move_name,damage,scaling_effect,scaling_for_hit,scaling_after_modifiers,scaled_damage,summed_damage
-0,ANNIE,2LK,250,,1.0,1.0,250.0,250.0
-1,ANNIE,2MK,575,,1.0,1.0,575.0,825.0
-2,ANNIE,2HK,700,,1.0,1.0,700.0,1525.0
-3,ANNIE,2HK,900,,0.875,0.875,787.0,2312.0
