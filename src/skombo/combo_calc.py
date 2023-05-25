@@ -99,7 +99,9 @@ class ComboCalculator:
 
         # If there is no name, use the team+damage
         combo_csv_df[cols.name] = combo_csv_df[cols.name].fillna(
-            combo_csv_df[cols.character] + "_" + combo_csv_df[cols.expected_damage].astype(str)
+            combo_csv_df[cols.character]
+            + "_"
+            + combo_csv_df[cols.expected_damage].astype(str)
         )
         log.debug(
             f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"  # type: ignore
@@ -170,7 +172,9 @@ def naiive_damage_calc(combo: DataFrame) -> DataFrame:
     no_damage_rows = combo[FD_COLS.dmg] == 0
     # fill all columns but char and move name with nan
 
-    no_damage_df = combo.drop(columns=[FD_COLS.char, FD_COLS.m_name]).loc[no_damage_rows]
+    no_damage_df = combo.drop(columns=[FD_COLS.char, FD_COLS.m_name]).loc[
+        no_damage_rows
+    ]
     no_damage_df.loc[:, :] = np.nan
     combo.loc[no_damage_rows, no_damage_df.columns] = no_damage_df
 
@@ -273,7 +277,9 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
         move_df = character_moves[in_index]
 
     else:
-        character_moves[FD_COLS.a_names].apply(lambda move_names: move_name in move_names)
+        character_moves[FD_COLS.a_names].apply(
+            lambda move_names: move_name in move_names
+        )
         # Check if move name is in alt_names
         name_between_re = re.compile(rf"[^\n]?{move_name}[\n$]", re.IGNORECASE)
         in_alt_names = character_moves["alt_names"].str.contains(

@@ -47,11 +47,13 @@ class FdColumns:
 
 FD_COLS = FdColumns()
 
+
 @dataclass
 class CharCols:
     char = "character"
     short_names = "character_start"
     color = "color"
+
 
 CHAR_COLS = CharCols()
 

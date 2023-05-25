@@ -393,7 +393,7 @@ string_to_nan: list[str] = ["-", ""]
 
 FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
-FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"])
+FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"]) # type: ignore
 
 
 log.debug("Cleaning frame data...")
