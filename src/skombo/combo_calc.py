@@ -2,6 +2,7 @@
 """
 
 import functools
+from dataclasses import dataclass
 from difflib import SequenceMatcher
 from typing import Any
 
@@ -10,17 +11,33 @@ import pandas as pd
 from loguru import logger as log
 from numpy import floor
 from pandas import DataFrame, Series
+from tabulate import tabulate
 
 import skombo
-from skombo import CHARS, COLS, COLS_CLASSES
+from skombo import CHARS, COLS_CLASSES
 from skombo import COMBO_INPUT_COLS as input_cols
+from skombo import FD_COLS
 from skombo.fd_ops import FD, FD_BOT_CSV_MANAGER
 from skombo.utils import for_all_methods, format_column_headings, timer_func
 
 
-@for_all_methods(timer_func)
+@dataclass
+class Combo(skombo.ComboInputColumns):
+    def __init__(self, input_combo: pd.Series | str | pd.DataFrame) -> None:
+        """Combo object, contains all the data for a combo"""
+
+        if isinstance(input_combo, pd.Series):
+            for col in input_cols.__dict__.values():
+                setattr(self, col, input_combo[col])
+
+        # def process_notation(self):
+        """Process the notation column into a dataframe by splitting it into columns and searching the FD for matching moves"""
+
+
+# @for_all_methods(timer_func)
 class ComboCalculator:
     def __init__(self, combo_path: str | None = None):
+        self.combos: list[Combo] = []
         self.input_combos = pd.DataFrame(columns=list(input_cols.__dict__.values()))
         """Raw input combos in dataframe form, each row is a combo"""
         if combo_path is not None:
@@ -51,40 +68,42 @@ class ComboCalculator:
         # Remove any empty rows
         combo_csv_df.dropna(how="all", inplace=True)
 
-        col = input_cols
+        cols = input_cols
         # minimum required columns are team and notation
         if not all(
             [
-                col.character in combo_csv_df.columns,
-                col.notation in combo_csv_df.columns,
+                cols.character in combo_csv_df.columns,
+                cols.notation in combo_csv_df.columns,
             ]
         ):
             return pd.DataFrame()
-        combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(col.__dict__.values()))
+        combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(cols.__dict__.values()))
         # Cast to the correct types in skombo.COMBO_INPUT_COLS_DTYPES
         combo_csv_df = combo_csv_df.apply(
             lambda col: col.astype(skombo.COMBO_INPUT_COLS_DTYPES[col.name]), axis=0
         )
         # Set some defaults if they're not present
         defaults = {
-            col.own_team_size: 3,
-            col.opponent_team_size: 3,
-            col.counter_hit: False,
-            col.undizzy: 0,
-            col.meter: np.nan,
-            col.damage: np.nan,
+            cols.own_team_size: 3,
+            cols.opponent_team_size: 3,
+            cols.counter_hit: False,
+            cols.undizzy: 0,
+            cols.meter: np.nan,
+            cols.expected_damage: np.nan,
         }
         combo_csv_df = combo_csv_df.fillna(defaults)
         combo_csv_df = combo_csv_df.fillna(np.nan)
 
         # Any rows with no team or character are invalid
-        combo_csv_df = combo_csv_df.dropna(subset=[col.character, col.notation])
+        combo_csv_df = combo_csv_df.dropna(subset=[cols.character, cols.notation])
 
         # If there is no name, use the team+damage
-        combo_csv_df[col.name] = combo_csv_df[col.name].fillna(
-            combo_csv_df[col.character] + "_" + combo_csv_df[col.damage].astype(str)
+        combo_csv_df[cols.name] = combo_csv_df[cols.name].fillna(
+            combo_csv_df[cols.character] + "_" + combo_csv_df[cols.expected_damage].astype(str)
         )
-
+        log.debug(
+            f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"  # type: ignore
+        )
         return combo_csv_df
 
     def add_combos(self, combos: DataFrame | Series):
@@ -94,12 +113,16 @@ class ComboCalculator:
 
         self.input_combos = pd.concat([self.input_combos, combos], ignore_index=True)
 
+    def process_combos(self):
+        """Process all combos"""
+        self.combos = np.array(
+            self.input_combos.apply(
+                lambda combo: self.process_combo(combo), axis=1  # type: ignore
+            )
+        )
 
-class Combo:
-    def __init__(self, input_combo: pd.Series) -> None:
-        self.input_combo = input_combo
-
-        self.name = input_combo[input_cols.name]
+    def process_combo(self, combo: Series) -> Combo:
+        return Combo(combo)
 
 
 def get_combo_scaling(combo: DataFrame) -> DataFrame:
@@ -109,21 +132,21 @@ def get_combo_scaling(combo: DataFrame) -> DataFrame:
     min_other = skombo.SCALING_MIN
     start = skombo.SCALING_START
 
-    combo[COLS.hit_scaling] = 0.0
-    combo[COLS.mod_scaling] = 0.0
+    combo[FD_COLS.hit_scaling] = 0.0
+    combo[FD_COLS.mod_scaling] = 0.0
     for i, row in combo.iterrows():
         min_for_hit = min_other
-        if i == 0 or row[COLS.dmg] != 0 and i < 3:  # type: ignore
-            combo.loc[i, COLS.hit_scaling] = start  # type: ignore
-        elif not isinstance(row[COLS.dmg], int) or row[COLS.dmg] == 0:
-            combo.loc[i, COLS.hit_scaling] = combo.loc[i - 1, COLS.hit_scaling]  # type: ignore
+        if i == 0 or row[FD_COLS.dmg] != 0 and i < 3:  # type: ignore
+            combo.loc[i, FD_COLS.hit_scaling] = start  # type: ignore
+        elif not isinstance(row[FD_COLS.dmg], int) or row[FD_COLS.dmg] == 0:
+            combo.loc[i, FD_COLS.hit_scaling] = combo.loc[i - 1, FD_COLS.hit_scaling]  # type: ignore
         else:
-            min_for_hit = min_1k if row[COLS.dmg] >= 1000 else min_other
-            combo.loc[i, COLS.hit_scaling] = max(  # type: ignore
-                combo.loc[i - 1, COLS.hit_scaling] * factor, min_other  # type: ignore
+            min_for_hit = min_1k if row[FD_COLS.dmg] >= 1000 else min_other
+            combo.loc[i, FD_COLS.hit_scaling] = max(  # type: ignore
+                combo.loc[i - 1, FD_COLS.hit_scaling] * factor, min_other  # type: ignore
             )
-        combo.loc[i, COLS.mod_scaling] = max(  # type: ignore
-            min_for_hit, combo.loc[i, COLS.hit_scaling]  # type: ignore
+        combo.loc[i, FD_COLS.mod_scaling] = max(  # type: ignore
+            min_for_hit, combo.loc[i, FD_COLS.hit_scaling]  # type: ignore
         )
 
     return combo
@@ -134,20 +157,20 @@ def naiive_damage_calc(combo: DataFrame) -> DataFrame:
     # if cull_columns:
     #  combo = combo[[COLS.m_name, COLS.dmg]]
     # Replace any non floats with 0
-    combo[COLS.dmg] = combo[COLS.dmg].apply(
+    combo[FD_COLS.dmg] = combo[FD_COLS.dmg].apply(
         lambda x: int(x) if isinstance(x, str) and x.isnumeric() else 0
     )
 
     combo = get_combo_scaling(combo)
     combo["scaled_damage"] = combo.apply(
-        lambda row: floor(row[COLS.dmg] * row[COLS.mod_scaling]), axis=1
+        lambda row: floor(row[FD_COLS.dmg] * row[FD_COLS.mod_scaling]), axis=1
     )
     combo["summed_damage"] = combo.loc[:, "scaled_damage"].cumsum()
     # fill rows with nan if the move does not do damage
-    no_damage_rows = combo[COLS.dmg] == 0
+    no_damage_rows = combo[FD_COLS.dmg] == 0
     # fill all columns but char and move name with nan
 
-    no_damage_df = combo.drop(columns=[COLS.char, COLS.m_name]).loc[no_damage_rows]
+    no_damage_df = combo.drop(columns=[FD_COLS.char, FD_COLS.m_name]).loc[no_damage_rows]
     no_damage_df.loc[:, :] = np.nan
     combo.loc[no_damage_rows, no_damage_df.columns] = no_damage_df
 
@@ -156,14 +179,14 @@ def naiive_damage_calc(combo: DataFrame) -> DataFrame:
 
 def fd_to_combo_df(fd: DataFrame) -> DataFrame:
     # Split damage into individual rows for each hit, damage column contains individual lists of damage for each hit of the move
-    fd = fd.explode(COLS.dmg)
+    fd = fd.explode(FD_COLS.dmg)
     # Pull the character and move name from the mutliindex
-    fd[COLS.char] = fd.index.get_level_values(0)
-    fd[COLS.m_name] = fd.index.get_level_values(1)
+    fd[FD_COLS.char] = fd.index.get_level_values(0)
+    fd[FD_COLS.m_name] = fd.index.get_level_values(1)
     # Drop the multiindex
     fd = fd.reset_index(drop=True)
     # Assume a move that is the row before the move name "kara" is a kara cancel and does not do damage
-    fd.loc[fd[COLS.m_name].shift(-1) == "KARA", "damage"] = 0
+    fd.loc[fd[FD_COLS.m_name].shift(-1) == "KARA", "damage"] = 0
 
     return DataFrame(data=fd, columns=COLS_CLASSES.COMBO_COLS)
 
@@ -250,7 +273,7 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
         move_df = character_moves[in_index]
 
     else:
-        character_moves[COLS.a_names].apply(lambda move_names: move_name in move_names)
+        character_moves[FD_COLS.a_names].apply(lambda move_names: move_name in move_names)
         # Check if move name is in alt_names
         name_between_re = re.compile(rf"[^\n]?{move_name}[\n$]", re.IGNORECASE)
         in_alt_names = character_moves["alt_names"].str.contains(
@@ -277,6 +300,7 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
 
 
 import re
+
 import pandas as pd
 
 
@@ -388,23 +412,23 @@ def flatten_combo_df(combo: DataFrame) -> DataFrame:
     flat_combo = combo.copy()
     # find each time a move changes, assign a new move number to each move
     flat_combo["move_id"] = (
-        flat_combo[COLS.m_name].ne(flat_combo[COLS.m_name].shift()).cumsum() - 1
+        flat_combo[FD_COLS.m_name].ne(flat_combo[FD_COLS.m_name].shift()).cumsum() - 1
     )
     flat_combo = flat_combo.groupby(
-        ["move_id", COLS.m_name, COLS.char], as_index=False
+        ["move_id", FD_COLS.m_name, FD_COLS.char], as_index=False
     ).agg(
         {
-            COLS.dmg: lambda x: list(x) if any(pd.notna(x)) else np.nan,
+            FD_COLS.dmg: lambda x: list(x) if any(pd.notna(x)) else np.nan,
             "scaled_damage": lambda x: sum(x) if any(pd.notna(x)) else np.nan,
             # max and min for the first and last hit of the move
-            COLS.hit_scaling: lambda x: x.iloc[0],
-            COLS.mod_scaling: lambda x: x.iloc[0],
+            FD_COLS.hit_scaling: lambda x: x.iloc[0],
+            FD_COLS.mod_scaling: lambda x: x.iloc[0],
             "summed_damage": max,
         }
     )
     # Get the number of hits for each move
     # Damage is a list of damage values for each hit of the move
-    dmg_col = flat_combo[COLS.dmg]
+    dmg_col = flat_combo[FD_COLS.dmg]
     dmg_list_lens = dmg_col[
         dmg_col.apply(lambda x: isinstance(x, list) and (x.__len__() > 1 or x[0] != 0))
     ].apply(len)

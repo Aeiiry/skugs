@@ -13,7 +13,7 @@ START_TIME = datetime.datetime.now()
 
 
 @dataclass
-class Columns:
+class FdColumns:
     char: str = "character"
     m_name: str = "move_name"
     a_names: str = "alt_names"
@@ -45,106 +45,114 @@ class Columns:
     mod_scaling: str = "scaling_after_modifiers"
 
 
-COLS = Columns()
+FD_COLS = FdColumns()
+
+@dataclass
+class CharCols:
+    char = "character"
+    short_names = "character_start"
+    color = "color"
+
+CHAR_COLS = CharCols()
 
 COL_TYPES: dict[str, str | tuple[str, str]] = {
-    COLS.char: "str",
-    COLS.m_name: "str",
-    COLS.a_names: ("list", "str"),
-    COLS.guard: ("list", "str"),
-    COLS.props: ("list", "str"),
-    COLS.dmg: ("list", "int"),
-    COLS.scaling: ("dict", "int"),
-    COLS.chip: ("list", "int"),
-    COLS.meter: ("list", "int"),
-    COLS.meter_whiff: ("list", "int"),
-    COLS.onhit: "int",
-    COLS.onhit_eff: "str",
-    COLS.onblock: "int",
-    COLS.startup: ("list", "int"),
-    COLS.active: ("list", "int"),
-    COLS.recovery: ("list", "int"),
-    COLS.hitstun: ("list", "int"),
-    COLS.blockstun: ("list", "int"),
-    COLS.hitstop: ("list", "int"),
-    COLS.blockstop: ("list", "int"),
-    COLS.super_hitstop: "int",
-    COLS.onpb: ("list", "int"),
-    COLS.footer: "str",
-    COLS.thumb_url: "str",
-    COLS.footer_url: "str",
-    COLS.move_cat: "str",
-    COLS.undizzy: "int",
+    FD_COLS.char: "str",
+    FD_COLS.m_name: "str",
+    FD_COLS.a_names: ("list", "str"),
+    FD_COLS.guard: ("list", "str"),
+    FD_COLS.props: ("list", "str"),
+    FD_COLS.dmg: ("list", "int"),
+    FD_COLS.scaling: ("dict", "int"),
+    FD_COLS.chip: ("list", "int"),
+    FD_COLS.meter: ("list", "int"),
+    FD_COLS.meter_whiff: ("list", "int"),
+    FD_COLS.onhit: "int",
+    FD_COLS.onhit_eff: "str",
+    FD_COLS.onblock: "int",
+    FD_COLS.startup: ("list", "int"),
+    FD_COLS.active: ("list", "int"),
+    FD_COLS.recovery: ("list", "int"),
+    FD_COLS.hitstun: ("list", "int"),
+    FD_COLS.blockstun: ("list", "int"),
+    FD_COLS.hitstop: ("list", "int"),
+    FD_COLS.blockstop: ("list", "int"),
+    FD_COLS.super_hitstop: "int",
+    FD_COLS.onpb: ("list", "int"),
+    FD_COLS.footer: "str",
+    FD_COLS.thumb_url: "str",
+    FD_COLS.footer_url: "str",
+    FD_COLS.move_cat: "str",
+    FD_COLS.undizzy: "int",
 }
 
 
 @dataclass
 class ColumnClassification:
     REMOVE_NEWLINE_COLS = [
-        COLS.guard,
-        COLS.props,
-        COLS.dmg,
-        COLS.meter,
-        COLS.onhit,
-        COLS.onblock,
-        COLS.startup,
-        COLS.active,
-        COLS.recovery,
-        COLS.hitstun,
-        COLS.hitstop,
-        COLS.onpb,
-        COLS.footer,
+        FD_COLS.guard,
+        FD_COLS.props,
+        FD_COLS.dmg,
+        FD_COLS.meter,
+        FD_COLS.onhit,
+        FD_COLS.onblock,
+        FD_COLS.startup,
+        FD_COLS.active,
+        FD_COLS.recovery,
+        FD_COLS.hitstun,
+        FD_COLS.hitstop,
+        FD_COLS.onpb,
+        FD_COLS.footer,
     ]
 
     PLUS_MINUS_COLS = [
-        COLS.onhit,
-        COLS.onblock,
-        COLS.startup,
-        COLS.active,
-        COLS.hitstun,
-        COLS.onpb,
+        FD_COLS.onhit,
+        FD_COLS.onblock,
+        FD_COLS.startup,
+        FD_COLS.active,
+        FD_COLS.hitstun,
+        FD_COLS.onpb,
     ]
 
     NUMERIC_COLUMNS = [
-        COLS.onhit,
-        COLS.onblock,
-        COLS.onpb,
+        FD_COLS.onhit,
+        FD_COLS.onblock,
+        FD_COLS.onpb,
     ]
 
     LIST_COLUMNS = [
-        COLS.dmg,
-        COLS.chip,
-        COLS.active,
-        COLS.hitstun,
-        COLS.blockstun,
-        COLS.hitstop,
-        COLS.blockstop,
-        COLS.super_hitstop,
-        COLS.undizzy,
-        COLS.startup,
-        COLS.recovery,
-        COLS.meter,
-        COLS.meter_whiff,
-        COLS.props,
-        COLS.guard,
+        FD_COLS.dmg,
+        FD_COLS.chip,
+        FD_COLS.active,
+        FD_COLS.hitstun,
+        FD_COLS.blockstun,
+        FD_COLS.hitstop,
+        FD_COLS.blockstop,
+        FD_COLS.super_hitstop,
+        FD_COLS.undizzy,
+        FD_COLS.startup,
+        FD_COLS.recovery,
+        FD_COLS.meter,
+        FD_COLS.meter_whiff,
+        FD_COLS.props,
+        FD_COLS.guard,
     ]
 
     XN_COLS = [
-        COLS.dmg,
-        COLS.hitstun,
-        COLS.blockstun,
-        COLS.hitstop,
-        COLS.meter,
-        COLS.active,
+        FD_COLS.dmg,
+        FD_COLS.hitstun,
+        FD_COLS.blockstun,
+        FD_COLS.hitstop,
+        FD_COLS.meter,
+        FD_COLS.active,
     ]
 
     COMBO_COLS = [
-        COLS.char,
-        COLS.m_name,
-        COLS.dmg,
-        COLS.scaling,
-        COLS.hit_scaling,
-        COLS.mod_scaling,
+        FD_COLS.char,
+        FD_COLS.m_name,
+        FD_COLS.dmg,
+        FD_COLS.scaling,
+        FD_COLS.hit_scaling,
+        FD_COLS.mod_scaling,
         "scaled_damage",
         "summed_damage",
     ]
@@ -163,7 +171,7 @@ class ComboInputColumns:
     counter_hit: str = "counter_hit"
     undizzy: str = "undizzy"
 
-    damage: str = "damage"
+    expected_damage: str = "expected_damage"
     meter: str = "meter"
 
 
@@ -181,7 +189,7 @@ COMBO_INPUT_COLS_DTYPES = {
     C_COLS.notation: "string",
     C_COLS.counter_hit: "boolean",
     C_COLS.undizzy: "Int8",
-    C_COLS.damage: "Int16",
+    C_COLS.expected_damage: "Int16",
     C_COLS.meter: "Int8",
 }
 

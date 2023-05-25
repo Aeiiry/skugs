@@ -2,6 +2,7 @@
 import fnmatch
 import os
 import re
+from dataclasses import dataclass, field
 from typing import Self
 
 import numpy as np
@@ -10,7 +11,7 @@ from loguru import logger as log
 from pandas import Index
 
 import skombo
-from skombo import CHARS, COLS, COLS_CLASSES
+from skombo import CHAR_COLS, CHARS, COLS_CLASSES, FD_COLS
 from skombo.utils import (
     expand_all_x_n,
     extract_blockstop,
@@ -85,9 +86,13 @@ class FrameData(pd.DataFrame):
     def re_index(self) -> Self:
         log.debug("Re-indexing frame data...")
 
-        self[COLS.m_name] = self[COLS.m_name].str.strip().replace(r"\n", "", regex=True)
-        self.set_index([COLS.char, COLS.m_name], verify_integrity=True, inplace=True)
-        self.index.names = [COLS.char, COLS.m_name]
+        self[FD_COLS.m_name] = (
+            self[FD_COLS.m_name].str.strip().replace(r"\n", "", regex=True)
+        )
+        self.set_index(
+            [FD_COLS.char, FD_COLS.m_name], verify_integrity=True, inplace=True
+        )
+        self.index.names = [FD_COLS.char, FD_COLS.m_name]
         log.debug(f"Frame data re-indexed, new index: {self.index.names}")
         return self
 
@@ -99,7 +104,7 @@ class FrameData(pd.DataFrame):
         self.rename(columns=rename_cols, inplace=True)
 
         cols_minus_index: list[str] = list(
-            filter_dict(COLS.__dict__, self.index.names, filter_values=True).values()
+            filter_dict(FD_COLS.__dict__, self.index.names, filter_values=True).values()
         )
         # noinspection PyMethodFirstArgAssignment
         self = FrameData(data=self, columns=cols_minus_index)  # type:ignore
@@ -142,24 +147,29 @@ class FrameData(pd.DataFrame):
 
     def separate_annie_stars(self) -> Self:
         log.debug("Separating Annie stars...")
-        star_rows = self.loc[(CHARS.AN, slice(None)), [COLS.dmg, COLS.onblock]]
+        star_rows = self.loc[(CHARS.AN, slice(None)), [FD_COLS.dmg, FD_COLS.onblock]]
 
         star_rows = star_rows[
-            (star_rows[COLS.dmg].notna() & star_rows[COLS.dmg].str.contains(r"\["))
+            (
+                star_rows[FD_COLS.dmg].notna()
+                & star_rows[FD_COLS.dmg].str.contains(r"\[")
+            )
             | (
-                star_rows[COLS.onblock].notna()
-                & star_rows[COLS.onblock].str.contains(r"\[")
+                star_rows[FD_COLS.onblock].notna()
+                & star_rows[FD_COLS.onblock].str.contains(r"\[")
             )
         ]
 
         orig_rows: pd.DataFrame = star_rows.copy()
 
-        for col in [COLS.dmg, COLS.onblock]:
+        for col in [FD_COLS.dmg, FD_COLS.onblock]:
             orig_rows[col] = orig_rows[col].str.replace(r"\[.*\]", "", regex=True)
 
-        star_rows[COLS.dmg] = star_rows[COLS.dmg].str.replace(r"\[|\]", "", regex=True)
+        star_rows[FD_COLS.dmg] = star_rows[FD_COLS.dmg].str.replace(
+            r"\[|\]", "", regex=True
+        )
 
-        star_rows[COLS.onblock] = star_rows[COLS.onblock].str.extract(
+        star_rows[FD_COLS.onblock] = star_rows[FD_COLS.onblock].str.extract(
             r"\[(.*)\]", expand=False
         )
 
@@ -184,11 +194,11 @@ class FrameData(pd.DataFrame):
     def separate_damage_chip_damage(self) -> Self:
         log.debug("Separating damage and chip damage...")
         # Extract values in parentheses from damage column and put them in chip_damage column
-        self[COLS.chip] = self[COLS.dmg].str.extract(r"\((.*)\)")[0]
-        self[COLS.dmg] = self[COLS.dmg].str.replace(r"\(.*\)", "", regex=True)
+        self[FD_COLS.chip] = self[FD_COLS.dmg].str.extract(r"\((.*)\)")[0]
+        self[FD_COLS.dmg] = self[FD_COLS.dmg].str.replace(r"\(.*\)", "", regex=True)
 
         # Clean up damage and chip_damage columns
-        for col in [COLS.dmg, COLS.chip]:
+        for col in [FD_COLS.dmg, FD_COLS.chip]:
             self[col] = (
                 self[col]
                 .str.strip()
@@ -200,13 +210,13 @@ class FrameData(pd.DataFrame):
     def separate_meter(self) -> Self:
         log.debug("Separating meter...")
         # Get the meter column from the dataframe
-        meter_col = self[COLS.meter]
+        meter_col = self[FD_COLS.meter]
 
         # Apply the split_meter function to each value in the meter column and store the results in separate lists
         on_hit, on_whiff = zip(*meter_col.apply(split_meter))
 
         # Update the dataframe with the new columns and return the updated dataframe
-        self[COLS.meter], self[COLS.meter_whiff] = on_hit, on_whiff
+        self[FD_COLS.meter], self[FD_COLS.meter_whiff] = on_hit, on_whiff
         return self
 
     def split_cols_on_comma(self, cols: list[str]) -> Self:
@@ -221,14 +231,14 @@ class FrameData(pd.DataFrame):
 
     def separate_on_hit(self) -> Self:
         log.debug("Separating on hit...")
-        self[COLS.onhit_eff] = self[COLS.onhit].copy()
-        self[COLS.onhit] = self[COLS.onhit].apply(  # type: ignore
+        self[FD_COLS.onhit_eff] = self[FD_COLS.onhit].copy()
+        self[FD_COLS.onhit] = self[FD_COLS.onhit].apply(  # type: ignore
             lambda x: x
             if (isinstance(x, str) and x.strip("-").isnumeric()) or isinstance(x, int)
             else None
         )
 
-        self[COLS.onhit_eff] = self[COLS.onhit_eff].apply(
+        self[FD_COLS.onhit_eff] = self[FD_COLS.onhit_eff].apply(
             lambda x: x if isinstance(x, str) and not x.strip("-").isnumeric() else np.NaN  # type: ignore
         )
         return self
@@ -236,7 +246,7 @@ class FrameData(pd.DataFrame):
     def categorise_moves(self) -> Self:
         log.debug("Categorising moves...")
         universal_move_categories: dict[str, str] = skombo.UNIVERSAL_MOVE_CATEGORIES
-        self[COLS.move_cat] = self.index.get_level_values(1).map(
+        self[FD_COLS.move_cat] = self.index.get_level_values(1).map(
             universal_move_categories
         )
 
@@ -251,7 +261,7 @@ class FrameData(pd.DataFrame):
             lambda x: isinstance(x, str) and re_normal_move.search(x) is not None
         )
         # Assign the move_category to the strength of the move
-        self.loc[mask, COLS.move_cat] = (  # type: ignore
+        self.loc[mask, FD_COLS.move_cat] = (  # type: ignore
             self.loc[mask]
             .index.get_level_values(1)
             .map(lambda x: normal_strengths[re_normal_move.search(x).group(1)] + "_NORMAL")  # type: ignore
@@ -259,38 +269,40 @@ class FrameData(pd.DataFrame):
 
         # Supers are where meter_on_hit has length 1 and meter_on_hit[0] is  -100 or less
         self.loc[
-            self.astype(str)[COLS.meter].str.contains(r"-\d\d", regex=True, na=False)
-            & self[COLS.move_cat].isna(),
-            COLS.move_cat,
+            self.astype(str)[FD_COLS.meter].str.contains(r"-\d\d", regex=True, na=False)
+            & self[FD_COLS.move_cat].isna(),
+            FD_COLS.move_cat,
         ] = "SUPER"
         # For now, assume everything else is a special
         # TODO: Add more special move categories for things like double's level 5 projectiles, annie taunt riposte etc
 
-        self.loc[self[COLS.move_cat].isna(), COLS.move_cat] = "SPECIAL_MOVE"
+        self.loc[self[FD_COLS.move_cat].isna(), FD_COLS.move_cat] = "SPECIAL_MOVE"
         return self
 
     def add_undizzy_values(self) -> Self:
         log.debug("Adding undizzy values...")
-        self[COLS.undizzy] = self[COLS.move_cat].map(skombo.UNDIZZY_DICT)
+        self[FD_COLS.undizzy] = self[FD_COLS.move_cat].map(skombo.UNDIZZY_DICT)
         return self
 
     def split_on_pushblock(self) -> Self:
         log.debug("Splitting on pushblock...")
-        self[COLS.onpb] = self[COLS.onpb].str.split(" to ")
+        self[FD_COLS.onpb] = self[FD_COLS.onpb].str.split(" to ")
         return self
 
     # todo finish this with no scaling, scaling notes and whatever else
     def extract_damage_scaling(self) -> Self:
         replacement_refs = {}
         scaling_rows = self.loc[
-            self[COLS.props].str.contains("scaling", flags=re.IGNORECASE).fillna(False)
+            self[FD_COLS.props]
+            .str.contains("scaling", flags=re.IGNORECASE)
+            .fillna(False)
         ]
         # Regex patterns for finding the scaling values in the props column
         forced_scaling_re = re.compile(r"(\d+)%\s?damage scaling", flags=re.IGNORECASE)
         min_scaling_re = re.compile(r"(\d+)%\s?min\.?\s? scaling", flags=re.IGNORECASE)
 
         for idx, row in scaling_rows.iterrows():
-            props = row[COLS.props]
+            props = row[FD_COLS.props]
             # Search for forced scaling and min scaling in the props column
             forced_scaling = forced_scaling_re.search(props)
             min_scaling = min_scaling_re.search(props)
@@ -303,7 +315,7 @@ class FrameData(pd.DataFrame):
 
             replacement_refs[idx] = scaling_dict
         # Update the DataFrame all at once instead of iterating through it
-        self.loc[scaling_rows.index, COLS.scaling] = pd.Series(data=replacement_refs)
+        self.loc[scaling_rows.index, FD_COLS.scaling] = pd.Series(data=replacement_refs)
 
         return self
 
@@ -313,45 +325,76 @@ class FrameData(pd.DataFrame):
 
         # Make a mask of the rows that have a blockstop value
         block_mask: pd.Series[bool] = (
-            self[COLS.hitstop].str.contains("on block").fillna(False)
+            self[FD_COLS.hitstop].str.contains("on block").fillna(False)
         )
 
-        block_rows: pd.DataFrame = self.loc[block_mask, [COLS.hitstop, COLS.blockstop]]
+        block_rows: pd.DataFrame = self.loc[
+            block_mask, [FD_COLS.hitstop, FD_COLS.blockstop]
+        ]
 
         for i, row in block_rows.iterrows():
             # Extract the blockstop value from the hitstop column, returns a re match object
-            ext_block = extract_blockstop(row[COLS.hitstop])
+            ext_block = extract_blockstop(row[FD_COLS.hitstop])
             if ext_block is not None:
                 # TLDR: blockstop = value before "on block", hitstop has the parenthesised substring removed
                 blockstop, hitstop = (
                     ext_block[1].strip(),
-                    row[COLS.hitstop].replace(ext_block[0].strip(), "").strip(),
+                    row[FD_COLS.hitstop].replace(ext_block[0].strip(), "").strip(),
                 )
-                block_rows.at[i, COLS.blockstop], block_rows.at[i, COLS.hitstop] = (
+                (
+                    block_rows.at[i, FD_COLS.blockstop],
+                    block_rows.at[i, FD_COLS.hitstop],
+                ) = (
                     blockstop,
                     hitstop,
                 )
 
-        self.loc[block_mask, [COLS.hitstop, COLS.blockstop]] = block_rows
+        self.loc[block_mask, [FD_COLS.hitstop, FD_COLS.blockstop]] = block_rows
         return self
 
 
+class Character:
+    """Class for an individual character. Containing identifying attributes alongside fast ways to search their move-lists"""
+
+    def __init__(self, input_series: pd.Series, character_moves: pd.DataFrame):
+        self.name = input_series[CHAR_COLS.char]
+        self.short_names: list[str] = input_series[CHAR_COLS.short_names].split("\n")
+        self.color = input_series[CHAR_COLS.color]
+        # We can remove the first index of the multi-index as it is the character name
+        self.moves = character_moves.droplevel(0)
+
+
+class CharacterManager:
+    """Class for managing the characters"""
+
+    def __init__(self, input_df: pd.DataFrame, frame_data: FrameData):
+        for _, character_series in input_df.iterrows():
+            # character is the first index of the multi-index
+            character = character_series[CHAR_COLS.char]
+            character_moves = frame_data.loc[
+                frame_data.index.get_level_values(0) == character
+            ]
+
+            setattr(self, character, Character(character_series, character_moves))
+
+
 cols_to_rename: dict[str, str] = {
-    "on_block": COLS.onblock,
-    "meter": COLS.meter,
-    "on_hit": COLS.onhit,
+    "on_block": FD_COLS.onblock,
+    "meter": FD_COLS.meter,
+    "on_hit": FD_COLS.onhit,
 }
 remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
     ("\n", COLS_CLASSES.REMOVE_NEWLINE_COLS),
     (["+", "±"], COLS_CLASSES.PLUS_MINUS_COLS),
-    ("%", COLS.meter),
+    ("%", FD_COLS.meter),
 ]
 
 string_to_nan: list[str] = ["-", ""]
 
 FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
-FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
+FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"])
+
 
 log.debug("Cleaning frame data...")
 FD = (
@@ -379,3 +422,4 @@ FD = (
 )
 
 # FD.to_csv("fd_cleaned.csv")
+CHARACTER_MANAGER = CharacterManager(FD_BOT_CSV_MANAGER.dataframes["characters"], FD)
