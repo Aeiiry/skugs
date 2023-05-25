@@ -22,4 +22,3 @@ src/skullgirls_frame_data_parse.egg-info
 /src/*/*.csv
 /src/*/*/*.csv
 fd_cleaned.csv
-src/skombo/testing.ipynb
