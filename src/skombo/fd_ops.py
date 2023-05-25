@@ -1,8 +1,8 @@
 """Main module for frame data operations."""
 import fnmatch
+import functools
 import os
 import re
-from dataclasses import dataclass, field
 from typing import Self
 
 import numpy as np
@@ -16,14 +16,11 @@ from skombo.utils import (
     expand_all_x_n,
     extract_blockstop,
     filter_dict,
-    for_all_methods,
     format_column_headings,
     split_meter,
-    timer_func,
 )
 
 
-@for_all_methods(timer_func)
 class CsvManager:
     """Class to manage CSV files"""
 
@@ -76,7 +73,6 @@ class FdBotCsvManager(CsvManager):
         super().__init__(path, self.file_keys)
 
 
-@for_all_methods(timer_func)
 class FrameData(pd.DataFrame):
     """DataFrame subclass for frame data"""
 
@@ -97,8 +93,8 @@ class FrameData(pd.DataFrame):
         return self
 
     def rename_cols(
-        self,
-        rename_cols: dict[str, str],
+            self,
+            rename_cols: dict[str, str],
     ) -> Self:  # sourcery skip: default-mutable-arg, lambdas-should-be-short
         log.debug(f"Renaming columns: {rename_cols} ...")
         self.rename(columns=rename_cols, inplace=True)
@@ -107,12 +103,12 @@ class FrameData(pd.DataFrame):
             filter_dict(FD_COLS.__dict__, self.index.names, filter_values=True).values()
         )
         # noinspection PyMethodFirstArgAssignment
-        self = FrameData(data=self, columns=cols_minus_index)  # type:ignore
+        self = FrameData(data=self, columns=cols_minus_index)
         self.fillna(np.nan, inplace=True)
-        return self
+        return self  # type: ignore
 
     def remove_chars_from_cols(
-        self, chars: str | list[str], cols: str | list[str]
+            self, chars: str | list[str], cols: str | list[str]
     ) -> Self:
         log.debug(f"Removing {chars.__repr__()} from {cols}...")
         for col in cols if isinstance(cols, list) else [cols]:
@@ -121,7 +117,7 @@ class FrameData(pd.DataFrame):
         return self
 
     def bulk_remove_chars_from_cols(
-        self, chars_cols: list[tuple[str | list[str], str | list[str]]]
+            self, chars_cols: list[tuple[str | list[str], str | list[str]]]
     ) -> Self:
         for chars, cols in chars_cols:
             self.remove_chars_from_cols(chars, cols)
@@ -151,14 +147,14 @@ class FrameData(pd.DataFrame):
 
         star_rows = star_rows[
             (
-                star_rows[FD_COLS.dmg].notna()
-                & star_rows[FD_COLS.dmg].str.contains(r"\[")
+                    star_rows[FD_COLS.dmg].notna()
+                    & star_rows[FD_COLS.dmg].str.contains(r"\[")
             )
             | (
-                star_rows[FD_COLS.onblock].notna()
-                & star_rows[FD_COLS.onblock].str.contains(r"\[")
+                    star_rows[FD_COLS.onblock].notna()
+                    & star_rows[FD_COLS.onblock].str.contains(r"\[")
             )
-        ]
+            ]
 
         orig_rows: pd.DataFrame = star_rows.copy()
 
@@ -189,7 +185,7 @@ class FrameData(pd.DataFrame):
         # noinspection PyMethodFirstArgAssignment
         self = FrameData(pd.concat([self, star_rows]))  # type: ignore
 
-        return self
+        return self  # type: ignore
 
     def separate_damage_chip_damage(self) -> Self:
         log.debug("Separating damage and chip damage...")
@@ -352,6 +348,32 @@ class FrameData(pd.DataFrame):
         self.loc[block_mask, [FD_COLS.hitstop, FD_COLS.blockstop]] = block_rows
         return self
 
+    def clean_fd(self) -> Self:
+        self = (
+            self.re_index()  # Reindex the dataframe to have character and move_name as the index
+            .rename_cols(
+                rename_cols=cols_to_rename
+            )  # Rename columns as specified in cols_to_rename
+            .bulk_remove_chars_from_cols(
+                remove_chars_from_cols
+            )  # Remove characters from columns as specified in remove_chars_from_cols
+            .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
+            .separate_annie_stars()  # Separate Annie's star power moves into separate rows
+            .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
+            .separate_meter()  # Separate meter into on_hit and on_whiff
+            .separate_on_hit()  # Separate on_hit and on_hit_eff
+            .categorise_moves()  # Categorise moves
+            .add_undizzy_values()  # Add undizzy values
+            .split_on_pushblock()  # Split on_pushblock into lists
+            .separate_hitstop_blockstop()  # Separate hitstop and blockstop
+            .extract_damage_scaling()
+            .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
+            .strings_to_nan(
+                string_to_nan
+            )  # Replace strings with np.nan as specified in string_to_nan
+        )
+        return self
+
 
 class Character:
     """Class for an individual character. Containing identifying attributes alongside fast ways to search their move-lists"""
@@ -373,7 +395,7 @@ class CharacterManager:
             character = character_series[CHAR_COLS.char]
             character_moves = frame_data.loc[
                 frame_data.index.get_level_values(0) == character
-            ]
+                ]
 
             setattr(self, character, Character(character_series, character_moves))
 
@@ -391,35 +413,23 @@ remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
 
 string_to_nan: list[str] = ["-", ""]
 
-FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
-FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"]) # type: ignore
+@functools.cache
+def get_fd_bot_csv_manager() -> FdBotCsvManager:
+    """Get the FDBotCSVManager instance"""
+    return FdBotCsvManager()
 
 
-log.debug("Cleaning frame data...")
-FD = (
-    FD.re_index()  # Reindex the dataframe to have character and move_name as the index
-    .rename_cols(
-        rename_cols=cols_to_rename
-    )  # Rename columns as specified in cols_to_rename
-    .bulk_remove_chars_from_cols(
-        remove_chars_from_cols
-    )  # Remove characters from columns as specified in remove_chars_from_cols
-    .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
-    .separate_annie_stars()  # Separate Annie's star power moves into separate rows
-    .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
-    .separate_meter()  # Separate meter into on_hit and on_whiff
-    .separate_on_hit()  # Separate on_hit and on_hit_eff
-    .categorise_moves()  # Categorise moves
-    .add_undizzy_values()  # Add undizzy values
-    .split_on_pushblock()  # Split on_pushblock into lists
-    .separate_hitstop_blockstop()  # Separate hitstop and blockstop
-    .extract_damage_scaling()
-    .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
-    .strings_to_nan(
-        string_to_nan
-    )  # Replace strings with np.nan as specified in string_to_nan
-)
+@functools.cache
+def get_fd_bot_frame_data() -> FrameData:
+    """Get the FrameData instance"""
+    return FrameData(get_fd_bot_csv_manager().dataframes["frame_data"])  # type: ignore
 
-# FD.to_csv("fd_cleaned.csv")
-CHARACTER_MANAGER = CharacterManager(FD_BOT_CSV_MANAGER.dataframes["characters"], FD)
+
+@functools.cache
+def get_fd_bot_character_manager() -> CharacterManager:
+    """Get the CharacterManager instance"""
+    return CharacterManager(
+        get_fd_bot_csv_manager().dataframes["characters"],
+        get_fd_bot_frame_data().clean_fd(),
+    )

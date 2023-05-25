@@ -17,8 +17,11 @@ import skombo
 from skombo import CHARS, COLS_CLASSES
 from skombo import COMBO_INPUT_COLS as input_cols
 from skombo import FD_COLS
-from skombo.fd_ops import FD, FD_BOT_CSV_MANAGER
-from skombo.utils import for_all_methods, format_column_headings, timer_func
+from skombo.fd_ops import (
+    get_fd_bot_csv_manager,
+    get_fd_bot_frame_data,
+)
+from skombo.utils import format_column_headings
 
 
 @dataclass
@@ -71,15 +74,15 @@ class ComboCalculator:
         cols = input_cols
         # minimum required columns are team and notation
         if not all(
-            [
-                cols.character in combo_csv_df.columns,
-                cols.notation in combo_csv_df.columns,
-            ]
+                [
+                    cols.character in combo_csv_df.columns,
+                    cols.notation in combo_csv_df.columns,
+                ]
         ):
             return pd.DataFrame()
         combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(cols.__dict__.values()))
         # Cast to the correct types in skombo.COMBO_INPUT_COLS_DTYPES
-        combo_csv_df = combo_csv_df.apply(
+        combo_csv_df = combo_csv_df.apply(  # type: ignore
             lambda col: col.astype(skombo.COMBO_INPUT_COLS_DTYPES[col.name]), axis=0
         )
         # Set some defaults if they're not present
@@ -104,7 +107,8 @@ class ComboCalculator:
             + combo_csv_df[cols.expected_damage].astype(str)
         )
         log.debug(
-            f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"  # type: ignore
+            f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"
+            # type: ignore
         )
         return combo_csv_df
 
@@ -259,7 +263,7 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
     Returns:
         pandas. Series of ( character move
     """
-    ALIAS_DF = FD_BOT_CSV_MANAGER.dataframes["aliases"]
+    ALIAS_DF = get_fd_bot_csv_manager().dataframes["aliases"]
     move_name = move_name.upper()
     character = str(character_moves.index.get_level_values(0)[0])
 
@@ -346,14 +350,14 @@ def find_move_repeats_follow_ups(moves: pd.Series) -> pd.Series:
 
 
 def character_specific_operations(
-    character: str, combo_df: DataFrame, character_fd: DataFrame
+        character: str, combo_df: DataFrame, character_fd: DataFrame
 ) -> DataFrame:
     if character == "ANNIE":
         annie_divekick = "RE ENTRY"
         if (
-            divekick_index := Series(
-                combo_df.index.get_level_values(1).str.contains(annie_divekick)
-            )
+                divekick_index := Series(
+                    combo_df.index.get_level_values(1).str.contains(annie_divekick)
+                )
         ).any():
             # Remove all but "True" from divekick_index
 
@@ -404,9 +408,10 @@ def find_combo_moves(character_moves: DataFrame, combo_moves: Series) -> DataFra
 
 @functools.cache
 def get_character_moves(character: str) -> DataFrame:
-    character_moves: DataFrame = FD.loc[
-        FD.index.get_level_values(0) == character.upper()
-    ]
+    fd = get_fd_bot_frame_data()
+    character_moves: DataFrame = fd.loc[
+        fd.index.get_level_values(0) == character.upper()
+        ]
 
     log.debug(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves
@@ -418,7 +423,7 @@ def flatten_combo_df(combo: DataFrame) -> DataFrame:
     flat_combo = combo.copy()
     # find each time a move changes, assign a new move number to each move
     flat_combo["move_id"] = (
-        flat_combo[FD_COLS.m_name].ne(flat_combo[FD_COLS.m_name].shift()).cumsum() - 1
+            flat_combo[FD_COLS.m_name].ne(flat_combo[FD_COLS.m_name].shift()).cumsum() - 1
     )
     flat_combo = flat_combo.groupby(
         ["move_id", FD_COLS.m_name, FD_COLS.char], as_index=False

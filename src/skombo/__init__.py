@@ -1,15 +1,12 @@
 """init for skombo package.
 primarily contains constants used throughout the package. also contains the logger."""
-import atexit
-import datetime
+
 import os
 import re
 import sys
 from dataclasses import dataclass
 
 from loguru import logger as log
-
-START_TIME = datetime.datetime.now()
 
 
 @dataclass
@@ -180,7 +177,6 @@ class ComboInputColumns:
 COMBO_INPUT_COLS = ComboInputColumns()
 C_COLS = COMBO_INPUT_COLS
 
-
 COMBO_INPUT_COLS_DTYPES = {
     C_COLS.name: "string",
     C_COLS.character: "string",
@@ -194,7 +190,6 @@ COMBO_INPUT_COLS_DTYPES = {
     C_COLS.expected_damage: "Int16",
     C_COLS.meter: "Int8",
 }
-
 
 COLS_CLASSES = ColumnClassification()
 # get the start datetime
@@ -375,7 +370,7 @@ TEST_COMBO_CSVS = [
     os.path.join(TESTS_DATA_PATH, csv_name)
     for char in char_values
     if (csv_name := f"{char.lower()}{TEST_COMBOS_SUFFIX}")
-    in os.listdir(TESTS_DATA_PATH)
+       in os.listdir(TESTS_DATA_PATH)
 ]
 
 LOG_DIR: str = os.path.join(MODULE_PATH, "logs")
@@ -391,17 +386,13 @@ LOG_DIR: str = os.path.join(MODULE_PATH, "logs")
 def config_logger() -> None:
     log.remove()
 
-    levels = [
-        {"name": "TRACE", "color": "<white>", "icon": "🔍"},
-        {"name": "DEBUG", "color": "<cyan>", "icon": "🐛"},
-        {"name": "INFO", "color": "<white>", "icon": "🌟"},
-        {"name": "WARNING", "color": "<yellow>", "icon": "🔥"},
-        {"name": "ERROR", "color": "<red>", "icon": "❌"},
-        {"name": "CRITICAL", "color": "<magenta>", "icon": "💀"},
-    ]
-    # set up custom levels
-    for level in levels:
-        log.level(**level)
+    log.level(name="TRACE", color="<white>", icon="🔍")
+    log.level(name="DEBUG", color="<cyan>", icon="🐛")
+    log.level(name="INFO", color="<white>", icon="🌟")
+    log.level(name="WARNING", color="<yellow>", icon="🔥")
+    log.level(name="ERROR", color="<red>", icon="❌")
+    log.level(name="CRITICAL", color="<magenta>", icon="💀")
+    log.level(name="HEADING", color="<bold><white>", no=50)
 
     ##########################################
 
@@ -427,7 +418,7 @@ def config_logger() -> None:
         "module_line",
         "message",
     ]
-    console_components = ["level_icon", "level", "message"]
+    console_components = ["message"]
 
     log.add(
         sink=log_file_path,
@@ -442,9 +433,7 @@ def config_logger() -> None:
     )
     log.add(
         sink=sys.stderr,
-        format="".join(
-            format_components[component] for component in console_components
-        ),
+        format="<level>{message}</level>",
         level="INFO",
         enqueue=True,
     )
@@ -452,22 +441,8 @@ def config_logger() -> None:
 
 config_logger()
 
-
-@atexit.register
-def exit_handler() -> None:
-    # get the end datetime
-    END_TIME = datetime.datetime.now()
-
-    # get execution time
-    elapsed_time = END_TIME - START_TIME
-    log.info(f"Execution time: {elapsed_time} seconds 🤠")
-
-
 # test_funct()
-
-log.info("Constants initialized")
-
-log.info(f"ABS_PATH: {MODULE_PATH}")
-log.info(f"MODULE_NAME: {MODULE_NAME}")
-
-log.info("Logger initialized")
+log.log(
+    "HEADING",
+    f"\n#=====================================================#\n‖{'Skombo time 🤠':^52}‖\n#=====================================================#\n",
+)
