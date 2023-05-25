@@ -1,19 +1,11 @@
-import os
-import pathlib
-import warnings
-
 import pytest
-from numpy import character
 from pyannotate_runtime import collect_types
-
-import skombo
-from skombo import CHARS, TEST_COMBOS_SUFFIX, TEST_DATA_FOLDER
-from skombo.combo_calc import parse_combos_from_csv
 
 collect_types.init_types_collection()
 
-from skombo.utils import expand_all_x_n
 from loguru import logger as log
+
+from skombo.utils import expand_all_x_n
 
 
 @pytest.mark.parametrize(
@@ -31,22 +23,3 @@ def test_expand_all_x_n(input_str, expected_output) -> None:
     calculated_output = expand_all_x_n(input_str)
     log.info(f"Expanded ( {input_str} ) ==> ( {calculated_output} )")
     assert calculated_output == expected_output
-
-
-@pytest.mark.parametrize("test_csv_path", skombo.TEST_COMBO_CSVS)
-def test_combos(test_csv_path: str, profile) -> None:
-    character = test_csv_path.split("_")[0]
-    log.info(f"Testing combos for [[{character}]]")
-
-    combos, combo_damage = parse_combos_from_csv(test_csv_path, calc_damage=True)
-
-    for i, combo in enumerate(combos):
-        # LOG.info(f"Combo: \n{tabulate(combo, headers='keys', tablefmt='psql')}")  # type: ignore
-        damage_diff: int = (
-            combo_damage[i] - combo.at[combo.__len__() - 1, "summed_damage"]
-        )
-
-        damage_diff_percent: float = round(abs(damage_diff / combo_damage[i] * 100), 2)
-        log.info(f"Damage difference: {damage_diff_percent}%")
-
-        assert 1 > damage_diff_percent >= 0

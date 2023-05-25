@@ -411,6 +411,3 @@ def flatten_combo_df(combo: DataFrame) -> DataFrame:
     flat_combo["num_hits"] = dmg_list_lens
 
     return flat_combo
-
-
-
