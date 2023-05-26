@@ -384,6 +384,7 @@ class Character:
         self.color = input_series[CHAR_COLS.color]
         # We can remove the first index of the multi-index as it is the character name
         self.moves = character_moves.droplevel(0)
+        self.normals = self.moves.loc[self.moves[FD_COLS.move_cat].str.endswith("NORMAL")].reset_index()[FD_COLS.m_name]
 
 
 class CharacterManager:

@@ -32,9 +32,21 @@ class Combo(skombo.ComboInputColumns):
         if isinstance(input_combo, pd.Series):
             for col in input_cols.__dict__.values():
                 setattr(self, col, input_combo[col])
+            self.process_notation()
 
-        # def process_notation(self):
-        """Process the notation column into a dataframe by splitting it into columns and searching the FD for matching moves"""
+    def process_notation(self):
+        # First split on space, put in a series
+        strengths = list(skombo.NORMAL_STRENGTHS.keys())
+        strengths_regex = re.compile(rf"(?<=[{''.join(strengths)}])\s")
+
+        # Replace group 1 of strengths_regex with _
+        self.notation = self.notation.strip().upper()
+        self.notation = strengths_regex.sub("_", self.notation)
+        self.notation_series = pd.Series(self.notation.split(" ")).str.replace("_", " ")
+
+        
+        
+        log.info(f"Processed notation: {self.notation_series}")
 
 
 # @for_all_methods(timer_func)
@@ -49,12 +61,12 @@ class ComboCalculator:
 
     def load_combos_from_csv(self, combo_path: str):
         """Load combos from a csv"""
-        combo_csv_df = self.combo_csv_to_df(combo_path)
+        combo_csv_df = self._combo_csv_to_df(combo_path)
         if not combo_csv_df.empty:
-            combo_csv_df = self.clean_validate_combo_csv(combo_csv_df)
+            combo_csv_df = self._clean_validate_combo_csv(combo_csv_df)
             self.add_combos(combo_csv_df)
 
-    def combo_csv_to_df(self, combo_path: str):
+    def _combo_csv_to_df(self, combo_path: str):
         """Convert a combo csv to a dataframe"""
         try:
             combo_csv_df = pd.read_csv(combo_path)
@@ -63,7 +75,7 @@ class ComboCalculator:
             combo_csv_df = pd.DataFrame()
         return combo_csv_df
 
-    def clean_validate_combo_csv(self, combo_csv_df: DataFrame):
+    def _clean_validate_combo_csv(self, combo_csv_df: DataFrame):
         """Clean and validate a combo csv"""
 
         combo_csv_df = format_column_headings(combo_csv_df)
@@ -74,10 +86,10 @@ class ComboCalculator:
         cols = input_cols
         # minimum required columns are team and notation
         if not all(
-                [
-                    cols.character in combo_csv_df.columns,
-                    cols.notation in combo_csv_df.columns,
-                ]
+            [
+                cols.character in combo_csv_df.columns,
+                cols.notation in combo_csv_df.columns,
+            ]
         ):
             return pd.DataFrame()
         combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(cols.__dict__.values()))
@@ -122,13 +134,8 @@ class ComboCalculator:
     def process_combos(self):
         """Process all combos"""
         self.combos = np.array(
-            self.input_combos.apply(
-                lambda combo: self.process_combo(combo), axis=1  # type: ignore
-            )
+            self.input_combos.apply(lambda combo: Combo(combo), axis=1)  # type: ignore
         )
-
-    def process_combo(self, combo: Series) -> Combo:
-        return Combo(combo)
 
 
 def get_combo_scaling(combo: DataFrame) -> DataFrame:
@@ -350,14 +357,14 @@ def find_move_repeats_follow_ups(moves: pd.Series) -> pd.Series:
 
 
 def character_specific_operations(
-        character: str, combo_df: DataFrame, character_fd: DataFrame
+    character: str, combo_df: DataFrame, character_fd: DataFrame
 ) -> DataFrame:
     if character == "ANNIE":
         annie_divekick = "RE ENTRY"
         if (
-                divekick_index := Series(
-                    combo_df.index.get_level_values(1).str.contains(annie_divekick)
-                )
+            divekick_index := Series(
+                combo_df.index.get_level_values(1).str.contains(annie_divekick)
+            )
         ).any():
             # Remove all but "True" from divekick_index
 
@@ -411,7 +418,7 @@ def get_character_moves(character: str) -> DataFrame:
     fd = get_fd_bot_frame_data()
     character_moves: DataFrame = fd.loc[
         fd.index.get_level_values(0) == character.upper()
-        ]
+    ]
 
     log.debug(f"Retreived {len(character_moves)} moves for {character}")
     return character_moves
@@ -423,7 +430,7 @@ def flatten_combo_df(combo: DataFrame) -> DataFrame:
     flat_combo = combo.copy()
     # find each time a move changes, assign a new move number to each move
     flat_combo["move_id"] = (
-            flat_combo[FD_COLS.m_name].ne(flat_combo[FD_COLS.m_name].shift()).cumsum() - 1
+        flat_combo[FD_COLS.m_name].ne(flat_combo[FD_COLS.m_name].shift()).cumsum() - 1
     )
     flat_combo = flat_combo.groupby(
         ["move_id", FD_COLS.m_name, FD_COLS.char], as_index=False
