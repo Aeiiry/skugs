@@ -1,4 +1,4 @@
-character,notation,expected_damage,assist 1, assist 2, counter hit
-ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp launcher jc jlk jhp adc jlp jmp 5lk 2mp 5mkx2 5hp h knuckle,0,umbrella,BB
-ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp launcher jc jlk jhp adc jlp jmp 5lk 5mp 5mkx2 5hp h knuckle,0,umbrella,BB
-ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp launcher jc jlk jhp adc jlp jmp 5lpx2 5mp 5mkx2 5hp h knuckle,0,umbrella,BB
+character,notation,expected_damage,assist 1, assist 2
+ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp 5hk jc jlk jhp adc jlp jmp 5lk 2mp 5mkx2 5hp h knuckle,0,umbrella,BB
+ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp 5hk jc jlk jhp adc jlp jmp 5lk 5mp 5mkx2 5hp h knuckle,0,umbrella,BB
+ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp 5hk jc jlk jhp adc jlp jmp 5lpx2 5mp 5mkx2 5hp h knuckle,0,umbrella,BB

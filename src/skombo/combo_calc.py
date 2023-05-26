@@ -18,13 +18,15 @@ from skombo import CHARS, COLS_CLASSES
 from skombo import COMBO_INPUT_COLS as input_cols
 from skombo import FD_COLS
 from skombo.fd_ops import (
+    CharacterManager,
     get_fd_bot_csv_manager,
     get_fd_bot_frame_data,
 )
-from skombo.utils import format_column_headings
+from skombo.utils import for_all_methods, format_column_headings, timer_func
 
 
 @dataclass
+@for_all_methods(timer_func)
 class Combo(skombo.ComboInputColumns):
     def __init__(self, input_combo: pd.Series | str | pd.DataFrame) -> None:
         """Combo object, contains all the data for a combo"""
@@ -42,16 +44,20 @@ class Combo(skombo.ComboInputColumns):
         # Replace group 1 of strengths_regex with _
         self.notation = self.notation.strip().upper()
         self.notation = strengths_regex.sub("_", self.notation)
+
         self.notation_series = pd.Series(self.notation.split(" ")).str.replace("_", " ")
 
-        
-        
-        log.info(f"Processed notation: {self.notation_series}")
+        log.info(f"Processed notation: {self.notation_series.values}")
 
 
-# @for_all_methods(timer_func)
+@for_all_methods(timer_func)
 class ComboCalculator:
-    def __init__(self, combo_path: str | None = None):
+    """Calculate combos from a csv or string"""
+
+    def __init__(
+        self, character_manager: CharacterManager, combo_path: str | None = None
+    ):
+        self.character_manager = character_manager
         self.combos: list[Combo] = []
         self.input_combos = pd.DataFrame(columns=list(input_cols.__dict__.values()))
         """Raw input combos in dataframe form, each row is a combo"""
@@ -119,7 +125,7 @@ class ComboCalculator:
             + combo_csv_df[cols.expected_damage].astype(str)
         )
         log.debug(
-            f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"
+            f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"  # type: ignore
             # type: ignore
         )
         return combo_csv_df

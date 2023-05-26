@@ -370,7 +370,7 @@ TEST_COMBO_CSVS = [
     os.path.join(TESTS_DATA_PATH, csv_name)
     for char in char_values
     if (csv_name := f"{char.lower()}{TEST_COMBOS_SUFFIX}")
-       in os.listdir(TESTS_DATA_PATH)
+    in os.listdir(TESTS_DATA_PATH)
 ]
 
 LOG_DIR: str = os.path.join(MODULE_PATH, "logs")

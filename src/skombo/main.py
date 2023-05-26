@@ -25,9 +25,9 @@ def exit_handler() -> None:
 
 prof = cProfile.Profile(subcalls=True, builtins=False)
 prof.enable()
-character_manager = get_fd_bot_character_manager()
 
-combo_calc = ComboCalculator(skombo.TEST_COMBO_CSVS[0])
+
+combo_calc = ComboCalculator(get_fd_bot_character_manager(), skombo.TEST_COMBO_CSVS[0])
 
 combo_calc.process_combos()
 

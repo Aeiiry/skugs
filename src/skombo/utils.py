@@ -35,9 +35,9 @@ def split_meter(meter: str) -> tuple[str | None, str | None]:
 
 
 def filter_dict(
-        dict_to_filter: dict[str, Any],
-        fil: str | list[str],
-        filter_values: bool = False,
+    dict_to_filter: dict[str, Any],
+    fil: str | list[str],
+    filter_values: bool = False,
 ) -> dict[str, Any]:
     """
     Return a dict excluding the keys in the filter param\n
@@ -58,7 +58,7 @@ def filter_dict(
 
 def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
     """Format column headings to lowercase with underscores"""
-    df.columns = [col.replace(" ", "_").lower() for col in df.columns]
+    df.columns = [col.strip().replace(" ", "_").lower() for col in df.columns]
     return df
 
 
@@ -66,7 +66,7 @@ def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
 def expand_all_x_n(string: str) -> str:
     if isinstance(string, str):
         while (x_n_match := skombo.RE_X_N.search(string)) or (
-                x_n_match := skombo.RE_BRACKETS_X_N.search(string)
+            x_n_match := skombo.RE_BRACKETS_X_N.search(string)
         ):
             string = expand_x_n(x_n_match)
         # Additional cleanup for splitting on commas
@@ -86,7 +86,7 @@ def expand_x_n(match: re.Match[str]) -> str:
     else:
         expanded_numbers = ",".join([number] * x_n)
     return (
-        match.string[: match.start()] + expanded_numbers + match.string[match.end():]
+        match.string[: match.start()] + expanded_numbers + match.string[match.end() :]
         if match.end()
         else match.string[: match.start()] + expanded_numbers
     ).replace(" ", "")
@@ -100,8 +100,8 @@ def timer_func(func: Callable):  # type: ignore
         t1: float = timer()
         result = func(*args, **kwargs)
         t2: float = timer()
-        # Display total time in milliseconds
-        log.debug(f"{func.__name__}() executed in [{(t2 - t1) * 1000:0.4f}] ms")
+        # Display total time in milliseconds for func and parent class or module
+        log.debug(f"{func.__qualname__} took [{str(round((t2 - t1) * 1000))}] ms")
         return result
 
     return wrapper

@@ -16,8 +16,10 @@ from skombo.utils import (
     expand_all_x_n,
     extract_blockstop,
     filter_dict,
+    for_all_methods,
     format_column_headings,
     split_meter,
+    timer_func,
 )
 
 
@@ -58,6 +60,7 @@ class CsvManager:
             return format_column_headings(df)
 
 
+@for_all_methods(timer_func)
 class FdBotCsvManager(CsvManager):
     """Class to manage the frame data bot CSV files"""
 
@@ -73,6 +76,7 @@ class FdBotCsvManager(CsvManager):
         super().__init__(path, self.file_keys)
 
 
+@for_all_methods(timer_func)
 class FrameData(pd.DataFrame):
     """DataFrame subclass for frame data"""
 
@@ -93,8 +97,8 @@ class FrameData(pd.DataFrame):
         return self
 
     def rename_cols(
-            self,
-            rename_cols: dict[str, str],
+        self,
+        rename_cols: dict[str, str],
     ) -> Self:  # sourcery skip: default-mutable-arg, lambdas-should-be-short
         log.debug(f"Renaming columns: {rename_cols} ...")
         self.rename(columns=rename_cols, inplace=True)
@@ -108,7 +112,7 @@ class FrameData(pd.DataFrame):
         return self  # type: ignore
 
     def remove_chars_from_cols(
-            self, chars: str | list[str], cols: str | list[str]
+        self, chars: str | list[str], cols: str | list[str]
     ) -> Self:
         log.debug(f"Removing {chars.__repr__()} from {cols}...")
         for col in cols if isinstance(cols, list) else [cols]:
@@ -117,7 +121,7 @@ class FrameData(pd.DataFrame):
         return self
 
     def bulk_remove_chars_from_cols(
-            self, chars_cols: list[tuple[str | list[str], str | list[str]]]
+        self, chars_cols: list[tuple[str | list[str], str | list[str]]]
     ) -> Self:
         for chars, cols in chars_cols:
             self.remove_chars_from_cols(chars, cols)
@@ -147,14 +151,14 @@ class FrameData(pd.DataFrame):
 
         star_rows = star_rows[
             (
-                    star_rows[FD_COLS.dmg].notna()
-                    & star_rows[FD_COLS.dmg].str.contains(r"\[")
+                star_rows[FD_COLS.dmg].notna()
+                & star_rows[FD_COLS.dmg].str.contains(r"\[")
             )
             | (
-                    star_rows[FD_COLS.onblock].notna()
-                    & star_rows[FD_COLS.onblock].str.contains(r"\[")
+                star_rows[FD_COLS.onblock].notna()
+                & star_rows[FD_COLS.onblock].str.contains(r"\[")
             )
-            ]
+        ]
 
         orig_rows: pd.DataFrame = star_rows.copy()
 
@@ -375,6 +379,7 @@ class FrameData(pd.DataFrame):
         return self
 
 
+@for_all_methods(timer_func)
 class Character:
     """Class for an individual character. Containing identifying attributes alongside fast ways to search their move-lists"""
 
@@ -384,9 +389,12 @@ class Character:
         self.color = input_series[CHAR_COLS.color]
         # We can remove the first index of the multi-index as it is the character name
         self.moves = character_moves.droplevel(0)
-        self.normals = self.moves.loc[self.moves[FD_COLS.move_cat].str.endswith("NORMAL")].reset_index()[FD_COLS.m_name]
+        self.normals = self.moves.loc[
+            self.moves[FD_COLS.move_cat].str.endswith("NORMAL")
+        ].reset_index()[FD_COLS.m_name]
 
 
+@for_all_methods(timer_func)
 class CharacterManager:
     """Class for managing the characters"""
 
@@ -396,7 +404,7 @@ class CharacterManager:
             character = character_series[CHAR_COLS.char]
             character_moves = frame_data.loc[
                 frame_data.index.get_level_values(0) == character
-                ]
+            ]
 
             setattr(self, character, Character(character_series, character_moves))
 
