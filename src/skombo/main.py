@@ -31,6 +31,8 @@ combo_calc = ComboCalculator(get_fd_bot_character_manager(), skombo.TEST_COMBO_C
 
 combo_calc.process_combos()
 
+combo_calc.character_manager.frame_data.to_csv("fd_cleaned.csv")
+
 prof.disable()
 stats = pstats.Stats(prof).sort_stats("tottime")
 # stats.print_stats(10)

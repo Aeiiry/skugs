@@ -399,6 +399,7 @@ class CharacterManager:
     """Class for managing the characters"""
 
     def __init__(self, input_df: pd.DataFrame, frame_data: FrameData):
+        self.frame_data = frame_data
         for _, character_series in input_df.iterrows():
             # character is the first index of the multi-index
             character = character_series[CHAR_COLS.char]
