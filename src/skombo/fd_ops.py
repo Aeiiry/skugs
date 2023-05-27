@@ -16,10 +16,8 @@ from skombo.utils import (
     expand_all_x_n,
     extract_blockstop,
     filter_dict,
-    for_all_methods,
     format_column_headings,
     split_meter,
-    timer_func,
 )
 
 
@@ -60,7 +58,6 @@ class CsvManager:
             return format_column_headings(df)
 
 
-@for_all_methods(timer_func)
 class FdBotCsvManager(CsvManager):
     """Class to manage the frame data bot CSV files"""
 
@@ -76,7 +73,6 @@ class FdBotCsvManager(CsvManager):
         super().__init__(path, self.file_keys)
 
 
-@for_all_methods(timer_func)
 class FrameData(pd.DataFrame):
     """DataFrame subclass for frame data"""
 
@@ -379,7 +375,6 @@ class FrameData(pd.DataFrame):
         return self
 
 
-@for_all_methods(timer_func)
 class Character:
     """Class for an individual character. Containing identifying attributes alongside fast ways to search their move-lists"""
 
@@ -394,11 +389,11 @@ class Character:
         ].reset_index()[FD_COLS.m_name]
 
 
-@for_all_methods(timer_func)
 class CharacterManager:
     """Class for managing the characters"""
 
     def __init__(self, input_df: pd.DataFrame, frame_data: FrameData):
+        self.character_names = input_df[CHAR_COLS.char].to_list()
         self.frame_data = frame_data
         for _, character_series in input_df.iterrows():
             # character is the first index of the multi-index
@@ -408,6 +403,21 @@ class CharacterManager:
             ]
 
             setattr(self, character, Character(character_series, character_moves))
+
+    def get_character(self, character_name: str) -> Character | None:
+        """Get a character by name"""
+        character_name = character_name.upper()
+        try:
+            return getattr(self, character_name)
+        except AttributeError:
+            return next(
+                (
+                    getattr(self, character)
+                    for character in self.character_names
+                    if character_name in getattr(self, character).short_names
+                ),
+                None,
+            )
 
 
 cols_to_rename: dict[str, str] = {

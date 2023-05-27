@@ -93,25 +93,3 @@ def expand_x_n(match: re.Match[str]) -> str:
 
 
 from timeit import default_timer as timer
-
-
-def timer_func(func: Callable):  # type: ignore
-    def wrapper(*args, **kwargs):
-        t1: float = timer()
-        result = func(*args, **kwargs)
-        t2: float = timer()
-        # Display total time in milliseconds for func and parent class or module
-        log.debug(f"{func.__qualname__} took [{str(round((t2 - t1) * 1000))}] ms")
-        return result
-
-    return wrapper
-
-
-def for_all_methods(decorator: Callable):  # type: ignore
-    def decorate(cls):
-        for attr in cls.__dict__:  # there's propably a better way to do this
-            if callable(getattr(cls, attr)):
-                setattr(cls, attr, decorator(getattr(cls, attr)))
-        return cls
-
-    return decorate

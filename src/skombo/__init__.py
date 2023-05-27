@@ -418,7 +418,6 @@ def config_logger() -> None:
         "module_line",
         "message",
     ]
-    console_components = ["message"]
 
     log.add(
         sink=log_file_path,
