@@ -1,6 +1,5 @@
 import functools
 import re
-from collections.abc import Callable
 from typing import Any
 
 import pandas as pd
@@ -92,4 +91,3 @@ def expand_x_n(match: re.Match[str]) -> str:
     ).replace(" ", "")
 
 
-from timeit import default_timer as timer

@@ -2,6 +2,7 @@
 """
 
 import functools
+import re
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 from typing import Any
@@ -307,9 +308,6 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
     return move_df.iloc[0] if move_df.__len__() > 0 else blank_move
 
 
-import re
-
-import pandas as pd
 
 
 def find_move_repeats_follow_ups(moves: pd.Series) -> pd.Series:
