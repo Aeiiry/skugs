@@ -32,6 +32,7 @@ class Combo(skombo.ComboInputColumns):
     def __init__(
         self, input_combo: pd.Series | str | pd.DataFrame, characters: list[Character]
     ) -> None:
+        log.debug(f"Combo input: {input_combo}")
         """Combo object, contains all the data for a combo"""
         self.characters = characters
         if isinstance(input_combo, pd.Series):
@@ -43,6 +44,7 @@ class Combo(skombo.ComboInputColumns):
 
     def process_notation(self):
         # First split on space, put in a series
+        log.debug(f"\nRaw notation: {self.notation}")
         strengths = list(skombo.NORMAL_STRENGTHS.keys())
         strengths_regex = re.compile(rf"(?<=[{''.join(strengths)}])\s")
 
@@ -52,14 +54,14 @@ class Combo(skombo.ComboInputColumns):
 
         self.notation_series = pd.Series(self.notation.split(" ")).str.replace("_", " ")
 
-        log.info(f"Processed notation: {self.notation_series.values}")
+        log.debug(f"\nProcessed notation: {self.notation_series.to_markdown()}")
         self.combo_df = find_combo_moves(
             self.characters[0].name, self.characters[0].moves, self.notation_series
         )
-        log.info("t")
 
     def calc_damage(self):
         """Calculate the damage of the combo"""
+        log.debug("Calculating damage...")
         self.combo_df = damage_calc(fd_to_combo_df(self.combo_df))
 
 
@@ -195,6 +197,7 @@ def damage_calc(combo: DataFrame) -> DataFrame:
     # if cull_columns:
     #  combo = combo[[COLS.m_name, COLS.dmg]]
     # Replace any non floats with 0
+    
     combo[FD_COLS.dmg] = combo[FD_COLS.dmg].apply(
         lambda x: int(x) if isinstance(x, str) and x.isnumeric() else 0
     )
@@ -206,11 +209,8 @@ def damage_calc(combo: DataFrame) -> DataFrame:
     combo["summed_damage"] = combo.loc[:, "scaled_damage"].cumsum()
     # fill rows with nan if the move does not do damage
     no_damage_rows = combo[FD_COLS.dmg] == 0
-    # fill all columns but char and move name with nan
-
-    no_damage_df = combo.loc[
-        no_damage_rows
-    ]
+    # fill all columns but move name with nan
+    no_damage_df = combo.drop(FD_COLS.m_name, axis=1)
     no_damage_df.loc[:, :] = np.nan
     combo.loc[no_damage_rows, no_damage_df.columns] = no_damage_df
 
@@ -219,6 +219,7 @@ def damage_calc(combo: DataFrame) -> DataFrame:
 
 def fd_to_combo_df(fd: DataFrame) -> DataFrame:
     # Split damage into individual rows for each hit, damage column contains individual lists of damage for each hit of the move
+    
     fd = fd.explode(FD_COLS.dmg)
     
     fd[FD_COLS.m_name] = fd.index.get_level_values(0)
