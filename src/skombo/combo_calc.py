@@ -39,6 +39,7 @@ class Combo(skombo.ComboInputColumns):
                 setattr(self, col, input_combo[col])
 
             self.process_notation()
+            self.calc_damage()
 
     def process_notation(self):
         # First split on space, put in a series
@@ -56,6 +57,10 @@ class Combo(skombo.ComboInputColumns):
             self.characters[0].name, self.characters[0].moves, self.notation_series
         )
         log.info("t")
+
+    def calc_damage(self):
+        """Calculate the damage of the combo"""
+        self.combo_df = damage_calc(fd_to_combo_df(self.combo_df))
 
 
 class ComboCalculator:
@@ -185,7 +190,7 @@ def get_combo_scaling(combo: DataFrame) -> DataFrame:
     return combo
 
 
-def naiive_damage_calc(combo: DataFrame) -> DataFrame:
+def damage_calc(combo: DataFrame) -> DataFrame:
     """Naiive damage calc for a series of moves"""
     # if cull_columns:
     #  combo = combo[[COLS.m_name, COLS.dmg]]
@@ -203,7 +208,7 @@ def naiive_damage_calc(combo: DataFrame) -> DataFrame:
     no_damage_rows = combo[FD_COLS.dmg] == 0
     # fill all columns but char and move name with nan
 
-    no_damage_df = combo.drop(columns=[FD_COLS.char, FD_COLS.m_name]).loc[
+    no_damage_df = combo.loc[
         no_damage_rows
     ]
     no_damage_df.loc[:, :] = np.nan
@@ -215,9 +220,8 @@ def naiive_damage_calc(combo: DataFrame) -> DataFrame:
 def fd_to_combo_df(fd: DataFrame) -> DataFrame:
     # Split damage into individual rows for each hit, damage column contains individual lists of damage for each hit of the move
     fd = fd.explode(FD_COLS.dmg)
-    # Pull the character and move name from the mutliindex
-    fd[FD_COLS.char] = fd.index.get_level_values(0)
-    fd[FD_COLS.m_name] = fd.index.get_level_values(1)
+    
+    fd[FD_COLS.m_name] = fd.index.get_level_values(0)
     # Drop the multiindex
     fd = fd.reset_index(drop=True)
     # Assume a move that is the row before the move name "kara" is a kara cancel and does not do damage

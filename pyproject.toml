@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-addopts = "--cov=skombo"
+addopts = "--cov=skombo --cov-report html:cov_html --cov-report term-missing --cov-fail-under=90"
 testpaths = ["tests"]
 
 [tool.mypy]

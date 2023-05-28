@@ -21,3 +21,16 @@ src/skullgirls_frame_data_parse.egg-info
 /debug/*
 /src/*/*.csv
 /src/*/*/*.csv
+cov_html/coverage_html.js
+cov_html/d_9e9561ffacb37621___init___py.html
+cov_html/d_9e9561ffacb37621_combo_calc_py.html
+cov_html/d_9e9561ffacb37621_fd_ops_py.html
+cov_html/d_9e9561ffacb37621_main_py.html
+cov_html/d_9e9561ffacb37621_skuGUI_py.html
+cov_html/d_9e9561ffacb37621_utils_py.html
+cov_html/favicon_32.png
+cov_html/index.html
+cov_html/keybd_closed.png
+cov_html/keybd_open.png
+cov_html/status.json
+cov_html/style.css
