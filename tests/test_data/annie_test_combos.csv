@@ -1,4 +1,10 @@
-character,notation,expected_damage,assist 1, assist 2
-ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp 5hk jc jlk jhp adc jlp jmp 5lk 2mp 5mkx2 5hp h knuckle,0,umbrella,BB
-ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp 5hk jc jlk jhp adc jlp jmp 5lk 5mp 5mkx2 5hp h knuckle,0,umbrella,BB
-ANNIE, 2HP otg M crescent 5mp 5hpx2 kara divekick 66 jhp 5hk jc jlk jhp adc jlp jmp 5lpx2 5mp 5mkx2 5hp h knuckle,0,umbrella,BB
+name,character,assist_1,assist_2,own_team_size,opponent_team_size,notation,counter_hit,undizzy,expected_damage,meter
+,annie,,,,, 2LK 2MP 5HPx2 (kara) j236K ADC jMP 5MKx2 5HK dl jMK ADC jLP jMP 2MP 5MKx2 5HK dl jLK jMP 5LK 2MP 5MKx2 5HP Snap ,,,4967,
+,annie,,,,, 2LK 2MK 5HPx2 kara j236HK ADC jHP 5HK jLK jMK ADC jMP 5LPx2 5MKx2 5HK jLP jLK jMP 5LK 2MP 5MKx2 2HP OTG 623HP 236PP ,,,7033,
+,annie,,,,, 2LK 2MK 2HP 236MP 5MP 5HPx2 kara j236HK AD jHP 5MKx2 5HK jLK jHP ADC jLP jMP 5LK 2MP 5MKx2 5HPx1 214HP~P 236PP ,,,7197,
+,annie,,,,, 2LK 2MK 5HPx2 kara j236HK ADC jHP 5HK jMK j236HK~LK 2MP 5MKx2 5HK jLK jMK ADC jMP 5LK 2MP 5MKx2 2HP OTG 623HP 236PP ,,,7436,
+,annie,,,,, 2LK 2MP 5HK jHP j236HK ADC jHP j236HK~MK 2MP 5MKx2 5HK jLK jMK ADC jMP 5LK 2MP 5MKx2 2HP 623HP 236PP ,,,7576,
+,annie,,,,, 2LK 2MP 5HK jHP ADC jHP j236HK~K~MK 2MP 5MKx2 5HK jLK jMK ADC jMP 5LK 2MP 5MKx2 2HP 623HP 236PP ,,,7843,
+,annie,,,,, 2LK 2MP 5HK jMK ADC jHP 2HP 236HP dash 2MP 5MKx2 5HK jLK jHP ADC jMP 5LK 2MP 5MKx2 5HP 214HP~P 236PP ,,,7899,
+,annie,,,,, 2LK 2MP 5HP 214HP~P otg (dash) 2MK 5HK 623HP 2MP 5MKx2 5HK jMK ADC jMP 5LK 5MKx2 236MP 5LPx2 2MP 5MKx2 5HPx2 j236K~K~K j236PP ,,,8075,
+,annie,,,,, 2LK 2MP 5HK 623HP OTG 6HP OTG 236MP 2MP 5HPx2 j236HK ADC jHP 5MKx2 5HPx2 j236HK ADC jMP 5LK 2MP 5MKx2 5HP 214HP~P 236PP ,,,8373,

@@ -157,11 +157,11 @@ class ComboCalculator:
             # Find the characters in the character manager, check short names
             characters = []
             for col in [input_cols.character, input_cols.assist_1, input_cols.assist_2]:
-                character = self.character_manager.get_character(combo[col])
+                character = self.character_manager.get_character(combo[col].upper()) if isinstance(combo[col], str) else None
                 if character is None:
                     log.error(f"Unknown character: {combo[col]}")
-                    return
-                characters.append(character)
+                else:
+                    characters.append(character)
             self.combos.append(Combo(combo, characters))
 
 
