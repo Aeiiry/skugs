@@ -26,6 +26,13 @@
       "request": "launch",
       "justMyCode": true,
       "program": "${file}"
+    },
+    {
+      "name": "Current File - justmycode false",
+      "type": "python",
+      "request": "launch",
+      "justMyCode": false,
+      "program": "${file}"
     }
   ]
 }
