@@ -89,5 +89,3 @@ def expand_x_n(match: re.Match[str]) -> str:
         if match.end()
         else match.string[: match.start()] + expanded_numbers
     ).replace(" ", "")
-
-

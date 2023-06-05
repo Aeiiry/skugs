@@ -3,12 +3,12 @@ import fnmatch
 import functools
 import os
 import re
-from typing_extensions import Self
 
 import numpy as np
 import pandas as pd
 from loguru import logger as log
 from pandas import Index
+from typing_extensions import Self
 
 import skombo
 from skombo import CHAR_COLS, CHARS, COLS_CLASSES, FD_COLS
@@ -285,7 +285,7 @@ class FrameData(pd.DataFrame):
         self[FD_COLS.onpb] = self[FD_COLS.onpb].str.split(" to ")
         return self
 
-    # todo finish this with no scaling, scaling notes and whatever else
+    # TODO finish this with no scaling, scaling notes and whatever else
     def extract_damage_scaling(self) -> Self:
         replacement_refs = {}
         scaling_rows = self.loc[
