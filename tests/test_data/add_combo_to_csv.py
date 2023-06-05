@@ -1,13 +1,14 @@
 # Two sets of user input are required:
 # Character name, and combo notation + damage
 
-# Character name
-from loguru import logger as log
-import sys
-import pandas as pd
-import re
-import skombo
 import os
+import re
+# Character name
+import sys
+
+import pandas as pd
+
+import skombo
 
 
 def get_character_name() -> str:

@@ -13,10 +13,10 @@ START_TIME = datetime.datetime.now()
 @atexit.register
 def exit_handler() -> None:
     # get the end datetime
-    END_TIME = datetime.datetime.now()
+    end_time = datetime.datetime.now()
 
     # get execution time
-    elapsed_time = END_TIME - START_TIME
+    elapsed_time = end_time - START_TIME
     log.info(f"Execution time: {elapsed_time} seconds 🤠")
 
 

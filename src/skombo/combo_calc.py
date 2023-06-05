@@ -16,7 +16,7 @@ from tabulate import tabulate
 
 import skombo
 from skombo import CHARS, COLS_CLASSES
-from skombo import COMBO_INPUT_COLS as input_cols
+from skombo import COMBO_INPUT_COLS as INPUT_COLS
 from skombo import FD_COLS
 from skombo.fd_ops import (
     Character,
@@ -32,15 +32,16 @@ class Combo(skombo.ComboInputColumns):
     def __init__(
         self, input_combo: pd.Series | str | pd.DataFrame, characters: list[Character]
     ) -> None:
+        self.notation_series = pd.Series(self.notation.split(" ")).str.replace("_", " ")
+        self.combo_df: DataFrame = damage_calc(fd_to_combo_df(self.combo_df))
         log.debug(f"Combo input: {input_combo}")
         """Combo object, contains all the data for a combo"""
         self.characters = characters
         if isinstance(input_combo, pd.Series):
-            for col in input_cols.__dict__.values():
+            for col in INPUT_COLS.__dict__.values():
                 setattr(self, col, input_combo[col])
 
             self.process_notation()
-            self.calc_damage()
 
     def process_notation(self):
         # First split on space, put in a series
@@ -52,17 +53,69 @@ class Combo(skombo.ComboInputColumns):
         self.notation = self.notation.strip().upper()
         self.notation = strengths_regex.sub("_", self.notation)
 
-        self.notation_series = pd.Series(self.notation.split(" ")).str.replace("_", " ")
-
         log.debug(f"\nProcessed notation: {self.notation_series.to_markdown()}")
         self.combo_df = find_combo_moves(
             self.characters[0].name, self.characters[0].moves, self.notation_series
         )
 
-    def calc_damage(self):
-        """Calculate the damage of the combo"""
-        log.debug("Calculating damage...")
-        self.combo_df = damage_calc(fd_to_combo_df(self.combo_df))
+
+def _combo_csv_to_df(combo_path: str):
+    """Convert a combo csv to a dataframe"""
+    try:
+        combo_csv_df = pd.read_csv(combo_path)
+    except FileNotFoundError as e:
+        log.error(f"File not found: {e}")
+        combo_csv_df = pd.DataFrame()
+    return combo_csv_df
+
+
+def _clean_validate_combo_csv(combo_csv_df: DataFrame):
+    """Clean and validate a combo csv"""
+
+    combo_csv_df = format_column_headings(combo_csv_df)
+
+    # Remove any empty rows
+    combo_csv_df.dropna(how="all", inplace=True)
+
+    cols = INPUT_COLS
+    # minimum required columns are team and notation
+    if not all(
+        [
+            cols.character in combo_csv_df.columns,
+            cols.notation in combo_csv_df.columns,
+        ]
+    ):
+        return pd.DataFrame()
+    combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(cols.__dict__.values()))
+    # Cast to the correct types in skombo.COMBO_INPUT_COLS_DTYPES
+    combo_csv_df = combo_csv_df.apply(  # type: ignore
+        lambda col: col.astype(skombo.COMBO_INPUT_COLS_DTYPES[col.name]), axis=0
+    )
+    # Set some defaults if they're not present
+    defaults = {
+        cols.own_team_size: 3,
+        cols.opponent_team_size: 3,
+        cols.counter_hit: False,
+        cols.undizzy: 0,
+        cols.meter: np.nan,
+        cols.expected_damage: np.nan,
+    }
+    combo_csv_df = combo_csv_df.fillna(defaults)
+    combo_csv_df = combo_csv_df.fillna(np.nan)
+
+    # Any rows with no team or character are invalid
+    combo_csv_df = combo_csv_df.dropna(subset=[cols.character, cols.notation])
+
+    # If there is no name, use the team+damage
+    combo_csv_df[cols.name] = combo_csv_df[cols.name].fillna(
+        combo_csv_df[cols.character]
+        + "_"
+        + combo_csv_df[cols.expected_damage].astype(str)
+    )
+    log.debug(
+        f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"  # type: ignore
+    )
+    return combo_csv_df
 
 
 class ComboCalculator:
@@ -73,7 +126,7 @@ class ComboCalculator:
     ):
         self.character_manager = character_manager
         self.combos: list[Combo] = []
-        self.input_combos = pd.DataFrame(columns=list(input_cols.__dict__.values()))
+        self.input_combos = pd.DataFrame(columns=list(INPUT_COLS.__dict__.values()))
         """Raw input combos in dataframe form, each row is a combo"""
         if combo_path is not None:
             self.load_combos_from_csv(combo_path)
@@ -81,67 +134,10 @@ class ComboCalculator:
 
     def load_combos_from_csv(self, combo_path: str):
         """Load combos from a csv"""
-        combo_csv_df = self._combo_csv_to_df(combo_path)
+        combo_csv_df = _combo_csv_to_df(combo_path)
         if not combo_csv_df.empty:
-            combo_csv_df = self._clean_validate_combo_csv(combo_csv_df)
+            combo_csv_df = _clean_validate_combo_csv(combo_csv_df)
             self.add_combos(combo_csv_df)
-
-    def _combo_csv_to_df(self, combo_path: str):
-        """Convert a combo csv to a dataframe"""
-        try:
-            combo_csv_df = pd.read_csv(combo_path)
-        except FileNotFoundError as e:
-            log.error(f"File not found: {e}")
-            combo_csv_df = pd.DataFrame()
-        return combo_csv_df
-
-    def _clean_validate_combo_csv(self, combo_csv_df: DataFrame):
-        """Clean and validate a combo csv"""
-
-        combo_csv_df = format_column_headings(combo_csv_df)
-
-        # Remove any empty rows
-        combo_csv_df.dropna(how="all", inplace=True)
-
-        cols = input_cols
-        # minimum required columns are team and notation
-        if not all(
-            [
-                cols.character in combo_csv_df.columns,
-                cols.notation in combo_csv_df.columns,
-            ]
-        ):
-            return pd.DataFrame()
-        combo_csv_df = pd.DataFrame(combo_csv_df, columns=list(cols.__dict__.values()))
-        # Cast to the correct types in skombo.COMBO_INPUT_COLS_DTYPES
-        combo_csv_df = combo_csv_df.apply(  # type: ignore
-            lambda col: col.astype(skombo.COMBO_INPUT_COLS_DTYPES[col.name]), axis=0
-        )
-        # Set some defaults if they're not present
-        defaults = {
-            cols.own_team_size: 3,
-            cols.opponent_team_size: 3,
-            cols.counter_hit: False,
-            cols.undizzy: 0,
-            cols.meter: np.nan,
-            cols.expected_damage: np.nan,
-        }
-        combo_csv_df = combo_csv_df.fillna(defaults)
-        combo_csv_df = combo_csv_df.fillna(np.nan)
-
-        # Any rows with no team or character are invalid
-        combo_csv_df = combo_csv_df.dropna(subset=[cols.character, cols.notation])
-
-        # If there is no name, use the team+damage
-        combo_csv_df[cols.name] = combo_csv_df[cols.name].fillna(
-            combo_csv_df[cols.character]
-            + "_"
-            + combo_csv_df[cols.expected_damage].astype(str)
-        )
-        log.debug(
-            f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"  # type: ignore
-        )
-        return combo_csv_df
 
     def add_combos(self, combos: DataFrame | Series):
         """Add one (series) or more (dataframe) combos to the calculator"""
@@ -156,8 +152,12 @@ class ComboCalculator:
         for _, combo in self.input_combos.iterrows():
             # Find the characters in the character manager, check short names
             characters = []
-            for col in [input_cols.character, input_cols.assist_1, input_cols.assist_2]:
-                character = self.character_manager.get_character(combo[col].upper()) if isinstance(combo[col], str) else None
+            for col in [INPUT_COLS.character, INPUT_COLS.assist_1, INPUT_COLS.assist_2]:
+                character = (
+                    self.character_manager.get_character(combo[col].upper())
+                    if isinstance(combo[col], str)
+                    else None
+                )
                 if character is None:
                     log.error(f"Unknown character: {combo[col]}")
                 else:
@@ -197,7 +197,7 @@ def damage_calc(combo: DataFrame) -> DataFrame:
     # if cull_columns:
     #  combo = combo[[COLS.m_name, COLS.dmg]]
     # Replace any non floats with 0
-    
+
     combo[FD_COLS.dmg] = combo[FD_COLS.dmg].apply(
         lambda x: int(x) if isinstance(x, str) and x.isnumeric() else 0
     )
@@ -219,9 +219,9 @@ def damage_calc(combo: DataFrame) -> DataFrame:
 
 def fd_to_combo_df(fd: DataFrame) -> DataFrame:
     # Split damage into individual rows for each hit, damage column contains individual lists of damage for each hit of the move
-    
+
     fd = fd.explode(FD_COLS.dmg)
-    
+
     fd[FD_COLS.m_name] = fd.index.get_level_values(0)
     # Drop the multiindex
     fd = fd.reset_index(drop=True)
@@ -272,7 +272,7 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
     Returns:
         pandas. Series of ( character move
     """
-    ALIAS_DF = get_fd_bot_csv_manager().dataframes["aliases"]
+    alias_df = get_fd_bot_csv_manager().dataframes["aliases"]
     move_name = move_name.upper()
 
     blank_move = Series(index=character_moves.columns, name=move_name)
@@ -298,21 +298,19 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
         # log.info(f"Found move name {move_name} in alt_names")
         if not in_alt_names.any():
             # Search alias_df
-            in_alias_keys = ALIAS_DF["value"].str.contains(
+            in_alias_keys = alias_df["value"].str.contains(
                 name_between_re.pattern, regex=True
             )
             if in_alias_keys.any():
                 move_df = character_moves.loc[
                     character_moves["alt_names"].str.startswith(
-                        ALIAS_DF.loc[in_alias_keys, "key"].values[0]
+                        alias_df.loc[in_alias_keys, "key"].values[0]
                     )
                 ]
         else:
             move_df = character_moves[in_alt_names]
 
     return move_df.iloc[0] if move_df.__len__() > 0 else blank_move
-
-
 
 
 def find_move_repeats_follow_ups(moves: pd.Series) -> pd.Series:

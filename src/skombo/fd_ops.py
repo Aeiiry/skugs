@@ -3,7 +3,7 @@ import fnmatch
 import functools
 import os
 import re
-from typing import Self
+from typing_extensions import Self
 
 import numpy as np
 import pandas as pd
@@ -349,7 +349,7 @@ class FrameData(pd.DataFrame):
         return self
 
     def clean_fd(self) -> Self:
-        self = (
+        cleaned = (
             self.re_index()  # Reindex the dataframe to have character and move_name as the index
             .rename_cols(
                 rename_cols=cols_to_rename
@@ -372,7 +372,7 @@ class FrameData(pd.DataFrame):
                 string_to_nan
             )  # Replace strings with np.nan as specified in string_to_nan
         )
-        return self
+        return cleaned
 
 
 class Character:
@@ -408,7 +408,11 @@ class CharacterManager:
         """Get a character by name"""
         character_name = character_name.upper()
         try:
-            return getattr(self, character_name)
+            return (
+                character
+                if isinstance(character := getattr(self, character_name), Character)
+                else None
+            )
         except AttributeError:
             return next(
                 (
