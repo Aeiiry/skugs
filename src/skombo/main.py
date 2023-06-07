@@ -1,9 +1,11 @@
 import atexit
 import datetime
+from email import utils
 
 from loguru import logger as log
 
 import skombo
+
 from skombo.combo_calc import ComboCalculator
 from skombo.fd_ops import get_fd_bot_character_manager
 
@@ -25,3 +27,7 @@ combo_calc = ComboCalculator(get_fd_bot_character_manager(), skombo.TEST_COMBO_C
 combo_calc.process_combos()
 
 combo_calc.character_manager.frame_data.to_csv("fd_cleaned.csv")
+
+fontpaths =skombo.utils.get_font_paths()
+
+log.info("Done!")

@@ -5,7 +5,7 @@ import os
 import re
 import sys
 from dataclasses import dataclass
-
+import pathlib
 from loguru import logger as log
 
 
@@ -338,6 +338,26 @@ CHARS = Characters()
 #                                      FILE PATH CONSTANTS                                       #
 ##################################################################################################
 
+FONT_STYLE_SUBSTRINGS = {
+    "bold": ["bold", "bld", "bd"],
+    "italic": ["italic", "ital", "itl", "it"],
+    "bold_italic": [
+        "bold_italic",
+        "bolditalic",
+        "bold-italic",
+        "bolditalic",
+        "bldital",
+        "bd-it",
+        "bd it",
+    ],
+}
+"""Organised as:
+{
+    style: [style, substrings, ...],
+}"""
+
+from pathlib import Path
+
 TESTS = "tests"
 FD_BOT_FILE_PREFIX = "SG2E - Frame Data Bot Data - "
 DATA_NAME = "data"
@@ -346,34 +366,29 @@ GAME_DATA = "game_data"
 TEST_DATA_FOLDER = "test_data"
 TEST_COMBOS_SUFFIX = "_test_combos.csv"
 
-if getattr(sys, "frozen", False):
-    MODULE_PATH: str = os.path.dirname(sys.executable)
-else:
-    MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
+MODULE_PATH: Path = Path(__file__).resolve().parent
+MODULE_NAME: str = MODULE_PATH.name
 
-MODULE_NAME: str = os.path.basename(MODULE_PATH)
+SRC_FOLDER_PATH: Path = MODULE_PATH.parent
+TOP_LEVEL_FOLDER_PATH: Path = SRC_FOLDER_PATH.parent
 
-SRC_FOLDER_PATH: str = os.path.dirname(MODULE_PATH)
-TOP_LEVEL_FOLDER_PATH: str = os.path.dirname(SRC_FOLDER_PATH)
+DATA_PATH: Path = MODULE_PATH / DATA_NAME
+CSV_PATH: Path = DATA_PATH / CSVS
+GAME_DATA_PATH: Path = CSV_PATH / GAME_DATA
 
-DATA_PATH: str = os.path.join(MODULE_PATH, DATA_NAME)
-CSV_PATH: str = os.path.join(DATA_PATH, CSVS)
-GAME_DATA_PATH: str = os.path.join(CSV_PATH, GAME_DATA)
-
-TESTS_PATH: str = os.path.join(TOP_LEVEL_FOLDER_PATH, TESTS)
-TESTS_DATA_PATH: str = os.path.join(TESTS_PATH, TEST_DATA_FOLDER)
+TESTS_PATH: Path = TOP_LEVEL_FOLDER_PATH / TESTS
+TESTS_DATA_PATH: Path = TESTS_PATH / TEST_DATA_FOLDER
 
 # filter CHARS dictionary values to only include strings
 char_values = [val for val in CHARS.__dict__.values() if isinstance(val, str)]
 # use a regular variable assignment instead of an assignment expression
 TEST_COMBO_CSVS = [
-    os.path.join(TESTS_DATA_PATH, csv_name)
+    TESTS_DATA_PATH / f"{char.lower()}{TEST_COMBOS_SUFFIX}"
     for char in char_values
-    if (csv_name := f"{char.lower()}{TEST_COMBOS_SUFFIX}")
-    in os.listdir(TESTS_DATA_PATH)
+    if (TESTS_DATA_PATH / f"{char.lower()}{TEST_COMBOS_SUFFIX}").exists()
 ]
 
-LOG_DIR: str = os.path.join(MODULE_PATH, "logs")
+LOG_DIR: Path = MODULE_PATH / "logs"
 
 
 ##################################################################################################

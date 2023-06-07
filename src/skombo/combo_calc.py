@@ -2,6 +2,7 @@
 """
 
 import functools
+from pathlib import Path
 import re
 from dataclasses import dataclass
 from difflib import SequenceMatcher
@@ -29,13 +30,15 @@ from skombo.utils import format_column_headings
 
 @dataclass
 class Combo(skombo.ComboInputColumns):
+    """Combo object, contains all the data for a combo"""
+
     def __init__(
         self, input_combo: pd.Series | str | pd.DataFrame, characters: list[Character]
     ) -> None:
-        self.notation_series = pd.Series(self.notation.split(" ")).str.replace("_", " ")
-        self.combo_df: DataFrame = damage_calc(fd_to_combo_df(self.combo_df))
-        log.debug(f"Combo input: {input_combo}")
-        """Combo object, contains all the data for a combo"""
+        if isinstance(input_combo, str):
+            log.debug(f"Combo input:\n{input_combo}")
+        else:
+            log.debug(f"Combo input:\n{input_combo.to_markdown()}")
         self.characters = characters
         if isinstance(input_combo, pd.Series):
             for col in INPUT_COLS.__dict__.values():
@@ -47,13 +50,13 @@ class Combo(skombo.ComboInputColumns):
         # First split on space, put in a series
         log.debug(f"\nRaw notation: {self.notation}")
         strengths = list(skombo.NORMAL_STRENGTHS.keys())
-        strengths_regex = re.compile(rf"(?<=[{''.join(strengths)}])\s")
+        strengths_regex = re.compile(rf"(?<=[^\w][{''.join(strengths)}])\s")
 
         # Replace group 1 of strengths_regex with _
         self.notation = self.notation.strip().upper()
         self.notation = strengths_regex.sub("_", self.notation)
-
-        log.debug(f"\nProcessed notation: {self.notation_series.to_markdown()}")
+        self.notation_series = pd.Series(self.notation.split(" ")).str.replace("_", " ")
+        log.debug(f"Processed notation:\n {self.notation_series.to_markdown()}")
         self.combo_df = find_combo_moves(
             self.characters[0].name, self.characters[0].moves, self.notation_series
         )
@@ -113,7 +116,7 @@ def _clean_validate_combo_csv(combo_csv_df: DataFrame):
         + combo_csv_df[cols.expected_damage].astype(str)
     )
     log.debug(
-        f"Loaded {len(combo_csv_df)} combos\n{tabulate(combo_csv_df, headers='keys', tablefmt='psql')}"  # type: ignore
+        f"Loaded {len(combo_csv_df)} combos\n{combo_csv_df.to_markdown()}"  # type: ignore
     )
     return combo_csv_df
 
@@ -122,7 +125,7 @@ class ComboCalculator:
     """Calculate combos from a csv or string"""
 
     def __init__(
-        self, character_manager: CharacterManager, combo_path: str | None = None
+        self, character_manager: CharacterManager, combo_path: Path | None = None
     ):
         self.character_manager = character_manager
         self.combos: list[Combo] = []

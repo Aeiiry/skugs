@@ -1,7 +1,8 @@
+from dataclasses import dataclass
 import functools
 import re
 from typing import Any
-
+import pathlib
 import pandas as pd
 from loguru import logger as log
 
@@ -89,3 +90,55 @@ def expand_x_n(match: re.Match[str]) -> str:
         if match.end()
         else match.string[: match.start()] + expanded_numbers
     ).replace(" ", "")
+
+
+@dataclass
+class Font:
+    """Holds one/many fonts from a single folder"""
+
+    name: str
+    path: pathlib.Path
+
+    def __post_init__(self):
+        # Extract style from path
+        # Get file name, search for style
+        font_styles: dict[str, list[str]] = skombo.FONT_STYLE_SUBSTRINGS
+
+        
+        # glob .ttf files in self.path
+        # If any of the substrings in font_styles are in the file name, setattr to self with that key
+        # If no match, set to "regular"
+        for font_file in self.path.glob("*.ttf"):
+            for style, substrings in font_styles.items():
+                if any([substring in font_file.name for substring in substrings]):
+                    setattr(self, style, font_file)
+                    break
+            else:
+                setattr(self, "regular", font_file)
+        
+
+
+@dataclass
+class Fonts:
+    """
+    Class to hold font paths for use in dearpygui
+    For easy access fonts are organised by name, then by style
+    """
+
+    def __post_init__(self):
+        self.get_fonts()
+
+    def add_font(self, font: Font):
+        setattr(self, font.name, font)
+
+    def get_fonts(self, font_dir_name="fonts", parent_dir=skombo.DATA_PATH):
+        font_dir = parent_dir / font_dir_name
+        # basic list of font folders
+        font_paths = [path for path in font_dir.iterdir() if path.is_dir()]
+
+        # For each ttf file in each font folder, create a Font object
+        # and add it to the fonts dict
+        for font_path in font_paths:
+            self.add_font(Font(font_path.name, font_path))
+
+
