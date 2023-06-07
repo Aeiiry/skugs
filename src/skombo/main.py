@@ -28,6 +28,5 @@ combo_calc.process_combos()
 
 combo_calc.character_manager.frame_data.to_csv("fd_cleaned.csv")
 
-fontpaths =skombo.utils.get_font_paths()
 
 log.info("Done!")

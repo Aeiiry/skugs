@@ -132,7 +132,7 @@ class ComboCalculator:
         self.input_combos = pd.DataFrame(columns=list(INPUT_COLS.__dict__.values()))
         """Raw input combos in dataframe form, each row is a combo"""
         if combo_path is not None:
-            self.load_combos_from_csv(combo_path)
+            self.load_combos_from_csv(combo_path.__str__())
             log.info(f"Loaded {len(self.input_combos)} combos from {combo_path}")
 
     def load_combos_from_csv(self, combo_path: str):

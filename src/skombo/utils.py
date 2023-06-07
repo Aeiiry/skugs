@@ -108,7 +108,7 @@ class Font:
         # glob .ttf files in self.path
         # If any of the substrings in font_styles are in the file name, setattr to self with that key
         # If no match, set to "regular"
-        for font_file in self.path.glob("*.ttf"):
+        for font_file in self.path.glob("*.otf"):
             for style, substrings in font_styles.items():
                 if any([substring in font_file.name for substring in substrings]):
                     setattr(self, style, font_file)
