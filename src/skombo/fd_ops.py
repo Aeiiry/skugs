@@ -344,7 +344,6 @@ remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
 
 string_to_nan: list[str] = ["-", ""]
 
-
 FD_BOT_CSV_MANAGER = FdBotCsvManager()
 
 FD = FrameData(FD_BOT_CSV_MANAGER.dataframes["frame_data"].convert_dtypes())
@@ -375,5 +374,3 @@ FD = (
     )  # Replace strings with np.nan as specified in string_to_nan
 )
 
-
-# FD.to_csv("fd_cleaned.csv")
