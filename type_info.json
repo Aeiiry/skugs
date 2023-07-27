@@ -1,1 +1,2068 @@
-[]
+[
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\contextlib.py",
+        "line": 104,
+        "func_name": "_GeneratorContextManagerBase.__init__",
+        "type_comments": [
+            "(function, Tuple[_pytest.capture.CaptureManager, str, _pytest.python.Function], Dict) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\contextlib.py",
+        "line": 132,
+        "func_name": "_GeneratorContextManager.__enter__",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\contextlib.py",
+        "line": 141,
+        "func_name": "_GeneratorContextManager.__exit__",
+        "type_comments": [
+            "(None, None, None) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\contextlib.py",
+        "line": 287,
+        "func_name": "helper",
+        "type_comments": [
+            "(*Union[_pytest.capture.CaptureManager, _pytest.python.Function, str]) -> contextlib._GeneratorContextManager"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\contextlib.py",
+        "line": 428,
+        "func_name": "suppress.__init__",
+        "type_comments": [
+            "(*type) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\contextlib.py",
+        "line": 431,
+        "func_name": "suppress.__enter__",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\contextlib.py",
+        "line": 434,
+        "func_name": "suppress.__exit__",
+        "type_comments": [
+            "(None, None, None) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\enum.py",
+        "line": 192,
+        "func_name": "property.__get__",
+        "type_comments": [
+            "(_pytest.scope.Scope, enum.EnumType) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\enum.py",
+        "line": 1224,
+        "func_name": "Enum.__hash__",
+        "type_comments": [
+            "() -> int"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\enum.py",
+        "line": 1243,
+        "func_name": "value",
+        "type_comments": [
+            "() -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\functools.py",
+        "line": 89,
+        "func_name": "_gt_from_lt",
+        "type_comments": [
+            "(_pytest.scope.Scope) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\functools.py",
+        "line": 421,
+        "func_name": "_unwrap_partial",
+        "type_comments": [
+            "(function) -> function"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\inspect.py",
+        "line": 300,
+        "func_name": "ismethod",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\inspect.py",
+        "line": 378,
+        "func_name": "isfunction",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\inspect.py",
+        "line": 391,
+        "func_name": "_has_code_flag",
+        "type_comments": [
+            "(function, int) -> bool"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\inspect.py",
+        "line": 402,
+        "func_name": "isgeneratorfunction",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\inspect.py",
+        "line": 409,
+        "func_name": "iscoroutinefunction",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\inspect.py",
+        "line": 416,
+        "func_name": "isasyncgenfunction",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 123,
+        "func_name": "getLevelName",
+        "type_comments": [
+            "(int) -> str"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 194,
+        "func_name": "_is_internal_frame",
+        "type_comments": [
+            "(frame) -> bool"
+        ],
+        "samples": 18
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 228,
+        "func_name": "_acquireLock",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 237,
+        "func_name": "_releaseLock",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 292,
+        "func_name": "LogRecord.__init__",
+        "type_comments": [
+            "(str, int, str, int, str, Tuple[], None, str, None) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 368,
+        "func_name": "LogRecord.getMessage",
+        "type_comments": [
+            "() -> str"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 432,
+        "func_name": "PercentStyle.usesTime",
+        "type_comments": [
+            "() -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 440,
+        "func_name": "PercentStyle._format",
+        "type_comments": [
+            "(logging.LogRecord) -> str"
+        ],
+        "samples": 18
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 447,
+        "func_name": "PercentStyle.format",
+        "type_comments": [
+            "(logging.LogRecord) -> str"
+        ],
+        "samples": 18
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 606,
+        "func_name": "Formatter.formatTime",
+        "type_comments": [
+            "(logging.LogRecord, str) -> str"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 652,
+        "func_name": "Formatter.usesTime",
+        "type_comments": [
+            "() -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 658,
+        "func_name": "Formatter.formatMessage",
+        "type_comments": [
+            "(logging.LogRecord) -> str"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 674,
+        "func_name": "Formatter.format",
+        "type_comments": [
+            "(logging.LogRecord) -> str"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 815,
+        "func_name": "Filterer.filter",
+        "type_comments": [
+            "(logging.LogRecord) -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 922,
+        "func_name": "Handler.acquire",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 929,
+        "func_name": "Handler.release",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 942,
+        "func_name": "Handler.format",
+        "type_comments": [
+            "(logging.LogRecord) -> str"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 965,
+        "func_name": "Handler.handle",
+        "type_comments": [
+            "(logging.LogRecord) -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1087,
+        "func_name": "StreamHandler.flush",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1098,
+        "func_name": "StreamHandler.emit",
+        "type_comments": [
+            "(logging.LogRecord) -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1216,
+        "func_name": "FileHandler.emit",
+        "type_comments": [
+            "(logging.LogRecord) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1479,
+        "func_name": "Logger.info",
+        "type_comments": [
+            "(str) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1561,
+        "func_name": "Logger.findCaller",
+        "type_comments": [
+            "(bool, int) -> Tuple[str, int, str, None]"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1595,
+        "func_name": "Logger.makeRecord",
+        "type_comments": [
+            "(str, int, str, int, str, Tuple[], None, str, None, None) -> logging.LogRecord"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1610,
+        "func_name": "Logger._log",
+        "type_comments": [
+            "(int, str, Tuple[], None, None, bool, int) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1636,
+        "func_name": "Logger.handle",
+        "type_comments": [
+            "(logging.LogRecord) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1646,
+        "func_name": "Logger.addHandler",
+        "type_comments": [
+            "(_pytest.logging.LogCaptureHandler) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1657,
+        "func_name": "Logger.removeHandler",
+        "type_comments": [
+            "(_pytest.logging.LogCaptureHandler) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1690,
+        "func_name": "Logger.callHandlers",
+        "type_comments": [
+            "(logging.LogRecord) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 1734,
+        "func_name": "Logger.isEnabledFor",
+        "type_comments": [
+            "(int) -> bool"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 2081,
+        "func_name": "getLogger",
+        "type_comments": [
+            "(None) -> logging.RootLogger"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\logging\\__init__.py",
+        "line": 2223,
+        "func_name": "NullHandler.handle",
+        "type_comments": [
+            "(logging.LogRecord) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\multiprocessing\\process.py",
+        "line": 37,
+        "func_name": "current_process",
+        "type_comments": [
+            "() -> multiprocessing.process._MainProcess"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\multiprocessing\\process.py",
+        "line": 189,
+        "func_name": "name",
+        "type_comments": [
+            "() -> str"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\pathlib.py",
+        "line": 569,
+        "func_name": "_cparts",
+        "type_comments": [
+            "() -> List[str]"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\pathlib.py",
+        "line": 578,
+        "func_name": "PurePath.__eq__",
+        "type_comments": [
+            "(pathlib.WindowsPath) -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\pathlib.py",
+        "line": 583,
+        "func_name": "PurePath.__hash__",
+        "type_comments": [
+            "() -> int"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\re\\__init__.py",
+        "line": 178,
+        "func_name": "sub",
+        "type_comments": [
+            "(str, str, str, int, int) -> str"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\re\\__init__.py",
+        "line": 272,
+        "func_name": "_compile",
+        "type_comments": [
+            "(str, int) -> re.Pattern"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\tempfile.py",
+        "line": 473,
+        "func_name": "_TemporaryFileWrapper.__getattr__",
+        "type_comments": [
+            "(str) -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\tempfile.py",
+        "line": 481,
+        "func_name": "func_wrapper",
+        "type_comments": [
+            "() -> None",
+            "() -> bytes",
+            "(*int) -> int"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\threading.py",
+        "line": 1145,
+        "func_name": "name",
+        "type_comments": [
+            "() -> str"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\threading.py",
+        "line": 1446,
+        "func_name": "current_thread",
+        "type_comments": [
+            "() -> threading._MainThread"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\typing.py",
+        "line": 349,
+        "func_name": "inner",
+        "type_comments": [
+            "(*Union[Tuple[None, typing._GenericAlias, None], typing._SpecialGenericAlias]) -> typing._GenericAlias",
+            "(*Union[Tuple[ellipsis, typing.TypeVar], typing._CallableType]) -> typing._CallableGenericAlias",
+            "(*type) -> typing._GenericAlias"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\typing.py",
+        "line": 1364,
+        "func_name": "_GenericAlias.__hash__",
+        "type_comments": [
+            "() -> int"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\typing.py",
+        "line": 1611,
+        "func_name": "_CallableType.__getitem__",
+        "type_comments": [
+            "(Tuple[ellipsis, typing.TypeVar]) -> typing._CallableGenericAlias"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1264.0_x64__qbz5n2kfra8p0\\Lib\\typing.py",
+        "line": 2246,
+        "func_name": "cast",
+        "type_comments": [
+            "(typing.TypeVar, None) -> None",
+            "(typing._GenericAlias, generator) -> generator",
+            "(typing.TypeVar, str) -> str",
+            "(typing._CallableGenericAlias, function) -> function"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\_io\\terminalwriter.py",
+        "line": 97,
+        "func_name": "TerminalWriter.markup",
+        "type_comments": [
+            "(str) -> str"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\_io\\terminalwriter.py",
+        "line": 144,
+        "func_name": "TerminalWriter.write",
+        "type_comments": [
+            "(str, bool) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\_io\\terminalwriter.py",
+        "line": 173,
+        "func_name": "TerminalWriter.flush",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\cacheprovider.py",
+        "line": 312,
+        "func_name": "LFPlugin.pytest_runtest_logreport",
+        "type_comments": [
+            "(_pytest.reports.TestReport) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 368,
+        "func_name": "SysCaptureBase._assert_state",
+        "type_comments": [
+            "(str, Tuple[str, str]) -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 389,
+        "func_name": "SysCaptureBase.suspend",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 394,
+        "func_name": "SysCaptureBase.resume",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 488,
+        "func_name": "FDCaptureBase._assert_state",
+        "type_comments": [
+            "(str, Tuple[str, str]) -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 518,
+        "func_name": "FDCaptureBase.suspend",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 526,
+        "func_name": "FDCaptureBase.resume",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 565,
+        "func_name": "FDCapture.snap",
+        "type_comments": [
+            "() -> str"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 646,
+        "func_name": "MultiCapture.suspend_capturing",
+        "type_comments": [
+            "(bool) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 656,
+        "func_name": "MultiCapture.resume_capturing",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 683,
+        "func_name": "MultiCapture.readouterr",
+        "type_comments": [
+            "() -> _pytest.capture.CaptureResult"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 759,
+        "func_name": "CaptureManager.resume_global_capture",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 765,
+        "func_name": "CaptureManager.suspend_global_capture",
+        "type_comments": [
+            "(bool) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 778,
+        "func_name": "CaptureManager.read_global_capture",
+        "type_comments": [
+            "() -> _pytest.capture.CaptureResult"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 798,
+        "func_name": "CaptureManager.activate_fixture",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 804,
+        "func_name": "CaptureManager.deactivate_fixture",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 836,
+        "func_name": "item_capture",
+        "type_comments": [
+            "(str, _pytest.python.Function) -> Iterator",
+            "(str, _pytest.python.Function) -> Iterator"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 867,
+        "func_name": "CaptureManager.pytest_runtest_setup",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 872,
+        "func_name": "CaptureManager.pytest_runtest_call",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator",
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\capture.py",
+        "line": 877,
+        "func_name": "CaptureManager.pytest_runtest_teardown",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\compat.py",
+        "line": 73,
+        "func_name": "is_generator",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\compat.py",
+        "line": 78,
+        "func_name": "iscoroutinefunction",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\compat.py",
+        "line": 90,
+        "func_name": "is_async_function",
+        "type_comments": [
+            "(function) -> bool"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\config\\__init__.py",
+        "line": 590,
+        "func_name": "PytestPluginManager._getconftestmodules",
+        "type_comments": [
+            "(pathlib.WindowsPath, str, pathlib.WindowsPath) -> List[module]"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\config\\__init__.py",
+        "line": 1026,
+        "func_name": "rootpath",
+        "type_comments": [
+            "() -> pathlib.WindowsPath"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\config\\__init__.py",
+        "line": 1549,
+        "func_name": "Config.getoption",
+        "type_comments": [
+            "(str, bool, bool) -> bool",
+            "(str, _pytest.config.Notset, bool) -> str"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\config\\compat.py",
+        "line": 36,
+        "func_name": "PathAwareHookProxy.__getattr__",
+        "type_comments": [
+            "(str, function) -> pluggy._hooks._HookCaller"
+        ],
+        "samples": 5
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\deprecated.py",
+        "line": 144,
+        "func_name": "check_ispytest",
+        "type_comments": [
+            "(bool) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 348,
+        "func_name": "get_direct_param_fixture_func",
+        "type_comments": [
+            "(_pytest.fixtures.SubRequest) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 422,
+        "func_name": "scope",
+        "type_comments": [
+            "() -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 434,
+        "func_name": "node",
+        "type_comments": [
+            "() -> _pytest.python.Function"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 439,
+        "func_name": "FixtureRequest._getnextfixturedef",
+        "type_comments": [
+            "(str) -> pyannotate_runtime.collect_types.NoReturnType",
+            "(str) -> _pytest.fixtures.FixtureDef"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 458,
+        "func_name": "config",
+        "type_comments": [
+            "() -> _pytest.config.Config"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 463,
+        "func_name": "function",
+        "type_comments": [
+            "() -> function"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 481,
+        "func_name": "instance",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 553,
+        "func_name": "FixtureRequest.getfixturevalue",
+        "type_comments": [
+            "(str) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 577,
+        "func_name": "FixtureRequest._get_active_fixturedef",
+        "type_comments": [
+            "(str) -> pyannotate_runtime.collect_types.UnknownType",
+            "(str) -> _pytest.fixtures.PseudoFixtureDef"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 596,
+        "func_name": "FixtureRequest._get_fixturestack",
+        "type_comments": [
+            "() -> List[_pytest.fixtures.FixtureDef]"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 605,
+        "func_name": "FixtureRequest._compute_fixture_value",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureDef) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 682,
+        "func_name": "FixtureRequest._schedule_finalizers",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest) -> None"
+        ],
+        "samples": 18
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 688,
+        "func_name": "FixtureRequest._check_scope",
+        "type_comments": [
+            "(str, _pytest.scope.Scope, _pytest.scope.Scope) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 720,
+        "func_name": "FixtureRequest._getscopeitem",
+        "type_comments": [
+            "(_pytest.scope.Scope) -> _pytest.python.Function"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 750,
+        "func_name": "SubRequest.__init__",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureRequest, _pytest.scope.Scope, str, int, _pytest.fixtures.FixtureDef, bool) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 777,
+        "func_name": "SubRequest.addfinalizer",
+        "type_comments": [
+            "(functools.partial) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 799,
+        "func_name": "FixtureLookupError.__init__",
+        "type_comments": [
+            "(str, _pytest.fixtures.SubRequest, None) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 893,
+        "func_name": "call_fixture_func",
+        "type_comments": [
+            "(function, _pytest.fixtures.SubRequest, Dict[str, _pytest.fixtures.SubRequest]) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 913,
+        "func_name": "_teardown_yield_fixture",
+        "type_comments": [
+            "(function, generator) -> pyannotate_runtime.collect_types.UnknownType"
+        ],
+        "samples": 5
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 1022,
+        "func_name": "FixtureDef.addfinalizer",
+        "type_comments": [
+            "(functools.partial) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 1025,
+        "func_name": "FixtureDef.finish",
+        "type_comments": [
+            "(_pytest.fixtures.SubRequest) -> None",
+            "(_pytest.fixtures.SubRequest) -> pyannotate_runtime.collect_types.UnknownType"
+        ],
+        "samples": 17
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 1048,
+        "func_name": "FixtureDef.execute",
+        "type_comments": [
+            "(_pytest.fixtures.SubRequest) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 1079,
+        "func_name": "FixtureDef.cache_key",
+        "type_comments": [
+            "(_pytest.fixtures.SubRequest) -> str"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 1088,
+        "func_name": "resolve_fixture_function",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest) -> function"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 1115,
+        "func_name": "pytest_fixture_setup",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\fixtures.py",
+        "line": 1660,
+        "func_name": "FixtureManager.getfixturedefs",
+        "type_comments": [
+            "(str, str) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 111,
+        "func_name": "ColoredLevelFormatter.format",
+        "type_comments": [
+            "(logging.LogRecord) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 183,
+        "func_name": "PercentStyleMultiline.format",
+        "type_comments": [
+            "(logging.LogRecord) -> str"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 318,
+        "func_name": "catching_logs.__init__",
+        "type_comments": [
+            "(_pytest.logging.LogCaptureHandler, None) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 322,
+        "func_name": "catching_logs.__enter__",
+        "type_comments": [
+            "() -> _pytest.logging.LogCaptureHandler"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 332,
+        "func_name": "catching_logs.__exit__",
+        "type_comments": [
+            "(None, None, None) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 347,
+        "func_name": "LogCaptureHandler.emit",
+        "type_comments": [
+            "(logging.LogRecord) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 352,
+        "func_name": "LogCaptureHandler.reset",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 704,
+        "func_name": "LoggingPlugin.pytest_runtest_logreport",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 708,
+        "func_name": "LoggingPlugin._runtest_for",
+        "type_comments": [
+            "(_pytest.python.Function, str) -> Iterator",
+            "(_pytest.python.Function, str) -> Iterator"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 727,
+        "func_name": "LoggingPlugin.pytest_runtest_setup",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 735,
+        "func_name": "LoggingPlugin.pytest_runtest_call",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator",
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 741,
+        "func_name": "LoggingPlugin.pytest_runtest_teardown",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\logging.py",
+        "line": 841,
+        "func_name": "_LiveLoggingNullHandler.set_when",
+        "type_comments": [
+            "(str) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\main.py",
+        "line": 519,
+        "func_name": "Session.pytest_runtest_logreport",
+        "type_comments": [
+            "(_pytest.reports.TestReport) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\main.py",
+        "line": 536,
+        "func_name": "Session.gethookproxy",
+        "type_comments": [
+            "(pathlib.WindowsPath) -> _pytest.config.compat.PathAwareHookProxy"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\mark\\structures.py",
+        "line": 602,
+        "func_name": "NodeKeywords.__iter__",
+        "type_comments": [
+            "() -> pyannotate_runtime.collect_types.UnknownType",
+            "() -> Iterator[str]"
+        ],
+        "samples": 29
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 264,
+        "func_name": "ihook",
+        "type_comments": [
+            "() -> _pytest.config.compat.PathAwareHookProxy"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 311,
+        "func_name": "nodeid",
+        "type_comments": [
+            "() -> str"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 316,
+        "func_name": "Node.__hash__",
+        "type_comments": [
+            "() -> int"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 325,
+        "func_name": "Node.listchain",
+        "type_comments": [
+            "() -> List[Union[_pytest.main.Session, _pytest.python.Function, _pytest.python.Module, _pytest.python.Package]]"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 363,
+        "func_name": "Node.iter_markers",
+        "type_comments": [
+            "(str) -> generator"
+        ],
+        "samples": 18
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 371,
+        "func_name": "Node.iter_markers_with_node",
+        "type_comments": [
+            "(str) -> Iterator"
+        ],
+        "samples": 18
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 392,
+        "func_name": "Node.get_closest_marker",
+        "type_comments": [
+            "(str, None) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 413,
+        "func_name": "Node.addfinalizer",
+        "type_comments": [
+            "(function) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nodes.py",
+        "line": 735,
+        "func_name": "Item.add_report_section",
+        "type_comments": [
+            "(str, str, str) -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nose.py",
+        "line": 12,
+        "func_name": "pytest_runtest_setup",
+        "type_comments": [
+            "(_pytest.python.Function) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\nose.py",
+        "line": 33,
+        "func_name": "call_optional",
+        "type_comments": [
+            "(function, str, str) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\python.py",
+        "line": 187,
+        "func_name": "pytest_pyfunc_call",
+        "type_comments": [
+            "(_pytest.python.Function) -> bool"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\python.py",
+        "line": 305,
+        "func_name": "obj",
+        "type_comments": [
+            "() -> function"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\python.py",
+        "line": 1797,
+        "func_name": "Function.runtest",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\reports.py",
+        "line": 146,
+        "func_name": "passed",
+        "type_comments": [
+            "() -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\reports.py",
+        "line": 151,
+        "func_name": "failed",
+        "type_comments": [
+            "() -> bool"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\reports.py",
+        "line": 156,
+        "func_name": "skipped",
+        "type_comments": [
+            "() -> bool"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\reports.py",
+        "line": 253,
+        "func_name": "TestReport.__init__",
+        "type_comments": [
+            "(str, Tuple[str, int, str], Dict[str, int], str, None, str, List, float, float, float, List) -> None",
+            "(str, Tuple[str, int, str], Dict[str, int], str, None, str, List[Tuple[str, str]], float, float, float, List) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\reports.py",
+        "line": 318,
+        "func_name": "from_item_and_call",
+        "type_comments": [
+            "(_pytest.python.Function, _pytest.runner.CallInfo) -> _pytest.reports.TestReport"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 160,
+        "func_name": "pytest_runtest_call",
+        "type_comments": [
+            "(_pytest.python.Function) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 180,
+        "func_name": "pytest_runtest_teardown",
+        "type_comments": [
+            "(_pytest.python.Function, _pytest.python.Function) -> pyannotate_runtime.collect_types.UnknownType"
+        ],
+        "samples": 5
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 186,
+        "func_name": "_update_current_test_var",
+        "type_comments": [
+            "(_pytest.python.Function, str) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 203,
+        "func_name": "pytest_report_teststatus",
+        "type_comments": [
+            "(_pytest.reports.TestReport) -> None",
+            "(_pytest.reports.TestReport) -> Tuple[str, str, str]"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 219,
+        "func_name": "call_and_report",
+        "type_comments": [
+            "(_pytest.python.Function, str, bool) -> _pytest.reports.TestReport"
+        ],
+        "samples": 11
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 232,
+        "func_name": "check_interactive_exception",
+        "type_comments": [
+            "(_pytest.runner.CallInfo, _pytest.reports.TestReport) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 247,
+        "func_name": "call_runtest_hook",
+        "type_comments": [
+            "(_pytest.python.Function, str) -> _pytest.runner.CallInfo"
+        ],
+        "samples": 11
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 286,
+        "func_name": "CallInfo.__init__",
+        "type_comments": [
+            "(List, None, float, float, float, str, bool) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 318,
+        "func_name": "from_call",
+        "type_comments": [
+            "(function, str, Tuple[type, type]) -> _pytest.runner.CallInfo"
+        ],
+        "samples": 11
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 367,
+        "func_name": "pytest_runtest_makereport",
+        "type_comments": [
+            "(_pytest.python.Function, _pytest.runner.CallInfo) -> _pytest.reports.TestReport"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 499,
+        "func_name": "SetupState.addfinalizer",
+        "type_comments": [
+            "(function, _pytest.python.Function) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\runner.py",
+        "line": 509,
+        "func_name": "SetupState.teardown_exact",
+        "type_comments": [
+            "(_pytest.python.Function) -> pyannotate_runtime.collect_types.UnknownType"
+        ],
+        "samples": 5
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\scope.py",
+        "line": 56,
+        "func_name": "Scope.__lt__",
+        "type_comments": [
+            "(_pytest.scope.Scope) -> bool"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\setuponly.py",
+        "line": 31,
+        "func_name": "pytest_fixture_setup",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest) -> Iterator",
+            "(_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest) -> Iterator"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\setuponly.py",
+        "line": 51,
+        "func_name": "pytest_fixture_post_finalizer",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureDef) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\setupplan.py",
+        "line": 23,
+        "func_name": "pytest_fixture_setup",
+        "type_comments": [
+            "(_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\skipping.py",
+        "line": 206,
+        "func_name": "evaluate_xfail_marks",
+        "type_comments": [
+            "(_pytest.python.Function) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\skipping.py",
+        "line": 246,
+        "func_name": "pytest_runtest_call",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator",
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\skipping.py",
+        "line": 263,
+        "func_name": "pytest_runtest_makereport",
+        "type_comments": [
+            "(_pytest.python.Function, _pytest.runner.CallInfo) -> Iterator",
+            "(_pytest.python.Function, _pytest.runner.CallInfo) -> Iterator"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\skipping.py",
+        "line": 291,
+        "func_name": "pytest_report_teststatus",
+        "type_comments": [
+            "(_pytest.reports.TestReport) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\stash.py",
+        "line": 71,
+        "func_name": "Stash.__setitem__",
+        "type_comments": [
+            "(_pytest.stash.StashKey, Dict) -> None",
+            "(_pytest.stash.StashKey, _pytest.logging.LogCaptureHandler) -> None",
+            "(_pytest.stash.StashKey, None) -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\stash.py",
+        "line": 75,
+        "func_name": "Stash.__getitem__",
+        "type_comments": [
+            "(_pytest.stash.StashKey) -> None",
+            "(_pytest.stash.StashKey) -> Dict[str, List]",
+            "(_pytest.stash.StashKey) -> pyannotate_runtime.collect_types.NoReturnType"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\stash.py",
+        "line": 82,
+        "func_name": "Stash.get",
+        "type_comments": [
+            "(_pytest.stash.StashKey, None) -> None"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\stash.py",
+        "line": 90,
+        "func_name": "Stash.setdefault",
+        "type_comments": [
+            "(_pytest.stash.StashKey, Dict) -> Dict[str, bool]",
+            "(_pytest.stash.StashKey, Dict) -> Dict"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 275,
+        "func_name": "pytest_report_teststatus",
+        "type_comments": [
+            "(_pytest.reports.TestReport) -> Tuple[str, str, str]"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 369,
+        "func_name": "verbosity",
+        "type_comments": [
+            "() -> int"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 432,
+        "func_name": "TerminalReporter.flush",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 475,
+        "func_name": "TerminalReporter._add_stats",
+        "type_comments": [
+            "(str, List[_pytest.reports.TestReport]) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 525,
+        "func_name": "TerminalReporter.pytest_runtest_logreport",
+        "type_comments": [
+            "(_pytest.reports.TestReport) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 592,
+        "func_name": "_is_last_item",
+        "type_comments": [
+            "() -> bool"
+        ],
+        "samples": 1
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 1176,
+        "func_name": "TerminalReporter._determine_main_color",
+        "type_comments": [
+            "(bool) -> str"
+        ],
+        "samples": 2
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\terminal.py",
+        "line": 1188,
+        "func_name": "TerminalReporter._set_main_color",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 2
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\threadexception.py",
+        "line": 36,
+        "func_name": "catch_threading_exception.__init__",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\threadexception.py",
+        "line": 43,
+        "func_name": "catch_threading_exception.__enter__",
+        "type_comments": [
+            "() -> _pytest.threadexception.catch_threading_exception"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\threadexception.py",
+        "line": 48,
+        "func_name": "catch_threading_exception.__exit__",
+        "type_comments": [
+            "(None, None, None) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\threadexception.py",
+        "line": 60,
+        "func_name": "thread_exception_runtest_hook",
+        "type_comments": [
+            "() -> Iterator",
+            "() -> Iterator"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\threadexception.py",
+        "line": 76,
+        "func_name": "pytest_runtest_setup",
+        "type_comments": [
+            "() -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\threadexception.py",
+        "line": 81,
+        "func_name": "pytest_runtest_call",
+        "type_comments": [
+            "() -> Iterator",
+            "() -> Iterator"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\threadexception.py",
+        "line": 86,
+        "func_name": "pytest_runtest_teardown",
+        "type_comments": [
+            "() -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\tmpdir.py",
+        "line": 318,
+        "func_name": "pytest_runtest_makereport",
+        "type_comments": [
+            "(_pytest.python.Function, _pytest.runner.CallInfo) -> Iterator",
+            "(_pytest.python.Function, _pytest.runner.CallInfo) -> Iterator"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unittest.py",
+        "line": 348,
+        "func_name": "pytest_runtest_makereport",
+        "type_comments": [
+            "(_pytest.python.Function, _pytest.runner.CallInfo) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unraisableexception.py",
+        "line": 36,
+        "func_name": "catch_unraisable_exception.__init__",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unraisableexception.py",
+        "line": 45,
+        "func_name": "catch_unraisable_exception.__enter__",
+        "type_comments": [
+            "() -> _pytest.unraisableexception.catch_unraisable_exception"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unraisableexception.py",
+        "line": 50,
+        "func_name": "catch_unraisable_exception.__exit__",
+        "type_comments": [
+            "(None, None, None) -> None"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unraisableexception.py",
+        "line": 62,
+        "func_name": "unraisable_exception_runtest_hook",
+        "type_comments": [
+            "() -> Iterator",
+            "() -> Iterator"
+        ],
+        "samples": 24
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unraisableexception.py",
+        "line": 81,
+        "func_name": "pytest_runtest_setup",
+        "type_comments": [
+            "() -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unraisableexception.py",
+        "line": 86,
+        "func_name": "pytest_runtest_call",
+        "type_comments": [
+            "() -> Iterator",
+            "() -> Iterator"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\_pytest\\unraisableexception.py",
+        "line": 91,
+        "func_name": "pytest_runtest_teardown",
+        "type_comments": [
+            "() -> Iterator"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\colorama\\ansitowin32.py",
+        "line": 28,
+        "func_name": "StreamWrapper.__getattr__",
+        "type_comments": [
+            "(str) -> builtin_function_or_method"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\colorama\\ansitowin32.py",
+        "line": 46,
+        "func_name": "StreamWrapper.write",
+        "type_comments": [
+            "(str) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\colorama\\ansitowin32.py",
+        "line": 175,
+        "func_name": "AnsiToWin32.write",
+        "type_comments": [
+            "(str) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pluggy\\_callers.py",
+        "line": 30,
+        "func_name": "_multicall",
+        "type_comments": [
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, _pytest.reports.TestReport], bool) -> pyannotate_runtime.collect_types.UnknownType",
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, Union[_pytest.python.Function, _pytest.runner.CallInfo]], bool) -> _pytest.reports.TestReport",
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, Union[_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest]], bool) -> str",
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, Union[_pytest.config.Config, _pytest.reports.TestReport]], bool) -> Tuple[str, str, str]"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pluggy\\_hooks.py",
+        "line": 369,
+        "func_name": "_HookCaller.is_historic",
+        "type_comments": [
+            "() -> bool"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pluggy\\_hooks.py",
+        "line": 409,
+        "func_name": "_HookCaller._verify_all_args_are_provided",
+        "type_comments": [
+            "(Dict[str, Union[_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest]]) -> None",
+            "(Dict[str, Union[_pytest.python.Function, _pytest.runner.CallInfo]]) -> None",
+            "(Dict[str, _pytest.reports.TestReport]) -> None",
+            "(Dict[str, Union[_pytest.config.Config, _pytest.reports.TestReport]]) -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pluggy\\_hooks.py",
+        "line": 427,
+        "func_name": "_HookCaller.__call__",
+        "type_comments": [
+            "() -> pyannotate_runtime.collect_types.UnknownType",
+            "() -> _pytest.reports.TestReport",
+            "() -> str",
+            "() -> Tuple[str, str, str]"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pluggy\\_manager.py",
+        "line": 103,
+        "func_name": "PluginManager._hookexec",
+        "type_comments": [
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, _pytest.reports.TestReport], bool) -> pyannotate_runtime.collect_types.UnknownType",
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, Union[_pytest.python.Function, _pytest.runner.CallInfo]], bool) -> _pytest.reports.TestReport",
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, Union[_pytest.fixtures.FixtureDef, _pytest.fixtures.SubRequest]], bool) -> str",
+            "(str, List[pluggy._hooks.HookImpl], Dict[str, Union[_pytest.config.Config, _pytest.reports.TestReport]], bool) -> Tuple[str, str, str]"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pluggy\\_result.py",
+        "line": 45,
+        "func_name": "_Result.__init__",
+        "type_comments": [
+            "(None, None) -> None",
+            "(str, None) -> None",
+            "(List, None) -> None",
+            "(_pytest.reports.TestReport, None) -> None"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pluggy\\_result.py",
+        "line": 97,
+        "func_name": "_Result.get_result",
+        "type_comments": [
+            "() -> None",
+            "() -> _pytest.reports.TestReport",
+            "() -> List",
+            "() -> str"
+        ],
+        "samples": 30
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pyannotate_runtime\\collect_types.py",
+        "line": 759,
+        "func_name": "stop",
+        "type_comments": [
+            "() -> pyannotate_runtime.collect_types.UnknownType"
+        ],
+        "samples": 5
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pytest_cov\\embed.py",
+        "line": 66,
+        "func_name": "_cleanup",
+        "type_comments": [
+            "(None) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pytest_cov\\embed.py",
+        "line": 77,
+        "func_name": "cleanup",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pytest_cov\\plugin.py",
+        "line": 360,
+        "func_name": "CovPlugin.pytest_runtest_teardown",
+        "type_comments": [
+            "(_pytest.python.Function) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\.venv\\Lib\\site-packages\\pytest_cov\\plugin.py",
+        "line": 363,
+        "func_name": "CovPlugin.pytest_runtest_call",
+        "type_comments": [
+            "(_pytest.python.Function) -> Iterator",
+            "(_pytest.python.Function) -> Iterator"
+        ],
+        "samples": 12
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\tests\\conftest.py",
+        "line": 42,
+        "func_name": "collect_types_fixture",
+        "type_comments": [
+            "() -> Iterator"
+        ],
+        "samples": 5
+    },
+    {
+        "path": "c:\\Users\\mbradbury\\repos\\skugs\\tests\\test_combos.py",
+        "line": 18,
+        "func_name": "test_expand_all_x_n",
+        "type_comments": [
+            "(str, str) -> None"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "src\\skombo\\utils.py",
+        "line": 53,
+        "func_name": "expand_all_x_n",
+        "type_comments": [
+            "(str) -> str"
+        ],
+        "samples": 6
+    },
+    {
+        "path": "src\\skombo\\utils.py",
+        "line": 65,
+        "func_name": "expand_x_n",
+        "type_comments": [
+            "(re.Match) -> str"
+        ],
+        "samples": 17
+    }
+]
