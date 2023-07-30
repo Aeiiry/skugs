@@ -367,10 +367,10 @@ class FrameData(pd.DataFrame):
             .split_on_pushblock()  # Split on_pushblock into lists
             .separate_hitstop_blockstop()  # Separate hitstop and blockstop
             .extract_damage_scaling()
-            .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
             .strings_to_nan(
                 string_to_nan
             )  # Replace strings with np.nan as specified in string_to_nan
+            .split_cols_on_comma(COLS_CLASSES.LIST_COLUMNS)  # Split numeric list cols
         )
         return cleaned
 
