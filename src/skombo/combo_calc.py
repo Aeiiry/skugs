@@ -161,9 +161,7 @@ class ComboCalculator:
                     if isinstance(combo[col], str)
                     else None
                 )
-                if character is None:
-                    log.error(f"Unknown character: {combo[col]}")
-                else:
+                if character is not None:
                     characters.append(character)
             self.combos.append(Combo(combo, characters))
 
