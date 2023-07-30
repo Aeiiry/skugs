@@ -78,7 +78,7 @@ F.HP
 OVERHEAD
 SLOWVERHEAD",High,-,"1300,
 [650 (70)]",10%,Ground Bounce,-13 [+2],28,4,30,28,20,16,-,- Command overhead.,https://wiki.gbl.gg/images/0/08/SG_ann_fhp_hb.png,https://wiki.gbl.gg/images/e/e1/SG_ann_fhp_fd.png
-ANNIE,THROW,MACRO_THROW,Throw,50% Damage Scaling,900,5%,KD,N/A,7,1,28,N/A,N/A,N/A,N/A,"- Despite her small size, Annie sports one of the longest throws in the game.
+ANNIE,THROW,MACRO_THROW,Throw,50% Damage Scaling,1300,5%,KD,N/A,7,1,28,N/A,N/A,N/A,N/A,"- Despite her small size, Annie sports one of the longest throws in the game.
 - Use M Crescent Cut or L North Knuckle for meterless conversions, and H North Knuckle for corner carry.",https://wiki.gbl.gg/images/5/5f/SG_ann_throw_hb.png,https://wiki.gbl.gg/images/4/46/SG_ann_throw_fd.png
 ANNIE,AIR THROW,MACRO_AIR_THROW,Air Throw,50% Damage Scaling,1100,"5%, 9%",KD,N/A,7,3,18,N/A,N/A,N/A,N/A,- Easy to convert off of using OTG.,https://wiki.gbl.gg/images/7/72/SG_ann_airthrow_hb.png,https://wiki.gbl.gg/images/8/86/SG_ann_airthrow_fd.png
 ANNIE,TAG IN,MACRO_TAG,Mid,Tag,750,7.5%,Ground Bounce,-31,43,3,42,10,13,12,-,,https://wiki.gbl.gg/images/2/27/SG_ann_tag_hb.png,https://wiki.gbl.gg/images/c/ce/SG_ann_tag_fd.png
@@ -431,7 +431,8 @@ ANNIE,TAUNT,"4628LP
 6428+LP
 TAUNT COUNTER
 COUNTER
-REFLECTION NEBULA",N/A,"Armor, No Cancel (Supers)",N/A,0%,N/A,N/A,5,30,32,N/A,N/A,N/A,N/A,"- Annie's taunt acts as a counter against mids and high strikes only (?)
+REFLECTION NEBULA
+DOWN LOW",N/A,"Armor, No Cancel (Supers)",N/A,0%,N/A,N/A,5,30,32,N/A,N/A,N/A,N/A,"- Annie's taunt acts as a counter against mids and high strikes only (?)
 - See TAUNT RIPOSTE for the move that activates on a successful counter.",https://wiki.gbl.gg/images/5/5a/SG_ann_taunt_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_taunt_fd.png
 ANNIE,TAUNT RIPOSTE,"TAUNT HIT
 RIPOSTE
@@ -1050,7 +1051,8 @@ WEA DE TAG",Mid,"Armor (1 hit),
 BIG BAND,SNAPBACK,"MACRO_SNAPBACK
 WEA DE SNAP
 WEA DE SNAPBACK",Mid,Snapback,0,-100%,-,-22,12 + 3,3,37,14,17,"(9), 13",-13,,https://wiki.gbl.gg/images/6/6d/SG_big_snap_hb.png,https://wiki.gbl.gg/images/4/43/SG_big_snap_fd.png
-BIG BAND,L BEAT EXTEND,"L BEAT
+BIG BAND,L BEAT EXTEND,"BEAT EXTEND L
+L BEAT
 LBEAT
 L EXTEND
 EXTEND L
@@ -1065,7 +1067,8 @@ WEA DE L BEAT",Mid,"Invuln. (Strike) (Frame 2),
 - Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent is not invincible but will fall too quickly for Big Band to follow up.
 - As an assist, this move has an extra 1F of aditional vulnerability before performing its attack. (5F total)
 - As an assist, it has 5F less blockstun.",https://wiki.gbl.gg/images/9/9c/SG_big_dpp_hb.png,https://wiki.gbl.gg/images/f/f4/SG_big_dplp_fd.png
-BIG BAND,M BEAT EXTEND,"M BEAT
+BIG BAND,M BEAT EXTEND,"BEAT EXTEND M
+M BEAT
 MBEAT
 M EXTEND
 EXTEND M
@@ -1080,7 +1083,8 @@ WEA DE M BEAT",Mid,"Invuln. (Strike),
 - Consumes SOUND STUN on hit for extra hitstop. If used without SOUND STUN available, the opponent is not invincible but will fall too quickly for Big Band to follow up.
 - As an assist, this move has an extra 2F of aditional vulnerability before performing its attack. (5F total)
 - As an assist, it has 7F less blockstun.",https://wiki.gbl.gg/images/9/9c/SG_big_dpp_hb.png,https://wiki.gbl.gg/images/a/af/SG_big_dpmp_fd.png
-BIG BAND,H BEAT EXTEND,"H BEAT
+BIG BAND,H BEAT EXTEND,"BEAT EXTEND H
+H BEAT
 HBEAT
 BEAT
 H EXTEND
@@ -1160,7 +1164,8 @@ TRAIN
 WEA DE H TRAIN
 WEA DE ATRAIN",Anti-Air Grab,"Armor (3 hits),
  50% Damage Scaling","0, 350, 450, 500, 1000 (100)","(2.5%) 4%, 3% x3, 10%",Sliding KD,-14,21,2,34,-,21,11,-9,- The opponent cannot block this move if they are rising upwards.,https://wiki.gbl.gg/images/5/53/SG_big_bfk_hb.png,https://wiki.gbl.gg/images/b/bc/SG_big_bfhk_fd.png
-BIG BAND,EMERGENCY BREAK,"E BREAK
+BIG BAND,EMERGENCY BREAK,"EMERGENCY BRAKE
+E BREAK
 E. BREAK
 E.BREAK
 EBRAKE
@@ -1569,11 +1574,464 @@ LPLK EMPOWER
 EMPOWERED THROW
 EMPOWERED LPLK
 THROW EMPOWERED
-LPLK EMPOWERED",Throw,50% Damage Scaling,"800
+LPLK EMPOWERED",Throw,"50% Damage
+Scaling","800
 (1750 held)",5.00%,KD,N/A,7,1,28,N/A,N/A,N/A,-,"- Hold HP or LPLK while empowered for an enhanced version which does more damage and leaves your victim closer to you for an easier pickup.
 - Convert midscreen with Shotgun, Barrel or Sticky Bomb.",https://wiki.gbl.gg/images/6/69/SG_dhl_throw_hb.png,https://wiki.gbl.gg/images/3/32/SG_dhl_throw_fd.png
-BLACK DAHLIA,AIR THROW,MACRO_AIR_THROW,Air Throw,50% Damage Scaling,900,9.00%,KD,N/A,7,3,18,N/A,N/A,N/A,-,- Can convert with OTG 2HK 236LPLK.,https://wiki.gbl.gg/images/1/1c/SG_dhl_airthrow_hb.png,https://wiki.gbl.gg/images/9/99/SG_dhl_airthrow_fd.png
-BLACK DAHLIA,TAG IN,MACRO_TAG,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+BLACK DAHLIA,AIR THROW,MACRO_AIR_THROW,Air Throw,"50% Damage
+Scaling",900,9.00%,KD,N/A,7,3,18,N/A,N/A,N/A,-,- Can convert with OTG 2HK 236LPLK.,https://wiki.gbl.gg/images/1/1c/SG_dhl_airthrow_hb.png,https://wiki.gbl.gg/images/9/99/SG_dhl_airthrow_fd.png
+BLACK DAHLIA,TAG IN STANDARD SHOT,"MACRO_TAG
+TAG STANDARD
+TAG IN STANDARD
+TAGIN STANDARD
+RAW TAG STANDARD
+RAWTAG STANDARD
+TAG OUT STANDARD
+TAGOUT STANDARD
+STANDARD TAG
+STANDARD TAG IN
+STANDARD TAGIN
+STANDARD RAW TAG
+STANDARD RAWTAG
+STANDARD TAG OUT
+STANDARD TAGOUT
+TAG NORMAL
+TAG IN NORMAL
+TAGIN NORMAL
+RAW TAG NORMAL
+RAWTAG NORMAL
+TAG OUT NORMAL
+TAGOUT NORMAL
+NORMAL TAG
+NORMAL TAG IN
+NORMAL TAGIN
+NORMAL RAW TAG
+NORMAL RAWTAG
+NORMAL TAG OUT
+NORMAL TAGOUT
+TAG STANDARD SHOT
+TAGIN STANDARD SHOT
+RAW TAG STANDARD SHOT
+RAWTAG STANDARD SHOT
+TAG OUT STANDARD SHOT
+TAGOUT STANDARD SHOT
+STANDARD SHOT TAG
+STANDARD SHOT TAG IN
+STANDARD SHOT TAGIN
+STANDARD SHOT RAW TAG
+STANDARD SHOT RAWTAG
+STANDARD SHOT TAG OUT
+STANDARD SHOT TAGOUT
+TAG NORMAL SHOT
+TAG IN NORMAL SHOT
+TAGIN NORMAL SHOT
+RAW TAG NORMAL SHOT
+RAWTAG NORMAL SHOT
+TAG OUT NORMAL SHOT
+TAGOUT NORMAL SHOT
+NORMAL SHOT TAG
+NORMAL SHOT TAG IN
+NORMAL SHOT TAGIN
+NORMAL SHOT RAW TAG
+NORMAL SHOT RAWTAG
+NORMAL SHOT TAG OUT
+NORMAL SHOT TAGOUT",Mid,"Tag
+ Projectile",750 (400),5.14%,KD,-40,39,--,71,26,21,"16 (9
+on block)",-,"- Uses ammo, fires a shot of the previously loaded type.
+- See also TAG IN (bullet type here), and TAG IN EMPTY.",https://wiki.gbl.gg/images/a/a0/SG_dhl_tag_hb.png,https://wiki.gbl.gg/images/b/bf/SG_dhl_tag_fd.png
+BLACK DAHLIA,TAG IN BUCK SHOT,"TAG SHOTGUN
+TAG IN SHOTGUN
+TAGIN SHOTGUN
+RAW TAG SHOTGUN
+RAWTAG SHOTGUN
+TAG OUT SHOTGUN
+TAGOUT SHOTGUN
+SHOTGUN TAG
+SHOTGUN TAG IN
+SHOTGUN TAGIN
+SHOTGUN RAW TAG
+SHOTGUN RAWTAG
+SHOTGUN TAG OUT
+SHOTGUN TAGOUT
+TAG SHOTGUN SHOT
+TAG IN SHOTGUN SHOT
+TAGIN SHOTGUN SHOT
+RAW TAG SHOTGUN SHOT
+RAWTAG SHOTGUN SHOT
+TAG OUT SHOTGUN SHOT
+TAGOUT SHOTGUN SHOT
+SHOTGUN SHOT TAG
+SHOTGUN SHOT TAG IN
+SHOTGUN SHOT TAGIN
+SHOTGUN SHOT RAW TAG
+SHOTGUN SHOT RAWTAG
+SHOTGUN SHOT TAG OUT
+SHOTGUN SHOT TAGOUT
+TAG BUCK
+TAG IN BUCK
+TAGIN BUCK
+RAW TAG BUCK
+RAWTAG BUCK
+TAG OUT BUCK
+TAGOUT BUCK
+BUCK TAG
+BUCK TAG IN
+BUCK TAGIN
+BUCK RAW TAG
+BUCK RAWTAG
+BUCK TAG OUT
+BUCK TAGOUT
+TAG BUCK SHOT
+TAGIN BUCK SHOT
+RAW TAG BUCK SHOT
+RAWTAG BUCK SHOT
+TAG OUT BUCK SHOT
+TAGOUT BUCK SHOT
+BUCK SHOT TAG
+BUCK SHOT TAG IN
+BUCK SHOT TAGIN
+BUCK SHOT RAW TAG
+BUCK SHOT RAWTAG
+BUCK SHOT TAG OUT
+BUCK SHOT TAGOUT
+TAG BUCKSHOT
+TAG IN BUCKSHOT
+TAGIN BUCKSHOT
+RAW TAG BUCKSHOT
+RAWTAG BUCKSHOT
+TAG OUT BUCKSHOT
+TAGOUT BUCKSHOT
+BUCKSHOT TAG
+BUCKSHOT TAG IN
+BUCKSHOT TAGIN
+BUCKSHOT RAW TAG
+BUCKSHOT RAWTAG
+BUCKSHOT TAG OUT
+BUCKSHOT TAGOUT",Mid,Tag,1100 (250),6.00%,Wall Bounce,-46,39,3,68,26,17,"13 (7
+on block)",-,"- Uses ammo, fires a shot of the previously loaded type.
+- Is not an overhead, unlike air buckshot.
+- See also TAG IN (bullet type here), and TAG IN EMPTY.",https://wiki.gbl.gg/images/a/a0/SG_dhl_tag_hb.png,https://wiki.gbl.gg/images/e/eb/SG_dhl_buck_tag_fd.png
+BLACK DAHLIA,TAG IN RAIL SHOT,"TAG RAIL
+TAG IN RAIL
+TAGIN RAIL
+RAW TAG RAIL
+RAWTAG RAIL
+TAG OUT RAIL
+TAGOUT RAIL
+RAIL TAG
+RAIL TAG IN
+RAIL TAGIN
+RAIL RAW TAG
+RAIL RAWTAG
+RAIL TAG OUT
+RAIL TAGOUT
+TAG RAIL SHOT
+TAGIN RAIL SHOT
+RAW TAG RAIL SHOT
+RAWTAG RAIL SHOT
+TAG OUT RAIL SHOT
+TAGOUT RAIL SHOT
+RAIL SHOT TAG
+RAIL SHOT TAG IN
+RAIL SHOT TAGIN
+RAIL SHOT RAW TAG
+RAIL SHOT RAWTAG
+RAIL SHOT TAG OUT
+RAIL SHOT TAGOUT
+TAG RAILGUN
+TAG IN RAILGUN
+TAGIN RAILGUN
+RAW TAG RAILGUN
+RAWTAG RAILGUN
+TAG OUT RAILGUN
+TAGOUT RAILGUN
+RAILGUN TAG
+RAILGUN TAG IN
+RAILGUN TAGIN
+RAILGUN RAW TAG
+RAILGUN RAWTAG
+RAILGUN TAG OUT
+RAILGUN TAGOUT
+TAG RAILGUN SHOT
+TAG IN RAILGUN SHOT
+TAGIN RAILGUN SHOT
+RAW TAG RAILGUN SHOT
+RAWTAG RAILGUN SHOT
+TAG OUT RAILGUN SHOT
+TAGOUT RAILGUN SHOT
+RAILGUN SHOT TAG
+RAILGUN SHOT TAG IN
+RAILGUN SHOT TAGIN
+RAILGUN SHOT RAW TAG
+RAILGUN SHOT RAWTAG
+RAILGUN SHOT TAG OUT
+RAILGUN SHOT TAGOUT
+TAG LASER
+TAG IN LASER
+TAGIN LASER
+RAW TAG LASER
+RAWTAG LASER
+TAG OUT LASER
+TAGOUT LASER
+LASER TAG
+LASER TAG IN
+LASER TAGIN
+LASER RAW TAG
+LASER RAWTAG
+LASER TAG OUT
+LASER TAGOUT
+TAG LASER SHOT
+TAG IN LASER SHOT
+TAGIN LASER SHOT
+RAW TAG LASER SHOT
+RAWTAG LASER SHOT
+TAG OUT LASER SHOT
+TAGOUT LASER SHOT
+LASER SHOT TAG
+LASER SHOT TAG IN
+LASER SHOT TAGIN
+LASER SHOT RAW TAG
+LASER SHOT RAWTAG
+LASER SHOT TAG OUT
+LASER SHOT TAGOUT
+TAG BEAM
+TAG IN BEAM
+TAGIN BEAM
+RAW TAG BEAM
+RAWTAG BEAM
+TAG OUT BEAM
+TAGOUT BEAM
+BEAM TAG
+BEAM TAG IN
+BEAM TAGIN
+BEAM RAW TAG
+BEAM RAWTAG
+BEAM TAG OUT
+BEAM TAGOUT
+TAG BEAM SHOT
+TAG IN BEAM SHOT
+TAGIN BEAM SHOT
+RAW TAG BEAM SHOT
+RAWTAG BEAM SHOT
+TAG OUT BEAM SHOT
+TAGOUT BEAM SHOT
+BEAM SHOT TAG
+BEAM SHOT TAG IN
+BEAM SHOT TAGIN
+BEAM SHOT RAW TAG
+BEAM SHOT RAWTAG
+BEAM SHOT TAG OUT
+BEAM SHOT TAGOUT",Mid,"Tag
+ Projectile",800 (500),4.50%,KD,-40,39,4,67,28,26,"17 (4
+on block)",-,"- Uses ammo, fires a shot of the previously loaded type.
+- See also TAG IN (bullet type here), and TAG IN EMPTY.",https://wiki.gbl.gg/images/a/a0/SG_dhl_tag_hb.png,https://wiki.gbl.gg/images/d/db/SG_dhl_rail_tag_fd.png
+BLACK DAHLIA,TAG IN FIRE SHOT,"TAG FIRE
+TAG IN FIRE
+TAGIN FIRE
+RAW TAG FIRE
+RAWTAG FIRE
+TAG OUT FIRE
+TAGOUT FIRE
+FIRE TAG
+FIRE TAG IN
+FIRE TAGIN
+FIRE RAW TAG
+FIRE RAWTAG
+FIRE TAG OUT
+FIRE TAGOUT
+TAG FIRE SHOT
+TAGIN FIRE SHOT
+RAW TAG FIRE SHOT
+RAWTAG FIRE SHOT
+TAG OUT FIRE SHOT
+TAGOUT FIRE SHOT
+FIRE SHOT TAG
+FIRE SHOT TAG IN
+FIRE SHOT TAGIN
+FIRE SHOT RAW TAG
+FIRE SHOT RAWTAG
+FIRE SHOT TAG OUT
+FIRE SHOT TAGOUT",Mid,"Tag
+ Projectile","300, 400
+(100, 200)","1.8%, 6.0%","-28,  KD",-40,39,--,71,"26, 25","23, 19","16, 12 (7,
+7 on block)",-,"- Uses ammo, fires a shot of the previously loaded type.
+- See also TAG IN (bullet type here), and TAG IN EMPTY.",https://wiki.gbl.gg/images/a/a0/SG_dhl_tag_hb.png,https://wiki.gbl.gg/images/c/ce/SG_dhl_fire_tag_fd.png
+BLACK DAHLIA,TAG IN ICE SHOT,"TAG ICE
+TAG IN ICE
+TAGIN ICE
+RAW TAG ICE
+RAWTAG ICE
+TAG OUT ICE
+TAGOUT ICE
+ICE TAG
+ICE TAG IN
+ICE TAGIN
+ICE RAW TAG
+ICE RAWTAG
+ICE TAG OUT
+ICE TAGOUT
+TAG ICE SHOT
+TAGIN ICE SHOT
+RAW TAG ICE SHOT
+RAWTAG ICE SHOT
+TAG OUT ICE SHOT
+TAGOUT ICE SHOT
+ICE SHOT TAG
+ICE SHOT TAG IN
+ICE SHOT TAGIN
+ICE SHOT RAW TAG
+ICE SHOT RAWTAG
+ICE SHOT TAG OUT
+ICE SHOT TAGOUT",Mid,"Tag
+ Projectile","250x3
+(125x3)",1.93%x3,97,-26,39,"1, (14), 1,
+(14), 1",71,108,20,"14x3 (7x3
+on block)",-,"- Uses ammo, fires a shot of the previously loaded type.
+- See also TAG IN (bullet type here), and TAG IN EMPTY.",https://wiki.gbl.gg/images/a/a0/SG_dhl_tag_hb.png,https://wiki.gbl.gg/images/8/83/SG_dhl_ice_tag_fd.png
+BLACK DAHLIA,TAG IN LIGHTNING SHOT,"TAG LIGHTNING
+TAG IN LIGHTNING
+TAGIN LIGHTNING
+RAW TAG LIGHTNING
+RAWTAG LIGHTNING
+TAG OUT LIGHTNING
+TAGOUT LIGHTNING
+LIGHTNING TAG
+LIGHTNING TAG IN
+LIGHTNING TAGIN
+LIGHTNING RAW TAG
+LIGHTNING RAWTAG
+LIGHTNING TAG OUT
+LIGHTNING TAGOUT
+TAG LIGHTNING SHOT
+TAGIN LIGHTNING SHOT
+RAW TAG LIGHTNING SHOT
+RAWTAG LIGHTNING SHOT
+TAG OUT LIGHTNING SHOT
+TAGOUT LIGHTNING SHOT
+LIGHTNING SHOT TAG
+LIGHTNING SHOT TAG IN
+LIGHTNING SHOT TAGIN
+LIGHTNING SHOT RAW TAG
+LIGHTNING SHOT RAWTAG
+LIGHTNING SHOT TAG OUT
+LIGHTNING SHOT TAGOUT
+TAG ELECTRIC
+TAG IN ELECTRIC
+TAGIN ELECTRIC
+RAW TAG ELECTRIC
+RAWTAG ELECTRIC
+TAG OUT ELECTRIC
+TAGOUT ELECTRIC
+ELECTRIC TAG
+ELECTRIC TAG IN
+ELECTRIC TAGIN
+ELECTRIC RAW TAG
+ELECTRIC RAWTAG
+ELECTRIC TAG OUT
+ELECTRIC TAGOUT
+TAG ELECTRIC SHOT
+TAG IN ELECTRIC SHOT
+TAGIN ELECTRIC SHOT
+RAW TAG ELECTRIC SHOT
+RAWTAG ELECTRIC SHOT
+TAG OUT ELECTRIC SHOT
+TAGOUT ELECTRIC SHOT
+ELECTRIC SHOT TAG
+ELECTRIC SHOT TAG IN
+ELECTRIC SHOT TAGIN
+ELECTRIC SHOT RAW TAG
+ELECTRIC SHOT RAWTAG
+ELECTRIC SHOT TAG OUT
+ELECTRIC SHOT TAGOUT",Mid,"Tag
+ Projectile","375x3
+(100x3)",1.44%x3,8,-40,39,"1, (3), 1,
+(2), 1",71,14,17,"43 (13
+on block)",-,"- Uses ammo, fires a shot of the previously loaded type.
+- See also TAG IN (bullet type here), and TAG IN EMPTY.",https://wiki.gbl.gg/images/a/a0/SG_dhl_tag_hb.png,https://wiki.gbl.gg/images/4/4b/SG_dhl_electric_tag_fd.png
+BLACK DAHLIA,TAG IN EMPTY,"TAG FAILED
+TAG IN FAILED
+TAGIN FAILED
+RAW TAG FAILED
+RAWTAG FAILED
+TAG OUT FAILED
+TAGOUT FAILED
+FAILED TAG
+FAILED TAG IN
+FAILED TAGIN
+FAILED RAW TAG
+FAILED RAWTAG
+FAILED TAG OUT
+FAILED TAGOUT
+TAG FAILED SHOT
+TAG IN FAILED SHOT
+TAGIN FAILED SHOT
+RAW TAG FAILED SHOT
+RAWTAG FAILED SHOT
+TAG OUT FAILED SHOT
+TAGOUT FAILED SHOT
+FAILED SHOT TAG
+FAILED SHOT TAG IN
+FAILED SHOT TAGIN
+FAILED SHOT RAW TAG
+FAILED SHOT RAWTAG
+FAILED SHOT TAG OUT
+FAILED SHOT TAGOUT
+TAG FAIL
+TAG IN FAIL
+TAGIN FAIL
+RAW TAG FAIL
+RAWTAG FAIL
+TAG OUT FAIL
+TAGOUT FAIL
+FAIL TAG
+FAIL TAG IN
+FAIL TAGIN
+FAIL RAW TAG
+FAIL RAWTAG
+FAIL TAG OUT
+FAIL TAGOUT
+TAG FAIL SHOT
+TAG IN FAIL SHOT
+TAGIN FAIL SHOT
+RAW TAG FAIL SHOT
+RAWTAG FAIL SHOT
+TAG OUT FAIL SHOT
+TAGOUT FAIL SHOT
+FAIL SHOT TAG
+FAIL SHOT TAG IN
+FAIL SHOT TAGIN
+FAIL SHOT RAW TAG
+FAIL SHOT RAWTAG
+FAIL SHOT TAG OUT
+FAIL SHOT TAGOUT
+TAG EMPTY
+TAGIN EMPTY
+RAW TAG EMPTY
+RAWTAG EMPTY
+TAG OUT EMPTY
+TAGOUT EMPTY
+EMPTY TAG
+EMPTY TAG IN
+EMPTY TAGIN
+EMPTY RAW TAG
+EMPTY RAWTAG
+EMPTY TAG OUT
+EMPTY TAGOUT
+TAG EMPTY SHOT
+TAG IN EMPTY SHOT
+TAGIN EMPTY SHOT
+RAW TAG EMPTY SHOT
+RAWTAG EMPTY SHOT
+TAG OUT EMPTY SHOT
+TAGOUT EMPTY SHOT
+EMPTY SHOT TAG
+EMPTY SHOT TAG IN
+EMPTY SHOT TAGIN
+EMPTY SHOT RAW TAG
+EMPTY SHOT RAWTAG
+EMPTY SHOT TAG OUT
+EMPTY SHOT TAGOUT",N/A,Tag,N/A,N/A,N/A,N/A,39,N/A,71,N/A,N/A,N/A,-,"- If Dahlia has no ammo, the tag animation plays but no shot is fired.
+- See also TAG IN (bullet type here).",https://wiki.gbl.gg/images/a/ab/SG_dhl_tag.png,https://wiki.gbl.gg/images/8/82/SG_dhl_empty_tag_fd.png
 BLACK DAHLIA,SNAPBACK,MACRO_SNAPBACK,Mid,Snapback,0,-100%,N/A,-21,12 + 3,4,44,21,30,9,-,- Causes the barrel to explode if hit directly.,https://wiki.gbl.gg/images/5/57/SG_dhl_snap_hb.png,https://wiki.gbl.gg/images/d/d5/SG_dhl_snap_fd.png
 BLACK DAHLIA,ONSLAUGHT,"ASSAULT
 KK
@@ -1665,7 +2123,13 @@ J.QCFP NORMAL
 J.QCF.P NORMAL
 JUMPING 236P NORMAL
 JUMPING QCFP NORMAL
-JUMPING QCF.P NORMAL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JUMPING QCF.P NORMAL",Mid,Projectile,750 (400),"(2.5%)
+5.14%"," +11,
+KD in air",-1,23,--,32,26,21,"16,
+9 on block",-,"- Dahlia shoots her gun, with different properties depending on ammo type.
+- Grounded LP shoots straight ahead, while MP and HP point upwards.
+- Air LP points downwards, MP points straight ahead, and HP points upwards.
+- Standard Shot - Regular projectile that lightly explodes, arcs downwards when fired.",https://wiki.gbl.gg/images/2/23/SG_dhl_qcfp_hb.png,https://wiki.gbl.gg/images/1/19/SG_dhl_qcfp_standard_fd.png
 BLACK DAHLIA,ORDER UP! BUCK SHOT,"SHOTGUN
 SHOTGUN SHOT
 SHOTGUN BULLET
@@ -1725,7 +2189,41 @@ J.QCFP BUCKSHOT
 J.QCF.P BUCKSHOT
 JUMPING 236P BUCKSHOT
 JUMPING QCFP BUCKSHOT
-JUMPING QCF.P BUCKSHOT",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JUMPING QCF.P BUCKSHOT
+BUCK SHOT
+BUCK SHOT SHOT
+BUCK SHOT BULLET
+BUCK SHOT ORDER UP
+ORDER UP BUCK SHOT
+BUCK SHOT ORDER UP!
+BUCK SHOT 236P
+BUCK SHOT QCFP
+BUCK SHOT QCF.P
+BUCK SHOT J236P
+BUCK SHOT JQCFP
+BUCK SHOT JQCF.P
+BUCK SHOT J.236P
+BUCK SHOT J.QCFP
+BUCK SHOT J.QCF.P
+BUCK SHOT JUMPING 236P
+BUCK SHOT JUMPING QCFP
+BUCK SHOT JUMPING QCF.P
+236P BUCK SHOT
+QCFP BUCK SHOT
+QCF.P BUCK SHOT
+J236P BUCK SHOT
+JQCFP BUCK SHOT
+JQCF.P BUCK SHOT
+J.236P BUCK SHOT
+J.QCFP BUCK SHOT
+J.QCF.P BUCK SHOT
+JUMPING 236P BUCK SHOT
+JUMPING QCFP BUCK SHOT
+JUMPING QCF.P BUCK SHOT","Mid (ground),
+High (air)",-,1100 (250),(2.5%) 6%,Wall Bounce,8,21,2,30,26,26,13,-,"- Buck Shot - A large shotgun blast instead of a projectile, bounces the opponent off of the walls or ceiling. Reaches midrange.
+- Highest damage with the least amount of damage scaling out of all shots.
+- If the same strength is used in a combo, the damage is reduced to 880 until the combo ends. Use all 3 strengths in the air and on the ground to maximize damage.
+- Ignites the oil from Stage Hazard.",https://wiki.gbl.gg/images/2/23/SG_dhl_qcfp_hb.png,https://wiki.gbl.gg/images/4/41/SG_dhl_qcfp_buck_fd.png
 BLACK DAHLIA,ORDER UP! RAIL SHOT,"BEAM
 BEAM SHOT
 BEAM BULLET
@@ -1756,6 +2254,36 @@ J.QCF.P BEAM
 JUMPING 236P BEAM
 JUMPING QCFP BEAM
 JUMPING QCF.P BEAM
+LASER
+LASER SHOT
+LASER BULLET
+LASER ORDER UP
+ORDER UP LASER
+LASER ORDER UP!
+LASER 236P
+LASER QCFP
+LASER QCF.P
+LASER J236P
+LASER JQCFP
+LASER JQCF.P
+LASER J.236P
+LASER J.QCFP
+LASER J.QCF.P
+LASER JUMPING 236P
+LASER JUMPING QCFP
+LASER JUMPING QCF.P
+236P LASER
+QCFP LASER
+QCF.P LASER
+J236P LASER
+JQCFP LASER
+JQCF.P LASER
+J.236P LASER
+J.QCFP LASER
+J.QCF.P LASER
+JUMPING 236P LASER
+JUMPING QCFP LASER
+JUMPING QCF.P LASER
 RAILGUN
 RAILGUN BULLET
 RAILGUN SHOT
@@ -1815,7 +2343,8 @@ J.QCFP RAIL
 J.QCF.P RAIL
 JUMPING 236P RAIL
 JUMPING QCFP RAIL
-JUMPING QCF.P RAIL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JUMPING QCF.P RAIL",Mid,Projectile,800 (500),(2.5%) 4.5%,KD,-1,21,4,30,28,26,"17,
+4 on block",-,- Rail Shot - Shoots a teal beam in a straight line.,https://wiki.gbl.gg/images/2/23/SG_dhl_qcfp_hb.png,https://wiki.gbl.gg/images/5/5a/SG_dhl_qcfp_rail_fd.png
 BLACK DAHLIA,ORDER UP! FIRE SHOT,"FIRE
 FIRE SHOT
 FIRE BULLET
@@ -1845,7 +2374,10 @@ J.QCFP FIRE
 J.QCF.P FIRE
 JUMPING 236P FIRE
 JUMPING QCFP FIRE
-JUMPING QCF.P FIRE",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JUMPING QCF.P FIRE",Mid,Projectile,"300, 400 (100, 200)","(2.5%) 1.8%, 6%"," +11, KD",-1,21,-,32,"26, 25","23, 19","16, 12
+(7, 7 on block)",-,"- Fire Shot - Arcs downward when fired, first hit taps opponent before exploding on the ground. Will simply explode on the ground if it doesn’t hit an opponent.
+- 28 frame gap between blocking the first hit and the second hit exploding.
+- Ignites the oil from Stage Hazard.",https://wiki.gbl.gg/images/2/23/SG_dhl_qcfp_hb.png,https://wiki.gbl.gg/images/5/5c/SG_dhl_qcfp_fire_fd.png
 BLACK DAHLIA,ORDER UP! ICE SHOT,"ICE
 ICE SHOT
 ICE BULLET
@@ -1875,7 +2407,13 @@ J.QCFP ICE
 J.QCF.P ICE
 JUMPING 236P ICE
 JUMPING QCFP ICE
-JUMPING QCF.P ICE",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JUMPING QCF.P ICE",Mid,"Projectile,  75%
+Damage Scaling",250x3 (125x3),"(2.5%)
+1.93%x3", +119 / +72 / +31,13,21,"1, (14), 1,
+(14), 1",32,108 / 61 / 20,20,"14x3
+(7x3 on block)",-,"- Ice Shot - Projectile that freezes the opponent on hit, trapping them for a long time. Arcs downward when fired.
+- Breaks armor.
+- Hitstun is decreased for each successive use in a combo, up to 3 times.",https://wiki.gbl.gg/images/2/23/SG_dhl_qcfp_hb.png,https://wiki.gbl.gg/images/b/b4/SG_dhl_qcfp_ice_fd.png
 BLACK DAHLIA,ORDER UP! LIGHTNING SHOT,"LIGHTNING
 LIGHTNING SHOT
 LIGHTNING BULLET
@@ -1935,9 +2473,14 @@ J.QCFP ELECTRIC
 J.QCF.P ELECTRIC
 JUMPING 236P ELECTRIC
 JUMPING QCFP ELECTRIC
-JUMPING QCF.P ELECTRIC",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JUMPING QCF.P ELECTRIC",Mid,Projectile,375x3 (100x3),"(2.5%)
+1.44%x3",30,-1,21,"1, (3), 1,
+(2), 1",32,14,17,"47
+(13 on block)",-,"- Lightning Shot - Projectile with extra hits and stun compared to Standard shot. Moves in a straight line.
+- Characters hit with electricity are stalled mid-air.",https://wiki.gbl.gg/images/2/23/SG_dhl_qcfp_hb.png,https://wiki.gbl.gg/images/d/d1/SG_dhl_qcfp_electric_fd.png
 BLACK DAHLIA,ORDER UP! EMPTY,"EMPTY
 EMPTY SHOT
+SHOT EMPTY
 EMPTY ORDER UP
 ORDER UP EMPTY
 EMPTY ORDER UP!
@@ -2026,10 +2569,18 @@ J.QCFP FAIL
 J.QCF.P FAIL
 JUMPING 236P FAIL
 JUMPING QCFP FAIL
-JUMPING QCF.P FAIL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+JUMPING QCF.P FAIL",N/A,-,N/A,2.50%,N/A,N/A,36,N/A,12,N/A,N/A,N/A,-,"- Dahlia attempts to shoot her gun, leaving her wide open.",https://wiki.gbl.gg/images/e/ed/SG_dhl_qcfp_empty.png,https://wiki.gbl.gg/images/2/29/SG_dhl_qcfp_empty_fd.png
 BLACK DAHLIA,ANOTHER ROUND,"MACRO_214P
-RELOAD",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See LAST CALL for the super version of this move.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+RELOAD",N/A,-,N/A,0%,N/A,N/A,28,N/A,33,N/A,N/A,N/A,-,"- Dahlia reloads her ammo, with the LP version loading all slots with standard ammo, MP loading the 3rd slot with a special ammo type, and HP loading the 3rd and 6th slots with special ammo types.
+- Special bullet types are loaded on a randomized cycle, and once all 5 types have been loaded a new cycle is generated. HP reload will always give two different types of special bullet, and any special bullets obtained on one reload are locked out of the next one.
+- Can be used in-between rounds.
+- Pressing any punch button as the bullets reach their apex will shorten the move's recovery. See RUSH ORDER for the ""skill reload"" version of this move.
+- See LAST CALL for the super version of this move.",https://wiki.gbl.gg/images/5/54/SG_dhl_qcbp.png,https://wiki.gbl.gg/images/5/55/SG_dhl_qcbp_fd.png
+BLACK DAHLIA,RUSH ORDER,SKILL RELOAD,N/A,-,N/A,0%,N/A,N/A,28,N/A,22,N/A,N/A,N/A,-,"- Dahlia reloads her ammo, with the LP version loading all slots with standard ammo, MP loading the 3rd slot with a special ammo type, and HP loading the 3rd and 6th slots with special ammo types.
+- Special bullet types are loaded on a randomized cycle, and once all 5 types have been loaded a new cycle is generated. HP reload will always give two different types of special bullet, and any special bullets obtained on one reload are locked out of the next one.
+- Can be used in-between rounds.
+- See ANOTHER ROUND for the regular, non-skill reload version of this move.
+- See LAST CALL for the super version of this move.",https://wiki.gbl.gg/images/5/54/SG_dhl_qcbp.png,https://wiki.gbl.gg/images/a/a6/SG_dhl_qcbp_perfect_fd.png
 BLACK DAHLIA,TEA TIME,"MACRO_214K
 TEATIME
 DOILY
@@ -2057,8 +2608,9 @@ QCBK THROW
 QCB.K THROW
 THROW 214K
 THROW QCBK
-THROW QCB.K",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also TEA SLIP, and TEA SLIP FEINT.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+THROW QCB.K",N/A,-,N/A,2.50%,N/A,N/A,26,N/A,10,N/A,N/A,N/A,-,"- On the first use, Dahlia throws a doily on the ground. Using the same strength twice in a row will teleport her to the doily, using a different strength will replace the doily with a new one.
+- Doily takes 84 frames to set for all strengths.
+- See also TEA SLIP, and TEA SLIP FEINT.",https://wiki.gbl.gg/images/d/d3/SG_dhl_qcbk.png,https://wiki.gbl.gg/images/6/6a/SG_dhl_qcbk_set_fd.png
 BLACK DAHLIA,TEA SLIP,"TELEPORT
 TP
 TEASLIP TP
@@ -2101,8 +2653,10 @@ QCBK ACTIVATE
 QCB.K ACTIVATE
 ACTIVATE 214K
 ACTIVATE QCBK
-ACTIVATE QCB.K",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also TEA TIME, and TEA SLIP FEINT.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+ACTIVATE QCB.K",N/A,"Invuln. (Full)
+(Frame 10)",N/A,2.50%,N/A,N/A,24,N/A,34,N/A,N/A,N/A,-,"- On the first use, Dahlia throws a doily on the ground. Using the same strength twice in a row will teleport her to the doily, using a different strength will replace the doily with a new one.
+- Last 10 frames of teleport recovery can be cancelled into anything.
+- See also TEA TIME, and TEA SLIP FEINT.",https://wiki.gbl.gg/images/d/d3/SG_dhl_qcbk.png,https://wiki.gbl.gg/images/8/82/SG_dhl_qcbk_tele_fd.png
 BLACK DAHLIA,TEA SLIP FEINT,"TEASLIP FAKE
 TEASLIP FEINT
 FAKE TEASLIP
@@ -2133,29 +2687,67 @@ FEINT QCBK
 QCB.K FAKE
 QCB.K FEINT
 FAKE QCB.K
-FEINT QCB.K",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also TEA TIME, and TEA SLIP.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+FEINT QCB.K",N/A,"Invuln. (Full)
+(Frame 10)",N/A,2.50%,N/A,N/A,24,N/A,29,N/A,N/A,N/A,-,"- Teleporting while holding K or having an assist on screen will cause her to feint and teleport in place.
+- Last 10 frames of teleport recovery can be cancelled into anything.
+- See also TEA TIME, and TEA SLIP.",https://wiki.gbl.gg/images/d/d3/SG_dhl_qcbk.png,https://wiki.gbl.gg/images/c/cc/SG_dhl_qcbk_fake_fd.png
 BLACK DAHLIA,EMPOWER,"MACRO_236LPLK
 KIDNEY STEAL
-KIDNEYSTEAL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+KIDNEYSTEAL
+EMP
+HITGRAB
+HIT GRAB
+ENPOWER
+ENP",Mid,"Hit Grab,
+55% Damage
+Scaling","200, 50,
+500 (150)",(2.5%) 7.5%,15,-15,16,2,42,22,19,"25 (9
+on block)",-,"- Dahlia grabs the opponent and then enters Empower state, which lets her power up a HP normal or her ground throw by holding HP during the animation. The state ends after one use.
+- If used a second time in a combo, your victim falls into a Soft KD (Invuln.)",https://wiki.gbl.gg/images/4/48/SG_dhl_qcfthrow_hb.png,https://wiki.gbl.gg/images/3/3f/SG_dhl_qcflklp_fd.png
 BLACK DAHLIA,"COUNTER, STRIKE! PARRY","MACRO_623K
 COUNTER
 COUNTERSTRIKE
-COUNTER, STRIKE",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also COUNTER RIPOSTE, COUNTER TELEPORT.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+COUNTER, STRIKE",N/A,-,N/A,(2.5%),N/A,N/A,0,26,44,N/A,N/A,N/A,-,"- Doesn't work against bursts.
+- LK will strike in front, MK behind, and HK teleports to a doily.
+- Frame data shows the counter whiffing and not activating.
+- See also COUNTER RIPOSTE, COUNTER TELEPORT.",https://wiki.gbl.gg/images/f/f3/SG_dhl_dpk_hb.png,https://wiki.gbl.gg/images/b/b6/SG_dhl_rdp_miss_fd.png
 BLACK DAHLIA,"COUNTER, STRIKE! RIPOSTE","MACRO_623LK
 MACRO_623MK
 COUNTER RIPOSTE
 COUNTER ACTIVATE
-COUNTER TRIGGER",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also COUNTER, COUNTER TELEPORT.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+COUNTER TRIGGER",Mid,"Invuln. (Full)
+(Frame 1)",1200 (150),18%,Crumple,-11,17,3,35,20,20,"14 (6
+on block)",-,"- Doesn't work against bursts.
+- LK will strike in front, MK behind.
+- Frame data shows countering on first possible frame.
+- Doesn't work against projectiles (but HK version does, see COUNTER TELEPORT)
+- See also COUNTER, COUNTER TELEPORT.",https://wiki.gbl.gg/images/f/f3/SG_dhl_dpk_hb.png,https://wiki.gbl.gg/images/3/3f/SG_dhl_rdpk_fd.png
 BLACK DAHLIA,"COUNTER, STRIKE! TELEPORT","MACRO_623HK
 COUNTER TELEPORT
-COUNTER TP",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also COUNTER, COUNTER RIPOSTE.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+COUNTER TP",N/A,"Invuln. (Full)
+(Frame 1)",N/A,0,N/A,N/A,6,N/A,32,N/A,N/A,N/A,-,"- HK Counter will teleport to a placed doily (if it exists), otherwise the input does nothing.
+- Also works on projectiles.
+- Last 10 frames of the teleport can be cancelled into anything, in the same way as Tea Slip.
+- Frame data shows countering on first possible frame.
+- See also COUNTER, COUNTER RIPOSTE.",https://wiki.gbl.gg/images/0/04/SG_dhl_dpk.png,https://wiki.gbl.gg/images/f/fa/SG_dhl_rdphk_fd.png
 BLACK DAHLIA,STAGE HAZARD,"MACRO_236KK
 BARREL
-BARREL SUPER",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+BARREL SUPER",Mid,"Projectile,
+ 55% Minimum
+Scaling (Oil),
+ 45% Minimum Scaling
+(Barrel explosion)","200, 100xN,
+1500 (100,
+100xN, 500)",-100%,"KD (Barrel),
+ Sliding KD (Oil),
+ KD (Barrel
+Explosion)",-14,7 + 8,--,30,20,13,"10 (1
+on block)",-,"- Dahlia pulls out an oil barrel and kicks it forward, leaving oil puddles behind it.
+- Certain fire-based moves from Dahlia can ignite the oil, causing a large burst of flames.
+- Hitting the barrel will send it forward with an attack, similar to Ms Fortune's Decap Attack.
+- The barrel loses health when it collides with targets, not when it gets hit by attacks.
+- Barrel becomes damaged after 5 collisions and explodes on the 6th.
+- Dealing enough damage to the barrel will cause it to explode. It'll explode instantly when hit by an oil puddle explosion.",https://wiki.gbl.gg/images/b/b1/SG_dhl_qcfkk_hb.png,https://wiki.gbl.gg/images/0/0e/SG_dhl_qcflkhk_fd.png
 BLACK DAHLIA,PARTING GIFT,"MACRO_236PP
 PARTING GIFT SET
 C4
@@ -2170,8 +2762,18 @@ SET C.4
 THROW C.4
 LEVEL 1
 LVL1
-LV1",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also PARTING GIFT DETONATE.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+LV1
+BOMB
+BOMB THROW",Mid,"Projectile,
+ 45% Damage
+Scaling",0,-100%,"Stagger
+(+37 / +52 CH)
+OR +3",-16,10 + 0,--,39,25,17,13,-,"- Dahlia chucks a bundle of dynamite that sticks to the opponent, bunny girls, any assist, or the ground that can be manually detonated later.
+- If a character stuck with dynamite is tagged out, dynamite will stay on that character after tagging back in.
+- Dynamite is removed if they perform a successful snapback.
+- Will only stick to allies if HP is used in the input.
+- Will arm itself if Dahlia dies (with some caveats, refer to full wiki entry)
+- See also PARTING GIFT DETONATE.",https://wiki.gbl.gg/images/2/26/SG_dhl_qcfpp_hb.png,https://wiki.gbl.gg/images/2/2e/SG_dhl_qcfpp_throw_fd.png
 BLACK DAHLIA,PARTING GIFT DETONATE,"PARTING GIFT DET
 C4 DET
 C4 DETONATE
@@ -2180,55 +2782,97 @@ DETONATE C4
 C.4 DET
 C.4 DETONATE
 DET C.4
-DETONATE C.4",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
-- See also PARTING GIFT.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+DETONATE C.4
+BOMB EXPLODE
+BOMB EXPLOSION
+BOMB DETONATE",Mid,Projectile,1750 (200),"0%, -100% (if DHC)",KD,-12,9 + 7,10,32,24,20,9,-,"- You cannot DHC from the detonation.
+- Ignites the oil from Stage Hazard on detonation.
+- Detonation can be delayed for dramatic effect during super hitstop (at the cost of up to 1 meter).
+- See also PARTING GIFT.",https://wiki.gbl.gg/images/2/26/SG_dhl_qcfpp_hb.png,https://wiki.gbl.gg/images/a/aa/SG_dhl_qcfpp_det_fd.png
 BLACK DAHLIA,LAST CALL,"MACRO_214KK
 RELOAD SUPER
+SUPER RELOAD
 INSTALL
-INSTALL SUPER",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+INSTALL SUPER",N/A,-,N/A,-100%,N/A,N/A,8 + 0,N/A,31,N/A,N/A,N/A,-,"- Dahlia does an improved version of her reload, which lets her choose any ammo type in any order, while also putting her in Empower state.
+- During the super flash, pressing buttons will load in one bullet:
+- LP - Standard Shot
+- MP - Buck Shot
+- HP - Rail Shot
+- LK - Fire Shot
+- MK - Ice Shot
+- HK - Lightning Shot
+- If no buttons are pressed, standard shots will gradually be loaded automatically.
+- If done in a combo, all metergain is disabled from shooting the gun until the combo ends.
+- Performing a regular reload (Another Round) will remove the penalty mid combo.",https://wiki.gbl.gg/images/c/c0/SG_dhl_qcbkk.png,https://wiki.gbl.gg/images/9/9b/SG_dhl_qcbkk_fd.png
 BLACK DAHLIA,GIRLS' NIGHT,"MACRO_214PP
 GIRLS NIGHT
 GIRLS
 BUNNIES
 BUNNY SUPER
 BUNNIES SUPER
-GIRLS SUPER",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
+GIRLS SUPER",-,-,N/A,-300%,N/A,N/A,5 + 0,N/A,24,N/A,N/A,N/A,-,"- Dahlia rings a bell to summon her three stooges that act independently from her, with each having their own attack and pattern.
+- Total lifetime is 20s (1440F) if you somehow wait them out.
+- The girls don't do bonus damage on Counter Hit.
+- If the point character is hit with a snap, the girls leave.
+- If a girl is hit with a snap, they will instantly die.
+- Common delay of 20F before the girls can attack when recovering from physical hitstun.
+- Common delay of 10F before the girls can attack when recovering from projectile hitstun.
+- Delays also start on the last frame of whatever the state is before they go to idle.
 - See also GIRLS' NIGHT SHOTGUN.
 - See also GIRLS' NIGHT KNIFE.
-- See also GIRLS' NIGHT PISTOL.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+- See also GIRLS' NIGHT PISTOL.",https://wiki.gbl.gg/images/0/02/SG_dhl_qcbpp_hb.png,https://wiki.gbl.gg/images/a/a2/SG_dhl_qcbpp_fd.png
 BLACK DAHLIA,GIRLS' NIGHT SHOTGUN,"GIRLS NIGHT SHOTGUN
 BONNIE
 SHOTGUN BUNNY
 BUNNY SHOTGUN
-SHOTGUN GIRL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
+BUNNIES SHOTGUN
+SHOTGUN GIRL",Mid,"75% Damage
+Scaling",850x3 (200x3),N/A,N/A,N/A,N/A,N/A,N/A,20,23,"45 (8
+on block)",-,"- Bonnie moves towards the front of your opponent, she waits 100f before her next attack.
 - See also GIRLS' NIGHT.
 - See also GIRLS' NIGHT KNIFE.
-- See also GIRLS' NIGHT PISTOL.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+- See also GIRLS' NIGHT PISTOL.",https://wiki.gbl.gg/images/0/02/SG_dhl_qcbpp_hb.png,-
 BLACK DAHLIA,GIRLS' NIGHT KNIFE,"GIRLS NIGHT KNIFE
 KILLER
 KNIFE BUNNY
 BUNNY KNIFE
-KNIFE GIRL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
+BUNNIES KNIFE
+KNIFE GIRL",Mid,"75% Damage
+Scaling",600x3 (0x3),N/A,N/A,N/A,N/A,N/A,N/A,20,23,"45 (8
+on block)",-,"- Killer alternates between striking the front and back of your opponent, she waits 85f before her next attack.
 - See also GIRLS' NIGHT.
 - See also GIRLS' NIGHT SHOTGUN.
-- See also GIRLS' NIGHT PISTOL.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+- See also GIRLS' NIGHT PISTOL.",https://wiki.gbl.gg/images/0/02/SG_dhl_qcbpp_hb.png,-
 BLACK DAHLIA,GIRLS' NIGHT PISTOL,"GIRLS NIGHT PISTOL
 BUTTERCUP
 PISTOL BUNNY
 BUNNY PISTOL
-PISTOL GIRL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!
+BUNNIES PISTOL
+PISTOL GIRL",Mid,"75% Damage
+Scaling",400x3 (150x3),N/A,N/A,N/A,N/A,N/A,N/A,20,23,"35 (8
+on block)",-,"- Buttercup maintains a distance from your opponent, she waits 100f before her next attack.
+- Buttercup shoots at targets 86 units off the ground or lower.
 - See also GIRLS' NIGHT.
 - See also GIRLS' NIGHT KNIFE.
-- See also GIRLS' NIGHT SHOTGUN.",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+- See also GIRLS' NIGHT SHOTGUN.",https://wiki.gbl.gg/images/0/02/SG_dhl_qcbpp_hb.png,-
 BLACK DAHLIA,DEATH TOLL,"RING RING
 RING A DING
 DING DING
-BELL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+BELL
+GIRLS NIGHT TAUNT
+GIRLS' NIGHT TAUNT",N/A,-,N/A,N/A,N/A,N/A,N/A,N/A,70,N/A,N/A,N/A,-,- A taunt that's only available while the Girls Night bunnies are on screen. Black Dahlia rings her bell.,https://wiki.gbl.gg/images/2/2c/SG_dhl_gnqcbpp.png,-
 BLACK DAHLIA,TAUNT,"MP LP 4 LK MK
 MP, LP, 4, LK, MK
-MP,LP,4,LK,MK",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+MP,LP,4,LK,MK",Mid,Projectile,N/A,0%," +31
+(+87 CH)",83,62,--,22,27,23,"4 (60 on
+CH or block)",-,"- Dudley rose
+- Deals no damage.
+- Puts opponent in absurd amount of hitstop on CH or block.
+- Adjust the trajectory of her thrown glass by holding forwards or backwards.
+- Enhances the next Ice Shot.",https://wiki.gbl.gg/images/4/48/SG_dhl_taunt_hb.png,-
 BLACK DAHLIA,ASSIST RECOVERY,"ASSIST
-ASSIST TAUNT",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Black Dahlia's frame data is still a work in progress, it should get filled out soon!",https://wiki.gbl.gg/images/6/67/SG_dhl_select.jpg,-
+ASSIST TAUNT",N/A,-,N/A,0%,N/A,N/A,N/A,N/A,51,N/A,N/A,N/A,-,"- Amount of time it takes for the character to turn invulnerable after they finish performing their assist action.
+- Longer recovery → more time to punish the assist.",https://wiki.gbl.gg/images/5/5c/SG_dhl_assist.png,-
 CEREBELLA,5LP,MACRO_5LP,Mid,Chains Into Self,300,2.50%,-3,±0,6,2,18,16,19,7,7,"- Can chain into 2LP instead of 5LP x2.
 - Tied for Cerebella's fastest normal with 2LP.",https://wiki.gbl.gg/images/3/38/SG_cer_slp_hb.png,https://wiki.gbl.gg/images/2/25/SG_cer_slp1_fd.png
 CEREBELLA,5LP X2,MACRO_5LP_2ND,Mid,-,300,2.50%,±0,3,6,2,15,16,19,7,10,,https://wiki.gbl.gg/images/3/38/SG_cer_slp_hb.png,https://wiki.gbl.gg/images/9/90/SG_cer_slp2_fd.png
@@ -3181,8 +3825,7 @@ SMKX2
 5MK 2ND
 5.MK 2ND
 S.MK 2ND
-SMK 2ND",Mid,-,325,2.90%,"-2,
- KD (vs air)",-9,12,2,27,26,19,9,-,"- Pulls opponents to the ground after the last hit, leaving them standing.",https://wiki.gbl.gg/images/c/ca/SG_eli_smk_hb.png,https://wiki.gbl.gg/images/8/83/SG_eli_smk2_fd.png
+SMK 2ND",Mid,-,325,2.90%,-2,-9,12,2,27,26,19,9,-,"- Pulls opponents to the ground after the last hit, leaving them standing.",https://wiki.gbl.gg/images/c/ca/SG_eli_smk_hb.png,https://wiki.gbl.gg/images/8/83/SG_eli_smk2_fd.png
 ELIZA,5HK,MACRO_5HK,Mid,Chains Into Self,500,5%,-7,-8,19,3,32,27,26,10,-,"- ""See 5HK x2""
 - Eliza's meterless hard knockdown. (2nd Hit)",https://wiki.gbl.gg/images/1/12/SG_eli_shk_hb.png,https://wiki.gbl.gg/images/9/9a/SG_eli_shk1_fd.png
 ELIZA,5HK X2,"5.HK X2
