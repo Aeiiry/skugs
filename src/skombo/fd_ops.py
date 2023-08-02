@@ -2,6 +2,7 @@
 import fnmatch
 import functools
 import os
+from pathlib import Path
 import re
 
 import numpy as np
@@ -24,9 +25,9 @@ from skombo.utils import (
 class CsvManager:
     """Class to manage CSV files"""
 
-    def __init__(self, path: str, file_keys: dict[str, str]) -> None:
+    def __init__(self, path: Path, file_keys: dict[str, str]) -> None:
         log.debug(f"Initialising CSV manager for {path}...")
-        self.path: str = path
+        self.path: Path = path
         self.file_keys: dict[str, str] = file_keys
         self.dataframes: dict[str, pd.DataFrame] = {}
         """Raw dataframes from csvs before they are modified"""
@@ -67,7 +68,7 @@ class FdBotCsvManager(CsvManager):
         "frame_data": "moves",
     }
 
-    def __init__(self, path: str = skombo.GAME_DATA_PATH) -> None:
+    def __init__(self, path: Path = skombo.GAME_DATA_PATH) -> None:
         """Initialise the class"""
 
         super().__init__(path, self.file_keys)

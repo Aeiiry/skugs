@@ -3,6 +3,7 @@
 
 import os
 import re
+
 # Character name
 import sys
 

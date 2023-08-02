@@ -104,7 +104,6 @@ class Font:
         # Get file name, search for style
         font_styles: dict[str, list[str]] = skombo.FONT_STYLE_SUBSTRINGS
 
-        
         # glob .ttf files in self.path
         # If any of the substrings in font_styles are in the file name, setattr to self with that key
         # If no match, set to "regular"
@@ -115,7 +114,6 @@ class Font:
                     break
             else:
                 setattr(self, "regular", font_file)
-        
 
 
 @dataclass
@@ -140,5 +138,3 @@ class Fonts:
         # and add it to the fonts dict
         for font_path in font_paths:
             self.add_font(Font(font_path.name, font_path))
-
-
