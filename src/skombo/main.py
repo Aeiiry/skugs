@@ -1,8 +1,9 @@
 import atexit
-from loguru import logger as log
 import datetime
-import skombo
 
+from loguru import logger as log
+
+import skombo
 from skombo.combo_calc import ComboCalculator
 from skombo.fd_ops import get_fd_bot_character_manager
 

@@ -2,10 +2,10 @@
 """
 
 import functools
-from pathlib import Path
 import re
 from dataclasses import dataclass
 from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -13,7 +13,6 @@ import pandas as pd
 from loguru import logger as log
 from numpy import floor
 from pandas import DataFrame, Series
-from tabulate import tabulate
 
 import skombo
 from skombo import CHARS, COLS_CLASSES
