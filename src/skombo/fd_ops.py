@@ -442,10 +442,10 @@ string_to_nan: list[str] = ["-", ""]
 csv_manager = FdBotCsvManager()
 
 
-frame_data = FrameData(csv_manager.dataframes["frame_data"]).clean_fd() 
+frame_data = FrameData(csv_manager.dataframes["frame_data"]).clean_fd()
 
 
 character_manager = CharacterManager(
-        csv_manager.dataframes["characters"],
-        frame_data,
-    )
+    csv_manager.dataframes["characters"],
+    frame_data,
+)
