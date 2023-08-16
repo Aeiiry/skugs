@@ -38,8 +38,8 @@ class FdColumns:
     move_cat: str = "move_category"
     undizzy: str = "undizzy"
     scaling: str = "scaling_effect"
-    #hit_scaling: str = "scaling_for_hit"
-    #mod_scaling: str = "scaling_after_modifiers"
+    hit_scaling: str = "scaling_for_hit"
+    mod_scaling: str = "scaling_after_modifiers"
 
 
 FD_COLS = FdColumns()
@@ -150,6 +150,8 @@ class ColumnClassification:
         FD_COLS.m_name,
         FD_COLS.dmg,
         FD_COLS.scaling,
+        FD_COLS.hit_scaling,
+        FD_COLS.mod_scaling,
         "scaled_damage",
         "summed_damage",
     ]
@@ -407,6 +409,7 @@ def config_logger() -> None:
     log.level(name="WARNING", color="<yellow>", icon="🔥")
     log.level(name="ERROR", color="<red>", icon="❌")
     log.level(name="CRITICAL", color="<magenta>", icon="💀")
+    log.level(name="HEADING", color="<bold><white>", no=50)
 
     ##########################################
 
@@ -445,7 +448,7 @@ def config_logger() -> None:
         catch=True,
     )
     log.add(
-        sink=sys.stdout,
+        sink=sys.stderr,
         format="<level>{message}</level>",
         level="INFO",
         enqueue=True,
