@@ -439,22 +439,13 @@ remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
 string_to_nan: list[str] = ["-", ""]
 
 
-@functools.cache
-def get_fd_bot_csv_manager() -> FdBotCsvManager:
-    """Get the FDBotCSVManager instance"""
-    return FdBotCsvManager()
+csv_manager = FdBotCsvManager()
 
 
-@functools.cache
-def get_fd_bot_frame_data() -> FrameData:
-    """Get the FrameData instance"""
-    return FrameData(get_fd_bot_csv_manager().dataframes["frame_data"])  # type: ignore
+frame_data = FrameData(csv_manager.dataframes["frame_data"]).clean_fd() 
 
 
-@functools.cache
-def get_fd_bot_character_manager() -> CharacterManager:
-    """Get the CharacterManager instance"""
-    return CharacterManager(
-        get_fd_bot_csv_manager().dataframes["characters"],
-        get_fd_bot_frame_data().clean_fd(),
+character_manager = CharacterManager(
+        csv_manager.dataframes["characters"],
+        frame_data,
     )

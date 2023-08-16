@@ -38,8 +38,8 @@ class FdColumns:
     move_cat: str = "move_category"
     undizzy: str = "undizzy"
     scaling: str = "scaling_effect"
-    hit_scaling: str = "scaling_for_hit"
-    mod_scaling: str = "scaling_after_modifiers"
+    #hit_scaling: str = "scaling_for_hit"
+    #mod_scaling: str = "scaling_after_modifiers"
 
 
 FD_COLS = FdColumns()
@@ -150,8 +150,6 @@ class ColumnClassification:
         FD_COLS.m_name,
         FD_COLS.dmg,
         FD_COLS.scaling,
-        FD_COLS.hit_scaling,
-        FD_COLS.mod_scaling,
         "scaled_damage",
         "summed_damage",
     ]
@@ -217,6 +215,8 @@ UNDIZZY_DICT: dict[str, int] = {
     "MEDIUM_NORMAL": 20,
     "HEAVY_NORMAL": 30,
     "SPECIAL_MOVE": 20,
+    "TAG": 20,
+    "SNAP": 20,
     "SUPER": 0,
     "THROW": 0,
     "AIR_THROW": 0,
@@ -407,7 +407,6 @@ def config_logger() -> None:
     log.level(name="WARNING", color="<yellow>", icon="🔥")
     log.level(name="ERROR", color="<red>", icon="❌")
     log.level(name="CRITICAL", color="<magenta>", icon="💀")
-    log.level(name="HEADING", color="<bold><white>", no=50)
 
     ##########################################
 
@@ -446,7 +445,7 @@ def config_logger() -> None:
         catch=True,
     )
     log.add(
-        sink=sys.stderr,
+        sink=sys.stdout,
         format="<level>{message}</level>",
         level="INFO",
         enqueue=True,
@@ -456,7 +455,6 @@ def config_logger() -> None:
 config_logger()
 
 # test_funct()
-log.log(
-    "HEADING",
+log.info(
     f"\n#=====================================================#\n‖{'Skombo time 🤠':^52}‖\n#=====================================================#\n",
 )

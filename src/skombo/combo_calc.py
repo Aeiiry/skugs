@@ -21,8 +21,8 @@ from skombo import FD_COLS
 from skombo.fd_ops import (
     Character,
     CharacterManager,
-    get_fd_bot_csv_manager,
-    get_fd_bot_frame_data,
+    csv_manager,
+    frame_data,
 )
 from skombo.utils import format_column_headings
 
