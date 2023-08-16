@@ -272,7 +272,7 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
     Returns:
         pandas. Series of ( character move
     """
-    alias_df = get_fd_bot_csv_manager().dataframes["aliases"]
+    alias_df = csv_manager.dataframes["aliases"]
     move_name = move_name.upper()
 
     blank_move = Series(index=character_moves.columns, name=move_name)
@@ -405,7 +405,7 @@ def find_combo_moves(
 
 @functools.cache
 def get_character_moves(character: str) -> DataFrame:
-    fd = get_fd_bot_frame_data()
+    fd = frame_data
     character_moves: DataFrame = fd.loc[
         fd.index.get_level_values(0) == character.upper()
     ]
