@@ -1,4 +1,5 @@
 """Main module for frame data operations."""
+
 import fnmatch
 import functools
 import os
@@ -29,10 +30,10 @@ class CsvManager:
         log.debug(f"Initialising CSV manager for {path}...")
         self.path: Path = path
         self.file_keys: dict[str, str] = file_keys
-        self.dataframes: dict[str, pd.DataFrame] = {}
+        self.pd_data: dict[str, pd.DataFrame] = {}
         """Raw dataframes from csvs before they are modified"""
         for key in self.file_keys:
-            self.dataframes[key] = self.open_csv(key).dropna(axis=0, how="all")
+            self.pd_data[key] = self.open_csv(key).dropna(axis=0, how="all")
             log.debug(f"Opened {key} CSV")
 
     def open_csv(self, file_key: str) -> pd.DataFrame:
@@ -138,7 +139,7 @@ class FrameData(pd.DataFrame):
 
     def expand_xn_cols(self, xn_cols: list[str]) -> Self:
         log.debug(f"Expanding {xn_cols}...")
-        self[xn_cols] = self[xn_cols].applymap(lambda x: expand_all_x_n(x))
+        self[xn_cols] = self[xn_cols].apply(lambda x: expand_all_x_n(x))
 
         return self
 
@@ -230,9 +231,12 @@ class FrameData(pd.DataFrame):
         log.debug("Separating on hit...")
         self[FD_COLS.onhit_eff] = self[FD_COLS.onhit].copy()
         self[FD_COLS.onhit] = self[FD_COLS.onhit].apply(  # type: ignore
-            lambda x: x
-            if (isinstance(x, str) and x.strip("-").isnumeric()) or isinstance(x, int)
-            else None
+            lambda x: (
+                x
+                if (isinstance(x, str) and x.strip("-").isnumeric())
+                or isinstance(x, int)
+                else None
+            )
         )
 
         self[FD_COLS.onhit_eff] = self[FD_COLS.onhit_eff].apply(
@@ -358,7 +362,7 @@ class FrameData(pd.DataFrame):
             .bulk_remove_chars_from_cols(
                 remove_chars_from_cols
             )  # Remove characters from columns as specified in remove_chars_from_cols
-            .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
+            # .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns #TODO: Fix this
             .separate_annie_stars()  # Separate Annie's star power moves into separate rows
             .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
             .separate_meter()  # Separate meter into on_hit and on_whiff
@@ -437,15 +441,3 @@ remove_chars_from_cols: list[tuple[str | list[str], str | list[str]]] = [
 ]
 
 string_to_nan: list[str] = ["-", ""]
-
-
-csv_manager = FdBotCsvManager()
-
-
-frame_data = FrameData(csv_manager.dataframes["frame_data"]).clean_fd()
-
-
-character_manager = CharacterManager(
-    csv_manager.dataframes["characters"],
-    frame_data,
-)

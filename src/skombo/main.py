@@ -2,8 +2,9 @@ import atexit
 import datetime
 
 from loguru import logger as log
+from skombo import FD_COLS
 
-from skombo.fd_ops import frame_data
+from skombo.fd_ops import CharacterManager, FdBotCsvManager, FrameData
 
 START_TIME = datetime.datetime.now()
 
@@ -16,6 +17,12 @@ def exit_handler() -> None:
     # get execution time
     elapsed_time = end_time - START_TIME
     log.info(f"Execution time: {elapsed_time} seconds 🤠")
+
+
+csv_manager = FdBotCsvManager()
+
+
+frame_data = FrameData(csv_manager.pd_data["frame_data"]).clean_fd()
 
 
 log.info("Done!")

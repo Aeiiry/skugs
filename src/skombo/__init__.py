@@ -10,6 +10,26 @@ from loguru import logger as log
 
 
 @dataclass
+class FdSheetColumns:
+    char: str = "character"
+    m_name: str = "move_name"
+    a_names: str = "alt_names"
+    guard: str = "guard"
+    props: str = "properties"
+    dmg: str = "damage"
+    startup: str = "startup"
+    active: str = "active"
+    recovery: str = "recovery"
+    hitstun: str = "hitstun"
+    blockstun: str = "blockstun"
+    hitstop: str = "hitstop"
+    onpb: str = "on_pushblock"
+    footer: str = "footer"
+    thumb_url: str = "thumbnail_url"
+    footer_url: str = "footer_url"
+
+
+@dataclass
 class FdColumns:
     char: str = "character"
     m_name: str = "move_name"
@@ -173,6 +193,8 @@ class ComboInputColumns:
     expected_damage: str = "expected_damage"
     meter: str = "meter"
 
+
+FD_IN_COLS = FdSheetColumns()
 
 COMBO_INPUT_COLS = ComboInputColumns()
 C_COLS = COMBO_INPUT_COLS
@@ -428,10 +450,17 @@ def config_logger() -> None:
     ##########################################
 
     log_file_path = os.path.join(LOG_DIR, f"{MODULE_NAME}{LOG_FILE_EXT}")
+
     file_components = [
         "time",
         "level_icon",
         "level",
+        "module_line",
+        "message",
+    ]
+
+    console_components = [
+        "level_icon",
         "module_line",
         "message",
     ]
@@ -448,10 +477,15 @@ def config_logger() -> None:
         catch=True,
     )
     log.add(
-        sink=sys.stderr,
-        format="<level>{message}</level>",
-        level="INFO",
+        sink=sys.stdout,
+        format="".join(
+            format_components[component] for component in console_components
+        ),
+        level="DEBUG",
         enqueue=True,
+        backtrace=True,
+        diagnose=True,
+        catch=True,
     )
 
 

@@ -2,6 +2,7 @@
 """
 
 import functools
+from math import floor
 import re
 from dataclasses import dataclass
 from difflib import SequenceMatcher
@@ -11,18 +12,16 @@ from typing import Any
 import numpy as np
 import pandas as pd
 from loguru import logger as log
-from numpy import floor
 from pandas import DataFrame, Series
 
 import skombo
 from skombo import CHARS, COLS_CLASSES
 from skombo import COMBO_INPUT_COLS as INPUT_COLS
 from skombo import FD_COLS
+from skombo import fd_ops
 from skombo.fd_ops import (
     Character,
     CharacterManager,
-    csv_manager,
-    frame_data,
 )
 from skombo.utils import format_column_headings
 
@@ -261,7 +260,7 @@ def character_specific_move_name_check(character: str, move_name: str) -> str:
     return move_name
 
 
-def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series:  # type: ignore
+def get_fd_for_single_move(character_moves: DataFrame, move_name: str, csv_manager: fd_ops.FdBotCsvManager) -> Series:  # type: ignore
     """
     Find a single move by name.
 
@@ -272,7 +271,7 @@ def get_fd_for_single_move(character_moves: DataFrame, move_name: str) -> Series
     Returns:
         pandas. Series of ( character move
     """
-    alias_df = csv_manager.dataframes["aliases"]
+    alias_df = csv_manager.pd_data["aliases"]
     move_name = move_name.upper()
 
     blank_move = Series(index=character_moves.columns, name=move_name)
@@ -328,9 +327,11 @@ def find_move_repeats_follow_ups(moves: pd.Series) -> pd.Series:
                 annie_divekick_count += 1
 
             move_names = [
-                move.replace(xn_match[0], f" X{str(i_offset + 1)}")
-                if i_offset > 0
-                else move.replace(xn_match[0], "")
+                (
+                    move.replace(xn_match[0], f" X{str(i_offset + 1)}")
+                    if i_offset > 0
+                    else move.replace(xn_match[0], "")
+                )
                 for i_offset in range(xn + annie_divekick_count)
             ]
 
