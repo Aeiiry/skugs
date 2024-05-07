@@ -139,7 +139,7 @@ class FrameData(pd.DataFrame):
 
     def expand_xn_cols(self, xn_cols: list[str]) -> Self:
         log.debug(f"Expanding {xn_cols}...")
-        self[xn_cols] = self[xn_cols].apply(lambda x: expand_all_x_n(x))
+        self[xn_cols] = self[xn_cols].map(expand_all_x_n)
 
         return self
 
@@ -362,7 +362,7 @@ class FrameData(pd.DataFrame):
             .bulk_remove_chars_from_cols(
                 remove_chars_from_cols
             )  # Remove characters from columns as specified in remove_chars_from_cols
-            # .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns #TODO: Fix this
+            .expand_xn_cols(COLS_CLASSES.XN_COLS)  # Expand all xN columns
             .separate_annie_stars()  # Separate Annie's star power moves into separate rows
             .separate_damage_chip_damage()  # Separate damage and chip damage into separate columns
             .separate_meter()  # Separate meter into on_hit and on_whiff
