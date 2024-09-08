@@ -63,6 +63,14 @@ def format_column_headings(df: pd.DataFrame) -> pd.DataFrame:
 
 @functools.cache
 def expand_all_x_n(string: str) -> str:
+    """Expands groups of "a x b" into a comma separated instances of b
+
+    Args:
+        string (str): string containing the string to expand
+
+    Returns:
+        str: output string, now in comma separated form if viable
+    """
     if isinstance(string, str):
         while (x_n_match := skombo.RE_X_N.search(string)) or (
             x_n_match := skombo.RE_BRACKETS_X_N.search(string)

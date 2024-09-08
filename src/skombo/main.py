@@ -19,10 +19,10 @@ def exit_handler() -> None:
     log.info(f"Execution time: {elapsed_time} seconds 🤠")
 
 
-csv_manager = FdBotCsvManager()
+if __name__ == "__main__":
 
+    csv_manager = FdBotCsvManager()
 
-frame_data = FrameData(csv_manager.pd_data["frame_data"]).clean_fd()
+    frame_data = FrameData(csv_manager.pd_data["frame_data"]).clean_fd()
 
-
-log.info("Done!")
+    csv_manager.save_frame_data_csv(frame_data)

@@ -1,5 +1,4 @@
 import cProfile
-import logging
 import os
 import pstats
 

@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 from loguru import logger as log
 from pandas import Index
+import pandas
 from typing_extensions import Self
 
 import skombo
@@ -58,6 +59,13 @@ class CsvManager:
         with open(file_path, "r", encoding="utf8") as file:
             df: pd.DataFrame = pd.read_csv(file, encoding="utf8")
             return format_column_headings(df)
+
+    def save_frame_data_csv(self, df: pandas.DataFrame) -> None:
+        """Save a DataFrame to a CSV file in data folder"""
+        # data is two levels up from the current directory
+        target_path: Path = self.path.parent.parent / "cleaned_frame_data.csv"
+        log.debug(f"Saving frame data to CSV {[target_path]}")
+        df.to_csv(target_path)
 
 
 class FdBotCsvManager(CsvManager):
@@ -397,10 +405,10 @@ class Character:
 class CharacterManager:
     """Class for managing the characters"""
 
-    def __init__(self, input_df: pd.DataFrame, frame_data: FrameData):
-        self.character_names = input_df[CHAR_COLS.char].to_list()
+    def __init__(self, character_df: pd.DataFrame, frame_data: FrameData):
+        self.character_names = character_df[CHAR_COLS.char].to_list()
         self.frame_data = frame_data
-        for _, character_series in input_df.iterrows():
+        for _, character_series in character_df.iterrows():
             # character is the first index of the multi-index
             character = character_series[CHAR_COLS.char]
             character_moves = frame_data.loc[

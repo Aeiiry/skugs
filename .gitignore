@@ -23,3 +23,4 @@ src/skullgirls_frame_data_parse.egg-info
 /src/*/*/*.csv
 cov_html
 src/skombo/df_display_scratch.ipynb
+type_info.json
