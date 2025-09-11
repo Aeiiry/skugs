@@ -27,8 +27,7 @@ SMKX2
 5.MKX2",Mid,-,500,7.5%,-2,-7,10,3,24,24,19,9,±0 to +2,,https://wiki.gbl.gg/images/a/a4/SG_ann_smk_hb.png,https://wiki.gbl.gg/images/6/6d/SG_ann_smk2_fd.png
 ANNIE,5HK,MACRO_5HK,Mid,Launcher,"950, [650 (70)]",10%,-3,-14 [+2],17,6,28,30,19,14 (10 on block),-11 to -6,"- Main combo tool with H DP in the corner.
 - During install, the star projectile will whiff on most crouching opponents when up close so the block advantage will stay -14.",https://wiki.gbl.gg/images/2/28/SG_ann_shk_hb.png,https://wiki.gbl.gg/images/8/87/SG_ann_shk_fd.png
-ANNIE,2LP,MACRO_2LP,Mid,Chains Into Self,300,2.5%,+2,+1,6,3,15,19,18,7,+9 to +26,"- Is head invul during active frames, similar to Guilty Gear 6P's.
-- Can chain to sLP instead of cLP x2.
+ANNIE,2LP,MACRO_2LP,Mid,Chains Into Self,300,2.5%,+2,+1,6,3,15,19,18,7,+9 to +26,"- Can chain to sLP instead of cLP x2.
 - See also 2LP X2.",https://wiki.gbl.gg/images/1/1e/SG_ann_clp_hb.png,https://wiki.gbl.gg/images/e/ec/SG_ann_clp_fd.png
 ANNIE,2LP X2,"CLP X2
 C.LP X2
@@ -42,10 +41,10 @@ C.LP 2ND
 2.LP 2ND
 2LP 2ND
 CROUCHING JAB 2ND
-CROUCH JAB 2ND",Mid,-,300,2.5%,+2,+1,6,3,15,19,18,7,+9 to +26,"- Is head invul during active frames, similar to Guilty Gear 6P's.",https://wiki.gbl.gg/images/1/1e/SG_ann_clp_hb.png,https://wiki.gbl.gg/images/8/84/SG_ann_clp2_fd.png
+CROUCH JAB 2ND",Mid,-,300,2.5%,+2,+1,6,3,15,19,18,7,+9 to +26,-,https://wiki.gbl.gg/images/1/1e/SG_ann_clp_hb.png,https://wiki.gbl.gg/images/8/84/SG_ann_clp2_fd.png
 ANNIE,2MP,MACRO_2MP,Mid,-,600,7.5%,-2,-5,10,4,21,28,19,9,+2 to +20,,https://wiki.gbl.gg/images/f/fe/SG_ann_cmp_hb.png,https://wiki.gbl.gg/images/8/85/SG_ann_cmp_fd.png
 ANNIE,2HP,MACRO_2HP,Mid,-,"1000,
-[650 x2 (70x2)]",10%,KD,-13 [±0],12,3,34,22,25,9,-12 to +12,"- Very quick anti-air that hits high up, pick up with M Crescent for conversions.",https://wiki.gbl.gg/images/a/a6/SG_ann_chp_hb.png,https://wiki.gbl.gg/images/f/f8/SG_ann_chp_fd.png
+[650 (70)]",10%,KD,-13 [±0],12,3,34,22,25,9,-12 to +12,"- Very quick anti-air that hits high up, pick up with M Crescent for conversions.",https://wiki.gbl.gg/images/a/a6/SG_ann_chp_hb.png,https://wiki.gbl.gg/images/f/f8/SG_ann_chp_fd.png
 ANNIE,2LK,MACRO_2LK,Low,-,250,2.5%,+2,±0,7,3,15,19,17,7,+9 to +25,,https://wiki.gbl.gg/images/d/d7/SG_ann_clk_hb.png,https://wiki.gbl.gg/images/4/4e/SG_ann_clk_fd.png
 ANNIE,2MK,MACRO_2MK,Low,-,575,7.5%,-2,-6,14,3,22,22,18,9,+2 to +19,,https://wiki.gbl.gg/images/7/77/SG_ann_cmk_hb.png,https://wiki.gbl.gg/images/0/0e/SG_ann_cmk_fd.png
 ANNIE,2HK,"MACRO_2HK
@@ -53,7 +52,8 @@ SWEEP
 STUN DIPPER
 BIG DIPPER
 DIPPER",Low,Sweep,"700, 900,
-[650 x3 (70x3)]",7.5% x2,Soft KD (Invuln.),-11 [+11],12,"17, (Varies), 3","10 (whiff), 24 (hit/block)","38, 14","24, 15","7, 9","-24 to -1, +0 to +2","- Cannot combo afterwards when hitting OTG, unlike other sweeps. However, the install version can always combo afterwards, regardless of whether it hits OTG or not.
+[650 x3 (70x3)]",7.5% x2,"Soft KD (Invuln.)
+[KD in Star Power]",-11 [+11],12,"17, (Varies), 3","17 (whiff), 24 (hit/block)","38, 14","24, 15","7, 9","-24 to -1, +0 to +2","- Cannot combo afterwards when hitting OTG, unlike other sweeps. However, the install version can always combo afterwards, regardless of whether it hits OTG or not.
 - Has a buffer into 5LP to make this conversion more consistent.",https://wiki.gbl.gg/images/e/e6/SG_ann_chk_hb.png,https://wiki.gbl.gg/images/2/23/SG_ann_chk_fd.png
 ANNIE,JLP,MACRO_JLP,High,-,250,2.5%,+12,+14,7,3,7,21,24,7,-,,https://wiki.gbl.gg/images/0/0d/SG_ann_jlp_hb.png,https://wiki.gbl.gg/images/9/9c/SG_ann_jlp_fd.png
 ANNIE,JMP,MACRO_JMP,High,-,250 x4,2% x4,+16,+7,15,"1, 2, 3, 3",11,25 x4,18 x4,3 x4,-,,https://wiki.gbl.gg/images/e/e4/SG_ann_jmp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_ann_jmp_fd.png
@@ -61,7 +61,7 @@ ANNIE,JHP,"MACRO_JHP
 ROLLING",High,-,"875,
 [450 x3 (45x3)]",10%,-2,-2,16,2,25,27,22,12,-,"- While in Star Power, this move will only spawn stars once per jump.",https://wiki.gbl.gg/images/4/4f/SG_ann_jhp_hb.png,https://wiki.gbl.gg/images/d/dd/SG_ann_jhp_fd.png
 ANNIE,JLK,MACRO_JLK,High,-,300,2.5%,+9,+12,8,3,8,19,22,7,-,,https://wiki.gbl.gg/images/f/f0/SG_ann_jlk_hb.png,https://wiki.gbl.gg/images/f/fd/SG_ann_jlk_fd.png
-ANNIE,JMK,MACRO_JMK,High,-,625,2.5%,+3,±0,"8, (34), 6",4,20,26,29,9,-,- Hold to extend startup frames to float. Carries air momentum.,https://wiki.gbl.gg/images/9/98/SG_ann_jmk_hb.png,https://wiki.gbl.gg/images/4/4b/SG_ann_jmk_fd.png
+ANNIE,JMK,MACRO_JMK,High,-,550,2.5%,+3,±0,"8, (34), 6",4,20,26,29,9,-,- Hold to extend startup frames to float. Carries air momentum.,https://wiki.gbl.gg/images/9/98/SG_ann_jmk_hb.png,https://wiki.gbl.gg/images/4/4b/SG_ann_jmk_fd.png
 ANNIE,JHK,"MACRO_JHK
 HELM BREAKER
 HELMBREAKER","High, Mid",-,"800, 900,
@@ -90,7 +90,7 @@ L CUT
 CUT L
 L CRESCENT
 CRESCENT L
-CRESCENT CUT L",Mid,Projectile,350 (100),(2.5%) 6%,+3,-1,17,"1, 24",19,15,11,6,-,"- Annie sends out a crescent-shaped projectile that travels horizontally.
+CRESCENT CUT L",Mid,Projectile,350 (100),(2.5%) 6%,+3,-1,"12, 5","1, 24",19,15,11,6,-,"- Annie sends out a crescent-shaped projectile that travels horizontally.
 - Projectile will go away if Annie is hit while the projectile is appearing.
 - See also M CRESCENT CUT, H CRESCENT CUT.",https://wiki.gbl.gg/images/2/2d/SG_ann_qcfp_hb.png,https://wiki.gbl.gg/images/b/b9/SG_ann_qcflp_fd.png
 ANNIE,M CRESCENT CUT,"MACRO_236MP
@@ -100,7 +100,7 @@ M CUT
 CUT M
 M CRESCENT
 CRESCENT M
-CRESCENT CUT M",Mid,Projectile,550 (200),(2.5%) 6%,+10,+2,23,"1, 46",17,16,12,8,-,"- Annie sends out a crescent-shaped projectile that travels horizontally.
+CRESCENT CUT M",Mid,Projectile,550 (200),(2.5%) 6%,+10,+2,"16, 7","1, 46",17,16,12,8,-,"- Annie sends out a crescent-shaped projectile that travels horizontally.
 - Projectile will go away if Annie is hit while the projectile is appearing.
 - See also L CRESCENT CUT, H CRESCENT CUT.",https://wiki.gbl.gg/images/2/2d/SG_ann_qcfp_hb.png,https://wiki.gbl.gg/images/7/73/SG_ann_qcfmp_fd.png
 ANNIE,H CRESCENT CUT,"MACRO_236HP
@@ -112,8 +112,12 @@ CUT H
 H CRESCENT
 CRESCENT H
 CRESCENT CUT H
-CRESCENT",Mid,Projectile,750 (300),(2.5%) 6%,+22,+12,34,"1, -",14,23,13,10,-,"- Annie sends out a crescent-shaped projectile that travels horizontally.
+CRESCENT",Mid,Projectile,"750 (300)
+[750, 400x2
+(125x3)]","(2.5%) 6%
+[(1.67%), 4%x3]",+22 [+43],+12 [+33],"27, 11","1, -",14,23 [23x3],13 [13x3],10,-,"- Annie sends out a crescent-shaped projectile that travels horizontally.
 - Projectile will go away if Annie is hit while the projectile is appearing.
+- During Star Power, hits 3 times and doesn't vanish when Annie is hit during startup. Values in square brackets [ ] denote the Star Power version, if different.
 - See also L CRESCENT CUT, M CRESCENT CUT.",https://wiki.gbl.gg/images/2/2d/SG_ann_qcfp_hb.png,https://wiki.gbl.gg/images/1/12/SG_ann_qcfhp_fd.png
 ANNIE,L NORTH KNUCKLE,"MACRO_214LP
 L KNUCKLE",Mid,-,450 (100),(2.5%) 13.85%,±0,-3,17,7,24,24,21,13,-,"- Annie lunges forward with a punch.
@@ -190,9 +194,11 @@ QCB.MP P",Mid,-,750 (150),12.60%,KD,-10,5,3,30,20,22,9,-,"- M followup knocks op
 ANNIE,H NORTH KNUCKLE,"MACRO_214HP
 NORTH KNUCKLE
 KNUCKLE
-H KNUCKLE",Mid,-,650 (100),(2.5%) 13.85%,KD,-15,26,19,26,30,19,13,-,"- Annie lunges forward with a punch.
+H KNUCKLE",Mid,-,650 (100),"(2.5%) 13.85%
+[(1.67%), 9.23%]",KD,-15,26,19,26,30,19,13,-,"- Annie lunges forward with a punch.
 - Much longer range but more unsafe than other versions.
 - -7 on block when perfectly spaced with no followup, due to variable recovery.
+- Values in square brackets [ ] denote the Star Power version, if different.
 - See also H NORTH KNUCKLE FOLLOWUP.",https://wiki.gbl.gg/images/3/3e/SG_ann_qcbp_hb.png,https://wiki.gbl.gg/images/3/39/SG_ann_qcbhp_fd.png
 ANNIE,H NORTH KNUCKLE FOLLOWUP,"H KNUCKLE FOLLOWUP
 H KNUCKLE FOLLOW UP
@@ -224,7 +230,9 @@ QCB.HP, P
 QCBHP P
 QCB HP P
 QCB+HP P
-QCB.HP P",Mid,-,900 (150),12.60%,Wall Splat,-16,5,3,41,22,27,9,-,"- Wall splats the opponent once per combo.
+QCB.HP P",Mid,-,900 [1000] (150),12.60% [8.4%],"Wall Splat
+[Wall Bounce]",-18,5,3,41,22,25,9,-,"- Wall splats the opponent once per combo.
+- During Star Power, Wall Bounces instead, allowing for further combos. Values in square brackets [ ] denote the Star Power version, if different.
 - As an assist, applies one extra hits' worth of damage scaling.
 - As an assist, blockstun reduced to 16 and blockstop reduced to 8.",https://wiki.gbl.gg/images/3/3e/SG_ann_qcbp_hb.png,https://wiki.gbl.gg/images/d/d7/SG_ann_qcbpx2_fd.png
 ANNIE,L DESTRUCTION PILLAR,"MACRO_623LP
@@ -234,6 +242,7 @@ L PILLAR
 L VOLCANIC VIPER
 L VV
 LVV",Mid,Invuln. (Full) (Frame 1),700 (100),(2.5%) 7.5%,-4,-27,9,"2, 2",46,45,22,12,-,"- Annie does an uppercut-style reversal, reminiscent of Sol's Volcanic Viper.
+- Can be used in the air during Star Power.
 - See M DESTRUCTION PILLAR, H DESTRUCTION PILLAR.",https://wiki.gbl.gg/images/f/ff/SG_ann_dpp_hb.png,https://wiki.gbl.gg/images/1/1b/SG_ann_dplp_fd.png
 ANNIE,M DESTRUCTION PILLAR,"MACRO_623MP
 M DP
@@ -242,6 +251,7 @@ M PILLAR
 M VOLCANIC VIPER
 M VV
 MVV",Mid,Invuln. (Full) (Frame 1),900 (150),(2.5%) 7.5%,-4,-29,11,"2, 5",48,50,25,16,-,"- Annie does an uppercut-style reversal, reminiscent of Sol's Volcanic Viper.
+- Can be used in the air during Star Power.
 - See L DESTRUCTION PILLAR, H DESTRUCTION PILLAR.",https://wiki.gbl.gg/images/f/ff/SG_ann_dpp_hb.png,https://wiki.gbl.gg/images/a/ae/SG_ann_dpmp_fd.png
 ANNIE,H DESTRUCTION PILLAR,"MACRO_623HP
 DP
@@ -255,6 +265,7 @@ H VV
 HVV
 VOLCANIC VIPER
 VV",Mid,Invuln. (Full) (Frame 1),1000 (200),(2.5%) 7.5%,KD OR -20,-32,13,"2, 11",48,40,28,20,-,"- Annie does an uppercut-style reversal, reminiscent of Sol's Volcanic Viper.
+- Can be used in the air during Star Power.
 - HP version's knockdown only occurs once per combo, currently does not work for happy birthdays.
 - As an assist, blockstun reduced to 16 and blockstop reduced to 8.
 - See L DESTRUCTION PILLAR, M DESTRUCTION PILLAR.
@@ -264,9 +275,12 @@ RE-ENTRY
 RE-ENTRY X1
 RE ENTRY X1
 DIVEKICK X1
-DIVEKICK",Mid,-,300 (100),(2.5%) 7.5%,+11,-5,15,Until ground,24,33,20,13 (10 on block),-,"- Annie does up to three divekicks, with the strength determining the angle of her dive.
+DIVEKICK",Mid [High],-,"300 (100)
+[900, 400 (300, 150)]","(2.5%) 7.5%
+[(1.67%) 5%, 5%]",+11 [KD],-5 [-3],15 [12],Until ground,24 [14],33,20,13 (10 on block),-,"- Annie does up to three divekicks, with the strength determining the angle of her dive.
 - L versions dives at a 30° angle, M at a 45° angle, and H at a 50° angle (rough estimates).
 - Not a rekka and will do the next followup in the chain. After the second dive, only the third dive will happen afterwards.
+- During Star Power (22KK) Re Entry becomes an overhead, starts faster, and has a second hit on landing. Values in square brackets [ ] denote the Star Power version, if different.
 - See also RE ENTRY X2, RE ENTRY X3.",https://wiki.gbl.gg/images/6/63/SG_ann_jqcfk_hb.png,https://wiki.gbl.gg/images/6/6c/SG_ann_jqcfkx1_fd.png
 ANNIE,RE ENTRY X2,"RE-ENTRY X2
 DIVEKICK X2
@@ -401,20 +415,45 @@ ANNIE,STAR POWER,"22KK
 22.KK
 22+KK
 INSTALL
-ACTIVATION",N/A,Invuln. (Full) (Frame 12),N/A,"-100% (activate),
--0.0925%/f (while active)",N/A,N/A,12,N/A,12,N/A,N/A,N/A,N/A,"- Annie powers up, allowing some of her attacks to shoot additional star projectiles.
-- Costs an entire bar up front and requires 2 bars to be stocked to use at all.
-- Drains 0.0925% meter per frame until emptied or a Star Power super is used. Drain is cut in half when in hitstun.",https://wiki.gbl.gg/images/b/b1/SG_ann_ddkk.png,https://wiki.gbl.gg/images/5/57/SG_ann_ddkk_fd.png
+PPP
+LPMPHP
+KKK
+LKMKHK
+ACTIVATION",N/A,Invuln. (Full) (Frame 12),N/A,-300%,N/A,N/A,12,N/A,12,N/A,N/A,N/A,N/A,"- Annie powers up, allowing heavy normals to shoot additional star projectiles if held, as well as gaining enhanced versions of her specials.
+- Drains on a timer (about 20 skullseconds). Using enhanced moves will remove chunks of remaining time.
+- 2HK gains a comboable red bounce knockdown, but does not shoot stars.
+- Crescent Cut (H) will hit 3 times and not vanish when Annie is hit during the start up.
+- Re Entry performs a kick that is an overhead, starts faster, and has a second hit on landing.
+- North Knuckle (H) performs a wall bounce instead of a wall splat.
+- Destruction Pillar can be used in mid air.
+- Annie gains access to Gravity Collapse (22KK) which ends Star Power manually. Photo Bop will end Star Power as well. See GRAVITY COLLAPSE.
+- Annie gains access to Star Cancel (LPLK / LPMPHP / LKMKHK) which instantly cancels any attack that she's doing, but only once per use of Star Power. See STAR CANCEL.
+- The thickness of the outline around Annie indicates how much remaining time is left in Star Power.",https://wiki.gbl.gg/images/b/b1/SG_ann_ddkk.png,https://wiki.gbl.gg/images/5/57/SG_ann_ddkk_fd.png
+ANNIE,STAR CANCEL,"CANCEL
+ROMAN CANCEL
+STARCANCEL
+YRC
+FRC
+RRC
+RC",N/A,-,N/A,N/A,N/A,N/A,N/A,N/A,2,N/A,N/A,N/A,N/A,"- Annie can press LP + LK, or all three P buttons, or all three K buttons, to cancel whatever attack she is doing and instantly return to idle. This can only be done once per Star Power activation.",https://wiki.gbl.gg/images/d/d0/SG_ann_lpmphp.png,-
 ANNIE,GRAVITY COLLAPSE,"UNINSTALL
-COLLAPSE",Mid,Invuln. (Full) (Frames 1-14),1350 (400),-100%,KD,-22,8+0,3,57,24,27,10,-,"- Annie pops the enemy up in the air with a burst that ends Star Power mode.
+COLLAPSE",Mid,Invuln. (Full) (Frames 1-14),1350 (400),0% (-100% as DHC),KD,-22,8+0,3,57,24,27,10,-,"- Annie pops the enemy up in the air with a burst that ends Star Power mode.
 - Can be done in the air. See AIR GRAVITY COLLAPSE.",https://wiki.gbl.gg/images/a/a8/SG_ann_spddkk_hb.png,https://wiki.gbl.gg/images/2/28/SG_ann_spddkk_fd.png
 ANNIE,AIR GRAVITY COLLAPSE,"AIR UNINSTALL
 UNINSTALL AIR
 GRAVITY COLLAPSE AIR
 COLLAPSE AIR
-AIR COLLAPSE",Mid,Invuln. (Full) (Frames 1-13),1350 (400),-100%,KD,-17,7+0,3,Until ground,26,29,10,-,- Annie pops the enemy up in the air with a burst that ends Star Power mode.,https://wiki.gbl.gg/images/a/a8/SG_ann_spddkk_hb.png,https://wiki.gbl.gg/images/9/9c/SG_ann_spjddkk_fd.png
-ANNIE,PHOTO BOP,"INSTALL 214PP
-PHOTO",Mid,"Hit Grab, Invuln. (Full) (Frames 1-16)",3900/5200/6500 (400),-300%,Stagger,-24,6+6,3,55,33,21,12,-,- Annie drains her remaining meter and takes a photo with the enemy.,https://wiki.gbl.gg/images/c/c5/SG_ann_spqcbpp_hb.png,https://wiki.gbl.gg/images/f/f9/SG_ann_spqcbpp_fd.png
+AIR COLLAPSE",Mid,Invuln. (Full) (Frames 1-13),1350 (400),0%,KD,-17,7+0,3,Until ground,26,29,10,-,- Annie pops the enemy up in the air with a burst that ends Star Power mode.,https://wiki.gbl.gg/images/a/a8/SG_ann_spddkk_hb.png,https://wiki.gbl.gg/images/9/9c/SG_ann_spjddkk_fd.png
+ANNIE,PHOTO BOP,"6428PP
+4628PP
+PHOTO
+LEVEL 5
+LVL5
+LVL 5
+LV5
+LV 5",Mid,"Hit Grab, Invuln. (Full) (Frames 1-16)","6500, 500 (400)",-500%,"Stagger
+(+63 / +78 CH) ",-24,6+6,3,55,33,21,12,-,"- Annie drains her meter and takes a photo with the enemy.
+- Star Power ends almost immediately after use.",https://wiki.gbl.gg/images/c/c5/SG_ann_spqcbpp_hb.png,https://wiki.gbl.gg/images/f/f9/SG_ann_spqcbpp_fd.png
 ANNIE,PILLAR OF CREATION,"MACRO_214KK
 PILLAR SUPER
 POC
@@ -1469,9 +1508,13 @@ ASSIST TAUNT
 WEA DE ASSIST RECOVERY",-,-,-,-,-,-,-,-,58,-,-,-,-,"- Amount of time it takes for the character to turn invulnerable after they finish performing their assist action.
 - Longer recovery → more time to punish the assist.
 - Crouching assist actions must uncrouch before performing assist taunt, so they take even longer.",https://wiki.gbl.gg/images/4/49/SG_big_assist.png,-
-BLACK DAHLIA,5LP,MACRO_5LP,Mid,Chains Into Self,300,2.50%,4,2,7,2,14,19,17,7,-,"- If 5LP x1 whiffs, x2 followup becomes slower (13f startup).
+BLACK DAHLIA,5LP,"MACRO_5LP
+PIMPSLAP
+PIMP SLAP",Mid,Chains Into Self,300,2.50%,4,2,7,2,14,19,17,7,-,"- If 5LP x1 whiffs, x2 followup becomes slower (13f startup).
 - See also 5LP X2.",https://wiki.gbl.gg/images/5/51/SG_dhl_slp_hb.png,https://wiki.gbl.gg/images/6/64/SG_dhl_slp1_fd.png
-BLACK DAHLIA,5LP X2,MACRO_5LP_2ND,Mid,-,300,2.50%,4,2,8,3,13,19,17,9,-,"- If 5LP x1 whiffs, x2 followup becomes slower (13f startup).
+BLACK DAHLIA,5LP X2,"MACRO_5LP_2ND
+PIMPSLAP X2
+PIMP SLAP X2",Mid,-,300,2.50%,4,2,8,3,13,19,17,9,-,"- If 5LP x1 whiffs, x2 followup becomes slower (13f startup).
 - See also 5LP.",https://wiki.gbl.gg/images/5/51/SG_dhl_slp_hb.png,https://wiki.gbl.gg/images/e/e8/SG_dhl_slp2_fd.png
 BLACK DAHLIA,5MP,MACRO_5MP,Mid,-,"200 x2, 250","3.6% x2,
 5.4%",-8,-14,16,3 x3,33,27 x3,21,"3x2, 9
@@ -2824,6 +2867,8 @@ OR +3",-16,10 + 0,--,39,25,17,13,-,"- Dahlia chucks a bundle of dynamite that st
 - Will arm itself if Dahlia dies (with some caveats, refer to full wiki entry)
 - See also PARTING GIFT DETONATE.",https://wiki.gbl.gg/images/2/26/SG_dhl_qcfpp_hb.png,https://wiki.gbl.gg/images/2/2e/SG_dhl_qcfpp_throw_fd.png
 BLACK DAHLIA,PARTING GIFT DETONATE,"PARTING GIFT DET
+DET
+DETONATE
 C4 DET
 C4 DETONATE
 DET C4
@@ -2912,11 +2957,13 @@ GIRLS NIGHT TAUNT
 GIRLS' NIGHT TAUNT",N/A,-,N/A,N/A,N/A,N/A,N/A,N/A,70,N/A,N/A,N/A,-,- A taunt that's only available while the Girls Night bunnies are on screen. Black Dahlia rings her bell.,https://wiki.gbl.gg/images/2/2c/SG_dhl_gnqcbpp.png,-
 BLACK DAHLIA,TAUNT,"MP LP 4 LK MK
 MP, LP, 4, LK, MK
-MP,LP,4,LK,MK",Mid,Projectile,N/A,0%," +31
+MP,LP,4,LK,MK
+DUDLEY ROSE
+ROSE",Mid,Projectile,N/A,0%," +31
 (+87 CH)",83,62,--,22,27,23,"4 (60 on
 CH or block)",-,"- Dudley rose
 - Deals no damage.
-- Puts opponent in absurd amount of hitstop on CH or block.
+- Puts opponent in absurd amount of hitstop on CH.
 - Adjust the trajectory of her thrown glass by holding forwards or backwards.
 - Enhances the next Ice Shot.",https://wiki.gbl.gg/images/4/48/SG_dhl_taunt_hb.png,-
 BLACK DAHLIA,ASSIST RECOVERY,"ASSIST
@@ -4711,12 +4758,15 @@ SHADOW
 - Clones can be removed by strike attacks but not projectiles. When used as an assist, the clone cannot be removed by strike attacks.
 - It is important to note that the second and third shadow in a combo, if used to reset and start another combo, will scale the combo greatly.",https://wiki.gbl.gg/images/e/e6/SG_fuk_qcbk_hb.png,https://wiki.gbl.gg/images/1/1a/SG_fuk_qcbhk_fd.png
 FUKUA,L DRILL,"MACRO_236LK
-DRILL L",Mid,-,350x3 (100 x3),(2.5%) 2.5714% x3,5,-3,10,12,24,"20x2, 30",22x3,"1x2, 8",-,,https://wiki.gbl.gg/images/0/0f/SG_fuk_qcfk_hb.png,https://wiki.gbl.gg/images/f/f1/SG_fuk_qcflk_fd.png
+DRILL L
+LDRILL",Mid,-,350x3 (100 x3),(2.5%) 2.5714% x3,5,-3,10,12,24,"20x2, 30",22x3,"1x2, 8",-,,https://wiki.gbl.gg/images/0/0f/SG_fuk_qcfk_hb.png,https://wiki.gbl.gg/images/f/f1/SG_fuk_qcflk_fd.png
 FUKUA,M DRILL,"MACRO_236MK
-DRILL M",Mid,-,"300x3, 500 (100 x4)",(2.5%) 2.5714% x4,4,-6,14,17,25,"21x3, 30","22x3, 20","1x3, 10",-,,https://wiki.gbl.gg/images/0/0f/SG_fuk_qcfk_hb.png,https://wiki.gbl.gg/images/3/3f/SG_fuk_qcfmk_fd.png
+DRILL M
+MDRILL",Mid,-,"300x3, 500 (100 x4)",(2.5%) 2.5714% x4,4,-6,14,17,25,"21x3, 30","22x3, 20","1x3, 10",-,,https://wiki.gbl.gg/images/0/0f/SG_fuk_qcfk_hb.png,https://wiki.gbl.gg/images/3/3f/SG_fuk_qcfmk_fd.png
 FUKUA,H DRILL,"MACRO_236HK
 MACRO_236K
 DRILL H
+HDRILL
 DRILL",Mid,Invuln. (Strike),"300x4, 600 (100 x5)",(2.5%) 2.5714% x5,±0,-15,18,22,32,"22x4, 33","22x4, 18","1x4, 10",-,"- Decent reversal and AC, but has NO invincibility when used as an Assist action.",https://wiki.gbl.gg/images/0/0f/SG_fuk_qcfk_hb.png,https://wiki.gbl.gg/images/8/8b/SG_fuk_qcfhk_fd.png
 FUKUA,TENDER EMBRACE,"MACRO_236LPLK
 EMBRACE
@@ -4762,19 +4812,20 @@ ASSIST TAUNT",-,-,-,-,-,-,-,-,33,-,-,-,-,"- Amount of time it takes for the char
 MARIE,5LP,MACRO_5LP,Mid,-,250,2.50%,-1,-4,7,2,17,17,14,7,-,,https://wiki.gbl.gg/images/d/d0/SG_mar_slp_hb.png,https://wiki.gbl.gg/images/5/51/SG_mar_slp_fd.png
 MARIE,5MP,MACRO_5MP,Mid,-,550,7.50%,-2,-5,13,4,29,30,27,12,-,,https://wiki.gbl.gg/images/4/4b/SG_mar_smp_hb.png,https://wiki.gbl.gg/images/6/69/SG_mar_smp_fd.png
 MARIE,5HP,MACRO_5HP,Mid,"Projectile
-(2nd hit)","600, 300",4.5% x2-,-15,-29,24,"2, (19), 1",35,"30, 22","9, 15","13, (4 on block, 11 on hit)",-,"- Vacuums on hit.
+(2nd hit)","600, 300",4.5% x2-,-15,-29,24,"2, (19), 1",35,"30, 22","9, 15","13, (4 on block,
+11 on hit)",-,"- Vacuums on hit.
 - Second hit is a projectile. If Marie cancels from the first hit into a special or super, the second hit will still spawn.
 - The projectile hit ignores the hitstop from the first hit, so it effectively will come out 13f earlier on hit/block than on whiff. This makes 5HP much more unsafe on block/hit.",https://wiki.gbl.gg/images/3/33/SG_mar_shp_hb.png,https://wiki.gbl.gg/images/4/49/SG_mar_shp_fd.png
 MARIE,5LK,MACRO_5LK,Mid,-,350,2.50%,+2,+2,5,3,17,21,21,7,-,"- A rare 5f normal, and the only 5f kick normal in the game.
 - Marie's fastest normal, and her only plus on block ground normal.",https://wiki.gbl.gg/images/c/cf/SG_mar_slk_hb.png,https://wiki.gbl.gg/images/3/31/SG_mar_slk_fd.png
 MARIE,5MK,MACRO_5MK,Mid,-,500,7.50%,±0,-7,11,2,24,25,18,9,-,- Moves Marie forwards.,https://wiki.gbl.gg/images/d/d2/SG_mar_smk_hb.png,https://wiki.gbl.gg/images/4/4e/SG_mar_smk_fd.png
-MARIE,5HK,MACRO_5HK,Mid,Launcher,750,10%,0,-13,17,4,28,31,18,8,-,"- Disjointed launcher.
+MARIE,5HK,MACRO_5HK,Mid,Launcher,750,10%,±0,-13,17,4,28,31,18,8,-,"- Disjointed launcher.
 - Usually throws up three ""paper"" ✋✋✋, but other combinations can appear:
 - Uncommon (roughly 10%): three scissors ✌️✌️✌️, three rock ✊✊✊, or a mix of all three ✊✋✌️ (pictured)
-- Rare (roughly 1%): throws up three horns 🤘🤘🤘 accompanied by a little guitar riff sound.",https://wiki.gbl.gg/images/d/d7/SG_mar_shk_hb.png,https://wiki.gbl.gg/images/5/5d/SG_mar_shk_fd.png
-MARIE,2LP,MACRO_2LP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Crouching_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+- Rare (roughly 1%): throws up three horns 🤘🤘🤘 accompanied by a little guitar riff sound.
+- If two Maries 5HK each other, winner is determined by rock-paper-scissors. Not confirmed how Horns and Mix interact.",https://wiki.gbl.gg/images/d/d7/SG_mar_shk_hb.png,https://wiki.gbl.gg/images/5/5d/SG_mar_shk_fd.png
+MARIE,2LP,MACRO_2LP,Mid,Chains Into Self,75,0.60%,-4,-4,8,2,22,19,19,5,-,"- Jab that has followups for each button press, up to 5 extra presses, as the last hit is automatically done.
+- See also 2LP X2 which covers all followup presses as well as the final hit.",https://wiki.gbl.gg/images/f/f9/SG_mar_clp_hb.png,https://wiki.gbl.gg/images/1/16/SG_mar_clp_fd.png
 MARIE,2LP X2,"CLP X2
 CRLP X2
 CR.LP X2
@@ -4799,77 +4850,75 @@ CROUCH LP 2ND
 CROUCHING JAB X2
 CROUCH JAB X2
 CROUCHING LP X2
-CROUCH LP X2",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Crouching_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,2MP,MACRO_2MP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Crouching_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+CROUCH LP X2",Mid,Chains Into Self,"75 x5, 100",".6% x5, 1.2%","-18 x4, -6","-21 x4, -10",5,"1, (4) x4,
+1, (16), 2","37, 25","19 x5, 20",16 x6,"4 x5, 8",-,"- Jab that has followups for each button press, up to 5 extra presses, as the last hit is automatically done.
+- Frame data ticker shows all hits.
+- See also 2LP for the initial press only.",https://wiki.gbl.gg/images/f/f9/SG_mar_clp_hb.png,https://wiki.gbl.gg/images/a/ab/SG_mar_clp2_fd.png
+MARIE,2MP,MACRO_2MP,Mid,-,500,7.50%,-1,-3,9,4,21,23,21,9,-,"- Anti-air with low profile a la Annie 2LP, Fukua 2MP, Pea 2LK, etc.",https://wiki.gbl.gg/images/4/46/SG_mar_cmp_hb.png,https://wiki.gbl.gg/images/2/21/SG_mar_cmp_fd.png
 MARIE,2HP,"MACRO_2HP
 SUPLEX
 GERMAN SUPLEX
-SKELETON SUPLEX",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Crouching_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,2LK,MACRO_2LK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Crouching_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,2MK,MACRO_2MK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Crouching_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,2HK,MACRO_2HK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Crouching_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,JLP,MACRO_JLP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Jumping_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,JMP,MACRO_JMP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Jumping_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,JHP,MACRO_JHP,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Jumping_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,JLK,MACRO_JLK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Jumping_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+SKELETON SUPLEX",High,-,750,10%,Ground Bounce,-15,22,4,32,25,20,10,-,"- Marie summons a skeleton from the ground and German Suplexes it onto the opponent for an overhead.
+- If Marie kara cancels early into a special, the skeleton looks surprised and pops its head back into the ground. There's a dedicated voice line for the skeleton when this happens.",https://wiki.gbl.gg/images/b/b7/SG_mar_chp_hb.png,https://wiki.gbl.gg/images/2/27/SG_mar_chp_fd.png
+MARIE,2LK,MACRO_2LK,Low,-,300,2.50%,+2,±0,9,3,17,21,19,7,-,"- If this move hits a dust bunny while it is waiting to attack, the dust bunny will be launched forward, and then it will attack when it lands.",https://wiki.gbl.gg/images/2/2a/SG_mar_clk_hb.png,https://wiki.gbl.gg/images/f/f5/SG_mar_clk_fd.png
+MARIE,2MK,MACRO_2MK,Low,-,450,7.50%,-6,-7,15,8,25,26,25,9,-,- Low that moves Marie forwards.,https://wiki.gbl.gg/images/7/7f/SG_mar_cmk_hb.png,https://wiki.gbl.gg/images/4/4b/SG_mar_cmk_fd.png
+MARIE,2HK,MACRO_2HK,Low,Sweep,1000,10%,"Soft KD
+(Invuln.)",-9,16,3,25,15,18,10,-,- Very disjointed hitbox.,https://wiki.gbl.gg/images/0/03/SG_mar_chk_hb.png,https://wiki.gbl.gg/images/f/f3/SG_mar_chk_fd.png
+MARIE,JLP,MACRO_JLP,High,-,75 x8,1.29% x8,+23,+6,10,3 x8,14,23 x8,13 x8,"3 x8 (4 x8
+on block)",,"- Much scarier multi-hit button than the hitbox might suggest, boasting tons of active frames.",https://wiki.gbl.gg/images/b/b6/SG_mar_jlp_hb.png,https://wiki.gbl.gg/images/f/f9/SG_mar_jlp_fd.png
+MARIE,JMP,MACRO_JMP,High,-,600,7.50%,+7,-4,11,3,23,29,21,11,-,"- Sends the opponent downwards on hit.
+- Rising overhead on Big Band, Beo (hurtbox allowing), Eliza, and Dahlia.",https://wiki.gbl.gg/images/5/54/SG_mar_jmp_hb.png,https://wiki.gbl.gg/images/9/93/SG_mar_jmp_fd.png
+MARIE,JHP,MACRO_JHP,High,"Projectile
+(2nd hit)","600, 300",4.5% x2,KD*,-12,19,"2, (20), 1",18,"27, 14","22, 7","10, 4",-,"- Halts Marie's momentum during active frames, then slightly sends her up and backwards after.
+- Spawns a projectile in a similar fashion to 5HP.",https://wiki.gbl.gg/images/4/46/SG_mar_jhp_hb.png,https://wiki.gbl.gg/images/c/cc/SG_mar_jhp_fd.png
+MARIE,JLK,MACRO_JLK,High,-,250,2.50%,+4,-1,9,4,15,22,17,9,-,,https://wiki.gbl.gg/images/8/82/SG_mar_jlk_hb.png,https://wiki.gbl.gg/images/b/ba/SG_mar_jlk_fd.png
 MARIE,JMK,MACRO_JMK,High,-,750 / 450,7.5% / 2.5%,KD or +4,-9,14,7,19,20,29,13 / 8,-,"- Stops Marie's momentum and sends her upwards and a bit forwards, launching the opponent on hit, good for extending your air time.
 - If Marie performs this move more than once before landing, the second time onwards will be a weaker version, signified by a lack of blue jet effect behind Marie's vacuum cleaner.
 -- This version has the same hitboxes and startup/active/recovery, but has weaker upward momentum, has lower damage, builds less meter, inflicts less hitstop, and does not knock down.
 -- Data listed above is for First use / Repeated use before landing.
 - Puts Marie in Super Jump state, preventing her from calling assists.",https://wiki.gbl.gg/images/3/38/SG_mar_jmk_hb.png,https://wiki.gbl.gg/images/6/64/SG_mar_jmk_fd.png
-MARIE,JHK,MACRO_JHK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Jumping_Normals",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,THROW,MACRO_THROW,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Universal_Mechanics",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,AIR THROW,MACRO_AIR_THROW,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Universal_Mechanics",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,TAG IN,MACRO_TAG,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Universal_Mechanics",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,SNAPBACK,MACRO_SNAPBACK,-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Universal_Mechanics",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+MARIE,JHK,MACRO_JHK,High,-,750,10%,KD,-9,"15-28, 8",3,27,22,25,9,-,"- Can be charged to increase damage and change hit property, to a maximum of 53f.
+- Extends Marie's current momentum, charging will slow her falling speed while keeping and horizontal momentum, releasing halts Marie's and sends her a bit backwards.
+- Sends the opponent fullscreen, wall splats when charged.
+- See also J[HK] for the charged version.",https://wiki.gbl.gg/images/0/0c/SG_mar_jhk_hb.png,https://wiki.gbl.gg/images/3/3d/SG_mar_jhk_fd.png
+MARIE,J[HK],"JHK HELD
+HELD JHK
+CHARGED JHK
+JHK CHARGED",High,-,1200,10%,Wall Splat,-9,"29-53,8",3,27,22,25,13,-,"- Can be charged to increase damage and change hit property, to a maximum of 53f.
+- Extends Marie's current momentum, charging will slow her falling speed while keeping and horizontal momentum, releasing halts Marie's and sends her a bit backwards.
+- Sends the opponent fullscreen, wall splats when charged.
+- See also JHK for the uncharged version.",https://wiki.gbl.gg/images/0/0c/SG_mar_jhk_hb.png,https://wiki.gbl.gg/images/6/6b/SG_mar_jhk_hold_fd.png
+MARIE,THROW,MACRO_THROW,Throw,"50% Damage
+Scaling","0, 100x5,
+500","5%, 0% x5,
+8%",KD,N/A,7,1,28,N/A,N/A,N/A,-,,https://wiki.gbl.gg/images/2/22/SG_mar_throw_hb.png,https://wiki.gbl.gg/images/3/36/SG_mar_throw_fd.png
+MARIE,AIR THROW,MACRO_AIR_THROW,Air Throw,"50% Damage
+Scaling","0, 100x3, 700","5%, 0% x3,
+8%",Wall Splat,N/A,7,3,18,N/A,N/A,N/A,-,"- Wallsplats the opponent.
+- Hilgard's Howl starts up faster when cancelled from this move.",https://wiki.gbl.gg/images/e/ea/SG_mar_airthrow_hb.png,https://wiki.gbl.gg/images/5/58/SG_mar_airthrow_fd.png
+MARIE,TAG IN,MACRO_TAG,Mid,Tag,500,10%,KD,-27,39-140,4,40,22,16,8,-,"- Marie rides in and does a kickflip to hit the opponent.
+- She will continue to ride until getting in range of the opponent to attack, or if any face button is pressed.",https://wiki.gbl.gg/images/4/4e/SG_mar_tag_hb.png,https://wiki.gbl.gg/images/8/8d/SG_mar_tag_fd.png
+MARIE,SNAPBACK,MACRO_SNAPBACK,Mid,Snapback,0,-100%,N/A,-16,12 + 3,3,22,14,17,13,-,- Great hitbox for a snapback.,https://wiki.gbl.gg/images/e/e6/SG_mar_snap_hb.png,https://wiki.gbl.gg/images/d/d5/SG_mar_snap_fd.png
 MARIE,HOP TO IT SUMMON,"MACRO_236P
 MACRO_236LP
 MACRO_236MP
 MACRO_236HP
+HOP TO IT
 BUNNY SUMMON
 DUST BUNNY SUMMON
-DUSTBUNNY SUMMON",-,-,-,-,-,-,-,-,-,-,-,-,-,"- This is the move that summons the bunny. See HOP TO IT BUNNY for the dust bunny itself. 
-- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+DUSTBUNNY SUMMON",N/A,-,N/A,-2.50%,N/A,N/A,19,N/A,25,N/A,N/A,N/A,-,"- LP version places it close, MP halfscreen, HP fullscreen.
+- Marie places a dust bunny. After 1 second or so, the dust bunny will hop about half screen horizontally towards the opponent (staying very close to the ground).
+- Dust bunny does not interact with other projectiles, but can be reflected as one.
+- The bunny will dissipate after one hop, if it makes contact with the opponent, or if Marie is hit.
+- If Marie has taunted, her next bunny will instead hop up to three times before dissipating.
+- If the bunny connects with the opponent, it will lock the opponent in place, allowing Marie to set up as she pleases.
+- This is the move that summons the bunny. See HOP TO IT BUNNY for the dust bunny itself, as well as its hitbox.",https://wiki.gbl.gg/images/9/97/SG_mar_qcfp.png,https://wiki.gbl.gg/images/6/60/SG_mar_qcfp_fd.png
 MARIE,HOP TO IT BUNNY,"BUNNY
 DUST BUNNY
 DUSTBUNNY
-RABBIT",-,-,-,-,-,-,-,-,-,-,-,-,-,"- This is the entry for the dust bunny itself. See HOP TO IT SUMMON for the move that summons it.
-- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MARIE,HOP TO IT BUNNY (TAUNTED),"HOP TO IT BUNNY (TAUNT)
+RABBIT
+HOP TO IT BUNNY (TAUNTED)
+HOP TO IT BUNNY (TAUNT)
 HOP TO IT TAUNT BUNNY
 HOP TO IT TAUNTED BUNNY
 HOP TO IT BUNNY TAUNTED
@@ -4889,10 +4938,14 @@ TAUNT RABBIT
 TAUNTED BUNNY
 TAUNTED DUST BUNNY
 TAUNTED DUSTBUNNY
-TAUNTED RABBIT",-,-,-,-,-,-,-,-,-,-,-,-,-,"- This is the entry for the dust bunny itself. See HOP TO IT SUMMON for the move that summons it.
-- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+TAUNTED RABBIT",Mid,Projectile,75x7 (35x7),2% x7,+89,+92,-,"41 per leap,
+7 x9 ",-,30 x9,33 x9,3 x9,-,"- LP version places it close, MP halfscreen, HP fullscreen.
+- Marie places a dust bunny. After 1 second or so, the dust bunny will hop about half screen horizontally towards the opponent (staying very close to the ground).
+- Dust bunny does not interact with other projectiles, but can be reflected as one.
+- The bunny will dissipate after one hop, if it makes contact with the opponent, or if Marie is hit.
+- If Marie has taunted, her next bunny will instead hop up to three times before dissipating.
+- If the bunny connects with the opponent, it will lock the opponent in place, allowing Marie to set up as she pleases.
+- This is the entry for the dust bunny itself. See HOP TO IT SUMMON for the move that summons it.",https://wiki.gbl.gg/images/b/b4/SG_mar_qcfp_hb.png,-
 MARIE,MARIE GO ROUND L,"MACRO_214LP
 MARIE-GO-ROUND L
 L MARIE GO ROUND
@@ -4901,6 +4954,24 @@ L SHOULDER
 SHOULDER L
 L TETSUZANKOU
 TETSUZANKOU L
+L TETZUSANKOU
+TETZUSANKOU L
+L TETSUSANKOU
+TETSUSANKOU L
+L TETZUZANKOU
+TETZUZANKOU L
+L TETSUZANKO
+TETSUZANKO L
+L TETZUSANKO
+TETZUSANKO L
+L TETSUSANKO
+TETSUSANKO L
+L TETZUZANKO
+TETZUZANKO L
+L TETSU
+TETSU L
+L TETZU
+TETZU L
 TWIRL L
 L TWIRL
 L TACKLE
@@ -4912,9 +4983,9 @@ L STEP
 STEP L
 FEINT
 FEINT L
-L FEINT",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/1/11/SG_mar_qcbp_hb.png,-
+L FEINT",Mid,"Invuln. (Proj.)
+(Frame 2)",N/A,-2.50%,N/A,N/A,1,26,10,N/A,N/A,N/A,-,"- Projectile-invincible roll that goes through opponents up close.
+- Active frames refers to the invul period, rather than an attack.",https://wiki.gbl.gg/images/1/11/SG_mar_qcbp_hb.png,https://wiki.gbl.gg/images/2/28/SG_mar_qcblp_fd.png
 MARIE,MARIE GO ROUND M,"MACRO_214MP
 MARIE-GO-ROUND M
 M MARIE GO ROUND
@@ -4923,6 +4994,24 @@ M SHOULDER
 SHOULDER M
 M TETSUZANKOU
 TETSUZANKOU M
+M TETZUSANKOU
+TETZUSANKOU M
+M TETSUSANKOU
+TETSUSANKOU M
+M TETZUZANKOU
+TETZUZANKOU M
+M TETSUZANKO
+TETSUZANKO M
+M TETZUSANKO
+TETZUSANKO M
+M TETSUSANKO
+TETSUSANKO M
+M TETZUZANKO
+TETZUZANKO M
+M TETSU
+TETSU M
+M TETZU
+TETZU M
 TWIRL M
 M TWIRL
 M TACKLE
@@ -4930,9 +5019,7 @@ TACKLE M
 M MGR
 MGR M
 M STEP
-STEP M",Mid,-,500 (150),(2.5%) 10.8%,+6,+1,20,3,22,26,25,8,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/1/11/SG_mar_qcbp_hb.png,https://wiki.gbl.gg/images/4/42/SG_mar_qcbmp_fd.png
+STEP M",Mid,-,500 (150),(2.5%) 10.8%,+6,+1,20,3,22,26,25,8,-,"- Leaves them standing, is plus on block, and can be linked into 5LK on hit. Useful for resetting pressure.",https://wiki.gbl.gg/images/1/11/SG_mar_qcbp_hb.png,https://wiki.gbl.gg/images/4/42/SG_mar_qcbmp_fd.png
 MARIE,MARIE GO ROUND H,"MACRO_214HP
 MARIE GO ROUND
 MARIE-GO-ROUND
@@ -4943,8 +5030,31 @@ SHOULDER
 H SHOULDER
 SHOULDER H
 TETSUZANKOU
+TETZUSANKOU
+TETSUSANKOU
+TETZUZANKOU
+TETSU
+TETZU
 H TETSUZANKOU
 TETSUZANKOU H
+H TETZUSANKOU
+TETZUSANKOU H
+H TETSUSANKOU
+TETSUSANKOU H
+H TETZUZANKOU
+TETZUZANKOU H
+H TETSUZANKO
+TETSUZANKO H
+H TETZUSANKO
+TETZUSANKO H
+H TETSUSANKO
+TETSUSANKO H
+H TETZUZANKO
+TETZUZANKO H
+H TETSU
+TETSU H
+H TETZU
+TETZU H
 TWIRL
 TWIRL H
 H TWIRL
@@ -4955,20 +5065,25 @@ MGR
 H MGR
 MGR H
 H STEP
-STEP H",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/1/11/SG_mar_qcbp_hb.png,-
+STEP H",Mid,Armor (1 Hit),800 / 800 (200),(2.5%) 11.34%,"Stagger (+37/+52 CH)
+or KD (vs air)
+(Once per combo),
+±0",-22,22,3,32,"24 (First use)/
+29 (Second use)",12,"18 (12
+on block)",-,"- Armored attack that staggers grounded opponents on hit, or puts airborne opponents into knockdown state on hit (once per combo).",https://wiki.gbl.gg/images/1/11/SG_mar_qcbp_hb.png,https://wiki.gbl.gg/images/1/13/SG_mar_qcbhp_fd.png
 MARIE,SUCTION OBSTRUCTION,"MACRO_236LPLK
 VACUUM
 VACCUUM
+VACCUM
 VACUUM CLEANER
 VACCUUM CLEANER
 COMMAND GRAB
 CMD GRAB
 COMMAND THROW
-CMD THROW",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+CMD THROW",Command Grab,"Invuln. (Throw),
+55% Damage
+Scaling","300, 1000","(2.5%) 3%,
+10%",KD,N/A,14,6,35,N/A,N/A,N/A,-,- Command grab that switches sides on hit.,https://wiki.gbl.gg/images/8/8b/SG_mar_qcfthrow_hb.png,https://wiki.gbl.gg/images/9/97/SG_mar_qcfthrow_fd.png
 MARIE,HILGARD'S HAYMAKER L,"MACRO_236LK
 MACRO_J236LK
 L HILGARD'S HAYMAKER
@@ -5027,9 +5142,13 @@ L HILGARD AIR
 GARD L AIR
 L GARD AIR
 PUNCH L AIR
-L PUNCH AIR",Mid,Projectile,600 (150),(2.5%) 7.5%,+31,+18,"10, 10, 19-25",2,38,30,17,9,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+L PUNCH AIR",Mid,Projectile,600 (150),(2.5%) 7.5%,+31,+18,"10, 10, 19-25",2,38,30,17,9,-,"- Marie summons Mr. Hilgard to punch the opponent, acting independently from Marie, leaving herself free to act when she finishes the animation.
+- Hilgard attacks in front of him and leaves them standing, allowing Marie plentiful time to convert into a combo on hit or go for a mixup on block.
+- Startup is listed as: Time for Hilgard to spawn > Time till Hilgard is actionable > Attack startup. Recovery is Marie after summoning Hilgard.
+- Hilgard must recover/dissipate before he is able to be summoned again.
+- Hilgard spawns on frame 11 and is invul until startup (summoning period).
+- Hilgard goes away when Marie is hit.
+- Air version will override Marie's current air momentum with a slow float.",https://wiki.gbl.gg/images/f/f9/SG_mar_qcfk_hb.png,https://wiki.gbl.gg/images/d/d9/SG_mar_qcflk_fd.png
 MARIE,HILGARD'S HAYMAKER M,"MACRO_236MK
 MACRO_J236MK
 M HILGARD'S HAYMAKER
@@ -5088,9 +5207,15 @@ M HILGARD AIR
 GARD M AIR
 M GARD AIR
 PUNCH M AIR
-M PUNCH AIR",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+M PUNCH AIR",Mid,"Projectile, Armor
+(Hilgard, 1 hit)",850 (200),(2.5%) 7.5%,KD,+26,"10, 10, 44-53",2,38,26,17,9,-,"- Marie summons Mr. Hilgard to punch the opponent, acting independently from Marie, leaving herself free to act when she finishes the animation.
+- Hilgard charges his haymaker for half a second, before rushing the up to halfscreen to strike the opponent, knocking them down on hit.
+- Armored until active frames end.
+- Startup is listed as: Time for Hilgard to spawn > Time till Hilgard is actionable > Attack startup. Recovery is Marie after summoning Hilgard.
+- Hilgard must recover/dissipate before he is able to be summoned again.
+- Hilgard spawns on frame 11 and is invul until startup (summoning period). 
+- Hilgard goes away when Marie is hit or his armor is broken.
+- Air version will override Marie's current air momentum with a slow float.",https://wiki.gbl.gg/images/f/f9/SG_mar_qcfk_hb.png,https://wiki.gbl.gg/images/f/f7/SG_mar_qcfmk_fd.png
 MARIE,HILGARD'S HAYMAKER H,"MACRO_236HK
 MACRO_J236HK
 MACRO_236K
@@ -5162,9 +5287,15 @@ H HILGARD AIR
 GARD H AIR
 H GARD AIR
 PUNCH H AIR
-H PUNCH AIR",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+H PUNCH AIR",Mid,"Projectile, Armor
+(Hilgard, 2 hits)",1000 (300),(2.5%) 7.5%,Sliding KD,+33,"10, 10, 83-95",2,38,12,17,17,-,"- Marie summons Mr. Hilgard to punch the opponent, acting independently from Marie, leaving herself free to act when she finishes the animation.
+- Hilgard charges for a little over a second, then charges at the opponent up to fullscreen, sending the opponent into a sliding knockdown on hit.
+- Armored until active frames end.
+- Startup is listed as: Time for Hilgard to spawn > Time till Hilgard is actionable > Attack startup. Recovery is Marie after summoning Hilgard.
+- Hilgard must recover/dissipate before he is able to be summoned again.
+- Hilgard spawns on frame 11 and is invul until startup (summoning period). 
+- Hilgard goes away when Marie is hit or his armor is broken.
+- Air version will override Marie's current air momentum with a slow float.",https://wiki.gbl.gg/images/f/f9/SG_mar_qcfk_hb.png,https://wiki.gbl.gg/images/6/64/SG_mar_qcfhk_fd.png
 MARIE,HILGARD'S HOWL L,"MACRO_214LK
 MACRO_J214LK
 L HILGARD'S HOWL
@@ -5183,9 +5314,14 @@ L GIGAN LASER
 GIGAN BEAM L
 L GIGAN BEAM
 LASER L
-L LASER",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+L LASER",Mid,"Projectile, Invuln.
+(Full) (Hilgard)",400 x3 (150 x3),(2.5%) 3.15% x3,KD,+56,"6, 10, 45","8, (4), 8,
+(4), 8",42,25 x3,28 x3,4 x3,-,"- Marie summons Mr. Hilgard to fire a laser at the opponent, causing a set of delayed explosions popping the opponent in the air on hit and locking them down on block.
+- L strength is the fastest with the closest range, covering the space immediately in front of Marie.
+- Startup is listed as: Time for Hilgard to spawn > Time till Hilgard is actionable > Attack startup. Recovery is Marie after summoning Hilgard.
+- Hilgard must recover/dissipate before he is able to be summoned again.
+- Ground version goes away from Marie, while the Air version goes towards her.
+- Air version will override Marie's current air momentum with a slow float.",https://wiki.gbl.gg/images/0/0a/SG_mar_qcbk_hb.png,https://wiki.gbl.gg/images/5/55/SG_mar_qcbk_fd.png
 MARIE,HILGARD'S HOWL M,"MACRO_214MK
 MACRO_J214MK
 M HILGARD'S HOWL
@@ -5204,9 +5340,14 @@ M GIGAN LASER
 GIGAN BEAM M
 M GIGAN BEAM
 LASER M
-M LASER",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+M LASER",Mid,"Projectile, Invuln.
+(Full) (Hilgard)",400 x3 (150 x3),(2.5%) 3.15% x3,KD,+56,"6, 10, 54","8, (4), 8,
+(4), 8",42,25 x3,28 x3,4 x3,-,"- Marie summons Mr. Hilgard to fire a laser at the opponent, causing a set of delayed explosions popping the opponent in the air on hit and locking them down on block.
+- M strength is a middle ground in both startup and range, covering about halfscreen.
+- Startup is listed as: Time for Hilgard to spawn > Time till Hilgard is actionable > Attack startup. Recovery is Marie after summoning Hilgard.
+- Hilgard must recover/dissipate before he is able to be summoned again.
+- Ground version goes away from Marie, while the Air version goes towards her.
+- Air version will override Marie's current air momentum with a slow float.",https://wiki.gbl.gg/images/0/0a/SG_mar_qcbk_hb.png,https://wiki.gbl.gg/images/5/55/SG_mar_qcbk_fd.png
 MARIE,HILGARD'S HOWL H,"MACRO_214HK
 MACRO_J214HK
 MACRO_214K
@@ -5236,9 +5377,14 @@ GIGAN BEAM H
 H GIGAN BEAM
 LASER
 LASER H
-H LASER",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Specials",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+H LASER",Mid,"Projectile, Invuln.
+(Full) (Hilgard)",400 x3 (150 x3),(2.5%) 3.15% x3,KD,+56,"6, 10, 61","8, (4), 8,
+(4), 8",42,25 x3,28 x3,4 x3,-,"- Marie summons Mr. Hilgard to fire a laser at the opponent, causing a set of delayed explosions popping the opponent in the air on hit and locking them down on block.
+- H strength is the slowest and reaches fullscreen.
+- Startup is listed as: Time for Hilgard to spawn > Time till Hilgard is actionable > Attack startup. Recovery is Marie after summoning Hilgard.
+- Hilgard must recover/dissipate before he is able to be summoned again.
+- Ground version goes away from Marie, while the Air version goes towards her.
+- Air version will override Marie's current air momentum with a slow float.",https://wiki.gbl.gg/images/0/0a/SG_mar_qcbk_hb.png,https://wiki.gbl.gg/images/5/55/SG_mar_qcbk_fd.png
 MARIE,CARPAL PUMMEL,"MACRO_236PP
 LEVEL 1
 LVL1
@@ -5255,9 +5401,12 @@ PUNCH SUPER
 ARM SUPER
 ARM
 CARPAL
-PUMMEL",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Supers",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+PUMMEL",High,"Projectile, Invuln.
+(Full) (Frame 11),
+55% Min. Scaling",2000 (350),-100%,"Hard KD (+70 /
++68 (vs air))",-22,14+1,10,49,50,16,5,-,"- Marie summons a giant fist, literally, from above her to smash the opponent. Hits overhead!
+- Unique hard knockdown that works even if the opponent does not have OTG, as long as the move is not used as an OTG.
+- Is a projectile, so it can be reflected by Bella and avoided with moves that are projectile invul.",https://wiki.gbl.gg/images/1/15/SG_mar_qcfpp_hb.png,https://wiki.gbl.gg/images/7/76/SG_mar_qcfpp_fd.png
 MARIE,REPETITIVE SKELETON IMPACT,"MACRO_236KK
 RSI
 LEVEL 1 COMMAND GRAB
@@ -5269,9 +5418,16 @@ CMD GRAB SUPER
 COMMAND THROW SUPER
 CMD THROW SUPER
 HAND SUPER
-HAND",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Supers",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+SKELETON IMPACT
+HAND",Command Grab,"Invuln. (Full),
+45% Min.
+Scaling","675, 775, 875,
+950, 1075, 1150,
+1250",-100% + 100%xN,KD,N/A,10 + 2,6,45,N/A,N/A,N/A,-,"- Marie summons a hand from the ground to grab the opponent, being able to command where to slam the opponent upon success.
+- Pick direction to slam opponents, up to 3 times, with down, up, left, or right. Each unique slam will deal an extra 25 damage for the first 3.
+- If you hit no directions, the move will end with a forward slam.
+- If holding a button while picking the final direction, Marie will spend an additional bar to slam them one more time (up to 4).
+- Post-flash actable like Daisy Pusher.",https://wiki.gbl.gg/images/e/e5/SG_mar_qcfkk_hb.png,https://wiki.gbl.gg/images/8/89/SG_mar_qcfkk_fd.png
 MARIE,WEIGHT OF OUR WILL,"MACRO_214PP
 SPIRIT BOMB
 SPIRITBOMB
@@ -5283,9 +5439,11 @@ GENKIDAMA
 DAMA
 BALL
 OODAMA
-ODAMA",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Supers",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
+ODAMA",Mid,"Projectile, Invuln.
+(Full), 55% Min. 
+Scaling","130 xN, 3750",-300%,KD,+62,5 + 0,"4xN, 28",Until Landing,26 xN,19 xN,"2xN, 25",-,"- Is post-flash unblockable above Marie where the ball spawns.
+- Travels slowly to the ground, while Marie lands, then dissipates with a big blast when it touches the ground, launches the opponent very high with plenty of time to convert
+- Does more damage the higher up it hits the opponent (since it stays out for longer).",https://wiki.gbl.gg/images/d/d4/SG_mar_qcbpp_hb.png,https://wiki.gbl.gg/images/e/e0/SG_mar_qcbpp_fd.png
 MARIE,TAUNT,"A MOMENT'S TIME
 A MOMENTS TIME
 A MOMENT TIME
@@ -5300,14 +5458,13 @@ MOMENT IN TIME
 2 HK MK LK 2
 2+HK+MK+LK+2
 2,HK,MK,LK,2
-2, HK, MK, LK, 2",N/A,-,N/A,0%,N/A,N/A,N/A,N/A,102,N/A,N/A,N/A,-,"- Marie curtseys. Her next 236P dust bunny will hop up to three times instead of just once.
+2, HK, MK, LK, 2",-,-,-,0%,-,-,-,-,102,-,-,-,-,"- Marie curtseys. Her next 236P dust bunny will hop up to three times instead of just once.
 - Can hold 2 to stay in the curtsey pose for an arbitrary amount of time.
 - If you press and hold HP after holding taunt for 120 frames, she begins converting red life to meter at a slow rate.",https://wiki.gbl.gg/images/d/de/SG_mar_taunt.png,-
 MARIE,ASSIST RECOVERY,"ASSIST
-ASSIST TAUNT",-,-,-,-,-,-,-,-,-,-,-,-,-,"- Marie's data in Frame Data Bot is currently a work in progress.
-- In the meantime please use:
-https://wiki.gbl.gg/w/Skullgirls/Marie#Taunt",https://wiki.gbl.gg/images/c/c6/SG_mar_select.png,-
-MS. FORTUNE,5LP,MACRO_5LP,Mid,Chains Into Self,225 / 250,2.50%,4,5,5,2,12,17,18,7,-,"- Best jab in the game. Amazing hitbox, and it's tied for second-fastest with 5F start up with Filia. Only Umbrella's Ravenous 2LP is faster (4f).
+ASSIST TAUNT",-,-,-,0%,-,-,-,-,75,-,-,-,-,"- Amount of time it takes for the character to turn invulnerable after they finish performing their assist action.
+- Longer recovery → more time to punish the assist.",https://wiki.gbl.gg/images/3/31/SG_mar_assist.png,-
+MS. FORTUNE,5LP,MACRO_5LP,Mid,Chains Into Self,225 / 250,2.50%,4,5,5,2,14,17,18,7,-,"- Best jab in the game. Amazing hitbox, and it's tied for second-fastest with 5F start up with Filia. Only Umbrella's Ravenous 2LP is faster (4f).
 - Chains into itself for a second hit.",https://wiki.gbl.gg/images/4/40/SG_msf_slp_hb.png,https://wiki.gbl.gg/images/8/8f/SG_msf_slp_fd.png
 MS. FORTUNE,5MP,MACRO_5MP,Mid,-,"115 x4, 400 (25 x4, 50)",2.25% x5,-7,-8,12,"3, 3, 3, 3, 8",22,"21 x4, 22","20 x4, 21","1 x4, 9",-,- The only normal to cause chip damage.,https://wiki.gbl.gg/images/a/a8/SG_msf_smp_hb.png,https://wiki.gbl.gg/images/9/91/SG_msf_smp_fd.png
 MS. FORTUNE,HEADLESS 5MP,"HEADLESS SMP
@@ -5320,7 +5477,7 @@ S.MP HEADLESS
 STRONG HEADLESS
 5MP HEADLESS",Mid,-,600,7.50%,-1,1,9,2,20,20,22,9,-,,https://wiki.gbl.gg/images/c/cd/SG_msf_smp_hl_hb.png,https://wiki.gbl.gg/images/7/78/SG_msf_smp_hl_fd.png
 MS. FORTUNE,5HP,"MACRO_5HP
-THE SPROINGER",Mid,-,1000,10%,±0,-9,14,4,25,28,19,12,-,,https://wiki.gbl.gg/images/7/73/SG_msf_shp_hb.png,https://wiki.gbl.gg/images/1/1a/SG_msf_shp_fd.png
+THE SPROINGER",Mid,-,975,10%,±0,-9,14,4,25,28,19,12,-,,https://wiki.gbl.gg/images/7/73/SG_msf_shp_hb.png,https://wiki.gbl.gg/images/1/1a/SG_msf_shp_fd.png
 MS. FORTUNE,5LK,MACRO_5LK,Mid,-,315 / 350,2.50%,-3,-2,10,2,19,17,18,7,-,,https://wiki.gbl.gg/images/d/da/SG_msf_slk_hb.png,https://wiki.gbl.gg/images/5/55/SG_msf_slk_fd.png
 MS. FORTUNE,5MK,MACRO_5MK,Mid,-,"270, 360 / 300, 400",3.75% x2,-1,-3,13,"2, (8), 3",22,"18, 23","19, 21","5, 9",-,- 2 hitting confirm move.,https://wiki.gbl.gg/images/a/a4/SG_msf_smk_hb.png,https://wiki.gbl.gg/images/d/d4/SG_msf_smk_fd.png
 MS. FORTUNE,5HK,MACRO_5HK,Mid,-,"270, 315, 540",3.33% x3,3,-6,16,"3, (7), 3, (7), 3",23,"23 x2, 28","18 x2, 19","3 x2, 11",-,- 3 hitting confirm move.,https://wiki.gbl.gg/images/d/d1/SG_msf_shk_hb.png,https://wiki.gbl.gg/images/c/c5/SG_msf_shk_fd.png
@@ -5332,7 +5489,7 @@ SHK HEADLESS
 S.HK HEADLESS
 5.HK HEADLESS
 ROUNDHOUSE HEADLESS
-5HK HEADLESS",Mid,Launcher,1050,10%,-5,-13,15,2,33,29,21,12,-,- Headless Ms. Fortune's launcher.,https://wiki.gbl.gg/images/4/4f/SG_msf_shk_hl_hb.png,https://wiki.gbl.gg/images/7/7e/SG_msf_shk_hl_fd.png
+5HK HEADLESS",Mid,Launcher,975,10%,-5,-13,15,2,33,29,21,12,-,- Headless Ms. Fortune's launcher.,https://wiki.gbl.gg/images/4/4f/SG_msf_shk_hl_hb.png,https://wiki.gbl.gg/images/7/7e/SG_msf_shk_hl_fd.png
 MS. FORTUNE,2LP,MACRO_2LP,Mid,Chains Into Self,225 / 250,2.50%,3,4,6,2,13,17,18,7,-,"- See ""2LP x2""
 - Ms. Fortune is extremely small when performing this move, and numerous attacks will fly over her head.",https://wiki.gbl.gg/images/a/a9/SG_msf_clp_hb.png,https://wiki.gbl.gg/images/9/97/SG_msf_clp1_fd.png
 MS. FORTUNE,2LP X2,"2.LP X2
@@ -5356,13 +5513,16 @@ SWEEP",Low,Sweep,"315, 765 / 350, 850",5% x2,"Soft KD, Soft KD (Invuln.)",-10,13
 MS. FORTUNE,JLP,MACRO_JLP,High,-,225 / 250,2.50%,1,±0,6,3,16,19,18,7,-,- Tied for fastest air normal in the game. The hitbox hits behind Fortune. Great reset and cross-up tool.,https://wiki.gbl.gg/images/4/49/SG_msf_jlp_hb.png,https://wiki.gbl.gg/images/2/26/SG_msf_jlp_fd.png
 MS. FORTUNE,JMP,MACRO_JMP,High,-,360 / 400,7.50%,3,3,11,3,15,20,20,9,-,,https://wiki.gbl.gg/images/7/76/SG_msf_jmp_hb.png,https://wiki.gbl.gg/images/a/a4/SG_msf_jmp_fd.png
 MS. FORTUNE,JHP,MACRO_JHP,High,-,775,10%,1,-2,12,3,18,21,18,11,-,,https://wiki.gbl.gg/images/e/ef/SG_msf_jhp_hb.png,https://wiki.gbl.gg/images/2/25/SG_msf_jhp_fd.png
-MS. FORTUNE,JLK,MACRO_JLK,High,-,270 / 300,2.50%,8,6,8,2,11,20,18,7,-,- Reliable IAD normal.,https://wiki.gbl.gg/images/3/32/SG_msf_jlk_hb.png,https://wiki.gbl.gg/images/6/68/SG_msf_jlk_fd.png
+MS. FORTUNE,JLK,MACRO_JLK,"High
+(rising mid)",-,270 / 300,2.50%,8,6,8,2,15,20,18,7,-,"- Reliable IAD normal.
+- Cannot cross-up opponent.",https://wiki.gbl.gg/images/3/32/SG_msf_jlk_hb.png,https://wiki.gbl.gg/images/6/68/SG_msf_jlk_fd.png
 MS. FORTUNE,JMK,MACRO_JMK,High,-,"270, 360 / 300, 400",3.75% x2,7,10,11,"3, (13), 3",12,"17, 21","20, 24","6, 10",-,- Alters her air momentum to keep her in the air for a bit.,https://wiki.gbl.gg/images/6/66/SG_msf_jmk_hb.png,https://wiki.gbl.gg/images/c/cd/SG_msf_jmk_fd.png
 MS. FORTUNE,JHK,MACRO_JHK,High,-,855 / 950,10%,"Soft KD (vs air),
  KD (vs air, chained into)",-2,15,5,13,23,22,12,-,"- When used outside of a chain combo, causes a soft KD against aerial opponents, allowing an immediate ground recovery.",https://wiki.gbl.gg/images/b/b9/SG_msf_jhk_hb.png,https://wiki.gbl.gg/images/3/32/SG_msf_jhk_fd.png
 MS. FORTUNE,THROW,MACRO_THROW,Throw,50% Damage Scaling,"0, 100 x5, 300","0, 3.6% x5, 0",KD,-,7,1,28,-,-,-,-,,https://wiki.gbl.gg/images/8/85/SG_msf_throw_hb.png,https://wiki.gbl.gg/images/1/11/SG_msf_throw_fd.png
 MS. FORTUNE,AIR THROW,MACRO_AIR_THROW,Air Throw,"50% Damage Scaling,
- Airdash Cancel","0, 1000","0, 15%",KD,-,7,3,19,-,-,-,-,,https://wiki.gbl.gg/images/4/4c/SG_msf_airthrow_hb.png,https://wiki.gbl.gg/images/6/64/SG_msf_airthrow_fd.png
+ Airdash Cancel","0, 1000","0, 15%",KD,-,7,3,19,-,-,-,-,"- The recovery can be cancelled with an airdash, special or super for conversions.
+- Forces the combo stage to stage 3 when done while her head is removed.",https://wiki.gbl.gg/images/4/4c/SG_msf_airthrow_hb.png,https://wiki.gbl.gg/images/6/64/SG_msf_airthrow_fd.png
 MS. FORTUNE,TAG IN,MACRO_TAG,Mid,Tag,500,2.50%,KD,-22 (At best),20,22,49,23,17,(9) 9,-,"- Ms. Fortune tags in head first, catching and reattaching her head as it bounces off the opponent from the attack. 
 - There is no attack from the body when tagging in Headless, but commands for head attacks will work as soon as Ms. Fortune becomes the point character. 
 - Head-on version cannot cross up.",https://wiki.gbl.gg/images/a/a1/SG_msf_tag_hb.png,https://wiki.gbl.gg/images/f/f1/SG_msf_tag_fd.png
@@ -5370,15 +5530,43 @@ MS. FORTUNE,SNAPBACK,MACRO_SNAPBACK,Mid,Snapback,0,-100%,-,-25,12 + 3,"1, (5)*, 
 - If Ms. Fortune gets hit by a snapback with her Head On, she'll drop her head and leave it on screen.",https://wiki.gbl.gg/images/7/77/SG_msf_snap_hb.png,https://wiki.gbl.gg/images/c/c1/SG_msf_snap_fd.png
 MS. FORTUNE,L CAT SCRATCH,"MACRO_236LP
 CAT SCRATCH L
+L SCRATCH
 SCRATCH L
-REKKA L",Mid,-,300 (100) → 350 (100) → 950 (150),(2.5%) 9% → (2.5%) 9% → (2.5%) 9%,+3 → -3 → KD,±0 → -5 → -7,14 → 12 → 15,3 → 3 → 4,19 → 24 → 27,24 → 23 → 28,22 → 21 → 23,9 → 9 → 11,-,"- While head-on, two additional followup hits can be done by pressing P. The first button used to execute the attack will determine the version for the 2nd and 3rd hits. After the 1st or 2nd hits, you can choose to finish with either Cat Slide (2K) or El Gato (K). She can also cancel the 2nd hit directly into Cat Strike (214P).
+REKKA L
+L REKKA",Mid,-,"300 (100) →
+350 (100) →
+800 (150)","(1%) 6.3% →
+(1%) 4.5% →
+(1%) 2.7% ","+3 → -3
+→ KD","±0 → -5
+→ -7","14 → 12
+→ 15","3 → 3
+→ 4","19 → 24
+→ 27","24 → 23
+→ 28","22 → 21
+→ 23","9 → 9
+→ 11",-,"- While head-on, two additional followup hits can be done by pressing P. The first button used to execute the attack will determine the version for the 2nd and 3rd hits. After the 1st or 2nd hits, you can choose to finish with either Cat Slide (2K) or El Gato (K). She can also cancel the 2nd hit directly into Cat Strike (214P).
 - For full details of frame data charts, check the wiki:
 
 https://wiki.gbl.gg/w/Skullgirls/Ms._Fortune#Specials",https://wiki.gbl.gg/images/2/27/SG_msf_qcfp_hb.png,https://wiki.gbl.gg/images/3/35/SG_msf_qcflp3_fd.png
 MS. FORTUNE,M CAT SCRATCH,"MACRO_236MP
 CAT SCRATCH M
+M SCRATCH
 SCRATCH M
-REKKA M",Mid,-,350 (100) → 400 (100) → 1100 (150),(2.5%) 9% → (2.5%) 9% → (2.5%) 9%,-3 → -7 → KD,-8 → -10 → -7,19 → 16 → 17,4 → 3 → 4,27 → 30 → 28,27 → 25 → 28,22 → 22 → 24,10 → 10 → 11,-,"- While head-on, two additional followup hits can be done by pressing P. The first button used to execute the attack will determine the version for the 2nd and 3rd hits. After the 1st or 2nd hits, you can choose to finish with either Cat Slide (2K) or El Gato (K). She can also cancel the 2nd hit directly into Cat Strike (214P).
+REKKA M
+M REKKA",Mid,-,"350 (100) →
+400 (100) →
+900 (150)","(1%) 6.3% →
+(1%) 4.5% →
+(1%) 2.7% ","-3 → -7
+→ KD","-8 → -10
+→ -7","19 → 16
+→ 17","4 → 3
+→ 4","27 → 30
+→ 28","27 → 25
+→ 28","22 → 22
+→ 24","10 → 10
+→ 11",-,"- While head-on, two additional followup hits can be done by pressing P. The first button used to execute the attack will determine the version for the 2nd and 3rd hits. After the 1st or 2nd hits, you can choose to finish with either Cat Slide (2K) or El Gato (K). She can also cancel the 2nd hit directly into Cat Strike (214P).
 - For full details of frame data charts, check the wiki:
 
 https://wiki.gbl.gg/w/Skullgirls/Ms._Fortune#Specials",https://wiki.gbl.gg/images/2/27/SG_msf_qcfp_hb.png,https://wiki.gbl.gg/images/2/20/SG_msf_qcfmp3_fd.png
@@ -5386,9 +5574,23 @@ MS. FORTUNE,H CAT SCRATCH,"MACRO_236HP
 CAT SCRATCH H
 SCRATCH H
 REKKA H
+H SCRATCH
+H REKKA
 REKKA
 SCRATCH
-CAT SCRATCH",Mid,-,400 (100) → 450 (100) → 1250 (150),(2.5%) 9% → (2.5%) 9% → (2.5%) 9%,-2 → -9 → KD,-9 → -13 → -8,23 → 20 → 20,4 → 3 → 4,29 → 34 → 30,30 → 27 → 28,23 → 23 → 25,11 → 10 → 12,-,"- While head-on, two additional followup hits can be done by pressing P. The first button used to execute the attack will determine the version for the 2nd and 3rd hits. After the 1st or 2nd hits, you can choose to finish with either Cat Slide (2K) or El Gato (K). She can also cancel the 2nd hit directly into Cat Strike (214P).
+CAT SCRATCH",Mid,-,"400 (100) →
+450 (100) →
+1000 (150)","(1%) 6.3% →
+(1%) 4.5% →
+(1%) 2.7% ","-2 → -9
+→ KD","-9 → -13
+→ -8","23 → 20
+→ 20","4 → 3
+→ 4","29 → 34
+→ 30","30 → 27
+→ 28","23 → 23
+→ 25","11 → 10
+→ 12",-,"- While head-on, two additional followup hits can be done by pressing P. The first button used to execute the attack will determine the version for the 2nd and 3rd hits. After the 1st or 2nd hits, you can choose to finish with either Cat Slide (2K) or El Gato (K). She can also cancel the 2nd hit directly into Cat Strike (214P).
 - For full details of frame data charts, check the wiki:
 
 https://wiki.gbl.gg/w/Skullgirls/Ms._Fortune#Specials",https://wiki.gbl.gg/images/2/27/SG_msf_qcfp_hb.png,https://wiki.gbl.gg/images/d/da/SG_msf_qcfhp3_fd.png
@@ -5396,7 +5598,7 @@ MS. FORTUNE,EL GATO CAT SCRATCH,"CAT SCRATCH EL GATO
 GATO CAT SCRATCH
 REKKA EL GATO
 REKKA GATO
-REKKA OVERHEAD",High,-,1100 (100),(2.5%) 9%,Ground Bounce,1,30,3,17,26,20,12,-,- Hits high and will not combo from any hit or any version of Cat Scratch. +1 on block but can be jabbed before it comes out. You can OTG after into a full combo.,https://wiki.gbl.gg/images/3/30/SG_msf_rekkak_hb.png,https://wiki.gbl.gg/images/4/4b/SG_msf_rekkak_fd.png
+REKKA OVERHEAD",High,-,975 (100),(1%) 4.5% ,Ground Bounce,1,30,3,17,26,20,12,-,- Hits high and will not combo from any hit or any version of Cat Scratch. +1 on block but can be jabbed before it comes out. You can OTG after into a full combo.,https://wiki.gbl.gg/images/3/30/SG_msf_rekkak_hb.png,https://wiki.gbl.gg/images/4/4b/SG_msf_rekkak_fd.png
 MS. FORTUNE,EL GATO HEADLESS,"MACRO_214K
 MACRO_214LK
 MACRO_214MK
@@ -5404,11 +5606,11 @@ MACRO_214HK
 HEADLESS EL GATO
 HEADLESS GATO
 EL GATO
-GATO",High,-,1100 (100),(2.5%) 9%,Ground Bounce,-3,25,3,21,26,20,12,-,"- For the version of El Gato done after Cat Scratch (head on), see ""El Gato Cat Scratch""
+GATO",High,-,975 (100),(2.5%) 9%,Ground Bounce,-3,25,3,21,26,20,12,-,"- For the version of El Gato done after Cat Scratch (head on), see ""El Gato Cat Scratch""
 - Hits high and will not combo from any hit or any version of Cat Scratch. +1 on block but can be jabbed before it comes out. You can OTG after into a full combo.",https://wiki.gbl.gg/images/3/30/SG_msf_rekkak_hb.png,https://wiki.gbl.gg/images/2/21/SG_msf_qcbk_hl_fd.png
 MS. FORTUNE,CAT SLIDE CAT SCRATCH,"CAT SCRATCH CAT SLIDE
 REKKA SLIDE
-REKKA CAT SLIDE",Low,Sweep,450 (100),(2.5%) 9%,KD,-10,10,15,17,18,21,10,-,"- Hits low and will combo from Cat Scratch on hit, allowing for a pick-up with an OTG. Its -10 on block but can open up opponents trying to get out of pressure.",https://wiki.gbl.gg/images/3/31/SG_msf_rekkadk_hb.png,https://wiki.gbl.gg/images/3/31/SG_msf_rekkadk_fd.png
+REKKA CAT SLIDE",Low,Sweep,450 (100),(1%) 4.5% ,KD,-10,10,15,17,18,21,10,-,"- Hits low and will combo from Cat Scratch on hit, allowing for a pick-up with an OTG. Its -10 on block but can open up opponents trying to get out of pressure.",https://wiki.gbl.gg/images/3/31/SG_msf_rekkadk_hb.png,https://wiki.gbl.gg/images/3/31/SG_msf_rekkadk_fd.png
 MS. FORTUNE,CAT SLIDE HEADLESS,"MACRO_236LK
 MACRO_236MK
 MACRO_236HK
@@ -5433,7 +5635,8 @@ HEADROLL
 HEAD THROW
 HEAD TOSS
 HEAD SPIKE",Mid,"Invuln. (Strike),
- Projectile","750, 800 OR 750 x2 (100, 100)","(2.5%) 9%, 4.5%","Stagger (+45)
+ Projectile,
+75% Damage Scaling","750, 800 OR 750 x2 (100, 100)","(2.5%) 9%, 4.5%","Stagger (+45)
 OR +7",-2,30,"4, 35",30,26 x2,"21, 17","12, 9",-,"- Tosses the head. - The ground version has a lot of hit invulnerability, it's a safe on block reversal.",https://wiki.gbl.gg/images/1/19/SG_msf_qcbp_hb.png,https://wiki.gbl.gg/images/e/e7/SG_msf_qcbp_fd.png
 MS. FORTUNE,CAT SPIKE,"MACRO_J214LP
 MACRO_J214P
@@ -5446,11 +5649,11 @@ L FIBRE UPPER
 FIBRE L
 FIBER L
 FIBER UPPER L
-FIBRE UPPER L",Mid,"Invuln. (Full) (Head On),
- Invuln. (Throw) (Headless)",765 / 850 (100),(2.5%) 9%,-2,-13,13,1,29,27,17,10 (8 on block),-,"- It has a jump follow-up when either the first hit connects or all hits whiff.
-- headless she can do the jump follow-up with any amount of hits (not requiring the first hit). If blocked, it is very unsafe.
-- It loses the hit invulnerability when headless losing its use as a reversal.
-- As an assist, it will always have full invulnerability regardless if Fortune has the head or not.",https://wiki.gbl.gg/images/4/44/SG_msf_dpk_hb.png,https://wiki.gbl.gg/images/9/98/SG_msf_dplk_fd.png
+FIBRE UPPER L",Mid,Invuln. (Strike) (Head On),765 / 850 (100),(2.5%) 9%,-2,-13,13,1,29,27,17,10 (8 on block),-,"- It has a jump follow-up when either the first hit connects or all hits whiff.
+- 8f start up on follow up jump on hit and whiff.
+- Headless she can do the jump follow-up with any amount of hits (not requiring the first hit). If blocked, it is very unsafe.
+- No invulnerability when headless, losing its use as a reversal.
+- As an assist, it will always have invulnerability regardless if Fortune has the head or not.",https://wiki.gbl.gg/images/4/44/SG_msf_dpk_hb.png,https://wiki.gbl.gg/images/9/98/SG_msf_dplk_fd.png
 MS. FORTUNE,M FIBER,"MACRO_623MK
 M FIBRE
 M FIBER UPPER
@@ -5458,11 +5661,11 @@ M FIBRE UPPER
 FIBRE M
 FIBER M
 FIBER UPPER M
-FIBRE UPPER M",Mid,"Invuln. (Full) (Head On),
- Invuln. (Throw) (Headless)","495 x2 / 550 x2 (100, 100)",(2.5%) 9% x2,-2,-15,14,"3, 2",32,"20, 31","21, 17","5, 10 (5, 9 on block)",-,"- It has a jump follow-up when either the first hit connects or all hits whiff.
+FIBRE UPPER M",Mid,Invuln. (Strike) (Head On),"495 x2 / 550 x2 (100, 100)",(2.5%) 9% x2,-2,-15,14,"3, 2",34,"20, 31","21, 17","5, 10 (5, 9 on block)",-,"- It has a jump follow-up when either the first hit connects or all hits whiff.
+- 9f start up on follow up jump on hit. 11f start up on follow up on whiff.
 - headless she can do the jump follow-up with any amount of hits (not requiring the first hit). If blocked, it is very unsafe.
-- It loses the hit invulnerability when headless losing its use as a reversal.
-- As an assist, it will always have full invulnerability regardless if Fortune has the head or not.",https://wiki.gbl.gg/images/4/44/SG_msf_dpk_hb.png,https://wiki.gbl.gg/images/a/a1/SG_msf_dpmk_fd.png
+- No invulnerability when headless, losing its use as a reversal.
+- As an assist, it will always have invulnerability regardless if Fortune has the head or not.",https://wiki.gbl.gg/images/4/44/SG_msf_dpk_hb.png,https://wiki.gbl.gg/images/a/a1/SG_msf_dpmk_fd.png
 MS. FORTUNE,H FIBER,"MACRO_623HK
 MACRO_623K
 H FIBRE
@@ -5474,16 +5677,16 @@ FIBER UPPER H
 FIBRE UPPER H
 FIBER
 FIBRE
-DP",Mid,"Invuln. (Full) (Head On),
- Invuln. (Throw) (Headless)","405 x2, 495 / 450 x2, 550 (100, 100, 100)",(2.5%) 9% x3,-4,-17,15,"2, 2, 2",36,"20x 2, 33","21 x2, 17","5 x2, 10",-,"- It has a jump follow-up when either the first hit connects or all hits whiff.
+DP",Mid,Invuln. (Strike) (Head On),"405 x2, 495 / 450 x2, 550 (100, 100, 100)",(2.5%) 9% x3,-4,-17,15,"2, 2, 2",40,"20x 2, 33","21 x2, 17","5 x2, 10",-,"- It has a jump follow-up when either the first hit connects or all hits whiff.
+- 11f start up on follow up jump on hit. 15f startup on follow up jump on whiff.
 - headless she can do the jump follow-up with any amount of hits (not requiring the first hit). If blocked, it is very unsafe.
-- It loses the hit invulnerability when headless losing its use as a reversal.
-- As an assist, it will always have full invulnerability regardless if Fortune has the head or not.",https://wiki.gbl.gg/images/4/44/SG_msf_dpk_hb.png,https://wiki.gbl.gg/images/2/2f/SG_msf_dphk_fd.png
-MS. FORTUNE,L EL GATO AIR,MACRO_J214LK,Mid,-,900 (100),(2.5%) 9%,KD (vs air),±0,17,3,19,22,21,10,-,"- Has three different strengths which all hit mid and will keep your aerial momentum. 
+- No invulnerability when headless, losing its use as a reversal.
+- As an assist, it will always have invulnerability regardless if Fortune has the head or not.",https://wiki.gbl.gg/images/4/44/SG_msf_dpk_hb.png,https://wiki.gbl.gg/images/2/2f/SG_msf_dphk_fd.png
+MS. FORTUNE,L EL GATO AIR,MACRO_J214LK,Mid,-,800 (100),(2.5%) 9%,KD (vs air),±0,17,3,19,22,21,10,-,"- Has three different strengths which all hit mid and will keep your aerial momentum. 
 - The L and M versions knock down airborne opponents but the H version ground bounces standing opponents and gives a sliding knockdown on airborne opponents.",https://wiki.gbl.gg/images/3/30/SG_msf_rekkak_hb.png,https://wiki.gbl.gg/images/7/7d/SG_msf_jqcblk_fd.png
-MS. FORTUNE,M EL GATO AIR,MACRO_J214MK,Mid,-,1000 (100),(2.5%) 9%,KD (vs air),-3,19,3,22,24,22,11,-,"- Has three different strengths which all hit mid and will keep your aerial momentum. 
+MS. FORTUNE,M EL GATO AIR,MACRO_J214MK,Mid,-,950 (100),(2.5%) 9%,KD (vs air),-3,19,3,22,24,22,11,-,"- Has three different strengths which all hit mid and will keep your aerial momentum. 
 - The L and M versions knock down airborne opponents but the H version ground bounces standing opponents and gives a sliding knockdown on airborne opponents.",https://wiki.gbl.gg/images/3/30/SG_msf_rekkak_hb.png,https://wiki.gbl.gg/images/8/86/SG_msf_jqcbmk_fd.png
-MS. FORTUNE,H EL GATO AIR,MACRO_J214HK,Mid,-,1100 (100),(2.5%) 9%,"Ground Bounce,
+MS. FORTUNE,H EL GATO AIR,MACRO_J214HK,Mid,-,1000 (100),(2.5%) 9%,"Ground Bounce,
  Sliding KD (vs air)",-13,21,3,26,26,24,12,-,"- Has three different strengths which all hit mid and will keep your aerial momentum. 
 - The L and M versions knock down airborne opponents but the H version ground bounces standing opponents and gives a sliding knockdown on airborne opponents.",https://wiki.gbl.gg/images/3/30/SG_msf_rekkak_hb.png,https://wiki.gbl.gg/images/e/e3/SG_msf_jqcbhk_fd.png
 MS. FORTUNE,CAT CALL,"HEADLESS 214LP
@@ -5500,9 +5703,10 @@ HEADLESS QCB MP
 HEADLESS QCB+MP",-,-,-,0%,-,-,12,-,19,-,-,-,-,"- The body calls the head to return, running back and re-attaching as P is held.",https://wiki.gbl.gg/images/d/d9/SG_msf_qcblpmp.png,https://wiki.gbl.gg/images/4/4e/SG_msf_qcblpmp_a_fd.png
 MS. FORTUNE,DECAP ATTACK,"HEAD HIT
 HIT HEAD
-HEAD BOUNCE",Mid,Projectile,300 (50),0%,-,-,4,-,4,23,17,9,-,"- Ms. Fortune performs the Decap Attack when hitting her own head at the opponent. It has no single command. Using different moves on her head will send the head at different speeds and angles, but the single hit from the head is always the same.
+HEAD BOUNCE",Mid,Projectile,200 (50),0%,-,-,4,-,4,23,17,9,-,"- Ms. Fortune performs the Decap Attack when hitting her own head at the opponent. It has no single command. Using different moves on her head will send the head at different speeds and angles, but the single hit from the head is always the same.
 - The head has 4f of cooldown after landing.
-- Decap attacks do not add undizzy on their own, nor can they trigger a burst.",https://wiki.gbl.gg/images/3/38/SG_msf_decap_hb.png,-
+- Decap attacks do not add undizzy on their own, nor can they trigger a burst.
+- Light normals will launch the opponent less high, and for 2f less hitstop on block and hit.",https://wiki.gbl.gg/images/3/38/SG_msf_decap_hb.png,-
 MS. FORTUNE,HEADBUTT,"HEADLESS 5HP
 HEADLESS 5.HP
 HEADLESS S.HP
@@ -5543,7 +5747,8 @@ NOM
 OM NOM
 OMNOMNOM
 OM NOM NOM
-OM NOM NOM NOM",Mid,55% Damage Scaling,216 x8 (100),(1.25%) 1% x8,KD (After Nom ends),-,20,30,4,22 (82),20,N/A (10 on block),-,"- A hit-grab that has a huge recovery period and on hit will send the head flying.
+OM NOM NOM NOM",Mid,55% Damage Scaling,216 x8 (100),(1.25%) 1% x8," Soft KD (Invuln.)
+(After Nom ends) ",-,20,30,4,22 (82),20,N/A (10 on block),-,"- A hit-grab that has a huge recovery period and on hit will send the head flying.
 - The head always ends the attack by leaping away from the nearest corner of the screen. 
 - This move will continue if the body is blocking, but if the body is hit then the attack will stop.",https://wiki.gbl.gg/images/b/b7/SG_msf_head_qcbhp_hb.png,-
 MS. FORTUNE,CAT SCRATCH FEVER,"MACRO_236PP
@@ -5568,7 +5773,8 @@ FERAL
 EDGE",Mid,"Invuln. (Full),
  Chains Backwards (Feline Allergies)","250 xN, 550, 850, 1700 (50xN, 100, 200)",-100%,KD,-20,4 + 4,"(Until ground), (3), 1, (5), 3",65,"16 xN, 16 x3","19xN, 19 x3","(4) 3xN, 10, 30, 35 (3 xN, 10, 11 on block)",-,"- Invuln air super that dives towards the ground.
 - If the initial dive connects with the opponent on hit (including assists), Ms. Fortune preforms a wide arcing tail swipe as the final hit for a knockdown.
-- If she has her Head On, she can cancel the recovery with Feline Allergies for an additional hit that detaches her head.",https://wiki.gbl.gg/images/3/38/SG_msf_jqcbkk_hb.png,https://wiki.gbl.gg/images/1/14/SG_msf_jqcbkk_fd.png
+- If she has her Head On, she can cancel the recovery with Feline Allergies for an additional hit that detaches her head.
+- Knocks the opponent down and forward when hitting a victim behind her. ",https://wiki.gbl.gg/images/3/38/SG_msf_jqcbkk_hb.png,https://wiki.gbl.gg/images/1/14/SG_msf_jqcbkk_fd.png
 MS. FORTUNE,5TH OF DISMEMBER,"MACRO_J214PP
 MACRO_214PP
 EXPLOSION
@@ -5584,7 +5790,7 @@ HP LK F LP LP",-,87,-,-,-,-,"- Restores 5 red life.
 MS. FORTUNE,ASSIST RECOVERY,"ASSIST
 ASSIST TAUNT",-,-,-,-,-,-,-,-,60,-,-,-,-,"- Amount of time it takes for the character to turn invulnerable after they finish performing their assist action.
 - Longer recovery → more time to punish the assist.",https://wiki.gbl.gg/images/4/44/SG_msf_assist.png,-
-PAINWHEEL,5LP,MACRO_5LP,Mid,Hatred Guard (1 hit),200,2.50%,2,5,"3, (12), 5",3,12,16,19,8,-,"- See ""5[LP]""
+PAINWHEEL,5LP,MACRO_5LP,Mid,Hatred Guard (1 hit),200,2.50%,+2,+5,"3, (12), 5",3,12,16,19,8,-,"- See ""5[LP]""
 - Fastest Hatred Guard attack.",https://wiki.gbl.gg/images/d/d8/SG_pwl_slp_hb.png,https://wiki.gbl.gg/images/1/18/SG_pwl_slp_fd.png
 PAINWHEEL,5[LP],"S.[LP]
 S[LP]
@@ -5598,9 +5804,9 @@ CHARGED 5LP
 SLP CHARGED
 CHARGED SLP
 S.LP CHARGED
-CHARGED S.LP",Mid,Hatred Guard (1 hit),200,2.50%,2,5,"3, (12), 5",3,12,16,19,8,-,,https://wiki.gbl.gg/images/d/d8/SG_pwl_slp_hb.png,https://wiki.gbl.gg/images/8/82/SG_pwl_slp_hold_fd.png
+CHARGED S.LP",Mid,Hatred Guard (1 hit),200,2.50%,+2,+5,"3, (12), 5",3,12,16,19,8,-,,https://wiki.gbl.gg/images/d/d8/SG_pwl_slp_hb.png,https://wiki.gbl.gg/images/8/82/SG_pwl_slp_hold_fd.png
 PAINWHEEL,5MP,MACRO_5MP,Mid,"Hatred Guard (2 hits),
- Launcher",675,7.50%,10,-5,"4, (12), 10",3,21,33,18,10,-,"- If Painwheel absorbs at least 1 hit with the Hatred Guard, she will always turn to face the opponent for the attack's active frames. This property makes 5MP the perfect choice to absorb an incoming cross up attack.",https://wiki.gbl.gg/images/a/af/SG_pwl_smp_hb.png,https://wiki.gbl.gg/images/d/dd/SG_pwl_smp_fd.png
+ Launcher",675,7.50%,+10,-5,"4, (12), 9",3,21,33,18,10,-,"- If Painwheel absorbs at least 1 hit with the Hatred Guard, she will always turn to face the opponent for the attack's active frames. This property makes 5MP the perfect choice to absorb an incoming cross up attack.",https://wiki.gbl.gg/images/a/af/SG_pwl_smp_hb.png,https://wiki.gbl.gg/images/d/dd/SG_pwl_smp_fd.png
 PAINWHEEL,5[MP],"S.[MP]
 S[MP]
 5.[MP]
@@ -5614,7 +5820,7 @@ SMP CHARGED
 CHARGED SMP
 S.MP CHARGED
 CHARGED S.MP",Mid,"Hatred Guard (2 hits),
- Launcher",675,7.50%,10,-5,"4, (12), 10",3,21,33,18,10,-,"- If Painwheel absorbs at least 1 hit with the Hatred Guard, she will always turn to face the opponent for the attack's active frames. This property makes 5MP the perfect choice to absorb an incoming cross up attack.",https://wiki.gbl.gg/images/a/af/SG_pwl_smp_hb.png,https://wiki.gbl.gg/images/c/cb/SG_pwl_smp_hold_fd.png
+ Launcher",675,7.50%,+10,-5,"4, (12), 9",3,21,33,18,10,-,"- If Painwheel absorbs at least 1 hit with the Hatred Guard, she will always turn to face the opponent for the attack's active frames. This property makes 5MP the perfect choice to absorb an incoming cross up attack.",https://wiki.gbl.gg/images/a/af/SG_pwl_smp_hb.png,https://wiki.gbl.gg/images/c/cb/SG_pwl_smp_hold_fd.png
 PAINWHEEL,5HP,MACRO_5HP,Mid,Hatred Guard (3 hits),900,10%,-1,-8,16,3,24,25,18,12,-,"- Staggers when fully charged.
 - Has the most Hatred Guard armor hits of all charged normals.",https://wiki.gbl.gg/images/9/90/SG_pwl_shp_hb.png,https://wiki.gbl.gg/images/d/dd/SG_pwl_shp_fd.png
 PAINWHEEL,5[HP],"S.[HP]
@@ -5632,8 +5838,8 @@ S.HP CHARGED
 CHARGED S.HP",Mid,Hatred Guard (3 hits),1100,10%,"Stagger (+38 / +53 CH),
  KD (vs air)",-8,"6, (27), 10",3,24,32,18,15,-,"- Staggers when fully charged.
 - Has the most Hatred Guard armor hits of all charged normals.",https://wiki.gbl.gg/images/9/90/SG_pwl_shp_hb.png,https://wiki.gbl.gg/images/b/bc/SG_pwl_shp_hold_fd.png
-PAINWHEEL,5LK,MACRO_5LK,Mid,-,375,2.50%,1,4,11,3,14,17,20,8,-,- Cannot be charged.,https://wiki.gbl.gg/images/e/e9/SG_pwl_slk_hb.png,https://wiki.gbl.gg/images/6/60/SG_pwl_slk_fd.png
-PAINWHEEL,5MK,MACRO_5MK,Mid,Hatred Guard (2 hits),"200 x3, 500",1.875% x4,3,-5,"5, (20), 8","2, 4, 3, 3",18,22 x4,16 x4,"6 x3, 10",-,- Launches the opponent into the air slightly and off the ground.,https://wiki.gbl.gg/images/d/d0/SG_pwl_smk_hb.png,https://wiki.gbl.gg/images/d/d3/SG_pwl_smk_fd.png
+PAINWHEEL,5LK,MACRO_5LK,Mid,-,375,2.50%,+1,+4,7,3,14,17,20,8,-,- Cannot be charged.,https://wiki.gbl.gg/images/e/e9/SG_pwl_slk_hb.png,https://wiki.gbl.gg/images/6/60/SG_pwl_slk_fd.png
+PAINWHEEL,5MK,MACRO_5MK,Mid,Hatred Guard (2 hits),"200 x3, 500",1.875% x4,+3,-5,"5, (20), 8","2, 4, 3, 3",18,22 x4,16 x4,"6 x3, 10",-,- Launches the opponent into the air slightly and off the ground.,https://wiki.gbl.gg/images/d/d0/SG_pwl_smk_hb.png,https://wiki.gbl.gg/images/d/d3/SG_pwl_smk_fd.png
 PAINWHEEL,5[MK],"S.[MK]
 S[MK]
 5.[MK]
@@ -5646,10 +5852,10 @@ CHARGED 5MK
 SMK CHARGED
 CHARGED SMK
 S.MK CHARGED
-CHARGED S.MK",Mid,Hatred Guard (2 hits),"200 x3, 500",1.875% x4,3,-5,"5, (20), 8","2, 4, 3, 3",18,22 x4,16 x4,"6 x3, 10",-,- Launches the opponent into the air slightly and off the ground.,https://wiki.gbl.gg/images/d/d0/SG_pwl_smk_hb.png,https://wiki.gbl.gg/images/4/45/SG_pwl_smk_hold_fd.png
+CHARGED S.MK",Mid,Hatred Guard (2 hits),"200 x3, 500",1.875% x4,+3,-5,"5, (20), 8","2, 4, 3, 3",18,22 x4,16 x4,"6 x3, 10",-,- Launches the opponent into the air slightly and off the ground.,https://wiki.gbl.gg/images/d/d0/SG_pwl_smk_hb.png,https://wiki.gbl.gg/images/4/45/SG_pwl_smk_hold_fd.png
 PAINWHEEL,5HK,MACRO_5HK,Mid,Launcher,"300, 400, 500",3.3% x3,-4,-18,16,"3, (6), 3, (8), 3",35,"24 x2, 33","13, 15, 19","7 x2, 10",-,"- 3 hit launcher which can be Super Jump cancelled on the final hit.
 - Cancel early on the first or second hit for different launch trajectories on the opponent.",https://wiki.gbl.gg/images/b/bf/SG_pwl_shk_hb.png,https://wiki.gbl.gg/images/a/af/SG_pwl_shk_fd.png
-PAINWHEEL,2LP,MACRO_2LP,Mid,Hatred Guard (1 hit),325,2.50%,2,5,"4, (12), 6",3,13,17,20,8,-,,https://wiki.gbl.gg/images/8/85/SG_pwl_clp_hb.png,https://wiki.gbl.gg/images/7/7d/SG_pwl_clp_fd.png
+PAINWHEEL,2LP,MACRO_2LP,Mid,Hatred Guard (1 hit),325,2.50%,+2,+5,"4, (12), 6",3,13,17,20,8,-,,https://wiki.gbl.gg/images/8/85/SG_pwl_clp_hb.png,https://wiki.gbl.gg/images/7/7d/SG_pwl_clp_fd.png
 PAINWHEEL,2[LP],"C.[LP]
 C[LP]
 2.[LP]
@@ -5662,8 +5868,8 @@ CHARGED 2LP
 CLP CHARGED
 CHARGED CLP
 C.LP CHARGED
-CHARGED C.LP",Mid,Hatred Guard (1 hit),325,2.50%,2,5,"4, (12), 6",3,13,17,20,8,-,,https://wiki.gbl.gg/images/8/85/SG_pwl_clp_hb.png,https://wiki.gbl.gg/images/b/bd/SG_pwl_clp_hold_fd.png
-PAINWHEEL,2MP,MACRO_2MP,Mid,Hatred Guard (2 hits),"210 x3, 350",1.875 % x4,-8,-16,"5, (20), 7","4, 4, 3, 5",28,16 x4,15 x4,8 x4,-,,https://wiki.gbl.gg/images/e/e0/SG_pwl_cmp_hb.png,https://wiki.gbl.gg/images/8/85/SG_pwl_cmp_fd.png
+CHARGED C.LP",Mid,Hatred Guard (1 hit),325,2.50%,+2,+5,"4, (12), 6",3,13,17,20,8,-,,https://wiki.gbl.gg/images/8/85/SG_pwl_clp_hb.png,https://wiki.gbl.gg/images/b/bd/SG_pwl_clp_hold_fd.png
+PAINWHEEL,2MP,MACRO_2MP,Mid,Hatred Guard (2 hits),"210 x3, 350",1.875 % x4,-8,-16,"5, (20), 7","4, 4, 3, 5",28,16 x4,15 x4,8 x4,-,- Pulls opponents downwards on all hits except for the final one.,https://wiki.gbl.gg/images/e/e0/SG_pwl_cmp_hb.png,https://wiki.gbl.gg/images/8/85/SG_pwl_cmp_fd.png
 PAINWHEEL,2[MP],"C.[MP]
 C[MP]
 2.[MP]
@@ -5692,8 +5898,8 @@ CHP CHARGED
 C.HP CHARGED
 CHARGED C.HP",High,Hatred Guard (3 hits),1150,10%,"Crumple
 Ground Bounce (vs air)",-19,"7, (18), 15",4,38,25,22,15,-,,https://wiki.gbl.gg/images/3/36/SG_pwl_chp_hb.png,https://wiki.gbl.gg/images/3/33/SG_pwl_chp_hold_fd.png
-PAINWHEEL,2LK,MACRO_2LK,Low,-,325,2.50%,2,5,11,4,12,17,20,8,-,,https://wiki.gbl.gg/images/5/5d/SG_pwl_clk_hb.png,https://wiki.gbl.gg/images/9/94/SG_pwl_clk_fd.png
-PAINWHEEL,2MK,MACRO_2MK,Low,-,650,7.50%,3,-5,13,2,20,24,16,10,-,,https://wiki.gbl.gg/images/c/c3/SG_pwl_cmk_hb.png,https://wiki.gbl.gg/images/d/dd/SG_pwl_cmk_fd.png
+PAINWHEEL,2LK,MACRO_2LK,Low,-,325,2.50%,+2,+5,10,4,12,17,20,8,-,,https://wiki.gbl.gg/images/5/5d/SG_pwl_clk_hb.png,https://wiki.gbl.gg/images/9/94/SG_pwl_clk_fd.png
+PAINWHEEL,2MK,MACRO_2MK,Low,-,650,7.50%,+3,-5,13,2,20,24,16,10,-,"- Moves forwards about 1/3 of a grid square on frame 12, but overall displacement is only about 1/10 of a grid square if allowed to recover completely.",https://wiki.gbl.gg/images/c/c3/SG_pwl_cmk_hb.png,https://wiki.gbl.gg/images/d/dd/SG_pwl_cmk_fd.png
 PAINWHEEL,2HK,"MACRO_2HK
 SWEEP",Low,"Hatred Guard (3 hits)
 Sweep",900,10%,Soft KD (Invuln.),-12,20,7,23,14,17,10,-,"- Has sweep properties when fully charged, but still allows for a combo on hit.",https://wiki.gbl.gg/images/8/8f/SG_pwl_chk_hb.png,https://wiki.gbl.gg/images/5/51/SG_pwl_chk_fd.png
@@ -5712,9 +5918,11 @@ C.HK CHARGED
 CHARGED C.HK
 CHARGED SWEEP",Low,"Hatred Guard (3 hits)
 Sweep",1000,10%,KD,-15,"5, (20), 15",10,23,14,17,14,-,"- Has sweep properties when fully charged, but still allows for a combo on hit.",https://wiki.gbl.gg/images/8/8f/SG_pwl_chk_hb.png,https://wiki.gbl.gg/images/a/aa/SG_pwl_chk_hold_fd.png
-PAINWHEEL,JLP,MACRO_JLP,High,-,325,2.50%,5,±0,8,2,14,20,15,8,-,"- Fastest air normal, and fastest instant overhead when used from a quick Fly.",https://wiki.gbl.gg/images/3/38/SG_pwl_jlp_hb.png,https://wiki.gbl.gg/images/c/ce/SG_pwl_jlp_fd.png
-PAINWHEEL,JMP,MACRO_JMP,High,-,"250 x3, 425",2% x4,3,-9,22,15,25,"18 x3, 16",16 x4,"7 x3, 12",-,,https://wiki.gbl.gg/images/7/79/SG_pwl_jmp_hb.png,https://wiki.gbl.gg/images/f/ff/SG_pwl_jmp_fd.png
-PAINWHEEL,JHP,MACRO_JHP,High,Hatred Guard (1 hit),"300 x3, 550",2% x4,16,-2,21,15,35,"22 x3, 27",16 x4,"7 x3, 12",-,"- Painwheels only chargable air normal.
+PAINWHEEL,JLP,MACRO_JLP,High,-,325,2.50%,+7,+2,"8
+(6 from Fly)",2,14,22,17,8,-,"- Fastest air normal, and fastest instant overhead when used from a quick Fly.
+- 2f shorter startup when done from Fly.",https://wiki.gbl.gg/images/3/38/SG_pwl_jlp_hb.png,https://wiki.gbl.gg/images/c/ce/SG_pwl_jlp_fd.png
+PAINWHEEL,JMP,MACRO_JMP,High,-,"250 x3, 425",2% x4,+3,-9,22,15,25,"18 x3, 16",16 x4,"7 x3, 12",-,,https://wiki.gbl.gg/images/7/79/SG_pwl_jmp_hb.png,https://wiki.gbl.gg/images/f/ff/SG_pwl_jmp_fd.png
+PAINWHEEL,JHP,MACRO_JHP,High,Hatred Guard (1 hit),"300 x3, 550",2% x4,+16,-2,21,15,35,"22 x3, 30",16 x4,"7 x3, 12",-,"- Painwheels only chargable air normal.
 - When charging, Painwheel halts her momentum.
 - If Painwheel cancels from J[HP] into Thresher after absorbing a blow from her opponent, the opponent will be unable to DHC if they were performing a Super. This lets her easily counter Supers with J[HP] → Thresher without dying.",https://wiki.gbl.gg/images/8/8e/SG_pwl_jhp_hb.png,https://wiki.gbl.gg/images/1/11/SG_pwl_jhp_fd.png
 PAINWHEEL,J[HP],"J.[HP]
@@ -5723,12 +5931,12 @@ HELD JHP
 CHARGED JHP
 JHP CHARGED
 CHARGED J.HP
-J.HP CHARGED",High,Hatred Guard (1 hit),"300 x5, 550",2% x6,16,4,"2, (16), 19",23,34,"22 x5, 27",16 x6,"7 x5, 12",-,"- Painwheels only chargable air normal.
+J.HP CHARGED",High,Hatred Guard (1 hit),"300 x5, 550",2% x6,+16,+4,"2, (16), 19",23,34,"22 x5, 30",16 x6,"7 x5, 12",-,"- Painwheels only chargable air normal.
 - When charging, Painwheel halts her momentum.
 - If Painwheel cancels from J[HP] into Thresher after absorbing a blow from her opponent, the opponent will be unable to DHC if they were performing a Super. This lets her easily counter Supers with J[HP] → Thresher without dying.",https://wiki.gbl.gg/images/8/8e/SG_pwl_jhp_hb.png,https://wiki.gbl.gg/images/f/fa/SG_pwl_jhp_hold_fd.png
-PAINWHEEL,JLK,MACRO_JLK,High,-,350,2.50%,3,-3,9,5,15,22,16,8,-,,https://wiki.gbl.gg/images/7/7f/SG_pwl_jlk_hb.png,https://wiki.gbl.gg/images/5/5e/SG_pwl_jlk_fd.png
-PAINWHEEL,JMK,MACRO_JMK,High,-,650,7.50%,8,1,14,4,15,26,19,10,-,,https://wiki.gbl.gg/images/7/79/SG_pwl_jmk_hb.png,https://wiki.gbl.gg/images/e/eb/SG_pwl_jmk_fd.png
-PAINWHEEL,JHK,MACRO_JHK,High,-,225 x6,1.8% x6,7,4,17,24,14,22 x6,16 x6,2 x6,-,,https://wiki.gbl.gg/images/3/35/SG_pwl_jhk_hb.png,https://wiki.gbl.gg/images/d/d3/SG_pwl_jhk_fd.png
+PAINWHEEL,JLK,MACRO_JLK,High,-,350,2.50%,+3,-3,9,5,15,22,16,8,-,"- Will never auto-correct towards the opponent, even when performed during a superjump. This is to prevent accidental Buer Reapers when you want to Fly while facing away from the opponent, but input it slightly sloppily.",https://wiki.gbl.gg/images/7/7f/SG_pwl_jlk_hb.png,https://wiki.gbl.gg/images/5/5e/SG_pwl_jlk_fd.png
+PAINWHEEL,JMK,MACRO_JMK,High,-,650,7.50%,+8,+1,14,4,15,26,19,10,-,,https://wiki.gbl.gg/images/7/79/SG_pwl_jmk_hb.png,https://wiki.gbl.gg/images/e/eb/SG_pwl_jmk_fd.png
+PAINWHEEL,JHK,MACRO_JHK,High,-,225 x6,1.8% x6,+7,+4,17,24,14,22 x6,16 x6,2 x6,-,,https://wiki.gbl.gg/images/3/35/SG_pwl_jhk_hb.png,https://wiki.gbl.gg/images/d/d3/SG_pwl_jhk_fd.png
 PAINWHEEL,6HK,"F.HK
 FHK
 6.HK",Mid,Chains Into Self,300,2.50%,-23,-26,17,3,41,17,17,15 (12 on block),-,"- See ""6HK x2"", ""6HK x3"" and ""6HK x4"".
@@ -5808,7 +6016,7 @@ STINGER L
 L NAIL
 NAIL L
 NAILS L
-L NAILS",Mid,50% Damage Scaling (except in HI),650 (90),(2.5%) 4.5%,+38 OR -4,-16,22,8,46,28,21,55 OR 13 (8 on block),-,"- No forced scaling if used in Hatred Install.
+L NAILS",Mid,50% Damage Scaling (except in HI),650 (90),(2.5%) 4.5%,+38 OR -4,-16,19,8,38,28,21,55 OR 13 (8 on block),-,"- No forced scaling if used in Hatred Install.
 - Has increased hitstop when used for the first time in a combo.",https://wiki.gbl.gg/images/9/9c/SG_pwl_qcfp_hb.png,https://wiki.gbl.gg/images/c/c4/SG_pwl_qcflp_fd.png
 PAINWHEEL,M / H STINGER,"MACRO_236MP
 MACRO_236HP
@@ -5849,17 +6057,20 @@ BUER L
 BUER
 BUER REAPER",Mid,"50% Damage Scaling,
  Hit Grab,
- Flight Cancel","0, 1400 (100)","(2.5%) 0%, 3.75%",+3 (+8*),-18,13,4,32,-,17,11,-,"- During Hatred Install, the first use will Stagger.
+ Flight Cancel","0, 1400 (100)","(2.5%) 0%, 4.75%
+ [(0.83%) 0%, 1.75% in HI]",+3 (+8*),-12,13,4,27,-,18,11,-,"- During Hatred Install, the first use will Stagger.
 - Scales only to 70% on all versions in Hatred Install.",https://wiki.gbl.gg/images/5/51/SG_pwl_qcfk_hb.png,https://wiki.gbl.gg/images/d/d8/SG_pwl_qcflk_fd.png
 PAINWHEEL,M BUER,"MACRO_236MK
 BUER M",Mid,"50% Damage Scaling,
  Hit Grab,
- Flight Cancel","0, 1400 (100)","(2.5%) 0%, 3.75%",KD,-18,13,4,32,-,17,11,-,"- During Hatred Install, the first use will Wall Splat.
+ Flight Cancel","0, 1400 (100)","(2.5%) 0%, 4.75%
+ [(0.83%) 0%, 1.75% in HI]",KD,-14,13,4,28,-,17,11,-,"- During Hatred Install, the first use will Wall Splat.
 - Scales only to 70% on all versions in Hatred Install.",https://wiki.gbl.gg/images/5/51/SG_pwl_qcfk_hb.png,https://wiki.gbl.gg/images/5/54/SG_pwl_qcfmk_fd.png
 PAINWHEEL,H BUER,"MACRO_236HK
 BUER H",Mid,"50% Damage Scaling,
  Hit Grab,
- Flight Cancel","0, 1400 (100)","(2.5%) 0%, 3.75%",KD,-18,13,2,34,-,17,11,-,"- Cannot be blocked if the opponent is rising.
+ Flight Cancel","0, 1400 (100)","(2.5%) 0%, 4.75%
+ [(0.83%) 0%, 1.75% in HI]",KD,-14,13,2,30,-,17,11,-,"- Cannot be blocked if the opponent is rising.
 - During Hatred Install, the first use will Wall Splat.
 - Scales only to 70% on all versions in Hatred Install.",https://wiki.gbl.gg/images/5/51/SG_pwl_qcfk_hb.png,https://wiki.gbl.gg/images/2/29/SG_pwl_qcfhk_fd.png
 PAINWHEEL,BUER AIR,"MACRO_J236LK
@@ -5867,7 +6078,8 @@ MACRO_J236MK
 MACRO_J236HK
 MACRO_J236K",Mid,"50% Damage Scaling,
  Hit Grab,
- Flight Cancel","0, 1400 (100)","(2.5%) 0%, 3.75%",KD,-18,13,4,32,-,17,11,-,"- During Hatred Install, the first JL Buer use will Wall Splat.
+ Flight Cancel","0, 1400 (100)","(2.5%) 0%, 4.75%
+ [(0.83%) 0%, 1.75% in HI]",KD,-14,13,4,28,-,17,11,-,"- During Hatred Install, the first JL Buer use will Wall Splat.
 - During Hatred Install, the first JM Buer use will Sliding KD.
 - During Hatred Install, the first JH Buer use will Ground Bounce.
 - Scales only to 70% on all versions in Hatred Install.",https://wiki.gbl.gg/images/5/51/SG_pwl_qcfk_hb.png,https://wiki.gbl.gg/images/5/54/SG_pwl_qcfmk_fd.png
@@ -5883,8 +6095,10 @@ PINION L
 L PINION DASH
 PINION DASH L
 LPINION
-L.PINION",Mid,-,1050 (100),(2.5%) 5%,1,-16,10,25,32,33,16,12,-,"- Can only be selected as an Assist, but it can be Alpha Countered into.
-- When used as an AC, the wind up animation is skipped.",https://wiki.gbl.gg/images/4/4b/SG_pwl_ddk_hb.png,https://wiki.gbl.gg/images/7/75/SG_pwl_ddlk_fd.png
+L.PINION",Mid,-,1050 (100),(2.5%) 5%,"+1
+(KD as AC) ",-16,10,25,32,33,16,12,-,"- Can only be selected as an Assist, but it can be Alpha Countered into.
+- When used as an AC, the wind up animation is skipped.
+- Will knock down the opponent when used as an AC instead of leaving them standing.s.",https://wiki.gbl.gg/images/4/4b/SG_pwl_ddk_hb.png,https://wiki.gbl.gg/images/7/75/SG_pwl_ddlk_fd.png
 PAINWHEEL,M PINION,"2,2MK
 D,DMK
 C,CMK
@@ -5920,17 +6134,18 @@ PAINWHEEL,DEATH CRAWL,"MACRO_236PP
 DC
 CRAWL
 D C",Mid,"Invuln. (Full),
-45% Min. Scaling (HI only)","220 x26 (15 x26) OR
-200 x26 (15 x26) (during HI)",-100%,Ground Bounce,-32,6 + 8,"2, 2, 2... / -- (On whiff)",53,19 x26,21 x26,"(9), 0 x26 (1 x26 on block) (4 x26 on OTG)",-,- Crawls through the opponent to side switch. Useful for escaping the corner.,https://wiki.gbl.gg/images/e/e9/SG_pwl_qcfpp_hb.png,https://wiki.gbl.gg/images/1/1c/SG_pwl_qcfpp_fd.png
+37.5% Min. Scaling (HI only)",220 x26 (15 x26),-100%,Ground Bounce,-32,6 + 8,"2, 2, 2... / -- (On whiff)",53,19 x26,21 x26,"(9), 0 x26 (1 x26 on block) (4 x26 on OTG)",-,- Crawls through the opponent to side switch. Useful for escaping the corner.,https://wiki.gbl.gg/images/e/e9/SG_pwl_qcfpp_hb.png,https://wiki.gbl.gg/images/1/1c/SG_pwl_qcfpp_fd.png
 PAINWHEEL,BUER THRESHER,"THRESHER
 MACRO_J236KK
 MACRO_236KK
 AIR SUPER",Mid,"Invuln. (Full),
  Hit Grab,
  Flight Cancel,
-45% Min. Scaling (After first 3 hits, except during HI)","150 x3, 70 x15, 500 (150 x3) OR
-150 x3, 70 x30, 500 (150 x3) (during HI)",-100%,KD,-18,3 + 4,"3, (11), 2, (12), 3",46,-,"19 x2, 20","(5), N/A (11 x2, 10 on block)",-,"- If Painwheel cancels from J[HP] into Thresher after absorbing a blow from her opponent, the opponent will be unable to DHC if they were performing a Super. This lets her easily counter Supers with J[HP] → Thresher without dying.
-- Hitstop only covers the first tiny hitbox seen on the left. If they aren't hit by that hitbox, they can counter reversal post flash.",https://wiki.gbl.gg/images/6/66/SG_pwl_qcfkk_hb.png,https://wiki.gbl.gg/images/a/a4/SG_pwl_jqcfkk_fd.png
+45% Min. Scaling,
+37.5% Min. Scaling
+(first 3 hits in HI only)","150 x3, 70 x15, 500 (150 x3) OR
+150 x3, 70 x30, 500 (150 x3) (during HI)",-100%,KD,-18,3 + 4,"3, (11), 2, (12), 3",46,-,"19 x2, 20","(5), N/A (11 x2, 10 on block)",-,"- Hitstop only covers the first tiny hitbox seen on the left. If they aren't hit by that hitbox, they can counter reversal post flash.
+- Once per combo, Buer Thresher will refresh Painwheel's ability to Fly.",https://wiki.gbl.gg/images/6/66/SG_pwl_qcfkk_hb.png,https://wiki.gbl.gg/images/a/a4/SG_pwl_jqcfkk_fd.png
 PAINWHEEL,HATRED INSTALL,"MACRO_214KK
 INSTALL
 HATRED
@@ -7190,7 +7405,7 @@ OVERSTUFFED S.LP
 OVERSTUFFED 5.LP
 OVERSTUFFED JAB
 OVERSTUFFED STANDING JAB
-OVERSTUFFED STAND JAB",Mid,-,400,2.5%,+1,+4,13,3,19,22,25,11,-,- Combos into 5MP at any range.,https://wiki.gbl.gg/images/7/74/SG_umb_slp_hb.png,https://wiki.gbl.gg/images/4/46/SG_umb_slp1_fd.png
+OVERSTUFFED STAND JAB",Mid,-,400,2.5%,+1,+4,11,3,19,22,25,8,-,- Combos into 5MP at any range.,https://wiki.gbl.gg/images/7/74/SG_umb_slp_hb.png,https://wiki.gbl.gg/images/f/fb/SG_umb_slp4_fd.png
 UMBRELLA,5MP STARVING,"MP STARVING
 SMP STARVING
 S.MP STARVING
@@ -7255,9 +7470,9 @@ OVERSTUFFED S.MP
 OVERSTUFFED 5.MP
 OVERSTUFFED STRONG
 OVERSTUFFED STANDING STRONG
-OVERSTUFFED STAND STRONG",Mid,-,600,7.5%,0,-8,20,5,24,28,20,15,-,"- Slides Umbrella forwards.
+OVERSTUFFED STAND STRONG",Mid,-,600,7.5%,0,-8,16,5,24,28,20,11,-,"- Slides Umbrella forwards.
 - Combos into 5HP/5HK.
-- See also 5MP X2 OVERSTUFFED.",https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/f/ff/SG_umb_smp1_fd1.png
+- See also 5MP X2 OVERSTUFFED.",https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/6/6c/SG_umb_smp4_fd1.png
 UMBRELLA,5MP X2 STARVING,"5MPX2 STARVING
 SMP X2 STARVING
 S.MP X2 STARVING
@@ -7286,7 +7501,7 @@ STARVING 5MP 2ND
 STARVING SMP 2ND
 STARVING S.MP 2ND
 STARVING 5.MP 2ND
-STARVING STRONG 2ND",Mid,-,"100 x4, 200",1.06% x5,-1,-11,11,"6, 6, 6, 6, 3",25,"32 x4, 26",16 x5,"1x4, 10",-,-,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/1/1c/SG_umb_smp1_fd2.png
+STARVING STRONG 2ND",Mid,-,"100 x4, 200",1.06% x5,-1,-11,11,"6, 6, 6, 6, 3",25,"32 x4, 26",16 x5,"1x4, 10",-,,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/1/1c/SG_umb_smp1_fd2.png
 UMBRELLA,5MP X2 RAVENOUS,"5MPX2 RAVENOUS
 SMP X2 RAVENOUS
 S.MP X2 RAVENOUS
@@ -7315,7 +7530,7 @@ RAVENOUS 5MP 2ND
 RAVENOUS SMP 2ND
 RAVENOUS S.MP 2ND
 RAVENOUS 5.MP 2ND
-RAVENOUS STRONG 2ND",Mid,-,"100 x4, 200",1.06% x5,+3,-7,10,"4, 4, 4, 4, 3",21,"32 x4, 26",16 x5,"1 x4, 10",-,-,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/7/75/SG_umb_smp2_fd2.png
+RAVENOUS STRONG 2ND",Mid,-,"100 x4, 200",1.06% x5,+3,-7,10,"4, 4, 4, 4, 3",21,"32 x4, 26",16 x5,"1 x4, 10",-,,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/7/75/SG_umb_smp2_fd2.png
 UMBRELLA,5MP X2 SATIATED,"5MP X2
 SMP X2
 S.MP X2
@@ -7357,7 +7572,7 @@ SATIATED 5MP 2ND
 SATIATED SMP 2ND
 SATIATED S.MP 2ND
 SATIATED 5.MP 2ND
-SATIATED STRONG 2ND",Mid,-,"100 x4, 200",1.06% x5,-1,-11,11,"6, 6, 6, 6, 3",20,"32 x4, 26",16 x5,"1 x4, 10",-,-,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/8/80/SG_umb_smp3_fd2.png
+SATIATED STRONG 2ND",Mid,-,"100 x4, 200",1.06% x5,-1,-11,11,"6, 6, 6, 6, 3",20,"32 x4, 26",16 x5,"1 x4, 10",-,,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/8/80/SG_umb_smp3_fd2.png
 UMBRELLA,5MP X2 OVERSTUFFED,"5MPX2 OVERSTUFFED
 SMP X2 OVERSTUFFED
 S.MP X2 OVERSTUFFED
@@ -7386,7 +7601,7 @@ OVERSTUFFED 5MP 2ND
 OVERSTUFFED SMP 2ND
 OVERSTUFFED S.MP 2ND
 OVERSTUFFED 5.MP 2ND
-OVERSTUFFED STRONG 2ND",Mid,-,500,7.5%,+4,-15,7,3,33,23,26,"32 (hit), 15 (block)",-,-,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/2/29/SG_umb_smp4_fd2.png
+OVERSTUFFED STRONG 2ND",Mid,-,400,7.5%,+4,-15,7,3,33,23,26,10,-,,https://wiki.gbl.gg/images/f/f1/SG_umb_smp_hb.png,https://wiki.gbl.gg/images/2/29/SG_umb_smp4_fd2.png
 UMBRELLA,5HP STARVING,"HP STARVING
 S.HP STARVING
 SHP STARVING
@@ -7449,14 +7664,16 @@ OVERSTUFFED SHP
 OVERSTUFFED 5.HP
 OVERSTUFFED FIERCE
 OVERSTUFFED STAND FIERCE
-OVERSTUFFED STANDING FIERCE",Mid,-,1400 OR 1000,4.5%,"Wall Bounce,  KD",-16,30,3,47,40 (26),27,16,-,"- Wall bounce and full damage only occurs once per combo.
-- Reflects projectiles 2f before active frames.",https://wiki.gbl.gg/images/3/34/SG_umb_shp_hb.png,https://wiki.gbl.gg/images/8/81/SG_umb_shp1_fd.png
-UMBRELLA,5LK,MACRO_5LK,Mid,-,250,4.5%,+4,+2,7,3,15,21,19,7,-,- Umbrella's fastest move when Starving or Overstuffed. ,https://wiki.gbl.gg/images/3/3f/SG_umb_slk_hb.png,https://wiki.gbl.gg/images/e/e9/SG_umb_slk_fd.png
+OVERSTUFFED STANDING FIERCE",Mid, Armor (1 hit) ,1400 OR 1000,4.5%,"Wall Bounce,  KD",-16,24,3,47,40 (26),27,12,-,"- Wall bounce and full damage only occurs once per combo.
+- Reflects projectiles 2f before active frames.",https://wiki.gbl.gg/images/3/34/SG_umb_shp_hb.png,https://wiki.gbl.gg/images/6/68/SG_umb_shp4_fd.png
+UMBRELLA,5LK,MACRO_5LK,Mid,-,250,4.5%,+4,+2,7,3,15,21,19,7,-,"- Umbrella's fastest move when Starving or Overstuffed. 
+- Moves her forward slightly.",https://wiki.gbl.gg/images/3/3f/SG_umb_slk_hb.png,https://wiki.gbl.gg/images/e/e9/SG_umb_slk_fd.png
 UMBRELLA,5MK,MACRO_5MK,Mid,-,550,3.75%,-2,-2,12,2,23,22,22,9,-,- Can kick puddles for extra hitstun. See PUDDLE.,https://wiki.gbl.gg/images/d/df/SG_umb_smk_hb.png,https://wiki.gbl.gg/images/3/35/SG_umb_smk_fd.png
 UMBRELLA,5HK,MACRO_5HK,Mid,"Hit Grab,
-55% Damage Scaling",1100,5.5%,Ground Bounce,-7 to -19,30 to 42,13 to 1,26,16,19,N/A (8 on block),-,"- Hitbox only activates once Umbrella passes through the opponent, so you must block crossup.
-- Goes into an invulnerable wakeup animation after recovery. 
-- Window to punish varies depending on spacing.",https://wiki.gbl.gg/images/a/a3/SG_umb_shk_hb.png,https://wiki.gbl.gg/images/4/45/SG_umb_shk2_fd.png
+55% Damage Scaling",1200 OR 800,5.5%,Ground Bounce,-7 to -19,32 to 42 ,13 to 1,26,16,19,N/A (8 on block),-,"- Hitbox only activates once Umbrella passes through the opponent, so you must block crossup.
+- Umbrella goes into a fully vulnerable wakeup animation on whiff or block.
+- Window to punish varies depending on spacing.
+- If used more than once in a combo, does 33% less damage and results in an invulnerable soft knockdown.",https://wiki.gbl.gg/images/a/a3/SG_umb_shk_hb.png,https://wiki.gbl.gg/images/4/45/SG_umb_shk2_fd.png
 UMBRELLA,2LP STARVING,"CLP STARVING
 C.LP STARVING
 2.LP STARVING
@@ -7519,7 +7736,7 @@ OVERSTUFFED 2.LP
 OVERSTUFFED CRLP
 OVERSTUFFED CR.LP
 OVERSTUFFED CROUCHING JAB
-OVERSTUFFED CROUCH JAB",Mid,-,350,2.5%,+6,+2,10,2,15,22,18,11,-,- Strong low profile.,https://wiki.gbl.gg/images/5/5e/SG_umb_clp_hb.png,https://wiki.gbl.gg/images/5/5b/SG_umb_clp1_fd.png
+OVERSTUFFED CROUCH JAB",Mid,-,350,2.5%,+6,+2,8,2,15,22,18,7,-,- Strong low profile.,https://wiki.gbl.gg/images/5/5e/SG_umb_clp_hb.png,https://wiki.gbl.gg/images/5/5b/SG_umb_clp4_fd.png
 UMBRELLA,2MP STARVING,"CMP STARVING
 C.MP STARVING
 2.MP STARVING
@@ -7582,7 +7799,7 @@ OVERSTUFFED 2.MP
 OVERSTUFFED CR.MP
 OVERSTUFFED CRMP
 OVERSTUFFED CROUCHING STRONG
-OVERSTUFFED CROUCH STRONG",Mid,-,700,7.5%,0,-6,19,2,26,27,21,12,-,- Strong low profile.,https://wiki.gbl.gg/images/e/e9/SG_umb_cmp_hb.png,https://wiki.gbl.gg/images/d/d7/SG_umb_cmp1_fd.png
+OVERSTUFFED CROUCH STRONG",Mid,-,700,7.5%,0,-6,15,2,26,27,21,9,-,- Strong low profile.,https://wiki.gbl.gg/images/e/e9/SG_umb_cmp_hb.png,https://wiki.gbl.gg/images/9/99/SG_umb_cmp4_fd.png
 UMBRELLA,2HP STARVING,"CHP STARVING
 C.HP STARVING
 2.HP STARVING
@@ -7629,7 +7846,9 @@ SATIATED 2.HP
 SATIATED CRHP
 SATIATED CR.HP
 SATIATED CROUCH FIERCE
-SATIATED CROUCHING FIERCE",Mid,Launcher,"350, 500",5% x2,+3,-12,14,"3, (10), 2",31,"24, 35","18, 21","7, 9",-,- Two-hit launcher.,https://wiki.gbl.gg/images/3/31/SG_umb_chp_hb.png,https://wiki.gbl.gg/images/3/32/SG_umb_chp3_fd.png
+SATIATED CROUCHING FIERCE",Mid,Launcher,"350, 500",5% x2,+3,-12,14,"3, 
+(9 on whiff/10 on hit), 
+2 ",31,"24, 35","18, 21","7, 9",-,- Two-hit launcher.,https://wiki.gbl.gg/images/3/31/SG_umb_chp_hb.png,https://wiki.gbl.gg/images/3/32/SG_umb_chp3_fd.png
 UMBRELLA,2HP OVERSTUFFED,"CHP OVERSTUFFED
 C.HP OVERSTUFFED
 2.HP OVERSTUFFED
@@ -7644,10 +7863,9 @@ OVERSTUFFED 2.HP
 OVERSTUFFED CRHP
 OVERSTUFFED CR.HP
 OVERSTUFFED CROUCH FIERCE
-OVERSTUFFED CROUCHING FIERCE",Mid,Launcher,"400, 750",5% x2,+3,-11,17,"3, (17), 2",31,"26, 35","18, 24","11, 10",-,- Two-hit launcher.,https://wiki.gbl.gg/images/3/31/SG_umb_chp_hb.png,https://wiki.gbl.gg/images/5/51/SG_umb_chp1_fd.png
-UMBRELLA,2LK,MACRO_2LK,Low,-,200,2.5%,+2,-1,8,3,19,23,20,7,-,- Super low profile and maintains dash momentum.,https://wiki.gbl.gg/images/7/71/SG_umb_clk_hb.png,https://wiki.gbl.gg/images/2/2a/SG_umb_clk_fd.png
-UMBRELLA,2MK,MACRO_2MK,Low,-,475,3.75%,+3,-2,14,2,18,14,17,6,-,"- Throw invulnerable f1-3, 12-16. Airborne on frame 4-11.
-- If she is on a puddle, the opponent will be launched. See PUDDLE.",https://wiki.gbl.gg/images/8/8b/SG_umb_cmk_hb.png,https://wiki.gbl.gg/images/8/8c/SG_umb_cmk_fd.png
+OVERSTUFFED CROUCHING FIERCE",Mid,Launcher,"400, 650",5% x2,+3,-11,16,"3, (17), 2",31,"26, 35","18, 24","7, 9",-,- Two-hit launcher.,https://wiki.gbl.gg/images/3/31/SG_umb_chp_hb.png,https://wiki.gbl.gg/images/5/5b/SG_umb_chp4_fd.png
+UMBRELLA,2LK,MACRO_2LK,Low,-,200,2.5%,-2,-1,8,3,19,19,20,7,-,- Super low profile and maintains dash momentum.,https://wiki.gbl.gg/images/7/71/SG_umb_clk_hb.png,https://wiki.gbl.gg/images/2/2a/SG_umb_clk_fd.png
+UMBRELLA,2MK,MACRO_2MK,Low,-,475,3.75%,+3,-2,14,2,18,14,17,6,-,"- If she is on a puddle, the opponent will be launched. See PUDDLE.",https://wiki.gbl.gg/images/8/8b/SG_umb_cmk_hb.png,https://wiki.gbl.gg/images/8/8c/SG_umb_cmk_fd.png
 UMBRELLA,2HK,"MACRO_2HK
 SWEEP",Low,Sweep,750,7.5%,KD,-11,17,3,23,38,11,7,-,"- Unlike other sweep normals, Umbrella's 2HK is a regular KD instead of a soft KD
 - Vaccuums on contact.",https://wiki.gbl.gg/images/7/7e/SG_umb_chk_hb.png,https://wiki.gbl.gg/images/c/c1/SG_umb_chk_fd.png
@@ -7696,7 +7914,7 @@ OVERSTUFFED J.LP
 OVERSTUFFED J LP
 OVERSTUFFED JUMP JLP
 OVERSTUFFED JUMPING JLP
-OVERSTUFFED JUMP JAB",High (rising mid),-,400,2.5%,-5,-2,15,9,16,19,22,8,-,- Only a rising overhead on Big Band.,https://wiki.gbl.gg/images/f/f6/SG_umb_jlp_hb.png,https://wiki.gbl.gg/images/7/7f/SG_umb_jlp1_fd.png
+OVERSTUFFED JUMP JAB",High (rising mid),-,400,2.5%,-5,-2,11,9,16,19,22,8,-,- Only a rising overhead on Big Band.,https://wiki.gbl.gg/images/f/f6/SG_umb_jlp_hb.png,https://wiki.gbl.gg/images/2/24/SG_umb_jlp4_fd.png
 UMBRELLA,JMP STARVING,"J.MP STARVING
 J MP STARVING
 JUMP JMP STARVING
@@ -7718,7 +7936,7 @@ RAVENOUS J.MP
 RAVENOUS J MP
 RAVENOUS JUMP JMP
 RAVENOUS JUMPING JMP
-RAVENOUS JUMP STRONG",High,-,650,7.5%,+7,-2,10,3,20,29,23,11,-,- Universal instant overhead.,https://wiki.gbl.gg/images/8/88/SG_umb_jmp_hb.png,https://wiki.gbl.gg/images/0/00/SG_umb_jmp2_fd.png
+RAVENOUS JUMP STRONG",High,-,650,7.5%,+7,-2,12,3,20,29,23,11,-,- Universal instant overhead.,https://wiki.gbl.gg/images/8/88/SG_umb_jmp_hb.png,https://wiki.gbl.gg/images/0/00/SG_umb_jmp2_fd.png
 UMBRELLA,JMP SATIATED,"JMP
 MACRO_JMP
 J.MP SATIATED
@@ -7742,7 +7960,7 @@ OVERSTUFFED J.MP
 OVERSTUFFED J MP
 OVERSTUFFED JUMP JMP
 OVERSTUFFED JUMPING JMP
-OVERSTUFFED JUMP STRONG",High,-,950,7.5%,Ground Bounce,-18,26,3,20,31,23,20,-,,https://wiki.gbl.gg/images/8/88/SG_umb_jmp_hb.png,https://wiki.gbl.gg/images/7/7d/SG_umb_jmp4_fd.png
+OVERSTUFFED JUMP STRONG",High,-,750,7.5%,Ground Bounce,-18,21,3,20,31,23,11,-,,https://wiki.gbl.gg/images/8/88/SG_umb_jmp_hb.png,https://wiki.gbl.gg/images/7/7d/SG_umb_jmp4_fd.png
 UMBRELLA,JHP STARVING,"J.HP STARVING
 J HP STARVING
 JUMP JHP STARVING
@@ -7789,7 +8007,8 @@ OVERSTUFFED J.HP
 OVERSTUFFED J HP
 OVERSTUFFED JUMP JHP
 OVERSTUFFED JUMPING JHP
-OVERSTUFFED JUMP FIERCE",High,-,1200,7.5%,Ground Bounce,-18,"12, Until Ground, 4",3,35,50,19,15,-,"- First portion of startup overrides Umbrella's air momentum.
+OVERSTUFFED JUMP FIERCE",High,-,1000,7.5%,Ground Bounce,-18,"12, Until
+Ground, 4 ",3,35,50,19,15,-,"- First portion of startup overrides Umbrella's air momentum.
 - Unlike other versions of this move. Overstuffed's is a very slow single damaging hit.",https://wiki.gbl.gg/images/7/72/SG_umb_jhp_hb.png,https://wiki.gbl.gg/images/7/70/SG_umb_jhp4_fd.png
 UMBRELLA,JLK,MACRO_JLK,High,-,200,4.5%,+1,+3,9,5,16,21,24,7,-,"- Lunges Umbrella forwards and slightly up.
 - Can be held on contact for up to 8 extra hits. See JLK HELD.",https://wiki.gbl.gg/images/d/d6/SG_umb_jlk_hb.png,https://wiki.gbl.gg/images/7/7b/SG_umb_jlk_fd.png
@@ -7799,11 +8018,13 @@ JLK HOLD
 HOLD JLK",Mid,-,75 x8,1.06% x8,+16,+8,9,5,16,19 x8,19 x8,4 x8,-,,https://wiki.gbl.gg/images/d/d6/SG_umb_jlk_hb.png,https://wiki.gbl.gg/images/b/b6/SG_umb_jlk2_fd.png
 UMBRELLA,JMK,MACRO_JMK,High,-,550,7.5%,+5,0,14,3,18,25,20,10,-,"- Holding jMK gains Umbrella a brief float and can directed by holding 4 or 6.
 - Can hold jMK for up to 27 frames before transitioning to j[MK], releasing jMK before then will add the standard 18f of recovery.
+- Can be cancelled into any other air normal on hit or block, or even on whiff during the float state.
 - See JMK HELD.",https://wiki.gbl.gg/images/4/4b/SG_umb_jmk_hb.png,https://wiki.gbl.gg/images/b/b7/SG_umb_jmk_fd.png
 UMBRELLA,J[MK],"JMK HELD
 HELD JMK
 JMK HOLD
-HOLD JMK",Low,No Cancel,1,7.5%,KD,See notes,"Until Ground, 1",2,27,20,22,8,-,"- Umbrella flops to the ground, splashing puddles and going into a wakeup animation.",https://wiki.gbl.gg/images/4/4b/SG_umb_jmk_hb.png,https://wiki.gbl.gg/images/e/ee/SG_umb_jmk2_fd.png
+HOLD JMK",Low,No Cancel,1,7.5%,KD,See notes,"Until Ground, 1",2,27,20,22,8,-,"- Umbrella flops to the ground, splashing puddles and going into a wakeup animation.
+- Cannot cancel into anything landing, unlike jHP, so conversions are impossible without an assist or puddle.",https://wiki.gbl.gg/images/4/4b/SG_umb_jmk_hb.png,https://wiki.gbl.gg/images/e/ee/SG_umb_jmk2_fd.png
 UMBRELLA,JHK,"MACRO_JHK
 BODY BAG",High,-,"450, 225 x4","2.5%, 1.71%",+26,-1,14,"3, (6), 3...",Until landing(?),26 x5,16 x5,"9, 4 x4",-,,https://wiki.gbl.gg/images/b/b9/SG_umb_jhk_hb.png,https://wiki.gbl.gg/images/f/fd/SG_umb_jhk_fd.png
 UMBRELLA,6LP STARVING,"6.LP STARVING
@@ -7837,7 +8058,89 @@ FLP OVERSTUFFED
 OVERSTUFFED 6LP
 OVERSTUFFED 6.LP
 OVERSTUFFED F.LP
-OVERSTUFFED FLP",Mid,-,550,2.5%,+7,+2,16,5,18,26,24,9,-,- Anti-air button with Hungern not having a hurtbox until recovery frames.,https://wiki.gbl.gg/images/5/52/SG_umb_flp_hb.png,https://wiki.gbl.gg/images/2/27/SG_umb_flp1_fd.png
+OVERSTUFFED FLP",Mid,-,550,2.5%,+7,+2,15,5,18,26,24,9,-,- Anti-air button with Hungern not having a hurtbox until recovery frames.,https://wiki.gbl.gg/images/5/52/SG_umb_flp_hb.png,https://wiki.gbl.gg/images/c/c7/SG_umb_flp4_fd.png
+UMBRELLA,3MP STARVING,"STARVING 3MP
+STARVING 3.MP
+STARVING DF.MP
+STARVING DFMP
+3.MP STARVING
+DF.MP STARVING
+DFMP STARVING
+STARVING OVERBITE
+STARVING THE MOVE THAT HITS YOU OVERHEAD
+STARVING THE MOVE THAT HITS OVERHEAD
+STARVING MOVE THAT HITS OVERHEAD
+STARVING MOVE THAT HITS YOU OVERHEAD
+OVERBITE STARVING
+THE MOVE THAT HITS YOU OVERHEAD STARVING
+THE MOVE THAT HITS OVERHEAD STARVING
+MOVE THAT HITS OVERHEAD STARVING
+MOVE THAT HITS YOU OVERHEAD STARVING",High,No Cancel,700,4.17%,+13,+2,24,4,23,26,21,??,-,"- Umbrella leaps forward into the air as Hungern takes a downward chomp. Standing overhead.
+- Can't be canceled into anything, but leaves you +13 on hit and +2 on block.",https://wiki.gbl.gg/images/d/d0/SG_umb_dfmp_hb.png,https://wiki.gbl.gg/images/3/39/SG_umb_dfmp1_fd.png
+UMBRELLA,3MP RAVENOUS,"RAVENOUS 3MP
+RAVENOUS 3.MP
+RAVENOUS DF.MP
+RAVENOUS DFMP
+3.MP RAVENOUS
+DF.MP RAVENOUS
+DFMP RAVENOUS
+RAVENOUS OVERBITE
+RAVENOUS THE MOVE THAT HITS YOU OVERHEAD
+RAVENOUS THE MOVE THAT HITS OVERHEAD
+RAVENOUS MOVE THAT HITS OVERHEAD
+RAVENOUS MOVE THAT HITS YOU OVERHEAD
+OVERBITE RAVENOUS
+THE MOVE THAT HITS YOU OVERHEAD RAVENOUS
+THE MOVE THAT HITS OVERHEAD RAVENOUS
+MOVE THAT HITS OVERHEAD RAVENOUS
+MOVE THAT HITS YOU OVERHEAD RAVENOUS",High,No Cancel,700,4.17%,+13,+2,17,4,23,26,21,??,,"- Umbrella leaps forward into the air as Hungern takes a downward chomp. Standing overhead.
+- Can't be canceled into anything, but leaves you +13 on hit and +2 on block.
+- Ravenous version is the fastest of all hunger states, and travels a bit further and higher.",https://wiki.gbl.gg/images/d/d0/SG_umb_dfmp_hb.png,https://wiki.gbl.gg/images/b/b2/SG_umb_dfmp2_fd.png
+UMBRELLA,3MP SATIATED,"SATIATED 3MP
+SATIATED 3.MP
+SATIATED DF.MP
+SATIATED DFMP
+3MP
+3.MP
+DF.MP
+DFMP
+3.MP SATIATED
+DF.MP SATIATED
+DFMP SATIATED
+OVERBITE
+THE MOVE THAT HITS YOU OVERHEAD
+THE MOVE THAT HITS OVERHEAD
+MOVE THAT HITS OVERHEAD
+MOVE THAT HITS YOU OVERHEAD
+SATIATED OVERBITE
+SATIATED THE MOVE THAT HITS YOU OVERHEAD
+SATIATED THE MOVE THAT HITS OVERHEAD
+SATIATED MOVE THAT HITS OVERHEAD
+SATIATED MOVE THAT HITS YOU OVERHEAD
+OVERBITE SATIATED
+THE MOVE THAT HITS YOU OVERHEAD SATIATED
+THE MOVE THAT HITS OVERHEAD SATIATED
+MOVE THAT HITS OVERHEAD SATIATED
+MOVE THAT HITS YOU OVERHEAD SATIATED",High,No Cancel,700,4.17%,+13,+2,19,4,23,26,21,??,,"- Umbrella leaps forward into the air as Hungern takes a downward chomp. Standing overhead.
+- Can't be canceled into anything, but leaves you +13 on hit and +2 on block.",https://wiki.gbl.gg/images/d/d0/SG_umb_dfmp_hb.png,https://wiki.gbl.gg/images/8/8a/SG_umb_dfmp3_fd.png
+UMBRELLA,3MP OVERSTUFFED,"OVERSTUFFED 3MP
+OVERSTUFFED 3.MP
+OVERSTUFFED DF.MP
+OVERSTUFFED DFMP
+3.MP OVERSTUFFED
+DF.MP OVERSTUFFED
+DFMP OVERSTUFFED
+OVERSTUFFED OVERBITE
+OVERSTUFFED THE MOVE THAT HITS YOU OVERHEAD
+OVERSTUFFED THE MOVE THAT HITS OVERHEAD
+OVERSTUFFED MOVE THAT HITS OVERHEAD
+OVERSTUFFED MOVE THAT HITS YOU OVERHEAD
+OVERBITE OVERSTUFFED
+THE MOVE THAT HITS YOU OVERHEAD OVERSTUFFED
+THE MOVE THAT HITS OVERHEAD OVERSTUFFED
+MOVE THAT HITS OVERHEAD OVERSTUFFED
+MOVE THAT HITS YOU OVERHEAD OVERSTUFFED",High,No Cancel,700,4.17%,+13,+2,21,4,23,26,21,??,,"- Umbrella leaps forward into the air as Hungern takes a downward chomp. Standing overhead.
+- Can't be canceled into anything, but leaves you +13 on hit and +2 on block.",https://wiki.gbl.gg/images/d/d0/SG_umb_dfmp_hb.png,https://wiki.gbl.gg/images/5/57/SG_umb_dfmp4_fd.png
 UMBRELLA,6HP,"6.HP
 F.HP
 FHP
@@ -7872,23 +8175,19 @@ FHP RAVENOUS
 RAVENOUS 6HP
 RAVENOUS 6.HP
 RAVENOUS F.HP
-RAVENOUS FHP","Mid, High",-,"250x3, 400, 1100/1400/1700","7.5% x4, 4.5%",See notes,-10/-10/-21,"11 (Ravenous), 16 (other)","1, 4, 4, 4, (13), 3, 2",38,"31 x4, 40","23 x4, 33/33/22","6 x3, 9, 10",-,"- Holding HP charges this move for added damage and different properties on hit.
+RAVENOUS FHP","Mid, High",-,"200x3, 300, 1100/1250/1500","7.5% x4, 4.5%",See notes,-10/-10/-21,21 / 11 / 16 / 18 ,"1, 4, 4, 4, (13), 3, 2",38,"31 x4, 40","23 x4, 33/33/22","6 x3, 9, 10",-,"- Holding HP charges this move for added damage and different properties on hit.
 - Level 1 charge is a Stagger vs ground and KD vs air.
 - Level 2 charge is a Stagger vs ground and Ground Bounce vs air, but can only Ground Bounce once per combo.
 - Level 3 charge is a Ground Bounce vs both ground and air.
 - Maximum charge time is 122f.
+- Minimum startup differs by hunger state and is listed in order of Starving / Ravenous / Satiated / Overstuffed.
 - The initial non-slam hits are coded to only hit airborne opponents.
-- The Ravenous version of this move has lower minimum startup (11f), but no other differences. 
-- The Starving, Satiated and Overstuffed versions of this move are the exact same.
-- Ticker is for non-Ravenous, non-charged. See the wiki for more info.",https://wiki.gbl.gg/images/5/55/SG_umb_fhp_hb.png,https://wiki.gbl.gg/images/3/34/SG_umb_fhp3_fd.png
+- See the wiki for more info.",https://wiki.gbl.gg/images/5/55/SG_umb_fhp_hb.png,https://wiki.gbl.gg/images/3/34/SG_umb_fhp3_fd.png
 UMBRELLA,THROW,MACRO_THROW,Throw,50% Damage Scaling,"600, 300 x4","1%, 2% x4, 5%","Sliding KD 
-OR Wall Bounce",N/A,7,1,28,N/A,N/A,N/A,-,"- First mandatory chew will put the opponent in a Sliding KD and fill the Hungern bar by 1 pip.
-- Repeatedly tapping LP+LK will cause Hungern to chew up to 4 additional times, filling the Hungern bar by 1 pip with each bite and increasing the range that the opponent is launched at.
-- If the Hungern bar is filled while chewing, the move will end prematurely after that hit.",https://wiki.gbl.gg/images/6/6a/SG_umb_throw_hb.png,https://wiki.gbl.gg/images/0/00/SG_umb_throw_fd.png
-UMBRELLA,AIR THROW,MACRO_AIR_THROW,Throw,50% Damage Scaling,500,6%,"Bubble State,  KD",N/A,7,3,18,21,N/A,N/A,-,"- Traps the opponent in a state similar to a Wish Maker bubble, but they are knocked down at the end of the bubble duration instead.
-- Bubble state lasts for a varying duration based on air throw height (minimum 90f at lowest height).
-- Long horizontal reach but not as long as the sprite implies.",https://wiki.gbl.gg/images/d/d2/SG_umb_airthrow_hb.png,https://wiki.gbl.gg/images/8/8e/SG_umb_airthrow_fd.png
-UMBRELLA,TAG IN,MACRO_TAG,High,"Tag, Invuln. (Proj.)",600,7.5%,"Sliding KD (vs ground),
+OR Wall Bounce",N/A,7,1,28,N/A,N/A,N/A,-,"- Traps opponent in a bubble, alowing easy combo conversion and puddle setups.",https://wiki.gbl.gg/images/6/6a/SG_umb_throw_hb.png,https://wiki.gbl.gg/images/0/00/SG_umb_throw_fd.png
+UMBRELLA,AIR THROW,MACRO_AIR_THROW,Throw,50% Damage Scaling,500,6%,"Bubble State,  KD",N/A,7,3,18,21,N/A,N/A,-,"- Traps opponent in a bubble.
+- Bubble state lasts for a varying duration based on air throw height (minimum 90f at lowest height).",https://wiki.gbl.gg/images/d/d2/SG_umb_airthrow_hb.png,https://wiki.gbl.gg/images/8/8e/SG_umb_airthrow_fd.png
+UMBRELLA,TAG IN,MACRO_TAG,Mid,"Tag, Invuln. (Proj.)",600,7.5%,"Sliding KD (vs ground),
  Ground Bounce (vs air)",-23,"39 to 152, 26",4,"38 (held) 
 to 41 (tap)",25,18,8,-,"- Only tag to not hit mid, and only tag to do more than 500 damage.
 - Hold to increase startup and extend proj. invul duration, can influence the speed by holding 4 or 6.
@@ -7972,11 +8271,16 @@ STARVING [B]F+LP+LK
 STARVING BF+LP+LK
 STARVING [B],F+LP+LK
 STARVING B,F+LP+LK
-STARVING 46 LP+LK",Command Grab,55% Damage Scaling,"0, 675*4,
-1000, 0","(2.5%) 3% x5,
-5% x2",Soft KD,N/A,15,2,37,N/A,N/A,N/A,-,"- Hold to increase active and recovery frames. If the hitbox extends offscreen, the move will end prematurely.
-- Repeatedly tapping LP+LK will cause Hungern to chew up to 4 additional times, filling the Hungern Bar with each bite. The move will end prematurely if the Hungern Bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage",https://wiki.gbl.gg/images/6/61/SG_umb_bfthrow_hb.png,https://wiki.gbl.gg/images/d/da/SG_umb_bfthrow3_fd.png
+STARVING 46 LP+LK","Command Grab, Mid","Hit Grab, 55%
+Damage Scaling","0, 675*2,
+1000, 0","(2.5%) 3% x3,
+5% x2","Wall Bounce OR
+Soft KD (Invuln.)",-28,15,"1 (as throw),
+2 (as strike)",41,N/A,13,N/A,-,"- Is a command grab only for the first frame, after which it becomes a hit grab. Can be comboed into without stagger because of this.
+- Fills Hunger Meter during the throw animation.
+- Hungern will automatically chomp the opponent a number of times determined by the hunger state.
+- If used more than once in a combo, does 20% less damage and results in an invulnerable soft knockdown.
+- As an assist, this move is never a command grab. ",https://wiki.gbl.gg/images/c/ca/SG_umb_bfthrow_hb2.png,https://wiki.gbl.gg/images/d/da/SG_umb_bfthrow3_fd.png
 UMBRELLA,TONGUE TWISTER RAVENOUS,"RAVENOUS TONGUE TWISTER
 COMMAND GRAB RAVENOUS
 CMD GRAB RAVENOUS
@@ -8053,11 +8357,17 @@ RAVENOUS [B]F+LP+LK
 RAVENOUS BF+LP+LK
 RAVENOUS [B],F+LP+LK
 RAVENOUS B,F+LP+LK
-RAVENOUS 46 LP+LK",Command Grab,55% Damage Scaling,"0, 675*4,
-1000, 0","(2.5%) 3% x5,
-5% x2",Soft KD,N/A,15,2-28,37-65,N/A,N/A,N/A,-,"- Hold to increase active and recovery frames. If the hitbox extends offscreen, the move will end prematurely.
-- Repeatedly tapping LP+LK will cause Hungern to chew up to 4 additional times, filling the Hungern Bar with each bite. The move will end prematurely if the Hungern Bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage",https://wiki.gbl.gg/images/6/61/SG_umb_bfthrow_hb.png,https://wiki.gbl.gg/images/d/da/SG_umb_bfthrow3_fd.png
+RAVENOUS 46 LP+LK","Command Grab, Mid","Hit Grab, 55%
+Damage Scaling","0, 675*2,
+1000, 0","(2.5%) 3% x3,
+5% x2","Wall Bounce OR
+Soft KD (Invuln.)",-30 to -89 ,15,"1 (as throw),
+2-27 (as strike) ",43-102 ,N/A,13,N/A,-,"- Is a command grab only for the first frame, after which it becomes a hit grab. Can be comboed into without stagger because of this.
+- Hold to keep extending, increasing the active and recovery frames (Rav/Satiated only). Frame data ticker is for a full hold, see the wiki otherwise.
+- Fills Hunger Meter during the throw animation. 
+- Hungern will automatically chomp the opponent a number of times determined by the hunger state.
+- If used more than once in a combo, does 20% less damage and results in an invulnerable soft knockdown.
+- As an assist, this move is never a command grab. ",https://wiki.gbl.gg/images/c/ca/SG_umb_bfthrow_hb2.png,https://wiki.gbl.gg/images/4/47/SG_umb_bfthrow2_fd2.png
 UMBRELLA,TONGUE TWISTER SATIATED,"TONGUE TWISTER
 SATIATED TONGUE TWISTER
 COMMAND GRAB
@@ -8173,11 +8483,17 @@ SATIATED [B]F+LP+LK
 SATIATED BF+LP+LK
 SATIATED [B],F+LP+LK
 SATIATED B,F+LP+LK
-SATIATED 46 LP+LK",Command Grab,55% Damage Scaling,"0, 675*4,
-1000, 0","(2.5%) 3% x5,
-5% x2",Soft KD,N/A,15,2-14,37-45,N/A,N/A,N/A,-,"- Hold to increase active and recovery frames. If the hitbox extends offscreen, the move will end prematurely.
-- Repeatedly tapping LP+LK will cause Hungern to chew up to 4 additional times, filling the Hungern Bar with each bite. The move will end prematurely if the Hungern Bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage",https://wiki.gbl.gg/images/6/61/SG_umb_bfthrow_hb.png,https://wiki.gbl.gg/images/d/da/SG_umb_bfthrow3_fd.png
+SATIATED 46 LP+LK","Command Grab, Mid","Hit Grab, 55%
+Damage Scaling","0, 675,
+1000, 0","(2.5%) 3% x2,
+5% x2","Wall Bounce OR
+Soft KD (Invuln.)",-28 to -50 ,15,"1 (as throw),
+2-13 (as strike) ",41-63 ,N/A,13,N/A,-,"- Is a command grab only for the first frame, after which it becomes a hit grab. Can be comboed into without stagger because of this.
+- Hold to keep extending, increasing the active and recovery frames (Rav/Satiated only). Frame data ticker is for a full hold, see the wiki otherwise.
+- Fills Hunger Meter during the throw animation. 
+- Hungern will automatically chomp the opponent a number of times determined by the hunger state.
+- If used more than once in a combo, does 20% less damage and results in an invulnerable soft knockdown.
+- As an assist, this move is never a command grab. ",https://wiki.gbl.gg/images/c/ca/SG_umb_bfthrow_hb2.png,https://wiki.gbl.gg/images/a/ab/SG_umb_bfthrow3_fd2.png
 UMBRELLA,TONGUE TWISTER OVERSTUFFED,"OVERSTUFFED TONGUE TWISTER
 COMMAND GRAB OVERSTUFFED
 CMD GRAB OVERSTUFFED
@@ -8254,11 +8570,14 @@ OVERSTUFFED [B]F+LP+LK
 OVERSTUFFED BF+LP+LK
 OVERSTUFFED [B],F+LP+LK
 OVERSTUFFED B,F+LP+LK
-OVERSTUFFED 46 LP+LK",Command Grab,55% Damage Scaling,"0, 337,
-337, 0","(2.5%) 3% x3,
-5%",Soft KD,N/A,15,2,37,N/A,N/A,N/A,-,"- Hold to increase active and recovery frames. If the hitbox extends offscreen, the move will end prematurely.
-- Repeatedly tapping LP+LK will cause Hungern to chew up to 4 additional times, filling the Hungern Bar with each bite. The move will end prematurely if the Hungern Bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage",https://wiki.gbl.gg/images/6/61/SG_umb_bfthrow_hb.png,https://wiki.gbl.gg/images/d/da/SG_umb_bfthrow3_fd.png
+OVERSTUFFED 46 LP+LK","Command Grab, Mid",Hit Grab,0,(2.5%) 3%,"KD OR
+Soft KD (Invuln.)",-28,15,"1 (as throw),
+2 (as strike)",41,N/A,13,N/A,-,"- Is a command grab only for the first frame, after which it becomes a hit grab. Can be comboed into without stagger because of this.
+- Fills Hunger Meter during the throw animation. 
+- Hungern will automatically chomp the opponent a number of times determined by the hunger state.
+- If used more than once in a combo, does 20% less damage and results in an invulnerable soft knockdown.
+- As an assist, this move is never a command grab. 
+- Overstuffed only: Hungern does not chomp or spit the opponent, but instead drops them in front of Umbrella in a knockdown state. Does not apply throw scaling. ",https://wiki.gbl.gg/images/c/ca/SG_umb_bfthrow_hb2.png,https://wiki.gbl.gg/images/d/da/SG_umb_bfthrow3_fd.png
 UMBRELLA,SALT GRINDER STARVING,"STARVING SALT GRINDER
 STARVING GRINDER
 GRINDER STARVING
@@ -8281,8 +8600,9 @@ STARVING QCF.LP",Mid,"Hit Grab,
 55% Damage Scaling","500, 100 x5, 150 x3,
 375, 750 (150)","(2.5%) 3%, 1% x5,
 2% x3, 3%, 4%","Stagger
-OR Soft KD",-24,24,2,42,N/A,19,N/A (7 on block),-,"- Mashing LP & HP or left & right cause Hungern to grind up to 10 additional times, filling the Hungern Bar each hit. The move will end prematurely if the Hungern bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/6/65/SG_umb_qcflp1_fd.png
+OR Soft KD",-24,24,3,42,N/A,19,N/A (7 on block),-,"- Mashing LP & HP or left & right cause Hungern to grind up to 10 additional times, filling the Hungern Bar each hit. The move will end prematurely if the Hungern bar is filled.
+- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage.
+- If used more than once in a combo, does 20% less damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/6/65/SG_umb_qcflp1_fd.png
 UMBRELLA,SALT GRINDER RAVENOUS,"RAVENOUS SALT GRINDER
 GRINDER RAVENOUS
 RAVENOUS GRINDER
@@ -8305,8 +8625,9 @@ RAVENOUS QCF.LP",Mid,"Hit Grab,
 55% Damage Scaling","500, 100 x5, 150 x3,
 375, 750 (150)","(2.5%) 3%, 1% x5,
 2% x3, 3%, 4%","Stagger
-OR Soft KD",-24,17,2,42,N/A,19,N/A (7 on block),-,"- Mashing LP & HP or left & right cause Hungern to grind up to 10 additional times, filling the Hungern Bar each hit. The move will end prematurely if the Hungern bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/8/89/SG_umb_qcflp2_fd.png
+OR Soft KD",-24,17,3,42,N/A,19,N/A (7 on block),-,"- Mashing LP & HP or left & right cause Hungern to grind up to 10 additional times, filling the Hungern Bar each hit. The move will end prematurely if the Hungern bar is filled.
+- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage.
+- If used more than once in a combo, does 20% less damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/8/89/SG_umb_qcflp2_fd.png
 UMBRELLA,SALT GRINDER SATIATED,"SALT GRINDER
 SATIATED SALT GRINDER
 GRINDER
@@ -8333,8 +8654,9 @@ SATIATED QCF.LP",Mid,"Hit Grab,
 55% Damage Scaling","500, 100 x5, 150 x3,
 375, 750 (150)","(2.5%) 3%, 1% x5,
 2% x3, 3%, 4%","Stagger
-OR Soft KD",-24,20,2,42,N/A,19,N/A (7 on block),-,"- Mashing LP & HP or left & right cause Hungern to grind up to 10 additional times, filling the Hungern Bar each hit. The move will end prematurely if the Hungern bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/2/25/SG_umb_qcflp3_fd.png
+OR Soft KD",-24,20,3,42,N/A,19,N/A (7 on block),-,"- Mashing LP & HP or left & right cause Hungern to grind up to 10 additional times, filling the Hungern Bar each hit. The move will end prematurely if the Hungern bar is filled.
+- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage.
+- If used more than once in a combo, does 20% less damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/2/25/SG_umb_qcflp3_fd.png
 UMBRELLA,SALT GRINDER OVERSTUFFED,"OVERSTUFFED SALT GRINDER
 OVERSTUFFED GRINDER
 GRINDER OVERSTUFFED
@@ -8353,11 +8675,9 @@ OVERSTUFFED 236+LP
 OVERSTUFFED QCFLP
 OVERSTUFFED QCF LP
 OVERSTUFFED QCF+LP
-OVERSTUFFED QCF.LP",Mid,"Hit Grab, 
-55% Damage Scaling","500, 50x4 (150)","(2.5%) 3%,
-1% x4","Stagger
-OR Soft KD",-24,24,2,42,N/A,19,N/A (7 on block),-,"- Mashing LP & HP or left & right cause Hungern to grind up to 10 additional times, filling the Hungern Bar each hit. The move will end prematurely if the Hungern bar is filled.
-- The damage of each hit is determined by the initial Hungern state, so if used while Satiated and Hungern turns Overstuffed, additional hits will still deal Satiated damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/6/65/SG_umb_qcflp1_fd.png
+OVERSTUFFED QCF.LP",Mid,-,1000,(2.5%) 6.25% ,"Stagger
+OR KD",-17,22,5,30,26,19,N/A (7 on block),-,"- Overstuffed only: Not a hitgrab, only one hit, & knocks down on air hit.
+- If used more than once in a combo, does 20% less damage.",https://wiki.gbl.gg/images/c/c2/SG_umb_qcflp_hb.png,https://wiki.gbl.gg/images/7/76/SG_umb_qcflp4_fd.png
 UMBRELLA,SLURP 'N' SLIDE STARVING,"SLURP N' SLIDE STARVING
 SLURP N SLIDE STARVING
 SLURP AND SLIDE STARVING
@@ -8509,8 +8829,8 @@ SATIATED [B]F+MP
 SATIATED BF+MP
 SATIATED [B],F+MP
 SATIATED B,F+MP
-SATIATED 46 MP",Mid,-,650 (150),(2.5%) 9%,+5,+2,20,15,25,27,24,14,-,"- Goes into recovery on contact, similar to Double's Cilia Slide, granting static frame advantage.
-- When not in Starving and running into a bubble or puddle: +100 damage, travel a bit over fullscreen, +4 on block, blockstun increased to 27, hitstop changed to 10.",https://wiki.gbl.gg/images/c/c9/SG_umb_bfmp_hb.png,https://wiki.gbl.gg/images/4/44/SG_umb_bfmp3_fd.png
+SATIATED 46 MP",Mid,-,750 (150),(2.5%) 9%,+5,+1,20,15,25,27,23,14,-,"- Goes into recovery on contact, similar to Double's Cilia Slide, granting static frame advantage.
+- When not in Starving and running into a bubble or puddle: +150 damage, travel a bit over fullscreen, +4 on block, blockstun increased to 27, hitstop changed to 10.",https://wiki.gbl.gg/images/c/c9/SG_umb_bfmp_hb.png,https://wiki.gbl.gg/images/4/44/SG_umb_bfmp3_fd.png
 UMBRELLA,SLURP 'N' SLIDE OVERSTUFFED,"SLURP N' SLIDE OVERSTUFFED
 SLURP N SLIDE OVERSTUFFED
 SLURP AND SLIDE OVERSTUFFED
@@ -8601,9 +8921,8 @@ STARVING [D]U+HP
 STARVING DU+HP
 STARVING [D],U+HP
 STARVING D,U+HP
-STARVING CHARGE HP",Anti-Air Grab,"Invuln. (Strike),  Hit Grab,
+STARVING CHARGE HP",Mid,"Invuln. (Strike),  Hit Grab,
 55% Damage Scaling","500, 650","(2.5%) 4%, 8%",KD,-64,23,"2, 6",74,N/A,17,N/A (7 on block),-,"- Airborne 2 frames before active (3 while Overstuffed), making it count as Stage 1.
-- Fills the Hungern Bar by 1 pip.
 - Unblockable while rising, loses the property as an assist.
 - As an assist, applies its 55% scaling on its first hit, lowering the damage of the second one.",https://wiki.gbl.gg/images/3/31/SG_umb_duhp_hb.png,https://wiki.gbl.gg/images/3/3c/SG_umb_duhp1_fd.png
 UMBRELLA,HUNGERN RUSH RAVENOUS,"RUSH RAVENOUS
@@ -8648,9 +8967,8 @@ RAVENOUS [D]U+HP
 RAVENOUS DU+HP
 RAVENOUS [D],U+HP
 RAVENOUS D,U+HP
-RAVENOUS CHARGE HP",Anti-Air Grab,"Invuln. (Strike),  Hit Grab,
+RAVENOUS CHARGE HP",Anti-Air Grab,"Invuln. (Full),  Hit Grab,
 55% Damage Scaling","500, 650","(2.5%) 4%, 8%",KD,-76,11,"2, 13",79,N/A,17,N/A (7 on block),-,"- Airborne 2 frames before active (3 while Overstuffed), making it count as Stage 1.
-- Fills the Hungern Bar by 1 pip.
 - Unblockable while rising, loses the property as an assist.
 - As an assist, applies its 55% scaling on its first hit, lowering the damage of the second one.",https://wiki.gbl.gg/images/3/31/SG_umb_duhp_hb.png,https://wiki.gbl.gg/images/e/e4/SG_umb_duhp2_fd.png
 UMBRELLA,HUNGERN RUSH SATIATED,"HUNGERN RUSH
@@ -8717,10 +9035,9 @@ SATIATED [D]U+HP
 SATIATED DU+HP
 SATIATED [D],U+HP
 SATIATED D,U+HP
-SATIATED CHARGE HP",Anti-Air Grab,"Invuln. (Strike),  Hit Grab,
-55% Damage Scaling","500, 650","(2.5%) 4%, 8%",KD,-76,15,"2, 13",79,N/A,17,N/A (7 on block),-,"- Airborne 2 frames before active (3 while Overstuffed), making it count as Stage 1.
-- Fills the Hungern Bar by 1 pip.
-- Unblockable while rising, loses the property as an assist.
+SATIATED CHARGE HP",Mid,"Invuln. (Strike),  Hit Grab,
+55% Damage Scaling","500, 650","(2.5%) 4%, 8%",KD,-76,13,15,79,N/A,17,N/A (7 on block),-,"- Airborne 2 frames before active (3 while Overstuffed), making it count as Stage 1.
+- Overstuffed only: Is not a hitgrab and both hits come out even on whiff or block.
 - As an assist, applies its 55% scaling on its first hit, lowering the damage of the second one.",https://wiki.gbl.gg/images/3/31/SG_umb_duhp_hb.png,https://wiki.gbl.gg/images/9/9e/SG_umb_duhp3_fd.png
 UMBRELLA,HUNGERN RUSH OVERSTUFFED,"RUSH OVERSTUFFED
 DP OVERSTUFFED
@@ -8764,8 +9081,8 @@ OVERSTUFFED [D]U+HP
 OVERSTUFFED DU+HP
 OVERSTUFFED [D],U+HP
 OVERSTUFFED D,U+HP
-OVERSTUFFED CHARGE HP",Anti-Air Grab,"Invuln. (Strike),  Hit Grab,
-55% Damage Scaling",900,(2.5%) 3.6%,KD,-56,24,"3, 3, 4",60,16,18,9,-,"- Airborne 2 frames before active (3 while Overstuffed), making it count as Stage 1.
+OVERSTUFFED CHARGE HP",Mid,"Invuln. (Strike),  Hit Grab,
+55% Damage Scaling",900,(2.5%) 3.6%,KD,-56,15,"3, 3, 4",60,16,18,9,-,"- Airborne 2 frames before active (3 while Overstuffed), making it count as Stage 1.
 - When Overstuffed, becomes a single, non-supercancellable normal hit.
 - Unblockable while rising, loses the property as an assist.
 - As an assist, applies its 55% scaling on its first hit, lowering the damage of the second one.",https://wiki.gbl.gg/images/3/31/SG_umb_duhp_hb.png,https://wiki.gbl.gg/images/6/6f/SG_umb_duhp4_fd.png
@@ -8860,10 +9177,12 @@ RAVENOUS L BUBBLE
 L BUBBLE SATIATED
 SATIATED L BUBBLE
 L BUBBLE OVERSTUFFED
-OVERSTUFFED L BUBBLE",Mid,Projectile,350 / 500 (150),(2.5%) 7.2%,-5 /  KD,-8,18,~178,30,16-30,15-21,6-8,-,"- Empties the Hungern Bar by half a pip then fills it by one pip.
-- Second values are when Overstuffed.
-- Hit/Blockstun and Hitstop increased based on travel time, bubble travels ~60% of the screen.
-- No bubble is spawned while Starving, but you are immediately placed into Ravenous.",https://wiki.gbl.gg/images/d/de/SG_umb_qcblk_hb.png,https://wiki.gbl.gg/images/d/d5/SG_umb_qcblk_fd.png
+OVERSTUFFED L BUBBLE",Mid,Projectile,350 / 500 (150),(2.5%) 7.2%,-5 /  KD,-8,18,~178,30,16-30,15-21,6-8,-,"- Second values are when Overstuffed.
+- Hit/Blockstun and Hitstop increased based on travel time, bubble travels ~60% of the screen over the course of its active period in Satiated and Overstuffed.
+- Once active, the projectile won’t disappear if Umbrella gets hit.
+- Starving: No bubble is spawned.
+- Ravenous: Range greatly decreases. Bubble falls to the ground very quickly.
+- Overstuffed: Size and damage increases slightly and knocks down on hit. Visually, the bubble contains 2 eyeballs.",https://wiki.gbl.gg/images/d/de/SG_umb_qcblk_hb.png,https://wiki.gbl.gg/images/d/d5/SG_umb_qcblk_fd.png
 UMBRELLA,BOBBLIN' BUBBLE SUMMON,"BOBBLIN' BUBBLE
 BOBBLIN BUBBLE
 BOBBLIN BUBBLE SUMMON
@@ -8976,13 +9295,15 @@ SATIATED BOBBLE
 OVERSTUFFED BOBBLE",N/A,-,N/A,(2.5)% 0%,N/A,N/A,"21, 12",N/A,24,N/A,N/A,N/A,-,"- Spawns a bubble that travels ~55% of the screen before staying in place briefly.
 - Bubble spawns on f22 and is not interactable until frame 13 of spawning.
 - Jumping onto the bubble gains Umbrella a new jump arc that is both high up and travels far, popping the bubble and leaving a puddle. By holding left or right Umbrella can influence the trajectory of her jump, like Marvel superjumps.
+- Starving: No bubble spawned.
+- Ravenous: Bubble pops almost immediately and leaves no puddle.
 - Can be struck by SLURP N' SLIDE to enhance it, leaving a puddle underneath.
 - See also BOBBLIN' BUBBLE POP for the pop itself.",https://wiki.gbl.gg/images/2/2e/SG_umb_qcbmk_hb.png,https://wiki.gbl.gg/images/4/47/SG_umb_qcbmk1_fd.png
 UMBRELLA,BOBBLIN' BUBBLE POP,"BOBBLIN BUBBLE POP
 BOBBLIN POP
 BOBBLIN' POP
-M BUBBLE POP",Mid,Projectile,"500 / 700
-(225 / 300)",1%,KD,N/A,12,"1, 1, 1",N/A,25,20,7,-,"- Second damage value is when Overstuffed.
+M BUBBLE POP",Mid,Projectile,"550 / 600
+(225 / 300)",1%,KD,N/A,12,"1, 1, 1",N/A,25,20,7,-,"- Damage is for Ravenous & Satiated, then Overstuffed.
 - See BOBBLIN' BUBBLE SUMMON for the move that creates the bubble.",https://wiki.gbl.gg/images/2/2e/SG_umb_qcbmk_hb.png,https://wiki.gbl.gg/images/4/47/SG_umb_qcbmk1_fd.png
 UMBRELLA,WISH MAKER,"WISH
 WM
@@ -9086,6 +9407,7 @@ SATIATED H BUBBLE
 H BUBBLE OVERSTUFFED
 OVERSTUFFED H BUBBLE",Mid,"50% Damage Scaling,
 Hit Grab, Projectile",0,(2.5%) 0%,N/A,-10,30,107 / 179,36,15,19,0 (6 on block),-,"- No bubble is spawned while Starving.
+- Ravenous: Range decreases greatly (barely a character length away), opponents aren't trapped as long, and no puddle is created.
 - Second active value is while Overstuffed, the bubble travels for significantly longer.
 - Puts the opponent into a trapped state on hit that lasts for 98f, and has 15f of regular hitstun afterwards.
 - Pops and spawns a puddle after being hit or after the trapped state ends.",https://wiki.gbl.gg/images/9/9a/SG_umb_qcbhk_hb.png,https://wiki.gbl.gg/images/a/a1/SG_umb_qcbhk1_fd.png
@@ -9112,87 +9434,87 @@ SPLASH 2MK
 UMBRELLA,RETINA REFLECTOR MIRROR,"RETINA REFLECTOR
 RETINA
 REFLECTOR
-MACRO_236PP
+MACRO_236KK
 RETINA REFLECTOR MIRROR STARVING
 RETINA REFLECTOR STARVING
 RETINA STARVING
 REFLECTOR STARVING
-236PP STARVING
-236 PP STARVING
-236+PP STARVING
-QCFPP STARVING
-QCF PP STARVING
-QCF+PP STARVING
+236KK STARVING
+236 KK STARVING
+236+KK STARVING
+QCFKK STARVING
+QCF KK STARVING
+QCF+KK STARVING
 STARVING RETINA REFLECTOR MIRROR
 STARVING RETINA REFLECTOR
 STARVING RETINA
 STARVING REFLECTOR
-STARVING 236PP
-STARVING 236 PP
-STARVING 236+PP
-STARVING QCFPP
-STARVING QCF PP
-STARVING QCF+PP
+STARVING 236KK
+STARVING 236 KK
+STARVING 236+KK
+STARVING QCFKK
+STARVING QCF KK
+STARVING QCF+KK
 RETINA REFLECTOR MIRROR RAVENOUS
 RETINA REFLECTOR RAVENOUS
 RETINA RAVENOUS
 REFLECTOR RAVENOUS
-236PP RAVENOUS
-236 PP RAVENOUS
-236+PP RAVENOUS
-QCFPP RAVENOUS
-QCF PP RAVENOUS
-QCF+PP RAVENOUS
+236KK RAVENOUS
+236 KK RAVENOUS
+236+KK RAVENOUS
+QCFKK RAVENOUS
+QCF KK RAVENOUS
+QCF+KK RAVENOUS
 RAVENOUS RETINA REFLECTOR MIRROR
 RAVENOUS RETINA REFLECTOR
 RAVENOUS RETINA
 RAVENOUS REFLECTOR
-RAVENOUS 236PP
-RAVENOUS 236 PP
-RAVENOUS 236+PP
-RAVENOUS QCFPP
-RAVENOUS QCF PP
-RAVENOUS QCF+PP
+RAVENOUS 236KK
+RAVENOUS 236 KK
+RAVENOUS 236+KK
+RAVENOUS QCFKK
+RAVENOUS QCF KK
+RAVENOUS QCF+KK
 RETINA REFLECTOR MIRROR SATIATED
 RETINA REFLECTOR SATIATED
 RETINA SATIATED
 REFLECTOR SATIATED
-236PP SATIATED
-236 PP SATIATED
-236+PP SATIATED
-QCFPP SATIATED
-QCF PP SATIATED
-QCF+PP SATIATED
+236KK SATIATED
+236 KK SATIATED
+236+KK SATIATED
+QCFKK SATIATED
+QCF KK SATIATED
+QCF+KK SATIATED
 SATIATED RETINA REFLECTOR MIRROR
 SATIATED RETINA REFLECTOR
 SATIATED RETINA
 SATIATED REFLECTOR
-SATIATED 236PP
-SATIATED 236 PP
-SATIATED 236+PP
-SATIATED QCFPP
-SATIATED QCF PP
-SATIATED QCF+PP
+SATIATED 236KK
+SATIATED 236 KK
+SATIATED 236+KK
+SATIATED QCFKK
+SATIATED QCF KK
+SATIATED QCF+KK
 RETINA REFLECTOR MIRROR OVERSTUFFED
 RETINA REFLECTOR OVERSTUFFED
 RETINA OVERSTUFFED
 REFLECTOR OVERSTUFFED
-236PP OVERSTUFFED
-236 PP OVERSTUFFED
-236+PP OVERSTUFFED
-QCFPP OVERSTUFFED
-QCF PP OVERSTUFFED
-QCF+PP OVERSTUFFED
+236KK OVERSTUFFED
+236 KK OVERSTUFFED
+236+KK OVERSTUFFED
+QCFKK OVERSTUFFED
+QCF KK OVERSTUFFED
+QCF+KK OVERSTUFFED
 OVERSTUFFED RETINA REFLECTOR MIRROR
 OVERSTUFFED RETINA REFLECTOR
 OVERSTUFFED RETINA
 OVERSTUFFED REFLECTOR
-OVERSTUFFED 236PP
-OVERSTUFFED 236 PP
-OVERSTUFFED 236+PP
-OVERSTUFFED QCFPP
-OVERSTUFFED QCF PP
-OVERSTUFFED QCF+PP
+OVERSTUFFED 236KK
+OVERSTUFFED 236 KK
+OVERSTUFFED 236+KK
+OVERSTUFFED QCFKK
+OVERSTUFFED QCF KK
+OVERSTUFFED QCF+KK
 AEGIS
 AEGIS STARVING
 STARVING AEGIS
@@ -9216,229 +9538,231 @@ OVERSTUFFED AEGIS REFLECTOR",Mid,"Invuln. (Proj.),  Invuln.
 (9 x6/8 on contact)",40,35 x6/8,13 x6/8,"(1), 0",-,"- Mirror slowly moves forwards and nullifies beams/projectiles.
 - Spawns with 8 eyes while Ravenous. When the mirror is hit, the eyes shoot forwards as projectiles that stick to the opponent on contact, detonating after a period of time.
 - See also RETINA REFLECTOR EYEBALLS.
-- Startup, advantage, and mirror placement depends on buttons used (LPMP / LPHP / MPHP)
-- Ticker is for the LPMP version. See the wiki for more details.",https://wiki.gbl.gg/images/8/8f/SG_umb_qcfpp_hb.png,https://wiki.gbl.gg/images/9/9e/SG_umb_qcflpmp_fd.png
+- Startup, advantage, and mirror placement depends on buttons used (LKMK / LKHK / MKHK)
+- Ticker is for the LKMK version. See the wiki for more details.",https://wiki.gbl.gg/images/e/ef/SG_umb_qcfkk_hb.png,https://wiki.gbl.gg/images/3/35/SG_umb_qcflkmk_fd.png
 UMBRELLA,RETINA REFLECTOR EYEBALLS,RETINA EYEBALLS,Mid,Projectile,250 xN (100 xN),N/A,KD,N/A,"5, 166",-. 3 xN,N/A,22 xN,19 xN,6 xN,-,"- The mirror spawns with 8 eyes while Ravenous. When the mirror is hit, the eyes shoot forwards as projectiles that stick to the opponent on contact, detonating after a period of time.
 - See also RETINA REFLECTOR MIRROR.",https://wiki.gbl.gg/images/8/8f/SG_umb_qcfpp_hb.png,-
 UMBRELLA,RETINA REFLECTOR: CONTACT LENS,"REFLECTOR CONTACT LENS
 RETINA REFLECTOR CONTACT LENS
 CONTACT LENS
-DP SUPER
-RETINA DP
-RETINA DP SUPER
-REFLECTOR DP
-REFLECTOR DP SUPER
-RETINA REFLECTOR DP
-MACRO_623PP
+QCF SUPER
+RETINA QCF
+RETINA QCF SUPER
+REFLECTOR QCF
+REFLECTOR QCF SUPER
+RETINA REFLECTOR QCF
+MACRO_236PP
 REFLECTOR CONTACT LENS STARVING
 RETINA REFLECTOR CONTACT LENS STARVING
 CONTACT LENS STARVING
-DP SUPER STARVING
-RETINA DP STARVING
-RETINA DP SUPER STARVING
-REFLECTOR DP STARVING
-REFLECTOR DP SUPER STARVING
-RETINA REFLECTOR DP STARVING
-623PP STARVING
-623 PP STARVING
-623+PP STARVING
-DPPP STARVING
-DP PP STARVING
-DP+PP STARVING
+QCF SUPER STARVING
+RETINA QCF STARVING
+RETINA QCF SUPER STARVING
+REFLECTOR QCF STARVING
+REFLECTOR QCF SUPER STARVING
+RETINA REFLECTOR QCF STARVING
+236PP STARVING
+236 PP STARVING
+236+PP STARVING
+QCFPP STARVING
+QCF PP STARVING
+QCF+PP STARVING
 STARVING REFLECTOR CONTACT LENS
 STARVING RETINA REFLECTOR CONTACT LENS
 STARVING CONTACT LENS
-STARVING DP SUPER
-STARVING RETINA DP
-STARVING RETINA DP SUPER
-STARVING REFLECTOR DP
-STARVING REFLECTOR DP SUPER
-STARVING RETINA REFLECTOR DP
-STARVING 623PP
-STARVING 623 PP
-STARVING 623+PP
-STARVING DPPP
-STARVING DP PP
-STARVING DP+PP
+STARVING QCF SUPER
+STARVING RETINA QCF
+STARVING RETINA QCF SUPER
+STARVING REFLECTOR QCF
+STARVING REFLECTOR QCF SUPER
+STARVING RETINA REFLECTOR QCF
+STARVING 236PP
+STARVING 236 PP
+STARVING 236+PP
+STARVING QCFPP
+STARVING QCF PP
+STARVING QCF+PP
 REFLECTOR CONTACT LENS RAVENOUS
 RETINA REFLECTOR CONTACT LENS RAVENOUS
 CONTACT LENS RAVENOUS
-DP SUPER RAVENOUS
-RETINA DP RAVENOUS
-RETINA DP SUPER RAVENOUS
-REFLECTOR DP RAVENOUS
-REFLECTOR DP SUPER RAVENOUS
-RETINA REFLECTOR DP RAVENOUS
-623PP RAVENOUS
-623 PP RAVENOUS
-623+PP RAVENOUS
-DPPP RAVENOUS
-DP PP RAVENOUS
-DP+PP RAVENOUS
+QCF SUPER RAVENOUS
+RETINA QCF RAVENOUS
+RETINA QCF SUPER RAVENOUS
+REFLECTOR QCF RAVENOUS
+REFLECTOR QCF SUPER RAVENOUS
+RETINA REFLECTOR QCF RAVENOUS
+236PP RAVENOUS
+236 PP RAVENOUS
+236+PP RAVENOUS
+QCFPP RAVENOUS
+QCF PP RAVENOUS
+QCF+PP RAVENOUS
 RAVENOUS REFLECTOR CONTACT LENS
 RAVENOUS RETINA REFLECTOR CONTACT LENS
 RAVENOUS CONTACT LENS
-RAVENOUS DP SUPER
-RAVENOUS RETINA DP
-RAVENOUS RETINA DP SUPER
-RAVENOUS REFLECTOR DP
-RAVENOUS REFLECTOR DP SUPER
-RAVENOUS RETINA REFLECTOR DP
-RAVENOUS 623PP
-RAVENOUS 623 PP
-RAVENOUS 623+PP
-RAVENOUS DPPP
-RAVENOUS DP PP
-RAVENOUS DP+PP
+RAVENOUS QCF SUPER
+RAVENOUS RETINA QCF
+RAVENOUS RETINA QCF SUPER
+RAVENOUS REFLECTOR QCF
+RAVENOUS REFLECTOR QCF SUPER
+RAVENOUS RETINA REFLECTOR QCF
+RAVENOUS 236PP
+RAVENOUS 236 PP
+RAVENOUS 236+PP
+RAVENOUS QCFPP
+RAVENOUS QCF PP
+RAVENOUS QCF+PP
 REFLECTOR CONTACT LENS SATIATED
 RETINA REFLECTOR CONTACT LENS SATIATED
 CONTACT LENS SATIATED
-DP SUPER SATIATED
-RETINA DP SATIATED
-RETINA DP SUPER SATIATED
-REFLECTOR DP SATIATED
-REFLECTOR DP SUPER SATIATED
-RETINA REFLECTOR DP SATIATED
-623PP SATIATED
-623 PP SATIATED
-623+PP SATIATED
-DPPP SATIATED
-DP PP SATIATED
-DP+PP SATIATED
+QCF SUPER SATIATED
+RETINA QCF SATIATED
+RETINA QCF SUPER SATIATED
+REFLECTOR QCF SATIATED
+REFLECTOR QCF SUPER SATIATED
+RETINA REFLECTOR QCF SATIATED
+236PP SATIATED
+236 PP SATIATED
+236+PP SATIATED
+QCFPP SATIATED
+QCF PP SATIATED
+QCF+PP SATIATED
 SATIATED REFLECTOR CONTACT LENS
 SATIATED RETINA REFLECTOR CONTACT LENS
 SATIATED CONTACT LENS
-SATIATED DP SUPER
-SATIATED RETINA DP
-SATIATED RETINA DP SUPER
-SATIATED REFLECTOR DP
-SATIATED REFLECTOR DP SUPER
-SATIATED RETINA REFLECTOR DP
-SATIATED 623PP
-SATIATED 623 PP
-SATIATED 623+PP
-SATIATED DPPP
-SATIATED DP PP
-SATIATED DP+PP
+SATIATED QCF SUPER
+SATIATED RETINA QCF
+SATIATED RETINA QCF SUPER
+SATIATED REFLECTOR QCF
+SATIATED REFLECTOR QCF SUPER
+SATIATED RETINA REFLECTOR QCF
+SATIATED 236PP
+SATIATED 236 PP
+SATIATED 236+PP
+SATIATED QCFPP
+SATIATED QCF PP
+SATIATED QCF+PP
 REFLECTOR CONTACT LENS OVERSTUFFED
 RETINA REFLECTOR CONTACT LENS OVERSTUFFED
 CONTACT LENS OVERSTUFFED
-DP SUPER OVERSTUFFED
-RETINA DP OVERSTUFFED
-RETINA DP SUPER OVERSTUFFED
-REFLECTOR DP OVERSTUFFED
-REFLECTOR DP SUPER OVERSTUFFED
-RETINA REFLECTOR DP OVERSTUFFED
-623PP OVERSTUFFED
-623 PP OVERSTUFFED
-623+PP OVERSTUFFED
-DPPP OVERSTUFFED
-DP PP OVERSTUFFED
-DP+PP OVERSTUFFED
+QCF SUPER OVERSTUFFED
+RETINA QCF OVERSTUFFED
+RETINA QCF SUPER OVERSTUFFED
+REFLECTOR QCF OVERSTUFFED
+REFLECTOR QCF SUPER OVERSTUFFED
+RETINA REFLECTOR QCF OVERSTUFFED
+236PP OVERSTUFFED
+236 PP OVERSTUFFED
+236+PP OVERSTUFFED
+QCFPP OVERSTUFFED
+QCF PP OVERSTUFFED
+QCF+PP OVERSTUFFED
 OVERSTUFFED REFLECTOR CONTACT LENS
 OVERSTUFFED RETINA REFLECTOR CONTACT LENS
 OVERSTUFFED CONTACT LENS
-OVERSTUFFED DP SUPER
-OVERSTUFFED RETINA DP
-OVERSTUFFED RETINA DP SUPER
-OVERSTUFFED REFLECTOR DP
-OVERSTUFFED REFLECTOR DP SUPER
-OVERSTUFFED RETINA REFLECTOR DP
-OVERSTUFFED 623PP
-OVERSTUFFED 623 PP
-OVERSTUFFED 623+PP
-OVERSTUFFED DPPP
-OVERSTUFFED DP PP
-OVERSTUFFED DP+PP",Mid,-,1750 (500),-100%,Wall Splat,-49,6 + 3,6,59,28,15,"(5), 15",-,,https://wiki.gbl.gg/images/1/13/SG_umb_dppp_hb.png,https://wiki.gbl.gg/images/6/60/SG_umb_dppp_fd.png
+OVERSTUFFED QCF SUPER
+OVERSTUFFED RETINA QCF
+OVERSTUFFED RETINA QCF SUPER
+OVERSTUFFED REFLECTOR QCF
+OVERSTUFFED REFLECTOR QCF SUPER
+OVERSTUFFED RETINA REFLECTOR QCF
+OVERSTUFFED 236PP
+OVERSTUFFED 236 PP
+OVERSTUFFED 236+PP
+OVERSTUFFED QCFPP
+OVERSTUFFED QCF PP
+OVERSTUFFED QCF+PP",Mid,Invuln. (Full),1750 (500),-100%,Wall Splat,-49,6 + 3,6,59,28,15,"(5), 15",-,- Long DHC window.,https://wiki.gbl.gg/images/8/8f/SG_umb_qcfpp_hb.png,https://wiki.gbl.gg/images/2/2d/SG_umb_qcfpp_fd.png
 UMBRELLA,UNDER THE WEATHER,"UTW
 BUBBLE SUPER
 RAIN SUPER
-MACRO_236KK
+MACRO_214KK
 UNDER THE WEATHER STARVING
 UTW STARVING
 BUBBLE SUPER STARVING
 RAIN SUPER STARVING
-236KK STARVING
-236 KK STARVING
-236+KK STARVING
-QCFKK STARVING
-QCF KK STARVING
-QCF+KK STARVING
+214KK STARVING
+214 KK STARVING
+214+KK STARVING
+QCBKK STARVING
+QCB KK STARVING
+QCB+KK STARVING
 STARVING UNDER THE WEATHER
 STARVING UTW
 STARVING BUBBLE SUPER
 STARVING RAIN SUPER
-STARVING 236KK
-STARVING 236 KK
-STARVING 236+KK
-STARVING QCFKK
-STARVING QCF KK
-STARVING QCF+KK
+STARVING 214KK
+STARVING 214 KK
+STARVING 214+KK
+STARVING QCBKK
+STARVING QCB KK
+STARVING QCB+KK
 UNDER THE WEATHER RAVENOUS
 UTW RAVENOUS
 BUBBLE SUPER RAVENOUS
 RAIN SUPER RAVENOUS
-236KK RAVENOUS
-236 KK RAVENOUS
-236+KK RAVENOUS
-QCFKK RAVENOUS
-QCF KK RAVENOUS
-QCF+KK RAVENOUS
+214KK RAVENOUS
+214 KK RAVENOUS
+214+KK RAVENOUS
+QCBKK RAVENOUS
+QCB KK RAVENOUS
+QCB+KK RAVENOUS
 RAVENOUS UNDER THE WEATHER
 RAVENOUS UTW
 RAVENOUS BUBBLE SUPER
 RAVENOUS RAIN SUPER
-RAVENOUS 236KK
-RAVENOUS 236 KK
-RAVENOUS 236+KK
-RAVENOUS QCFKK
-RAVENOUS QCF KK
-RAVENOUS QCF+KK
+RAVENOUS 214KK
+RAVENOUS 214 KK
+RAVENOUS 214+KK
+RAVENOUS QCBKK
+RAVENOUS QCB KK
+RAVENOUS QCB+KK
 UNDER THE WEATHER SATIATED
 UTW SATIATED
 BUBBLE SUPER SATIATED
 RAIN SUPER SATIATED
-236KK SATIATED
-236 KK SATIATED
-236+KK SATIATED
-QCFKK SATIATED
-QCF KK SATIATED
-QCF+KK SATIATED
+214KK SATIATED
+214 KK SATIATED
+214+KK SATIATED
+QCBKK SATIATED
+QCB KK SATIATED
+QCB+KK SATIATED
 SATIATED UNDER THE WEATHER
 SATIATED UTW
 SATIATED BUBBLE SUPER
 SATIATED RAIN SUPER
-SATIATED 236KK
-SATIATED 236 KK
-SATIATED 236+KK
-SATIATED QCFKK
-SATIATED QCF KK
-SATIATED QCF+KK
+SATIATED 214KK
+SATIATED 214 KK
+SATIATED 214+KK
+SATIATED QCBKK
+SATIATED QCB KK
+SATIATED QCB+KK
 UNDER THE WEATHER OVERSTUFFED
 UTW OVERSTUFFED
 BUBBLE SUPER OVERSTUFFED
 RAIN SUPER OVERSTUFFED
-236KK OVERSTUFFED
-236 KK OVERSTUFFED
-236+KK OVERSTUFFED
-QCFKK OVERSTUFFED
-QCF KK OVERSTUFFED
-QCF+KK OVERSTUFFED
+214KK OVERSTUFFED
+214 KK OVERSTUFFED
+214+KK OVERSTUFFED
+QCBKK OVERSTUFFED
+QCB KK OVERSTUFFED
+QCB+KK OVERSTUFFED
 OVERSTUFFED UNDER THE WEATHER
 OVERSTUFFED UTW
 OVERSTUFFED BUBBLE SUPER
 OVERSTUFFED RAIN SUPER
-OVERSTUFFED 236KK
-OVERSTUFFED 236 KK
-OVERSTUFFED 236+KK
-OVERSTUFFED QCFKK
-OVERSTUFFED QCF KK
-OVERSTUFFED QCF+KK",Mid,-,1250,-100%,KD,See Notes,"9 + 4, 13",4,62,26,19,"(1), 11",-,"- Spawns 12 bubbles, each having 175 damage, 75 chip, 26 hitstun, 19 blockstun, 6 hitstop.
+OVERSTUFFED 214KK
+OVERSTUFFED 214 KK
+OVERSTUFFED 214+KK
+OVERSTUFFED QCBKK
+OVERSTUFFED QCB KK
+OVERSTUFFED QCB+KK",Mid,"Invuln. (Full)
+(frame 9-19) ",1250,-100%,KD,See Notes,"9 + 4, 13",4,62,26,19,"(1), 11",-,"- Spawns 12 bubbles, each having 175 damage, 75 chip, 26 hitstun, 19 blockstun, 6 hitstop.
 - Bubbles can directed by holding 4 or 6 before they spawn. 
-- While Starving, will spawn 3 bubbles that can not be directed, and loses the first hit.
+- While Starving/Ravenous, will spawn 3 bubbles that can not be directed, and loses the first hit.
 - While Overstuffed, will spawn 9 bubbles with 225 damage, 125 chip, KD on hit, 24 hitstun, 21 blockstun, 9 hitstop.
 - Only one wave of bubbles will be active at a time, doing the super again will despawn all bubbles active from previous super.
-- Ticker is for the non-Starving version. See the wiki for more details.",https://wiki.gbl.gg/images/e/ef/SG_umb_qcfkk_hb.png,https://wiki.gbl.gg/images/2/22/SG_umb_qcfkk_fd.png
+- Getting hit with a snapback will destroy all the bubbles spawned by this move.
+- Ticker is for the non-Starving version. See the wiki for more details.",https://wiki.gbl.gg/images/7/7d/SG_umb_qcbkk_hb.png,https://wiki.gbl.gg/images/c/cb/SG_umb_qcbkk_fd.png
 UMBRELLA,FEEDING TIME,"FEEDING
 FEED
 GRAB SUPER
@@ -9589,7 +9913,7 @@ OVERSTUFFED LVL 3
 OVERSTUFFED LVL3
 OVERSTUFFED LV3
 OVERSTUFFED LV 3",Command Grab,"Invuln. (Full), 55% Damage Scaling,
-55% Minimum Scaling","0, 6750 / 4750/ 3500,
+55% Minimum Scaling","0, 6000/4750/3500,
 500",-300%,Sliding KD,N/A,4,7,78,N/A,N/A,N/A,-,"- Damage values are Starving/Ravenous, Satiated, and then Overstuffed in that order.
 - Fills Hungern bar by 1 pip.
 - Killing a character with this move removes them from the screen, similar to a dead body snap, and increases the Ravenous section of the Hungern bar by 2 pips, then by 1 pip for the next character killed. Bonus is removed on taunt, which spits the character(s) out.
@@ -9597,12 +9921,14 @@ OVERSTUFFED LV 3",Command Grab,"Invuln. (Full), 55% Damage Scaling,
 UMBRELLA,TAUNT,"360LPLK
 360+LPLK
 HUG IT OUT
-HUG",N/A,-,N/A,0%,N/A,N/A,N/A,N/A,112,N/A,N/A,N/A,-,"- Empties the Hungern Bar by 1 pip over the duration, can hold to increase recovery and amount of bar emptied.
-- Spits out characters consumed by Feeding Time, nullifying any benefits. See FEEDING TIME for more info.",https://wiki.gbl.gg/images/c/cd/SG_umb_taunt.png,-
+HUG",N/A,-,N/A,0%,N/A,N/A,N/A,N/A,"82 in Starving;
+75+ otherwise ",N/A,N/A,N/A,-,"- Hunger Meter drains faster during the animation. Can be held to increase recovery and amount of Hunger Meter emptied..
+- Spits out characters consumed by Feeding Time, nullifying any benefits. See FEEDING TIME for more info.
+- In Starving only: Umbrella will instead feed Hungern a snack and return to Satiated state. This animation can't be cancelled.",https://wiki.gbl.gg/images/c/cd/SG_umb_taunt.png,-
 UMBRELLA,ASSIST RECOVERY,"ASSIST
 ASSIST TAUNT",N/A,-,N/A,0%,N/A,N/A,N/A,N/A,50,N/A,N/A,N/A,-,"- Amount of time it takes for the character to turn invulnerable after they finish performing their assist action.
 - Longer recovery → more time to punish the assist.",https://wiki.gbl.gg/images/8/8d/SG_umb_assist.png,-
-VALENTINE,5LP,MACRO_5LP,Mid,Chains Into Self,200,2.50%,1,4,6,3,13,16,19,7,-,"- See ""5LP x2"" and ""5LP x3"".",https://wiki.gbl.gg/images/1/10/SG_val_slp_hb.png,https://wiki.gbl.gg/images/0/06/SG_val_slp1_fd.png
+VALENTINE,5LP,MACRO_5LP,Mid,Chains Into Self,200,2.50%,+1,+4,6,3,13,16,19,7,-,"- See ""5LP x2"" and ""5LP x3"".",https://wiki.gbl.gg/images/1/10/SG_val_slp_hb.png,https://wiki.gbl.gg/images/0/06/SG_val_slp1_fd.png
 VALENTINE,5LP X2,MACRO_5LP_2ND,Mid,Chains Into Self,200,2.50%,-4,-1,7,3,18,16,19,7,-,"- See ""5LP x3""",https://wiki.gbl.gg/images/1/10/SG_val_slp_hb.png,https://wiki.gbl.gg/images/9/9b/SG_val_slp2_fd.png
 VALENTINE,5LP X3,"SLP x3
 S.LP x3
@@ -9611,8 +9937,8 @@ JAB x3
 SLP 3RD
 S.LP 3RD
 5.LP 3RD
-JAB 3RD",Mid,-,200,2.50%,-1,2,8,2,16,16,19,7,-,"- The item she jabs with is random (scalpel, tongue depressor, or lollipop) but all have the same properties.",https://wiki.gbl.gg/images/1/10/SG_val_slp_hb.png,https://wiki.gbl.gg/images/f/f2/SG_val_slp3_fd.png
-VALENTINE,5MP,MACRO_5MP,Mid,Chains Into Self,"140 x3, 325","2.25% x47.5%, 1.8% x4",-1,-2,13,"1, 1, 1, 1",23,"22 x4, 22","21 x4, 21","1 x3, 10",-,"- See ""5MP x2""",https://wiki.gbl.gg/images/e/eb/SG_val_smp_hb.png,https://wiki.gbl.gg/images/3/32/SG_val_smp1_fd.png
+JAB 3RD",Mid,-,200,2.50%,-1,+2,8,2,16,16,19,7,-,"- The item she jabs with is random (scalpel, tongue depressor, or lollipop) but all have the same properties.",https://wiki.gbl.gg/images/1/10/SG_val_slp_hb.png,https://wiki.gbl.gg/images/f/f2/SG_val_slp3_fd.png
+VALENTINE,5MP,MACRO_5MP,Mid,Chains Into Self,"140 x3, 325","2.25% x47.5%, 1.8% x4",+1,-2,13,"1, 1, 1, 1",23,24 x4,"21 x4, 21","1 x3, 10",-,"- This is just for the first slash. See also ""5MP x2""",https://wiki.gbl.gg/images/e/eb/SG_val_smp_hb.png,https://wiki.gbl.gg/images/3/32/SG_val_smp1_fd.png
 VALENTINE,5MP X2,"SMP x2
 S.MP x2
 5.MP x2 
@@ -9626,9 +9952,9 @@ STRONGx2
 SMP 2ND
 S.MP 2ND
 5.MP 2ND
-STRONG 2ND",Mid,-,"300, 100 x4",2.25% x5,4,3,14,"3, (7), 3, (3), 3, (3), 3, (3), 3",16,22 x5,"17, 21 x4","9, 1 x4",-,,https://wiki.gbl.gg/images/e/eb/SG_val_smp_hb.png,https://wiki.gbl.gg/images/1/1a/SG_val_smp2_fd.png
-VALENTINE,5HP,MACRO_5HP,Mid,-,950,10%,2,-3,21,2,26,29,24,14,-,"- Valentine takes a massive step back before this move is active, making it an effective backwards kara move.",https://wiki.gbl.gg/images/9/9c/SG_val_shp_hb.png,https://wiki.gbl.gg/images/b/b1/SG_val_shp_fd.png
-VALENTINE,5LK,MACRO_5LK,Mid,-,275,2.50%,5,3,11,2,16,22,20,7,-,,https://wiki.gbl.gg/images/5/56/SG_val_slk_hb.png,https://wiki.gbl.gg/images/d/d1/SG_val_slk_fd.png
+STRONG 2ND",Mid,-,"300, 100 x4",2.25% x5,+7,+3,14,"3, (7), 3, (3), 3, (3), 3, (3), 3",16,"27, 25x4","17, 21 x4","9, 1 x4",-,,https://wiki.gbl.gg/images/e/eb/SG_val_smp_hb.png,https://wiki.gbl.gg/images/1/1a/SG_val_smp2_fd.png
+VALENTINE,5HP,MACRO_5HP,Mid,-,950,10%,+2,-3,21,2,26,29,24,14,-,"- Valentine takes a massive step back before this move is active, making it an effective backwards kara move.",https://wiki.gbl.gg/images/9/9c/SG_val_shp_hb.png,https://wiki.gbl.gg/images/b/b1/SG_val_shp_fd.png
+VALENTINE,5LK,MACRO_5LK,Mid,-,275,2.50%,+5,+3,11,2,16,22,20,7,-,,https://wiki.gbl.gg/images/5/56/SG_val_slk_hb.png,https://wiki.gbl.gg/images/d/d1/SG_val_slk_fd.png
 VALENTINE,5MK,MACRO_5MK,Mid,-,"400, 75 x4","7.5%, 1.8% x4",-3,±0,14,"2, (4), 3, 3, 3, 5",22,"22, 20 x4","25, 23 x4","9, 2 x4",-,- Surpisingly disjointed.,https://wiki.gbl.gg/images/0/0c/SG_val_smk_hb.png,https://wiki.gbl.gg/images/b/bc/SG_val_smk_fd.png
 VALENTINE,5HK,MACRO_5HK,Mid,Chains Into Self,400,10%,-11,-16,16,4,33,25,20,10,-,"- See ""5HK x2"" and ""5HK x3""
 - The third hit of this series in a hard knockdown which allows Valentine to safely load Vials.",https://wiki.gbl.gg/images/3/34/SG_val_shk_hb.png,https://wiki.gbl.gg/images/3/35/SG_val_shk1_fd.png
@@ -9656,10 +9982,10 @@ SHK 3RD
 S.HK 3RD
 5.HK 3RD
 ROUNDHOUSE 3RD",Mid,-,600,4.50%,Sliding KD,-21,13,4,37,27,19,13,-,- Hard knockdown which allows Valentine to safely load Vials.,https://wiki.gbl.gg/images/3/34/SG_val_shk_hb.png,https://wiki.gbl.gg/images/7/71/SG_val_shk3_fd.png
-VALENTINE,2LP,MACRO_2LP,Mid,-,200,2.50%,4,6,6,2,15,20,22,8,-,,https://wiki.gbl.gg/images/1/16/SG_val_clp_hb.png,https://wiki.gbl.gg/images/2/2f/SG_val_clp_fd.png
-VALENTINE,2MP,MACRO_2MP,Mid,-,"160 x2, 300",2.25% x3,2,-1,14,"1, 1, 2",21,"16 x2, 24","17 x2, 21","2 x2, 10 (1 x2, 10 on block)",-,,https://wiki.gbl.gg/images/e/e9/SG_val_cmp_hb.png,https://wiki.gbl.gg/images/c/c8/SG_val_cmp_fd.png
+VALENTINE,2LP,MACRO_2LP,Mid,-,200,2.50%,+4,+6,6,2,15,20,22,8,-,,https://wiki.gbl.gg/images/1/16/SG_val_clp_hb.png,https://wiki.gbl.gg/images/2/2f/SG_val_clp_fd.png
+VALENTINE,2MP,MACRO_2MP,Mid,-,"160 x2, 300",2.25% x3,+2,-1,12,"1, 1, 2",21,"16 x2, 24","17 x2, 21","2 x2, 10 (1 x2, 10 on block)",-,,https://wiki.gbl.gg/images/e/e9/SG_val_cmp_hb.png,https://wiki.gbl.gg/images/c/c8/SG_val_cmp_fd.png
 VALENTINE,2HP,MACRO_2HP,Mid,Launcher,950,10%,-6,-19,14,4,34,31,18,14,-,,https://wiki.gbl.gg/images/5/52/SG_val_chp_hb.png,https://wiki.gbl.gg/images/b/bb/SG_val_chp_fd.png
-VALENTINE,2LK,MACRO_2LK,Low,Chains Into Self,225,2.50%,4,1,9,3,14,20,17,8,-,"- See ""2LK x2""",https://wiki.gbl.gg/images/f/f4/SG_val_clk_hb.png,https://wiki.gbl.gg/images/f/f6/SG_val_clk1_fd.png
+VALENTINE,2LK,MACRO_2LK,Low,Chains Into Self,225,2.50%,+5,+1,9,3,14,21,17,8,-,"- See ""2LK x2""",https://wiki.gbl.gg/images/f/f4/SG_val_clk_hb.png,https://wiki.gbl.gg/images/f/f6/SG_val_clk1_fd.png
 VALENTINE,2LK X2,"CLK x2
 C.LK x2
 2.LK x2 
@@ -9672,16 +9998,17 @@ SHORTx2
 CLK 2ND
 C.LK 2ND
 2.LK 2ND
-SHORT 2ND",Mid,-,85 x3,2% x3,3,±0,10,"2, (2), 2, (2), 2",16,20 x3,17 x3,1 x3,-,,https://wiki.gbl.gg/images/f/f4/SG_val_clk_hb.png,https://wiki.gbl.gg/images/c/c8/SG_val_clk2_fd.png
-VALENTINE,2MK,MACRO_2MK,Low,-,350 x2,3.75% x2,2,-2,14,"3, (3), 2",20,23 x2,19 x2,"6, 10",-,,https://wiki.gbl.gg/images/9/94/SG_val_cmk_hb.png,https://wiki.gbl.gg/images/f/f5/SG_val_cmk_fd.png
+SHORT 2ND",Mid,-,85 x3,2% x3,+3,±0,10,"2, (2), 2, (2), 2",16,20 x3,17 x3,1 x3,-,,https://wiki.gbl.gg/images/f/f4/SG_val_clk_hb.png,https://wiki.gbl.gg/images/c/c8/SG_val_clk2_fd.png
+VALENTINE,2MK,MACRO_2MK,Low,-,350 x2,3.75% x2,+2,-2,14,"3, (3), 2",20,23 x2,19 x2,"6, 10",-,- Second hit has a vacuum effect.,https://wiki.gbl.gg/images/9/94/SG_val_cmk_hb.png,https://wiki.gbl.gg/images/f/f5/SG_val_cmk_fd.png
 VALENTINE,2HK,"MACRO_2HK
 SWEEP",Low,Sweep,975,10%,Soft KD (Invuln.),-18,17,4,32,14,17,10,-,,https://wiki.gbl.gg/images/d/d4/SG_val_chk_hb.png,https://wiki.gbl.gg/images/9/97/SG_val_chk_fd.png
-VALENTINE,JLP,MACRO_JLP,High,-,200,2.50%,6,2,7,4,12,21,17,7,-,"- Valentine's fastest option for her ""instant overhead' achieved by doing 44 > 6 > JLP quickly.
-- Hits the entire cast crouching when performed as such.",https://wiki.gbl.gg/images/0/01/SG_val_jlp_hb.png,https://wiki.gbl.gg/images/1/17/SG_val_jlp_fd.png
-VALENTINE,JMP,MACRO_JMP,High,-,"250, 175 x4",1.8% x5,7,3,10,"3, 3, 3, 3, 3",13,22 x5,16 x5,6 x5,-,,https://wiki.gbl.gg/images/d/da/SG_val_jmp_hb.png,https://wiki.gbl.gg/images/e/ed/SG_val_jmp_fd.png
-VALENTINE,JHP,MACRO_JHP,High,-,875,10%,4,2,18,2,19,25,22,12,-,- Amazing cross up normal.,https://wiki.gbl.gg/images/a/a3/SG_val_jhp_hb.png,https://wiki.gbl.gg/images/a/a8/SG_val_jhp_fd.png
-VALENTINE,JLK,MACRO_JLK,High,-,"325, 100 x3 OR 200, 100 x2","2%, 1.8% x3 OR 1.8% x3",2,-2,9,"3, (1), 10",10,21 x4 OR 21 x3,17 x4 OR 17 x3,"7, 2x3 OR 2 x3",-,,https://wiki.gbl.gg/images/c/c2/SG_val_jlk_hb.png,https://wiki.gbl.gg/images/0/05/SG_val_jlk_fd.png
-VALENTINE,JMK,MACRO_JMK,High,-,"300, 550","2.5%, 6%",4,-3,12,"3, (3), 3",21,"24, 27","17, 20","7, 10",-,- The added hover this move gives Val in the air can be used sometimes for an extra pinch of air mobility when needed.,https://wiki.gbl.gg/images/f/fd/SG_val_jmk_hb.png,https://wiki.gbl.gg/images/2/2c/SG_val_jmk_fd.png
+VALENTINE,JLP,MACRO_JLP,High,-,200,2.50%,+6,+2,7,4,12,21,17,7,-,"- Valentine's fastest option for her ""instant overhead' achieved by doing 44 > 6 > jLP jLK.
+- Hits the entire cast crouching when performed as such.
+- Cannot cross-up if done from a backdash airdash.",https://wiki.gbl.gg/images/0/01/SG_val_jlp_hb.png,https://wiki.gbl.gg/images/1/17/SG_val_jlp_fd.png
+VALENTINE,JMP,MACRO_JMP,High,-,"250, 175 x4",1.8% x5,+7,+3,10,"3, 3, 3, 3, 3",13,22 x5,16 x5,6 x5,-,,https://wiki.gbl.gg/images/d/da/SG_val_jmp_hb.png,https://wiki.gbl.gg/images/e/ed/SG_val_jmp_fd.png
+VALENTINE,JHP,MACRO_JHP,High,-,875,10%,+4,+2,18,2,19,25,22,12,-,- Amazing cross up normal.,https://wiki.gbl.gg/images/a/a3/SG_val_jhp_hb.png,https://wiki.gbl.gg/images/a/a8/SG_val_jhp_fd.png
+VALENTINE,JLK,MACRO_JLK,High,-,"325, 100 x3 OR 200, 100 x2","2%, 1.8% x3 OR 1.8% x3",+2,-2,9,"3, (1), 10",10,21 x4 OR 21 x3,17 x4 OR 17 x3,"7, 2x3 OR 2 x3",-,,https://wiki.gbl.gg/images/c/c2/SG_val_jlk_hb.png,https://wiki.gbl.gg/images/0/05/SG_val_jlk_fd.png
+VALENTINE,JMK,MACRO_JMK,High,-,"300, 550","2.5%, 6%",+4,-3,12,"3, (3), 3",21,"24, 27","17, 20","7, 10",-,- The added hover this move gives Val in the air can be used sometimes for an extra pinch of air mobility when needed.,https://wiki.gbl.gg/images/f/fd/SG_val_jmk_hb.png,https://wiki.gbl.gg/images/2/2c/SG_val_jmk_fd.png
 VALENTINE,JHK,"MACRO_JHK
 BODY BAG",High,-,"500, 600","2.5%, 6%",-13,-18,17,"3, (3), 3",36,"13, 25","16, 20",12 x2,-,,https://wiki.gbl.gg/images/8/81/SG_val_jhk_hb.png,https://wiki.gbl.gg/images/7/77/SG_val_jhk_fd.png
 VALENTINE,THROW,MACRO_THROW,Throw,50% Damage Scaling,800,"5%, 8%",Crumple,-,7,1,28,-,-,-,-,,https://wiki.gbl.gg/images/3/3a/SG_val_throw_hb.png,https://wiki.gbl.gg/images/2/21/SG_val_throw_fd.png
@@ -9695,7 +10022,7 @@ MACRO_236HP
 DEADCROSS
 CROSS
 SHURIKEN
-CROSS GROUND",Mid,Projectile,300 (100),(2.5%) 6%,6,-9,17,29,31,28,13,8,-,"- See ""DEAD CROSS AIR""
+CROSS GROUND",Mid,Projectile,300 (100),(2.5%) 6%,+6,-9,17,29,31,28,13,8,-,"- See ""DEAD CROSS AIR""
 - Throws a fixed range, single hit shuriken. LP, MP, and HP versions all travel between half and full screen before hitting the ground. The air versions travel at a wider angles with increasing button strength.
 - 24F cooldown once it hits the floor, hits the opponent, or goes off-screen.",https://wiki.gbl.gg/images/9/9a/SG_val_qcfp_hb.png,https://wiki.gbl.gg/images/a/ab/SG_val_qcfp_fd.png
 VALENTINE,DEAD CROSS AIR,"MACRO_J236P
@@ -9715,7 +10042,7 @@ M CROSS AIR
 H CROSS AIR
 CROSS AIR L
 CROSS AIR M
-CROSS AIR H",Mid,Projectile,300 (100),(2.5%) 6%,13,-2,17,(Until ground),24,28,13,8,-,"- See ""DEAD CROSS"" for the ground version.
+CROSS AIR H",Mid,Projectile,300 (100),(2.5%) 6%,+13,-2,17,(Until ground),24,28,13,8,-,"- See ""DEAD CROSS"" for the ground version.
 - Throws a fixed range, single hit shuriken. LP, MP, and HP versions all travel between half and full screen before hitting the ground. The air versions travel at a wider angles with increasing button strength.
 - 24F cooldown once it hits the floor, hits the opponent, or goes off-screen.",https://wiki.gbl.gg/images/9/9a/SG_val_qcfp_hb.png,https://wiki.gbl.gg/images/e/e1/SG_val_jqcfp_fd.png
 VALENTINE,L BYPASS,"MACRO_236LK
@@ -9777,9 +10104,9 @@ ORANGE VIAL",-,-,-,2.50%,-,-,-,-,67 (Lv.1) / 72 (Lv.2) / 77 (Lv.3) / 88 (Assist)
 --- Level 3: Adds 40f to all hit stuns, block stuns and OTG hitstops; ~480f duration; subtracts 100 undizzy.
 
 - HP [ORANGE]: Casues input lag. When infecting an assist character, team actions (DHC, assist calls, etc) are delayed.
---- Level 1: 4f input lag effect; ~180f duration. Removed when Val is hit.
---- Level 2: 6f input lag effect; ~270f duration. Removed when Val is hit.
---- Level 3: 9f input lag effect; ~360f duration. Removed only when Val is hit with a SUPER.
+--- Level 1: 3f input lag effect; ~180f duration. Removed when Val is hit or blocks any move.
+--- Level 2: 5f input lag effect; ~270f duration. Removed when Val is hit or blocks any move.
+--- Level 3: 7f input lag effect; ~360f duration. Removed when Val is hit.
 
 - As an Assist, Val will throw the poison if loaded, and load it if it is not.",https://wiki.gbl.gg/images/d/df/SG_val_qcbp.png,https://wiki.gbl.gg/images/e/e3/SG_val_qcbp1_fd.png
 VALENTINE,FLEW SHOT,"236[P]
@@ -9803,7 +10130,7 @@ QCF+P HELD
 VIAL THROW
 VIAL TOSS
 VIAL
-POISON",Mid,Projectile,400 (100),(5%) 6%,10,-3,17,--,31,28,15,12,-,"- See ""VIAL HAZARD"" for the vial preperation frame data.
+POISON",Mid,Projectile,400 (100),(5%) 6%,+10,-3,17,--,31,28,15,12,-,"- See ""VIAL HAZARD"" for the vial preperation frame data.
 - See ""FLEW SHOT AIR"" for air frame data.
 
 - LP [PURPLE]: Damage over time for 480f duration in even 1f increments. Damage done scales along with Valentine's ratio.
@@ -9817,9 +10144,9 @@ POISON",Mid,Projectile,400 (100),(5%) 6%,10,-3,17,--,31,28,15,12,-,"- See ""VIAL
 --- Level 3: Adds 40f to all hit stuns, block stuns and OTG hitstops; ~480f duration; subtracts 100 undizzy.
 
 - HP [ORANGE]: Casues input lag. When infecting an assist character, team actions (DHC, assist calls, etc) are delayed.
---- Level 1: 4f input lag effect; ~180f duration. Removed when Val is hit.
---- Level 2: 6f input lag effect; ~270f duration. Removed when Val is hit.
---- Level 3: 9f input lag effect; ~360f duration. Removed only when Val is hit with a SUPER.
+--- Level 1: 3f input lag effect; ~180f duration. Removed when Val is hit or blocks any move.
+--- Level 2: 5f input lag effect; ~270f duration. Removed when Val is hit or blocks any move.
+--- Level 3: 7f input lag effect; ~360f duration. Removed when Val is hit.
 
 - As an Assist, Val will throw the poison if loaded, and load it if it is not.",https://wiki.gbl.gg/images/2/2d/SG_val_qcfp_vial_hb.png,https://wiki.gbl.gg/images/0/09/SG_val_qcfp_vial_fd.png
 VALENTINE,FLEW SHOT AIR,"J236[P]
@@ -9851,7 +10178,7 @@ VIAL TOSS AIR
 J VIAL
 JUMPING POISON
 J POISON
-JUMPING VIAL HAZARD",Mid,Projectile,400 (100),(5%) 6%,17,4,17,(Until ground),24,28,15,12,-,"- See ""VIAL HAZARD"" for the vial preperation frame data.
+JUMPING VIAL HAZARD",Mid,Projectile,400 (100),(5%) 6%,+17,+4,17,(Until ground),24,28,15,12,-,"- See ""VIAL HAZARD"" for the vial preperation frame data.
 - See ""FLEW SHOT"" for ground frame data.
 
 - LP [PURPLE]: Damage over time for 480f duration in even 1f increments. Damage done scales along with Valentine's ratio.
@@ -9865,9 +10192,9 @@ JUMPING VIAL HAZARD",Mid,Projectile,400 (100),(5%) 6%,17,4,17,(Until ground),24,
 --- Level 3: Adds 40f to all hit stuns, block stuns and OTG hitstops; ~480f duration; subtracts 100 undizzy.
 
 - HP [ORANGE]: Casues input lag. When infecting an assist character, team actions (DHC, assist calls, etc) are delayed.
---- Level 1: 4f input lag effect; ~180f duration. Removed when Val is hit.
---- Level 2: 6f input lag effect; ~270f duration. Removed when Val is hit.
---- Level 3: 9f input lag effect; ~360f duration. Removed only when Val is hit with a SUPER.
+--- Level 1: 3f input lag effect; ~180f duration. Removed when Val is hit or blocks any move.
+--- Level 2: 5f input lag effect; ~270f duration. Removed when Val is hit or blocks any move.
+--- Level 3: 7f input lag effect; ~360f duration. Removed when Val is hit.
 
 - As an Assist, Val will throw the poison if loaded, and load it if it is not.",https://wiki.gbl.gg/images/2/2d/SG_val_qcfp_vial_hb.png,https://wiki.gbl.gg/images/4/41/SG_val_jqcfp_vial_fd.png
 VALENTINE,MORTUARY DROP,"MACRO_214LPLK
@@ -9894,12 +10221,12 @@ AIR CHECKMATE INCISION",Mid,"Invuln. (Full) (Frame 3),
 VALENTINE,EKG FLATLINER,"MACRO_236KK
 FLATLINER
 EKG
-BYPASS SUPER",Mid,Invuln. (Full),"275 x12, 1850 (75)",-100%,KD,-28,4 + 4,13,58,30 x13,21,"(5), 30 x12, 30, (10 on block)",-,"- See ""EKG FLATLINER AIR"".
+BYPASS SUPER",Mid,Invuln. (Full),"275 x12, 1850 (75)",-100%,KD,-28,4 + 4,13,58,30 x13,21,"(5), 30 x12, 34 (10 on block)",-,"- See ""EKG FLATLINER AIR"".
 - Crosses through the opponent even on block.",https://wiki.gbl.gg/images/f/fb/SG_val_qcfkk_hb.png,https://wiki.gbl.gg/images/4/4e/SG_val_qcfkk_fd.png
 VALENTINE,EKG FLATLINER AIR,"MACRO_J236KK
 AIR EKG
 AIR FLATLINER
-AIR BYPASS SUPER",Mid,Invuln. (Full),"240 x12, 1750 (75)",-100%,KD,-30 (at best),4 + 4,13,(Until ground),30 x13,21,"(5), 38 x12, 30 (10 on block)",-,- Crosses through the opponent even on block.,https://wiki.gbl.gg/images/f/fb/SG_val_qcfkk_hb.png,https://wiki.gbl.gg/images/4/4d/SG_val_jqcfkk_fd.png
+AIR BYPASS SUPER",Mid,Invuln. (Full),"240 x12, 1750 (75)",-100%,KD,-30 (at best),4 + 4,13,(Until ground),30 x13,21,"(5), 38 x12, 34 (10 on block)",-,- Crosses through the opponent even on block.,https://wiki.gbl.gg/images/f/fb/SG_val_qcfkk_hb.png,https://wiki.gbl.gg/images/4/4d/SG_val_jqcfkk_fd.png
 VALENTINE,ACQUISITIVE PRESCRIPTION,"COUNTER
 TIME STOP
 FREEZE
@@ -9916,7 +10243,7 @@ CV
 RDP KK
 RDP+KK
 RDPKK
-COUNTER SUPER",-,-,2250 (300),-200%,KD,45,0,25,25,30,-,"(0), 7, 51",-,"- See ""COUNTER"" for the non vial loaded version, which freezes the opponent.
+COUNTER SUPER",-,-,2250 (300),-200%,KD,+45,0,25,25,30,-,"(0), 7, 51",-,"- See ""COUNTER"" for the non vial loaded version, which freezes the opponent.
 - Frame data here is for the recovery on SUCCESS.
 - Removes invulnerability and armor from the opponent on activation, allowing you to counter hit moves that normally cannot be hit.
 - Pulls the opponent down if they are too far above Valentine on hit.
