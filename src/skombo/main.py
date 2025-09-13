@@ -2,9 +2,8 @@ import atexit
 import datetime
 
 from loguru import logger as log
-from skombo import FD_COLS
 
-from skombo.fd_ops import CharacterManager, FdBotCsvManager, FrameData
+from skombo.fd_ops import FdBotCsvManager, FrameData
 
 START_TIME = datetime.datetime.now()
 

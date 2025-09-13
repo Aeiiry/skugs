@@ -2,5 +2,9 @@
   "[python]": {
     "editor.defaultFormatter": "mikoz.black-py"
   },
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "python.testing.unittestEnabled": false
 }
